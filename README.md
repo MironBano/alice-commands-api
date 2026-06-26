@@ -1,8 +1,8 @@
 # alice-commands-api
 
-Backend для [AliceCommands](https://github.com/) — справочник голосовых команд Яндекс Алисы.
+Backend для [AliceCommands](https://github.com/MironBano/AliceCommands) — справочник голосовых команд Яндекс Алисы.
 
-**mob_id:** MOB-20260626-001 · **Статус:** ТЗ v1.0 (реализация — следующий этап)
+**GitHub:** https://github.com/MironBano/alice-commands-api (создайте repo и push — см. ниже)
 
 ## Назначение
 
@@ -28,7 +28,17 @@ Backend для [AliceCommands](https://github.com/) — справочник г�
 
 Android app: `AliceCommands` (отдельный repo).
 
-## Локальный запуск (после реализации)
+## Публикация на GitHub
+
+```powershell
+cd C:\Users\rybak\AndroidStudioProjects\alice-commands-api
+gh auth login
+gh repo create MironBano/alice-commands-api --public --source=. --remote=origin --push
+```
+
+Или вручную: создайте пустой repo `alice-commands-api` на GitHub → `git push -u origin main`.
+
+---
 
 ```bash
 cp .env.example .env
