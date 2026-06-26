@@ -22,6 +22,9 @@ Backend для [AliceCommands](https://github.com/MironBano/AliceCommands) — �
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | VPS, Cloudflare, HTTPS |
 | [docs/RUNBOOK-PUBLISH.md](docs/RUNBOOK-PUBLISH.md) | Как выпустить контент |
 | [docs/SECURITY.md](docs/SECURITY.md) | Auth, secrets |
+| [docs/GAP-ANALYSIS.md](docs/GAP-ANALYSIS.md) | Delta vs app CONTENT-PIPELINE |
+| [docs/REVIEW.md](docs/REVIEW.md) | Закрытые решения ТЗ |
+| [docs/SCHEMA-SYNC.md](docs/SCHEMA-SYNC.md) | Sync schema с Android |
 | [schema/content-bundle.schema.json](schema/content-bundle.schema.json) | JSON Schema bundle |
 
 ## Связанный репозиторий

@@ -261,12 +261,15 @@ Workflow: правки в admin (или import) → ревью владельц�
 
 ## 10. Открытые на ревью
 
-| # | Вопрос | Рекомендация ТЗ |
-| - | ------ | --------------- |
-| 1 | Домен | `api.<your-domain>.ru` — см. DEPLOYMENT |
+**Статус:** решения зафиксированы в [REVIEW.md](REVIEW.md).
+
+| # | Вопрос | Решение |
+| - | ------ | ------- |
+| 1 | Домен | TBD перед prod — см. [DEPLOYMENT.md](DEPLOYMENT.md) |
 | 2 | GitHub repo | `alice-commands-api` |
 | 3 | Admin UI | Ktor + static HTML + Alpine.js |
-| 4 | Rollback | 5 версий bundle на диске |
+| 4 | Import pilot JSON | Да в v1.0 (B08) |
+| 5 | Rollback | 5 версий bundle на диске |
 
 ---
 
