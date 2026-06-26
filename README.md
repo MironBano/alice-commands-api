@@ -16,7 +16,7 @@ Backend для [AliceCommands](https://github.com/MironBano/AliceCommands) — �
 | -------- | -------- |
 | [docs/BACKEND-REQUIREMENTS.md](docs/BACKEND-REQUIREMENTS.md) | **Главное ТЗ** |
 | [docs/API.md](docs/API.md) | HTTP-контракт для Android |
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Ktor, PostgreSQL, publish |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | **Light Clean**, Ktor, PostgreSQL |
 | [docs/ADMIN-UX.md](docs/ADMIN-UX.md) | Веб-админка |
 | [docs/DATABASE.md](docs/DATABASE.md) | Схема БД |
 | [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | VPS, Cloudflare, HTTPS |

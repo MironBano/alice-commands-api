@@ -1,6 +1,7 @@
 # Architecture — alice-commands-api
 
-**mob_id:** MOB-20260626-001 · **v1.0**
+**mob_id:** MOB-20260626-001 · **v1.0**  
+**Стиль:** **Light Clean (hexagonal light)** — Android app использует **Full Clean** (отдельный repo).
 
 ---
 
@@ -16,6 +17,52 @@
 | Serialization | **kotlinx.serialization** | Совместимость с Android |
 | Admin UI | **Static HTML + Alpine.js** | Минимум фронта, Ktor serves `/admin` |
 | Build | **Gradle KTS** (multi-module позже) |
+
+### 1.1 Light Clean Architecture
+
+**Dependency rule:** domain/application **не** импортирует Ktor, Exposed, filesystem paths.
+
+```
+routes (Ktor)  →  application  →  ports (interfaces)  ←  infrastructure
+```
+
+| Зона | Где | Clean-строгость |
+| ---- | --- | --------------- |
+| **Publish, rollback, import, preview** | `application/publish/` + ports | **Full use cases** |
+| **Public read** (manifest, bundle, affiliate) | `application/read/` | Thin service, без use case на каждый GET |
+| **Admin CRUD** | `routes` → `repository` (Exposed) | Прямой repo OK; без logic в routes |
+| **HTTP / auth / DTO** | `routes/`, `plugins/` | Adapters only |
+
+**Структура `server/` (целевая):**
+
+```
+server/src/main/kotlin/.../
+├── routes/           # Ktor routing — thin: parse, auth, status, call application
+├── application/
+│   ├── publish/      # PublishContentUseCase, RollbackPublishUseCase, ImportJsonUseCase
+│   └── read/         # ManifestService, BundleService, AffiliateService
+├── domain/           # Draft models (pure Kotlin), port interfaces
+├── infrastructure/
+│   ├── persistence/  # Exposed tables, *Repository impl
+│   ├── storage/      # BundleStorage (filesystem; S3 adapter v1.0.1)
+│   └── validation/   # JsonSchemaValidator
+└── plugins/          # Auth, serialization, status pages
+```
+
+**MUST:**
+
+1. Publish / rollback / import — **только** через `application.publish.*UseCase`.
+2. Public API читает **published files**, не draft tables напрямую (кроме affiliate sync при publish).
+3. Routes — без business logic (validate, sha256, version bump — не здесь).
+4. Exposed `Table` / SQL — только `infrastructure.persistence`.
+
+**MUST NOT:**
+
+- Править `content_v*.json.gz` на диске в обход publish use case
+- `routing { }` с validate → gzip → manifest update inline
+- Draft CRUD из public `/v1/*` routes
+
+См. также [AGENTS.md](../AGENTS.md).
 
 ---
 
@@ -71,21 +118,21 @@ flowchart TB
 
 ---
 
-## 5. Publish flow (server)
+## 5. Publish flow (application layer)
 
 ```kotlin
-// Псевдокод
-suspend fun publish(adminUser: String): PublishResult {
-    val draft = contentRepository.loadFullDraft()
-    jsonSchemaValidator.validate(draft)
+// application/publish/PublishContentUseCase — не в route handler
+suspend fun execute(adminUser: String): PublishResult {
+    val draft = draftRepository.loadFull()
+    schemaValidator.validate(draft)
     val json = bundleSerializer.toJson(draft)
     val gzip = gzip(json)
     val sha = sha256(gzip)
     val version = manifestRepository.nextVersion()
-    val path = storage.write("content_v$version.json.gz", gzip)
+    val path = bundleStorage.write("content_v$version.json.gz", gzip)
     manifestRepository.update(version, path, sha, draft.minAppVersion)
     publishHistory.insert(version, sha, adminUser)
-    storage.pruneOldBundles(retention = 5)
+    bundleStorage.pruneOldBundles(retention = 5)
 }
 ```
 

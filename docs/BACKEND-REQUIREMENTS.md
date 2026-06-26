@@ -46,10 +46,11 @@ Backend — **источник истины** для структуры конт
 1. **DB = редакторский источник** (draft, mutable)
 2. **Bundle = runtime источник для app** (immutable после publish)
 3. **Publish** = атомарная операция: validate → bundle.gz → manifest → audit log
-4. **Android не знает** списков категорий/команд в коде — только sync bundle ([NFR-9 app](https://github.com/))
+4. **Android не знает** списков категорий/команд в коде — только sync bundle ([NFR-9 app](https://github.com/MironBano/AliceCommands))
 5. **Affiliate** — отдельная сущность; обновляется через admin без APK
+6. **Light Clean:** publish/rollback/import — use cases; CRUD — thin routes → repo; см. [ARCHITECTURE.md](ARCHITECTURE.md) §1.1
 
-См. [ARCHITECTURE.md](ARCHITECTURE.md), [GAP-ANALYSIS.md](GAP-ANALYSIS.md).
+См. [ARCHITECTURE.md](ARCHITECTURE.md), [GAP-ANALYSIS.md](GAP-ANALYSIS.md), [AGENTS.md](../AGENTS.md).
 
 ---
 

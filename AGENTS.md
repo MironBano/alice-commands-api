@@ -1,0 +1,52 @@
+# AGENTS.md — alice-commands-api
+
+## Проект
+
+- **Название:** alice-commands-api
+- **Тип:** Kotlin, Ktor 3, PostgreSQL, Gradle
+- **Связанный app:** [AliceCommands](https://github.com/MironBano/AliceCommands) — **Full Clean** Android
+- **idea_ref:** MOB-20260626-001
+
+## Сборка и тесты (после реализации)
+
+```bash
+docker compose up -d
+./gradlew :server:test
+./gradlew :server:run
+```
+
+Windows: `.\gradlew.bat :server:run`
+
+## Документация
+
+| Путь | Назначение |
+| ---- | ---------- |
+| `docs/BACKEND-REQUIREMENTS.md` | **Главное ТЗ** |
+| `docs/ARCHITECTURE.md` | **Light Clean** — §1.1 |
+| `docs/API.md` | Контракт для Android |
+| `schema/content-bundle.schema.json` | JSON Schema (канон) |
+
+## Архитектура (обязательно)
+
+**Стиль:** **Light Clean (hexagonal light)** — см. `docs/ARCHITECTURE.md` §1.1.
+
+| MUST | MUST NOT |
+| ---- | -------- |
+| Publish / rollback / import → `application.publish.*UseCase` | Business logic в `routing { }` |
+| Public `/v1/*` читает **published** bundle/manifest | Public routes → draft PostgreSQL |
+| Ports: `BundleStorage`, `DraftRepository`, `SchemaValidator` | Inline validate→gzip→manifest в route |
+| Exposed только в `infrastructure.persistence` | Ручное редактирование live bundle на диске |
+
+**Admin CRUD:** routes → Exposed repository (без use case на каждый PUT) — допустимо.
+
+## Продуктовые правила
+
+1. Draft в PostgreSQL; runtime для app — immutable bundle + manifest.
+2. Rollback — 5 последних bundle на диске.
+3. `source_url` обязателен на command; publish только после human review.
+4. Один admin user, пароль в `.env` (bcrypt hash).
+5. Schema sync с app — см. `docs/SCHEMA-SYNC.md`.
+
+## Android repo
+
+Не дублировать content logic в app. App sync → Room → Full Clean use cases.
