@@ -1,0 +1,36 @@
+# Environment
+.env
+.env.local
+*.local
+
+# JVM / Kotlin
+.gradle/
+build/
+out/
+*.jar
+*.war
+*.class
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Runtime data
+data/
+storage/bundles/*
+!storage/bundles/.gitkeep
+storage/manifest/*
+!storage/manifest/.gitkeep
+
+# Logs
+logs/
+*.log
+
+# Docker volumes (local)
+postgres-data/

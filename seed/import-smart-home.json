@@ -1,0 +1,233 @@
+{
+  "schema_version": 1,
+  "content_version": 0,
+  "published_at": "2026-06-26T12:00:00Z",
+  "min_app_version": "1.0",
+  "categories": [
+    {
+      "id": "smart_home",
+      "title_ru": "Умный дом",
+      "sort_order": 7,
+      "icon_key": "home_iot",
+      "description_ru": "Управление лампами, розетками, сценариями и камерами",
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "device_types": ["station", "phone"]
+    }
+  ],
+  "commands": [
+    {
+      "id": "sh_light_on",
+      "category_id": "smart_home",
+      "title_ru": "Включить свет",
+      "phrases": ["Алиса, включи свет", "Алиса, зажги свет в гостиной"],
+      "effect_description_ru": "Включает умную лампу или группу света. Название комнаты должно совпадать с именем в приложении «Дом с Алисой».",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": ["station", "phone"],
+      "related_command_ids": ["sh_light_off", "sh_light_dim"],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "published_at": "2026-06-26T00:00:00Z",
+      "updated_at": "2026-06-26T00:00:00Z",
+      "tags": ["smart_home", "light"]
+    },
+    {
+      "id": "sh_light_off",
+      "category_id": "smart_home",
+      "title_ru": "Выключить свет",
+      "phrases": ["Алиса, выключи свет", "Алиса, погаси свет на кухне"],
+      "effect_description_ru": "Выключает указанный свет или всю группу.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": ["station", "phone"],
+      "related_command_ids": ["sh_light_on"],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "published_at": "2026-06-26T00:00:00Z",
+      "updated_at": "2026-06-26T00:00:00Z",
+      "tags": ["smart_home", "light"]
+    },
+    {
+      "id": "sh_light_dim",
+      "category_id": "smart_home",
+      "title_ru": "Приглушить свет",
+      "phrases": ["Алиса, приглуши свет", "Алиса, сделай свет тусклее"],
+      "effect_description_ru": "Уменьшает яркость умной лампы. Отличается от «тише» — та команда про громкость колонки.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": ["station", "phone"],
+      "related_command_ids": ["sh_light_on", "sh_light_off"],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "published_at": "2026-06-26T00:00:00Z",
+      "updated_at": "2026-06-26T00:00:00Z",
+      "tags": ["smart_home", "light"]
+    },
+    {
+      "id": "sh_socket_on",
+      "category_id": "smart_home",
+      "title_ru": "Включить розетку",
+      "phrases": ["Алиса, включи розетку", "Алиса, включи чайник"],
+      "effect_description_ru": "Подает питание на умную розетку. Убедитесь, что устройство названо в «Дом с Алисой».",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": ["station", "phone"],
+      "related_command_ids": ["sh_socket_off"],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "published_at": "2026-06-26T00:00:00Z",
+      "updated_at": "2026-06-26T00:00:00Z",
+      "tags": ["smart_home", "socket"]
+    },
+    {
+      "id": "sh_socket_off",
+      "category_id": "smart_home",
+      "title_ru": "Выключить розетку",
+      "phrases": ["Алиса, выключи розетку"],
+      "effect_description_ru": "Отключает питание умной розетки.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": ["station", "phone"],
+      "related_command_ids": ["sh_socket_on"],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "published_at": "2026-06-26T00:00:00Z",
+      "updated_at": "2026-06-26T00:00:00Z",
+      "tags": ["smart_home", "socket"]
+    },
+    {
+      "id": "sh_scenario_morning",
+      "category_id": "smart_home",
+      "title_ru": "Запустить сценарий «Доброе утро»",
+      "phrases": ["Алиса, доброе утро", "Алиса, запусти сценарий доброе утро"],
+      "effect_description_ru": "Запускает заранее настроенный сценарий в «Дом с Алисой». Создайте сценарий в приложении или используйте шаблон в разделе «Шаблоны».",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": ["station", "phone"],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/ru/smart-home/scenarios/create",
+      "published_at": "2026-06-26T00:00:00Z",
+      "updated_at": "2026-06-26T00:00:00Z",
+      "tags": ["smart_home", "scenario"]
+    },
+    {
+      "id": "sh_camera_view",
+      "category_id": "smart_home",
+      "title_ru": "Показать камеру на ТВ",
+      "phrases": ["Алиса, покажи камеру в прихожей на телевизоре"],
+      "effect_description_ru": "Выводит видеопоток умной камеры на экран ТВ с Алисой. Нужны совместимые устройства.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": ["station", "tv"],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "published_at": "2026-06-26T00:00:00Z",
+      "updated_at": "2026-06-26T00:00:00Z",
+      "tags": ["smart_home", "camera"]
+    },
+    {
+      "id": "sh_temp_query",
+      "category_id": "smart_home",
+      "title_ru": "Температура с датчика",
+      "phrases": ["Алиса, какая температура в детской", "Алиса, какая влажность в спальне"],
+      "effect_description_ru": "Сообщает показания умного датчика, привязанного к «Дому с Алисой».",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": ["station", "phone"],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "published_at": "2026-06-26T00:00:00Z",
+      "updated_at": "2026-06-26T00:00:00Z",
+      "tags": ["smart_home", "sensor"]
+    }
+  ],
+  "scenario_templates": [
+    {
+      "id": "S1",
+      "title_ru": "Доброе утро",
+      "trigger_ru": "Расписание 07:00",
+      "actions_ru": ["Свет 50%", "Погода", "Включи бодрую музыку"],
+      "example_phrases": ["Алиса, доброе утро", "Алиса, включи свет на 50 процентов", "Алиса, какая погода"],
+      "audience": "novice",
+      "deep_link_hint": "yandexsmarthome://scenarios",
+      "source_url": "https://alice.yandex.ru/support/ru/smart-home/scenarios/create"
+    },
+    {
+      "id": "S2",
+      "title_ru": "Я ушёл",
+      "trigger_ru": "Голос или расписание",
+      "actions_ru": ["Выключить свет и розетки", "До свидания"],
+      "example_phrases": ["Алиса, я ушёл", "Алиса, выключи весь свет"],
+      "audience": "all",
+      "deep_link_hint": "yandexsmarthome://scenarios",
+      "source_url": "https://alice.yandex.ru/support/ru/smart-home/scenarios/create"
+    },
+    {
+      "id": "S3",
+      "title_ru": "Кино дома",
+      "trigger_ru": "Голос «режим кино»",
+      "actions_ru": ["Приглушить свет", "Включи фильм на ТВ"],
+      "example_phrases": ["Алиса, режим кино", "Алиса, приглуши свет", "Алиса, включи фильм на телевизоре"],
+      "audience": "all",
+      "deep_link_hint": "yandexsmarthome://scenarios",
+      "source_url": "https://alice.yandex.ru/support/ru/smart-home/scenarios/create"
+    },
+    {
+      "id": "S4",
+      "title_ru": "Ночник",
+      "trigger_ru": "Голос «ночной свет»",
+      "actions_ru": ["Лампа 10%", "Подсветка колонки «свеча»"],
+      "example_phrases": ["Алиса, ночной свет", "Алиса, включи ночник"],
+      "audience": "novice",
+      "deep_link_hint": "yandexsmarthome://scenarios",
+      "source_url": "https://alice.yandex.ru/support/ru/smart-home/scenarios/create"
+    },
+    {
+      "id": "S5",
+      "title_ru": "Проснулись",
+      "trigger_ru": "Датчик движения",
+      "actions_ru": ["Свет 30% в коридоре"],
+      "example_phrases": ["Настроить в Дом с Алисой при срабатывании датчика"],
+      "audience": "advanced",
+      "deep_link_hint": "yandexsmarthome://scenarios",
+      "source_url": "https://alice.yandex.ru/support/ru/smart-home/scenarios/create"
+    },
+    {
+      "id": "S6",
+      "title_ru": "Проветривание",
+      "trigger_ru": "Голос / время",
+      "actions_ru": ["Выключить кондиционер", "Открыть шторы"],
+      "example_phrases": ["Алиса, режим проветривания"],
+      "audience": "advanced",
+      "deep_link_hint": "yandexsmarthome://scenarios",
+      "source_url": "https://alice.yandex.ru/support/ru/smart-home/scenarios/create"
+    },
+    {
+      "id": "S7",
+      "title_ru": "Ребёнок спит",
+      "trigger_ru": "Голос",
+      "actions_ru": ["Тише музыка", "Приглушить свет", "Радионяня"],
+      "example_phrases": ["Алиса, ребёнок спит", "Алиса, тише"],
+      "audience": "parents",
+      "deep_link_hint": "yandexsmarthome://scenarios",
+      "source_url": "https://alice.yandex.ru/support/ru/smart-home/scenarios/create"
+    },
+    {
+      "id": "S8",
+      "title_ru": "Вечер",
+      "trigger_ru": "Расписание 22:00",
+      "actions_ru": ["Выключить ТВ", "Ночник", "Таймер сна колонки"],
+      "example_phrases": ["Алиса, спокойной ночи", "Алиса, выключи телевизор"],
+      "audience": "all",
+      "deep_link_hint": "yandexsmarthome://scenarios",
+      "source_url": "https://alice.yandex.ru/support/ru/smart-home/scenarios/create"
+    }
+  ],
+  "checklist_items": [
+    { "id": "cl_01", "order": 1, "command_id": "sh_light_on", "hint_ru": "Попробуйте включить свет голосом" },
+    { "id": "cl_02", "order": 2, "command_id": "sh_light_dim", "hint_ru": "Приглушите свет — не путайте с громкостью" },
+    { "id": "cl_03", "order": 3, "command_id": "sh_socket_on", "hint_ru": "Включите умную розетку" },
+    { "id": "cl_04", "order": 4, "command_id": "sh_scenario_morning", "hint_ru": "Запустите сценарий «Доброе утро»" },
+    { "id": "cl_05", "order": 5, "command_id": "sh_temp_query", "hint_ru": "Спросите температуру с датчика" },
+    { "id": "cl_06", "order": 6, "command_id": "sh_camera_view", "hint_ru": "Посмотрите камеру на ТВ" },
+    { "id": "cl_07", "order": 7, "command_id": "sh_light_off", "hint_ru": "Выключите свет" },
+    { "id": "cl_08", "order": 8, "command_id": "sh_socket_off", "hint_ru": "Выключите розетку" },
+    { "id": "cl_09", "order": 9, "command_id": "sh_scenario_morning", "hint_ru": "Добавьте команду в избранное" },
+    { "id": "cl_10", "order": 10, "command_id": "sh_light_on", "hint_ru": "Нажмите «Слушать» — TTS озвучит фразу" }
+  ]
+}

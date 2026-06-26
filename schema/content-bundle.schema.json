@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://alice-commands-api/schema/content-bundle.schema.json",
+  "title": "AliceCommandsContentBundle",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "content_version",
+    "published_at",
+    "min_app_version",
+    "categories",
+    "commands",
+    "scenario_templates",
+    "checklist_items"
+  ],
+  "properties": {
+    "schema_version": { "type": "integer", "minimum": 1 },
+    "content_version": { "type": "integer", "minimum": 0 },
+    "published_at": { "type": "string", "format": "date-time" },
+    "min_app_version": { "type": "string", "pattern": "^\\d+\\.\\d+" },
+    "categories": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/category" }
+    },
+    "commands": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/command" }
+    },
+    "scenario_templates": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/scenarioTemplate" }
+    },
+    "checklist_items": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/checklistItem" }
+    }
+  },
+  "$defs": {
+    "category": {
+      "type": "object",
+      "required": ["id", "title_ru", "sort_order", "source_url"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+        "title_ru": { "type": "string", "minLength": 1 },
+        "title_kk": { "type": "string" },
+        "sort_order": { "type": "integer" },
+        "featured": { "type": "boolean" },
+        "icon_key": { "type": "string" },
+        "description_ru": { "type": "string" },
+        "source_url": { "type": "string", "format": "uri" },
+        "device_types": {
+          "type": "array",
+          "items": { "enum": ["station", "tv", "phone"] }
+        }
+      }
+    },
+    "command": {
+      "type": "object",
+      "required": [
+        "id",
+        "category_id",
+        "title_ru",
+        "phrases",
+        "effect_description_ru",
+        "requires_alice_word",
+        "source_url",
+        "updated_at"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "category_id": { "type": "string" },
+        "title_ru": { "type": "string", "minLength": 1 },
+        "phrases": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "effect_description_ru": { "type": "string", "minLength": 1 },
+        "requires_alice_word": { "type": "boolean" },
+        "requires_plus": { "type": "boolean" },
+        "device_types": {
+          "type": "array",
+          "items": { "enum": ["station", "tv", "phone"] }
+        },
+        "related_command_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "source_url": { "type": "string", "format": "uri" },
+        "published_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "scenarioTemplate": {
+      "type": "object",
+      "required": ["id", "title_ru", "source_url"],
+      "properties": {
+        "id": { "type": "string" },
+        "title_ru": { "type": "string" },
+        "trigger_ru": { "type": "string" },
+        "actions_ru": { "type": "array", "items": { "type": "string" } },
+        "example_phrases": { "type": "array", "items": { "type": "string" } },
+        "audience": { "type": "string" },
+        "deep_link_hint": { "type": "string" },
+        "source_url": { "type": "string", "format": "uri" }
+      }
+    },
+    "checklistItem": {
+      "type": "object",
+      "required": ["id", "order", "command_id"],
+      "properties": {
+        "id": { "type": "string" },
+        "order": { "type": "integer", "minimum": 1, "maximum": 10 },
+        "command_id": { "type": "string" },
+        "hint_ru": { "type": "string" }
+      }
+    }
+  }
+}
