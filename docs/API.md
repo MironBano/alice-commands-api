@@ -166,4 +166,4 @@ Certificate pinning: optional NFR (release).
 
 ---
 
-*Совместимо с AliceCommands [CONTENT-PIPELINE.md](https://github.com/) §4*
+*Совместимо с AliceCommands [CONTENT-PIPELINE.md](https://github.com/MironBano/AliceCommands/blob/main/docs/CONTENT-PIPELINE.md) §4*
