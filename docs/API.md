@@ -1,6 +1,6 @@
 # API — alice-commands-api
 
-**Version:** v1 · **Base URL:** `{PUBLIC_BASE_URL}`  
+**Version:** v1 · **Base URL:** `{PUBLIC_BASE_URL}` (env: `PUBLIC_BASE_URL`)  
 **Android:** `BuildConfig.CONTENT_API_BASE_URL` (staging / prod flavors)
 
 ---
@@ -19,7 +19,7 @@
   "min_app_version": "1.0",
   "bundle_url": "https://api.example.ru/v1/content/bundle",
   "bundle_sha256": "a1b2c3...",
-  "backup_url": "https://cdn.example.ru/content/content_v42.json.gz",
+  "backup_url": "https://api.example.ru/v1/content/bundle-backup/content_v42.json.gz",
   "bundle_size_bytes": 185000
 }
 ```
@@ -29,7 +29,8 @@
 | `ETag` | `"content-42"` |
 | `Cache-Control` | `public, max-age=300` |
 
-**304:** if `If-None-Match` matches.
+**304:** if `If-None-Match` matches.  
+**404:** `{ "error": "not_found", "message": "No published content yet" }` — до первого Publish.
 
 ---
 
@@ -44,6 +45,8 @@ Returns **gzip** body of full content bundle. Structure: [schema/content-bundle.
 | `Cache-Control` | `public, max-age=86400, immutable` |
 | `ETag` | `"content-42"` |
 
+**304:** if `If-None-Match` matches.
+
 **Client algorithm:**
 
 1. GET manifest
@@ -51,6 +54,18 @@ Returns **gzip** body of full content bundle. Structure: [schema/content-bundle.
 3. Verify sha256
 4. Parse JSON → upsert Room
 5. On network error → use Room / bundled seed
+
+---
+
+### GET /v1/content/bundle-backup/{filename}
+
+Direct download archived bundle by filename. Only `content_v{N}.json.gz` allowed (retention pool).
+
+| Header | Значение |
+| ------ | -------- |
+| `Content-Encoding` | `gzip` |
+
+`backup_url` в manifest указывает на текущую версию; endpoint также отдаёт предыдущие версии из retention.
 
 ---
 
@@ -81,6 +96,8 @@ Returns **gzip** body of full content bundle. Structure: [schema/content-bundle.
 }
 ```
 
+**404** до первого publish с affiliate blocks.
+
 ---
 
 ### GET /health
@@ -89,41 +106,72 @@ Returns **gzip** body of full content bundle. Structure: [schema/content-bundle.
 { "status": "ok" }
 ```
 
+Always **200** (process alive).
+
 ### GET /ready
 
 ```json
 { "status": "ready", "database": "ok", "storage": "ok" }
 ```
 
+**503** if database or bundle storage unavailable (`status: "not_ready"`).
+
 ---
 
 ## 2. Admin API (session cookie)
 
-All require authenticated admin session unless noted.
+Cookie: `alice_admin_session` (HttpOnly, Secure on staging/prod, SameSite=Lax).
+
+All require authenticated session unless noted.
 
 | Method | Path | Description |
 | ------ | ---- | ----------- |
-| POST | `/admin/api/login` | `{ username, password }` |
-| POST | `/admin/api/logout` | |
+| POST | `/admin/api/login` | `{ "username", "password" }` → `{ "ok": true }` |
+| POST | `/admin/api/logout` | Invalidate session |
+| GET | `/admin/api/dashboard` | Live manifest + draft stats + `hasUnpublishedChanges` |
 | GET | `/admin/api/categories` | List draft categories |
 | POST | `/admin/api/categories` | Create |
+| PUT | `/admin/api/categories/reorder` | `{ "ordered_ids": [...] }` |
 | PUT | `/admin/api/categories/{id}` | Update |
 | DELETE | `/admin/api/categories/{id}` | Delete |
-| GET | `/admin/api/commands?category_id=` | List |
+| GET | `/admin/api/commands?category_id=` | List (optional filter) |
 | POST | `/admin/api/commands` | Create |
 | PUT | `/admin/api/commands/{id}` | Update |
 | DELETE | `/admin/api/commands/{id}` | Delete |
-| GET | `/admin/api/scenario-templates` | |
-| PUT | `/admin/api/scenario-templates/{id}` | |
-| GET | `/admin/api/checklist-items` | |
-| PUT | `/admin/api/checklist-items` | Reorder batch |
-| GET | `/admin/api/affiliate-blocks` | |
-| PUT | `/admin/api/affiliate-blocks/{id}` | |
+| GET | `/admin/api/scenario-templates` | List |
+| POST | `/admin/api/scenario-templates` | Create |
+| PUT | `/admin/api/scenario-templates/{id}` | Update |
+| DELETE | `/admin/api/scenario-templates/{id}` | Delete |
+| GET | `/admin/api/checklist-items` | List |
+| PUT | `/admin/api/checklist-items` | Replace/reorder batch (array body) |
+| GET | `/admin/api/affiliate-blocks` | List |
+| POST | `/admin/api/affiliate-blocks` | Create |
+| PUT | `/admin/api/affiliate-blocks/{id}` | Update |
+| DELETE | `/admin/api/affiliate-blocks/{id}` | Delete |
 | GET | `/admin/api/preview/bundle` | Draft JSON (no gzip) |
-| POST | `/admin/api/publish` | Publish live |
+| POST | `/admin/api/publish` | `{ "min_app_version"?, "notes"? }` → publish result |
 | POST | `/admin/api/publish/rollback` | `{ "content_version": 41 }` |
 | GET | `/admin/api/publish/history` | Last 5 publishes |
-| POST | `/admin/api/import/json` | Upload seed file |
+| POST | `/admin/api/import/json?mode=merge\|replace` | Upload seed JSON (raw body) |
+| POST | `/admin/api/import/preview` | Diff incoming JSON vs **published** bundle |
+| GET | `/admin/api/content/pipeline` | Seed на сервере + подсказки scripts |
+| POST | `/admin/api/content/import-seed?mode=merge\|replace` | Import из `CONTENT_SEED_PATH` на VPS |
+| GET | `/admin/api/docs` | JSON API reference для admin UI |
+
+**Login rate limit:** `ADMIN_LOGIN_RATE_LIMIT` failures per IP per 15 min → **429** `rate_limited`. IP берётся из `X-Forwarded-For` / `X-Real-IP` (nginx).
+
+**Staging base URL:** `https://staging-api.alicecommands.ru`
+
+---
+
+## 2.1 Admin UI (browser)
+
+| URL | Назначение |
+| --- | ---------- |
+| `/admin` | SPA login + dashboard |
+| `/admin/js/admin.js` | Client (health polling, CRUD) |
+
+In-app API docs: view **API** в sidebar или `GET /admin/api/docs`.
 
 ---
 
@@ -152,10 +200,13 @@ All require authenticated admin session unless noted.
 
 | Build flavor | `CONTENT_API_BASE_URL` |
 | ------------ | ---------------------- |
-| debug | `https://staging-api.<domain>` or local |
-| release | `https://api.<domain>` |
+| debug / staging | `https://staging-api.alicecommands.ru` |
+| release | `https://api.alicecommands.ru` (prod, DNS only — см. [INFRASTRUCTURE.md](INFRASTRUCTURE.md)) |
 
-Manifest path: `{base}/v1/content/manifest`  
+Manifest path: `{base}/v1/content/manifest`
+
+**РФ:** API **не** проксировать через Cloudflare CDN (оранжевое облако) — ISP throttle. DNS only → VPS Selectel.
+
 Certificate pinning: optional NFR (release).
 
 ---

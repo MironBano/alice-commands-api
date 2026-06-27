@@ -1,0 +1,18 @@
+[Unit]
+Description=Alice Commands API (Ktor)
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/alice-api
+EnvironmentFile=/opt/alice-api/.env
+ExecStart=/opt/alice-api/app/bin/server
+Restart=on-failure
+RestartSec=5
+StandardOutput=append:/var/log/alice-api/app.log
+StandardError=append:/var/log/alice-api/app.log
+
+[Install]
+WantedBy=multi-user.target

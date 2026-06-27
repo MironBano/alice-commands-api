@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alice Commands Admin</title>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js"></script>
+  <link rel="stylesheet" href="/admin/css/admin.css?v=4">
+</head>
+<body x-data="adminApp()" x-init="init()">
+  <div class="status-bar" :class="serverStatusClass()">
+    <span class="status-dot"></span>
+    <span x-text="serverStatusLabel()"></span>
+    <span class="status-meta" x-show="serverStatus.lastCheck">
+      · проверка <span x-text="formatLastCheck(serverStatus.lastCheck)"></span>
+    </span>
+    <button type="button" class="status-refresh" @click="checkServerHealth()" :disabled="serverStatus.checking">↻</button>
+  </div>
+
+  <template x-if="!authenticated">
+    <div class="login-page">
+      <form class="login-card" @submit.prevent="login()">
+        <h1>Alice Commands</h1>
+        <p class="muted">Админка каталога</p>
+        <p class="login-status-hint muted" x-show="!serverStatus.online && serverStatus.online !== null" x-text="serverStatus.error || 'Сервер недоступен — проверьте VPN/сеть'"></p>
+        <label>Логин<input type="text" x-model="loginForm.username" required autocomplete="username"></label>
+        <label>Пароль<input type="password" x-model="loginForm.password" required autocomplete="current-password"></label>
+        <p class="error" x-show="error" x-text="error"></p>
+        <button type="submit" :disabled="loading">Войти</button>
+      </form>
+    </div>
+  </template>
+
+  <template x-if="authenticated">
+    <div class="layout">
+      <nav class="sidebar">
+        <h2>Admin</h2>
+        <a href="#" @click.prevent="view='dashboard'" :class="{'active': view==='dashboard'}">Dashboard</a>
+        <a href="#" @click.prevent="view='categories'" :class="{'active': view==='categories'}">Категории</a>
+        <a href="#" @click.prevent="view='commands'" :class="{'active': view==='commands'}">Команды</a>
+        <a href="#" @click.prevent="view='scenarios'" :class="{'active': view==='scenarios'}">Шаблоны</a>
+        <a href="#" @click.prevent="view='checklist'" :class="{'active': view==='checklist'}">Чеклист</a>
+        <a href="#" @click.prevent="view='affiliate'" :class="{'active': view==='affiliate'}">Affiliate</a>
+        <a href="#" @click.prevent="view='publish'" :class="{'active': view==='publish'}">Publish</a>
+        <a href="#" @click.prevent="view='import'" :class="{'active': view==='import'}">Import</a>
+        <a href="#" @click.prevent="view='content'; loadPipeline()" :class="{'active': view==='content'}">Контент</a>
+        <a href="#" @click.prevent="view='api'; loadApiDocs()" :class="{'active': view==='api'}">API</a>
+        <button class="logout" @click="logout()">Выйти</button>
+      </nav>
+      <main class="content">
+        <section x-show="view==='dashboard'">
+          <h1>Dashboard</h1>
+          <div class="cards" x-show="dashboard">
+            <div class="card status-card" :class="serverStatusClass()">
+              <h3>Сервер</h3>
+              <p x-text="serverStatusLabel()"></p>
+              <p class="muted" x-show="serverStatus.ready">
+                DB: <span x-text="serverStatus.database"></span> · Storage: <span x-text="serverStatus.storage"></span>
+              </p>
+              <p class="muted">След. проверка через ~5 мин · <button type="button" class="link-btn" @click="checkServerHealth()">сейчас</button></p>
+            </div>
+            <div class="card">
+              <h3>Live</h3>
+              <template x-if="dashboard?.live">
+                <p>v<span x-text="dashboard.live.contentVersion"></span> · <span x-text="dashboard.live.publishedAt"></span></p>
+              </template>
+              <template x-if="!dashboard?.live"><p class="muted">Ещё не публиковали</p></template>
+            </div>
+            <div class="card">
+              <h3>Draft</h3>
+              <p><span x-text="dashboard?.draft?.categoriesCount || 0"></span> категорий · <span x-text="dashboard?.draft?.commandsCount || 0"></span> команд</p>
+              <p class="warning-inline" x-show="dashboard?.hasUnpublishedChanges">Есть неопубликованные изменения</p>
+            </div>
+          </div>
+          <div class="actions">
+            <button @click="previewBundle()" :disabled="!serverStatus.online">Preview JSON</button>
+            <button class="primary" @click="view='publish'">Publish</button>
+            <button @click="view='content'; loadPipeline()">Обновление контента</button>
+          </div>
+          <pre class="preview-json" x-show="previewJson" x-text="previewJson"></pre>
+        </section>
+
+        <section x-show="view==='categories'">
+          <h1>Категории</h1>
+          <button @click="showCategoryForm()">+ Категория</button>
+          <table>
+            <thead><tr><th>#</th><th>ID</th><th>Название</th><th>Featured</th><th></th></tr></thead>
+            <tbody>
+              <template x-for="c in categories" :key="c.id">
+                <tr>
+                  <td x-text="c.sort_order"></td>
+                  <td x-text="c.id"></td>
+                  <td x-text="c.title_ru"></td>
+                  <td x-text="c.featured ? 'да' : ''"></td>
+                  <td>
+                    <button @click="moveCategory(c, -1)">↑</button>
+                    <button @click="moveCategory(c, 1)">↓</button>
+                    <button @click="editCategory(c)">Edit</button>
+                    <button class="danger" @click="deleteCategory(c.id)">Del</button>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+          <div class="modal" x-show="categoryForm" @click.self="categoryForm=null">
+            <form class="modal-card" @submit.prevent="saveCategory()">
+              <h3 x-text="categoryForm?.id ? 'Редактировать' : 'Новая категория'"></h3>
+              <label>ID<input x-model="categoryForm.id" :readonly="categoryEditing" required pattern="[a-z0-9_]+"></label>
+              <label>Название<input x-model="categoryForm.title_ru" required></label>
+              <label>sort_order<input type="number" x-model.number="categoryForm.sort_order"></label>
+              <label>source_url<input x-model="categoryForm.source_url" required type="url"></label>
+              <label>icon_key<input x-model="categoryForm.icon_key"></label>
+              <label>description<textarea x-model="categoryForm.description_ru"></textarea></label>
+              <label><input type="checkbox" x-model="categoryForm.featured"> Featured</label>
+              <p class="error" x-show="formError" x-text="formError"></p>
+              <div class="modal-actions">
+                <button type="button" @click="categoryForm=null">Отмена</button>
+                <button type="submit" class="primary" :disabled="saving || !serverStatus.online" x-text="saving ? 'Сохранение…' : 'Сохранить'"></button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <section x-show="view==='commands'">
+          <h1>Команды</h1>
+          <label>Категория
+            <select x-model="commandFilter" @change="loadCommands()">
+              <option value="">Все</option>
+              <template x-for="c in categories" :key="c.id">
+                <option :value="c.id" x-text="c.title_ru"></option>
+              </template>
+            </select>
+          </label>
+          <button @click="showCommandForm()">+ Команда</button>
+          <table>
+            <thead><tr><th>ID</th><th>Название</th><th>Категория</th><th></th></tr></thead>
+            <tbody>
+              <template x-for="cmd in commands" :key="cmd.id">
+                <tr>
+                  <td x-text="cmd.id"></td>
+                  <td x-text="cmd.title_ru"></td>
+                  <td x-text="cmd.category_id"></td>
+                  <td>
+                    <button @click="editCommand(cmd)">Edit</button>
+                    <button class="danger" @click="deleteCommand(cmd.id)">Del</button>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+          <div class="modal" x-show="commandForm" @click.self="commandForm=null">
+            <form class="modal-card wide" @submit.prevent="saveCommand()">
+              <h3 x-text="commandEditing ? 'Редактировать команду' : 'Новая команда'"></h3>
+              <label>ID<input x-model="commandForm.id" :readonly="commandEditing" required></label>
+              <label>Категория
+                <select x-model="commandForm.category_id" required>
+                  <template x-for="c in categories" :key="c.id">
+                    <option :value="c.id" x-text="c.title_ru"></option>
+                  </template>
+                </select>
+              </label>
+              <label>Название<input x-model="commandForm.title_ru" required></label>
+              <label>Фразы (по одной на строку)<textarea x-model="commandForm.phrasesText" rows="4" required></textarea></label>
+              <label>Эффект<textarea x-model="commandForm.effect_description_ru" required></textarea></label>
+              <label>source_url<input x-model="commandForm.source_url" type="url" required></label>
+              <label><input type="checkbox" x-model="commandForm.requires_alice_word"> Требует «Алиса»</label>
+              <label><input type="checkbox" x-model="commandForm.requires_plus"> Требует Plus</label>
+              <label>tags (через запятую)<input x-model="commandForm.tagsText"></label>
+              <p class="error" x-show="formError" x-text="formError"></p>
+              <div class="modal-actions">
+                <button type="button" @click="commandForm=null">Отмена</button>
+                <button type="submit" class="primary" :disabled="saving || !serverStatus.online" x-text="saving ? 'Сохранение…' : 'Сохранить draft'"></button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <section x-show="view==='scenarios'">
+          <h1>Шаблоны сценариев</h1>
+          <button @click="showScenarioForm()">+ Шаблон</button>
+          <table>
+            <thead><tr><th>ID</th><th>Название</th><th>trigger</th><th></th></tr></thead>
+            <tbody>
+              <template x-for="s in scenarios" :key="s.id">
+                <tr>
+                  <td x-text="s.id"></td>
+                  <td x-text="s.title_ru"></td>
+                  <td x-text="s.trigger_ru"></td>
+                  <td>
+                    <button @click="editScenario(s)">Edit</button>
+                    <button class="danger" @click="deleteScenario(s.id)">Del</button>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+          <div class="modal" x-show="scenarioForm" @click.self="scenarioForm=null">
+            <form class="modal-card wide" @submit.prevent="saveScenario()">
+              <h3 x-text="scenarioEditing ? 'Редактировать шаблон' : 'Новый шаблон'"></h3>
+              <label>ID<input x-model="scenarioForm.id" :readonly="scenarioEditing" required></label>
+              <label>Название<input x-model="scenarioForm.title_ru" required></label>
+              <label>trigger_ru<input x-model="scenarioForm.trigger_ru"></label>
+              <label>actions (по строке)<textarea x-model="scenarioForm.actionsText" rows="3"></textarea></label>
+              <label>example_phrases<textarea x-model="scenarioForm.examplesText" rows="3"></textarea></label>
+              <label>audience<input x-model="scenarioForm.audience"></label>
+              <label>source_url<input x-model="scenarioForm.source_url" type="url" required></label>
+              <p class="error" x-show="formError" x-text="formError"></p>
+              <div class="modal-actions">
+                <button type="button" @click="scenarioForm=null">Отмена</button>
+                <button type="submit" class="primary" :disabled="saving || !serverStatus.online" x-text="saving ? 'Сохранение…' : 'Сохранить'"></button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <section x-show="view==='checklist'">
+          <h1>Чеклист УД</h1>
+          <button @click="saveChecklist()" :disabled="saving || !serverStatus.online">Сохранить порядок</button>
+          <table>
+            <thead><tr><th>#</th><th>id</th><th>command_id</th><th>hint</th></tr></thead>
+            <tbody>
+              <template x-for="(item, idx) in checklist" :key="item.id">
+                <tr>
+                  <td><input type="number" x-model.number="item.order" min="1" max="10" style="width:4rem"></td>
+                  <td x-text="item.id"></td>
+                  <td><input x-model="item.command_id"></td>
+                  <td><input x-model="item.hint_ru"></td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </section>
+
+        <section x-show="view==='affiliate'">
+          <h1>Affiliate</h1>
+          <button @click="showAffiliateForm()">+ Блок</button>
+          <template x-for="b in affiliate" :key="b.id">
+            <div class="card">
+              <strong x-text="b.title_ru"></strong> · ERID: <span x-text="b.erid || '—'"></span>
+              <button @click="editAffiliate(b)">Edit</button>
+              <button class="danger" @click="deleteAffiliate(b.id)">Del</button>
+            </div>
+          </template>
+          <p class="muted" x-show="!affiliate.length">Нет блоков</p>
+          <div class="modal" x-show="affiliateForm" @click.self="affiliateForm=null">
+            <form class="modal-card wide" @submit.prevent="saveAffiliate()">
+              <h3 x-text="affiliateEditing ? 'Редактировать блок' : 'Новый блок'"></h3>
+              <label>ID<input x-model="affiliateForm.id" :readonly="affiliateEditing" required></label>
+              <label>Название<input x-model="affiliateForm.title_ru" required></label>
+              <label>context_category_id<input x-model="affiliateForm.context_category_id"></label>
+              <label>ERID<input x-model="affiliateForm.erid"></label>
+              <label>advertiser_name<input x-model="affiliateForm.advertiser_name"></label>
+              <label>products (title|url|price по строке)<textarea x-model="affiliateForm.productsText" rows="4"></textarea></label>
+              <p class="error" x-show="formError" x-text="formError"></p>
+              <div class="modal-actions">
+                <button type="button" @click="affiliateForm=null">Отмена</button>
+                <button type="submit" class="primary" :disabled="saving || !serverStatus.online" x-text="saving ? 'Сохранение…' : 'Сохранить'"></button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <section x-show="view==='publish'">
+          <h1>Publish</h1>
+          <p x-show="dashboard?.live">Текущая версия: v<span x-text="dashboard.live.contentVersion"></span></p>
+          <button class="primary" @click="doPublish()" :disabled="loading">Опубликовать</button>
+          <button @click="previewBundle()">Preview JSON</button>
+          <h2>История</h2>
+          <table>
+            <thead><tr><th>v</th><th>Дата</th><th>admin</th><th></th></tr></thead>
+            <tbody>
+              <template x-for="h in history" :key="h.id">
+                <tr>
+                  <td x-text="h.contentVersion"></td>
+                  <td x-text="h.publishedAt"></td>
+                  <td x-text="h.adminUsername"></td>
+                  <td><button @click="rollback(h.contentVersion)">Rollback</button></td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </section>
+
+        <section x-show="view==='import'">
+          <h1>Import JSON</h1>
+          <p class="muted">Загрузите bundle JSON (например <code>seed/import-smart-home.json</code>). Импорт пишет в draft — для app нужен Publish.</p>
+
+          <div class="import-panel card">
+            <h2>1. Режим</h2>
+            <div class="import-modes">
+              <label class="import-mode-option">
+                <input type="radio" name="importMode" value="merge" x-model="importMode" @change="refreshImportPreview()">
+                <div class="import-mode-text">
+                  <strong>Merge</strong>
+                  <span class="muted">Добавить новые id и обновить существующие. Остальной draft не удаляется.</span>
+                </div>
+              </label>
+              <label class="import-mode-option">
+                <input type="radio" name="importMode" value="replace" x-model="importMode" @change="refreshImportPreview()">
+                <div class="import-mode-text">
+                  <strong>Replace all</strong>
+                  <span class="muted">Заменить каталог bundle (категории, команды, шаблоны, чеклист). Affiliate-блоки не затрагиваются.</span>
+                </div>
+              </label>
+            </div>
+
+            <h2>2. Файл</h2>
+            <div class="import-file-row">
+              <label class="import-file-picker">
+                <input type="file" accept=".json,application/json" @change="selectImportFile($event)">
+                <span class="import-file-button">Выбрать JSON…</span>
+              </label>
+              <button type="button" x-show="importDraft" @click="clearImportFile()">Сбросить</button>
+            </div>
+
+            <div class="import-preview" x-show="importDraft" x-cloak>
+              <p class="import-file-meta">
+                <strong x-text="importDraft?.name"></strong>
+                · <span x-text="formatBytes(importDraft?.sizeBytes || 0)"></span>
+                <template x-if="importDraft?.preview?.schemaVersion != null">
+                  · schema v<span x-text="importDraft.preview.schemaVersion"></span>
+                </template>
+              </p>
+
+              <p class="import-parse-error" x-show="importParseError" x-text="importParseError"></p>
+
+              <div x-show="importDraft?.preview">
+                <div class="import-warning" x-show="importMode === 'replace' && !importParseError">
+                  Текущий каталог bundle будет заменён. Сейчас в draft:
+                  <span x-text="dashboard?.draft?.categoriesCount || 0"></span> кат.,
+                  <span x-text="dashboard?.draft?.commandsCount || 0"></span> команд,
+                  <span x-text="dashboard?.draft?.scenarioTemplatesCount || 0"></span> шаблонов,
+                  <span x-text="dashboard?.draft?.checklistItemsCount || 0"></span> пунктов чеклиста.
+                  Affiliate не меняется.
+                </div>
+
+                <dl class="import-summary" x-show="!importParseError">
+                  <template x-for="row in importSummaryRows()" :key="row.label">
+                    <div class="import-summary-row">
+                      <dt x-text="row.label"></dt>
+                      <dd x-text="row.value"></dd>
+                    </div>
+                  </template>
+                </dl>
+
+                <div class="import-diff" x-show="publishedDiff && !importParseError">
+                  <h3>Diff vs опубликованная версия</h3>
+                  <p class="import-diff-summary" x-show="publishedDiffSummaryText()" x-text="publishedDiffSummaryText()"></p>
+                  <p class="muted" x-show="importPreviewLoading">Загрузка diff…</p>
+                  <div class="import-diff-filters" x-show="publishedDiff && !importPreviewLoading">
+                    <label><input type="radio" value="all" x-model="diffFilter"> Все</label>
+                    <label><input type="radio" value="added" x-model="diffFilter"> Added</label>
+                    <label><input type="radio" value="changed" x-model="diffFilter"> Changed</label>
+                    <label><input type="radio" value="removed" x-model="diffFilter"> Removed</label>
+                    <label class="import-needs-review"><input type="checkbox" x-model="diffNeedsReviewOnly"> needs_review</label>
+                  </div>
+                  <template x-for="sec in publishedDiffSections()" :key="sec.key">
+                    <div class="import-diff-block" x-show="filteredDiffItems(sec.section).length > 0">
+                      <p><strong x-text="sec.label"></strong>:
+                        +<span x-text="sec.section.summary.added"></span> /
+                        ~<span x-text="sec.section.summary.changed"></span> /
+                        −<span x-text="sec.section.summary.removed"></span>
+                      </p>
+                      <template x-for="item in filteredDiffItems(sec.section)" :key="item.id">
+                        <details class="import-diff-item">
+                          <summary>
+                            <span class="diff-badge" :class="'diff-' + item.change" x-text="item.change"></span>
+                            <span x-text="item.title_ru || item.id"></span>
+                            <span class="muted" x-show="item.category_id" x-text="'(' + item.category_id + ')'"></span>
+                          </summary>
+                          <ul class="import-field-diffs">
+                            <template x-for="fd in diffFieldEntries(item)" :key="fd.field">
+                              <li>
+                                <code x-text="fd.field"></code>:
+                                <span class="diff-old" x-text="fd.old || '—'"></span>
+                                →
+                                <span class="diff-new" x-text="fd.new || '—'"></span>
+                              </li>
+                            </template>
+                          </ul>
+                        </details>
+                      </template>
+                    </div>
+                  </template>
+                </div>
+
+                <div class="import-diff import-diff-draft" x-show="importMode === 'merge' && importDraft?.preview?.mergeDiff && !importParseError">
+                  <h3>Изменения в draft (merge)</h3>
+                  <template x-for="block in importDiffBlocks()" :key="block.label">
+                    <div class="import-diff-block" x-show="block.total > 0">
+                      <p><strong x-text="block.label"></strong>: <span x-text="block.text"></span></p>
+                      <p class="muted import-id-list" x-show="block.addIds.length">
+                        Новые id: <span x-text="formatIdList(block.addIds)"></span>
+                      </p>
+                      <p class="muted import-id-list" x-show="block.updateIds.length">
+                        Обновятся: <span x-text="formatIdList(block.updateIds)"></span>
+                      </p>
+                    </div>
+                  </template>
+                  <p class="muted" x-show="!importDiffHasChanges()">Нет пересечений по id — всё будет добавлено как новое.</p>
+                </div>
+              </div>
+
+              <div class="import-actions">
+                <button type="button" class="primary" @click="doImport()"
+                  :disabled="importLoading || !!importParseError || !importDraft?.text || !serverStatus.online"
+                  x-text="importLoading ? 'Импорт…' : 'Импортировать в draft'"></button>
+              </div>
+            </div>
+
+            <p class="muted" x-show="!importDraft">Файл не выбран. После выбора появится превью и кнопка импорта.</p>
+          </div>
+        </section>
+
+        <section x-show="view==='content'">
+          <h1>Обновление контента</h1>
+          <p class="muted">Pipeline: сборка bundle → validate → push draft → review в admin → Publish. Publish автоматически не выполняется.</p>
+
+          <div class="card pipeline-steps">
+            <h2>Flow (локально, PowerShell)</h2>
+            <ol class="pipeline-list">
+              <li>
+                <code x-text="pipeline?.localScript || 'scripts/update-content.ps1'"></code>
+                <button type="button" @click="copyText('.\' + (pipeline?.localScript || 'scripts/update-content.ps1'))">Копировать</button>
+                <span class="muted"> — build + validate + push + verify</span>
+              </li>
+              <li>
+                <code x-text="pipeline?.pushScript || 'scripts/push-draft.ps1 -Mode merge'"></code>
+                <button type="button" @click="copyText('.\' + (pipeline?.pushScript || 'scripts/push-draft.ps1 -Mode merge'))">Копировать</button>
+                <span class="muted"> — только push без rebuild</span>
+              </li>
+              <li>
+                <code x-text="pipeline?.verifyScript || 'scripts/verify-staging.ps1'"></code>
+                <button type="button" @click="copyText('.\' + (pipeline?.verifyScript || 'scripts/verify-staging.ps1'))">Копировать</button>
+              </li>
+              <li>Admin → <strong>Import</strong> (diff vs published) → <strong>Publish</strong></li>
+            </ol>
+          </div>
+
+          <div class="card" x-show="pipelineLoading"><p class="muted">Загрузка…</p></div>
+          <div class="card" x-show="pipeline && !pipelineLoading">
+            <h2>Seed на сервере</h2>
+            <template x-if="pipeline?.seed?.exists">
+              <p>
+                <code x-text="pipeline.seed.path"></code>
+                · <span x-text="formatBytes(pipeline.seed.sizeBytes || 0)"></span>
+                · изменён <span x-text="pipeline.seed.lastModified"></span>
+              </p>
+              <div class="actions">
+                <button class="primary" @click="importSeedFromServer('merge')" :disabled="seedImportLoading || !serverStatus.online"
+                  x-text="seedImportLoading ? 'Импорт…' : 'Import seed → draft (merge)'"></button>
+                <button @click="importSeedFromServer('replace')" :disabled="seedImportLoading || !serverStatus.online">Import seed (replace)</button>
+                <button @click="view='import'">Открыть Import (diff)</button>
+                <button @click="view='publish'">Publish</button>
+              </div>
+            </template>
+            <template x-if="pipeline && !pipeline?.seed?.exists">
+              <p class="muted">
+                Seed на сервере не найден
+                <span x-show="pipeline?.seed?.path"> (<code x-text="pipeline.seed.path"></code>)</span>.
+                Задайте <code>CONTENT_SEED_PATH</code> на сервере или используйте push-draft с локальной машины.
+              </p>
+            </template>
+          </div>
+        </section>
+
+        <section x-show="view==='api'" x-init="loadApiDocs()">
+          <h1>API Reference</h1>
+          <p class="muted" x-show="apiDocs?.baseUrl">Base URL: <code x-text="apiDocs.baseUrl"></code></p>
+          <p class="muted">Session cookie: <code>alice_admin_session</code>. Public endpoints — без auth.</p>
+          <p class="muted" x-show="apiDocsLoading">Загрузка…</p>
+          <template x-for="section in apiDocs?.sections || []" :key="section.title">
+            <div class="card api-section">
+              <h2 x-text="section.title"></h2>
+              <p class="muted" x-show="section.description" x-text="section.description"></p>
+              <template x-for="ep in section.endpoints" :key="ep.method + ep.path">
+                <details class="api-endpoint">
+                  <summary>
+                    <span class="http-method" :class="'method-' + ep.method.toLowerCase()" x-text="ep.method"></span>
+                    <code x-text="ep.path"></code>
+                    <span class="muted" x-text="ep.summary"></span>
+                    <span class="auth-badge" x-show="!ep.auth">public</span>
+                  </summary>
+                  <div class="api-endpoint-body">
+                    <p x-show="ep.body"><strong>Body:</strong> <code x-text="ep.body"></code></p>
+                    <p x-show="ep.response"><strong>Response:</strong> <code x-text="ep.response"></code></p>
+                  </div>
+                </details>
+              </template>
+            </div>
+          </template>
+        </section>
+
+        <p class="toast" x-show="toast" x-text="toast"></p>
+        <p class="error" x-show="error" x-text="error"></p>
+      </main>
+    </div>
+  </template>
+
+  <script src="/admin/js/admin.js?v=4"></script>
+</body>
+</html>

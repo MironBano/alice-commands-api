@@ -1,14 +1,14 @@
 # Database — alice-commands-api
 
-**DBMS:** PostgreSQL 16 · **Migrations:** Flyway
+**DBMS:** PostgreSQL 16 · **Migrations:** Flyway (`server/src/main/resources/db/migration/V1__init.sql`)
 
 ---
 
 ## 1. Принцип
 
-- Все **draft** таблицы — mutable, редактируются admin
-- **Published** state — только files (`content_vN.json.gz`) + row `current_manifest`
-- Publish читает draft → пишет bundle
+- **Draft** таблицы (`categories`, `commands`, …) — mutable, редактируются admin
+- **Published** state — files (`content_vN.json.gz`) + row `current_manifest` + affiliate snapshot на диске
+- Publish читает draft → валидирует schema → пишет bundle
 
 ---
 
@@ -84,6 +84,7 @@ erDiagram
     timestamptz published_at
     text min_app_version
     int schema_version
+    bigint bundle_size_bytes
   }
 
   publish_history {
@@ -99,6 +100,11 @@ erDiagram
     text id PK
     timestamptz expires_at
   }
+
+  login_attempts {
+    text ip_address
+    timestamptz attempted_at
+  }
 ```
 
 ---
@@ -109,31 +115,53 @@ erDiagram
 CREATE INDEX idx_commands_category ON commands(category_id);
 CREATE INDEX idx_commands_tags ON commands USING GIN(tags);
 CREATE INDEX idx_categories_sort ON categories(sort_order);
+CREATE INDEX idx_login_attempts_ip ON login_attempts(ip_address, attempted_at);
+CREATE INDEX idx_checklist_order ON checklist_items(item_order);
 ```
 
 ---
 
 ## 4. Publish state
 
-| Table | Role |
-| ----- | ---- |
-| `current_manifest` | Single row (or versioned) — pointer to live bundle |
-| `publish_history` | Audit + rollback source |
+| Table / storage | Role |
+| --------------- | ---- |
+| `current_manifest` | Pointer to live bundle (single active row) |
+| `publish_history` | Audit + rollback source (last 5 on disk) |
+| `storage/bundles/` | `content_v{N}.json.gz` files |
+| `storage/manifest/` | Affiliate snapshot для public endpoint |
 
 Rollback: update `current_manifest` to previous `content_version` where bundle file still exists.
 
 ---
 
-## 5. Seed
+## 5. Seed / import
 
-Import from [`seed/import-smart-home.json`](../seed/import-smart-home.json) via admin import or Flyway seed script (dev only).
+| Файл | Назначение |
+| ---- | ---------- |
+| `seed/import-smart-home.json` | Pilot Умный дом (первый dev publish) |
+| `seed/full-catalog.json` | Output `tools/content/build_bundle.py` |
+
+Import через admin UI или `POST /admin/api/import/json?mode=merge|replace`.
 
 ---
 
 ## 6. Backup
 
 - `pg_dump` weekly (cron on VPS)
-- Bundle files included in storage backup or regenerable from DB via re-publish
+- Bundle files в storage backup или regenerable через re-publish из draft
+
+---
+
+## 7. Local dev
+
+```yaml
+# docker-compose.yml
+POSTGRES_DB: alice_commands
+POSTGRES_USER: alice
+POSTGRES_PASSWORD: alice_dev
+```
+
+Flyway применяется автоматически при старте Ktor.
 
 ---
 

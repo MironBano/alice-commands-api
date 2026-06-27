@@ -1,4 +1,4 @@
-# Local dev — PostgreSQL only (Ktor runs on host via Gradle after implementation)
+# Local dev — PostgreSQL (Ktor runs on host via Gradle)
 services:
   postgres:
     image: postgres:16-alpine

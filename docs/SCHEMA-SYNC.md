@@ -23,7 +23,9 @@
 
 ## Shared models (реализация)
 
-Рекомендация v1.0: дублировать kotlinx.serialization data classes в обоих репо.  
+Дублирование kotlinx.serialization data classes в обоих репо (v1.0).  
+Validate: `./gradlew :server:validateContent` + CI [validate-content.yml](../.github/workflows/validate-content.yml).
+
 v1.0.1: вынести в published JAR `alice-commands-schema` (optional).
 
 ---

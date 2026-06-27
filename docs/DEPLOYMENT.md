@@ -1,70 +1,85 @@
 # Deployment — alice-commands-api
 
-**Бюджет:** до 1000 ₽/мес · **Scale target:** 100k+ installs (не DAU)
+**Бюджет:** ~625 ₽/мес · **Staging live:** Selectel VPS + `staging-api.alicecommands.ru`
 
 ---
 
-## 1. Рекомендуемая topology (prod)
+## 1. Topology
 
 ```
-User/App → Cloudflare (DNS + proxy + cache) → VPS nginx → Ktor :8080
-                                              → PostgreSQL (local socket)
-                                              → /var/lib/alice-commands/bundles/
+Android / Admin browser
+        │
+        ▼
+  Cloudflare DNS (DNS only для api.* — без CDN proxy)
+        │
+        ▼
+  Selectel VPS (161.104.46.92)
+    nginx :443 (Let's Encrypt)
+        │
+        ▼
+    Ktor :8080
+        ├── PostgreSQL (localhost)
+        └── /opt/alice-api/storage/bundles/
 ```
+
+**Важно для РФ:** subdomain `staging-api` / `api` — **DNS only** (серое облако CF). Orange cloud ломает доступ без VPN. См. [INFRASTRUCTURE.md](INFRASTRUCTURE.md) §2.
+
+Local dev: Ktor на хосте + PostgreSQL в Docker (`docker compose up -d`).
 
 ---
 
-## 2. VPS (primary)
+## 2. VPS
 
-| Параметр | Рекомендация |
-| -------- | ------------ |
-| Провайдер | Timeweb / Selectel / VK Cloud (РФ) |
-| RAM | 2–4 GB |
-| CPU | 2 vCPU |
-| Disk | 20 GB SSD |
-| Стоимость | 400–800 ₽/мес |
+**Текущий staging:** Selectel Miron, `161.104.46.92` — **[INFRASTRUCTURE.md](INFRASTRUCTURE.md)** (SSH, DNS, URLs, логи).
+
+| Параметр | Staging (факт) |
+| -------- | -------------- |
+| Провайдер | Selectel |
+| RAM / CPU | 2 GB / 2 vCPU |
 | OS | Ubuntu 24.04 LTS |
-
-**На VPS:** Docker или systemd unit для Ktor JAR; PostgreSQL co-located v1.0.
-
----
-
-## 3. Cloudflare (free)
-
-- DNS для `api.` и `staging-api.`
-- Proxy ON → скрывает origin IP
-- Cache rule: `/v1/content/bundle` → Cache Everything, TTL 1 day
-- Cache rule: `/v1/content/manifest` → TTL 5 min
-- SSL: Full (strict) + Let's Encrypt on origin
+| Домен | `staging-api.alicecommands.ru` |
 
 ---
 
-## 4. Домен и HTTPS
+## 3. Артефакты (`deploy/`)
 
-| Env | URL pattern | Когда |
-| --- | ----------- | ----- |
-| staging | `https://staging-api.<domain>` | До релиза app |
-| prod | `https://api.<domain>` | RuStore submit |
-
-**Рекомендация домена:**
-- Новый `.ru` ~150–300 ₽/год **или** поддомен существующего домена ИП
-- Блокер release app: prod HTTPS URL в `BuildConfig`
-
-**До домена:** staging по IP только для **debug** builds (network security config); release — только HTTPS.
+| Файл | Назначение |
+| ---- | ---------- |
+| `deploy/.env.staging.example` | Шаблон `/opt/alice-api/.env` |
+| `deploy/alice-api.service` | systemd unit |
+| `deploy/nginx-staging.conf` | HTTPS + reverse proxy → `:8080`, keepalive, 64m body |
+| `deploy/remote-setup.sh` | Bootstrap VPS (Java 21, PG, nginx, certbot, ufw) |
 
 ---
 
-## 5. Трафик (оценка)
+## 4. Деплой backend (routine)
 
-| Метрика | Значение |
-| ------- | -------- |
-| MAU (100k installs, 10% active) | ~10k |
-| Manifest checks / MAU / month | ~30 (app start + weekly) |
-| Bundle downloads / MAU / month | ~1–2 (при редких updates) |
-| Manifest size | ~0.5 KB |
-| Bundle gzip | ~200–400 KB |
+```powershell
+Copy-Item scripts\.env.example scripts\.env
+# SSH_KEY_PATH, SSH_HOST=root@161.104.46.92
+.\scripts\deploy-staging.ps1
+```
 
-**Итого:** ~3–6 GB/month egress — укладывается в VPS + Cloudflare cache.
+Вручную: `gradlew :server:installDist` → scp → `systemctl restart alice-api`.
+
+Первичная настройка VPS (один раз):
+
+```bash
+sudo bash /opt/alice-api/deploy/remote-setup.sh staging-api.alicecommands.ru
+```
+
+---
+
+## 5. Cloudflare
+
+| Задача | Настройка |
+| ------ | --------- |
+| DNS | NS Cloudflare для `alicecommands.ru` |
+| API records | A → VPS IP, **DNS only** |
+| CDN / cache | **Не использовать** для API (throttle в РФ) |
+| Предупреждения CF | www/root/email — игнорировать для API-only setup |
+
+Скрипт: `scripts/cloudflare-dns-direct.ps1` (нужен `CF_API_TOKEN` в `scripts/.env`).
 
 ---
 
@@ -72,54 +87,44 @@ User/App → Cloudflare (DNS + proxy + cache) → VPS nginx → Ktor :8080
 
 | | Staging | Prod |
 | - | ------- | ---- |
-| VPS | Тот же (разные порты) или отдельный | |
+| `APP_ENV` | `staging` | `prod` |
 | DB | `alice_commands_staging` | `alice_commands` |
-| Bundle path | `/storage/staging/` | `/storage/prod/` |
-| Admin | Отдельный пароль | |
+| URL | `https://staging-api.alicecommands.ru` | `https://api.alicecommands.ru` |
+| DNS | A → VPS, DNS only | A → VPS, DNS only |
+| Admin | `/admin` | `/admin` |
 
 ---
 
-## 7. CI/CD (после реализации)
+## 7. CI
 
-```yaml
-# GitHub Actions (outline)
-on push main:
-  - test
-  - build jar
-  - deploy to staging (scp/systemd restart)
-on tag v*:
-  - deploy to prod
-```
+[`.github/workflows/validate-content.yml`](../.github/workflows/validate-content.yml) — validate content on PR/push. Deploy VPS — manual / `deploy-staging.ps1`.
 
-Content publish — **не** через deploy; через admin Publish (или manual CI trigger).
+Content publish — через admin **Publish** или `update-content.ps1` → review → Publish.
 
 ---
 
-## 8. Мониторинг (minimal)
+## 8. Мониторинг
 
-- Uptime: UptimeRobot / Cloudflare health on `/health`
-- Logs: journald + rotate
-- Alert: email если `/ready` fail 5 min
+| Check | URL / команда |
+| ----- | ------------- |
+| Liveness | `GET /health` |
+| Readiness | `GET /ready` (503 если DB/storage down) |
+| Admin health bar | polling каждые 5 мин в UI |
+| Logs | `/var/log/alice-api/app.log`, `journalctl -u alice-api` |
+
+UptimeRobot: мониторить `/health` на **прямом URL** (не через CF proxy).
 
 ---
 
-## 9. Бюджет summary
+## 9. Бюджет
 
 | Статья | ₽/мес |
 | ------ | ----- |
-| VPS 4GB | ~600 |
-| Домен (год/12) | ~25 |
-| Cloudflare | 0 |
+| VPS Selectel 2GB | ~600 |
+| Домен | ~25 |
+| Cloudflare DNS | 0 |
 | **Итого** | **~625** |
 
-Запас до 1000 ₽ — object storage v1.0.1 или backup VPS.
-
 ---
 
-## 10. Object storage (v1.0.1 optional)
-
-Selectel S3 / Cloudflare R2 для bundles; manifest на VPS или S3 website redirect.
-
----
-
-*См. [SECURITY.md](SECURITY.md), [RUNBOOK-PUBLISH.md](RUNBOOK-PUBLISH.md)*
+*См. [INFRASTRUCTURE.md](INFRASTRUCTURE.md), [SECURITY.md](SECURITY.md), [RUNBOOK-PUBLISH.md](RUNBOOK-PUBLISH.md)*

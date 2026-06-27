@@ -1,0 +1,70 @@
+# Content sources registry — primary Yandex docs first, backup pages second.
+rate_limit_seconds: 1.0
+user_agent: "AliceCommandsContentBot/1.0 (assist-only; +https://github.com/MironBano/alice-commands-api)"
+
+sources:
+  - id: yandex_skills_overview
+    priority: primary
+    url: https://alice.yandex.ru/support/ru/station/skills/
+    parser: yandex_support
+    category_id: general
+
+  - id: yandex_music
+    priority: primary
+    url: https://alice.yandex.ru/support/ru/station/skills/music/
+    parser: yandex_support
+    category_id: music
+
+  - id: yandex_timers
+    priority: primary
+    url: https://alice.yandex.ru/support/ru/station/skills/timers/
+    parser: yandex_support
+    category_id: timers
+
+  - id: yandex_weather
+    priority: primary
+    url: https://alice.yandex.ru/support/ru/station/skills/weather/
+    parser: yandex_support
+    category_id: quick_answers
+
+  - id: yandex_smart_home
+    priority: primary
+    url: https://alice.yandex.ru/support/ru/station/skills/smart-home/
+    parser: yandex_smart_home
+    category_id: smart_home
+
+  - id: yandex_tv
+    priority: backup
+    url: https://alice.yandex.ru/support/ru/station/skills/tv/
+    parser: yandex_support
+    category_id: tv_video
+
+  - id: yandex_calls
+    priority: backup
+    url: https://alice.yandex.ru/support/ru/station/skills/calls/
+    parser: yandex_support
+    category_id: calls
+
+  - id: yandex_kids
+    priority: backup
+    url: https://alice.yandex.ru/support/ru/station/skills/kids/
+    parser: yandex_support
+    category_id: kids
+
+  - id: yandex_plus
+    priority: backup
+    url: https://alice.yandex.ru/support/ru/station/skills/plus/
+    parser: yandex_support
+    category_id: alice_plus
+
+  - id: yandex_quick_commands
+    priority: backup
+    url: https://alice.yandex.ru/support/ru/station/start/quick-commands
+    parser: yandex_quick_commands
+    category_id: quick_commands
+
+  - id: pilot_smart_home
+    priority: primary
+    url: file://seed/import-smart-home.json
+    parser: pilot_json
+    category_id: smart_home

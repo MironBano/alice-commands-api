@@ -1,22 +1,24 @@
 # Architecture — alice-commands-api
 
-**mob_id:** MOB-20260626-001 · **v1.0**  
+**mob_id:** MOB-20260626-001 · **v1.0 (реализовано)**  
 **Стиль:** **Light Clean (hexagonal light)** — Android app использует **Full Clean** (отдельный repo).
 
 ---
 
 ## 1. Stack
 
-| Компонент | Выбор | Почему |
-| --------- | ----- | ------ |
-| Language | **Kotlin 2.x** | Тот же стек, что Android |
-| HTTP | **Ktor 3** (CIO engine) | Легче Spring; ИИ-friendly |
-| DB | **PostgreSQL 16** | Надёжность, JSON fields при необходимости |
-| ORM | **Exposed** | Kotlin-native |
-| Migrations | **Flyway** | Версионирование SQL |
-| Serialization | **kotlinx.serialization** | Совместимость с Android |
-| Admin UI | **Static HTML + Alpine.js** | Минимум фронта, Ktor serves `/admin` |
-| Build | **Gradle KTS** (multi-module позже) |
+| Компонент | Версия / выбор | Примечание |
+| --------- | -------------- | ---------- |
+| Language | Kotlin 2.1 | JVM 21 |
+| HTTP | Ktor 3.1 (CIO) | Compression, call logging |
+| DB | PostgreSQL 16 | Docker Compose для local |
+| ORM | Exposed 0.57 | Только `infrastructure.persistence` |
+| Migrations | Flyway 11 | `V1__init.sql` |
+| Serialization | kotlinx.serialization | Bundle + API DTO |
+| Validation | networknt JSON Schema | `:server:validateContent` |
+| Admin UI | Static HTML + Alpine.js | `admin-web/` → classpath `/admin` |
+| Build | Gradle KTS | Модуль `server` |
+| Tests | JUnit 5 + Testcontainers | Integration с PostgreSQL |
 
 ### 1.1 Light Clean Architecture
 
@@ -26,59 +28,58 @@
 routes (Ktor)  →  application  →  ports (interfaces)  ←  infrastructure
 ```
 
-| Зона | Где | Clean-строгость |
-| ---- | --- | --------------- |
-| **Publish, rollback, import, preview** | `application/publish/` + ports | **Full use cases** |
-| **Public read** (manifest, bundle, affiliate) | `application/read/` | Thin service, без use case на каждый GET |
-| **Admin CRUD** | `routes` → `repository` (Exposed) | Прямой repo OK; без logic в routes |
-| **HTTP / auth / DTO** | `routes/`, `plugins/` | Adapters only |
+| Зона | Пакет | Clean-строгость |
+| ---- | ----- | --------------- |
+| Publish, rollback, import, preview | `application/publish/` | Full use cases |
+| Public read (manifest, bundle, affiliate) | `application/read/` | Thin services |
+| Diff import vs published | `application/read/ContentDiffService` | Service |
+| Admin CRUD | `routes` → `DraftRepository` | Прямой repo OK |
+| HTTP / auth / DTO | `routes/`, `plugins/` | Adapters only |
 
-**Структура `server/` (целевая):**
+**Фактическая структура `server/src/main/kotlin/ru/appforsale/alicecommands/api/`:**
 
 ```
-server/src/main/kotlin/.../
-├── routes/           # Ktor routing — thin: parse, auth, status, call application
+├── Application.kt, AppDependencies.kt
+├── config/AppConfig.kt
+├── routes/
+│   ├── PublicRoutes.kt      # /v1/*, /health, /ready
+│   ├── AdminRoutes.kt       # /admin/api/*
+│   └── AdminAuth.kt         # session cookie guard
 ├── application/
-│   ├── publish/      # PublishContentUseCase, RollbackPublishUseCase, ImportJsonUseCase
-│   └── read/         # ManifestService, BundleService, AffiliateService
-├── domain/           # Draft models (pure Kotlin), port interfaces
+│   ├── BundleCodec.kt
+│   ├── publish/PublishUseCases.kt
+│   └── read/ReadServices.kt, ContentDiffService.kt
+├── domain/
+│   ├── Models.kt
+│   └── ports/Ports.kt, HealthProbe.kt
 ├── infrastructure/
-│   ├── persistence/  # Exposed tables, *Repository impl
-│   ├── storage/      # BundleStorage (filesystem; S3 adapter v1.0.1)
-│   └── validation/   # JsonSchemaValidator
-└── plugins/          # Auth, serialization, status pages
+│   ├── persistence/         # Exposed tables + repositories
+│   ├── storage/FilesystemBundleStorage.kt
+│   ├── security/            # SessionSigner, LoginRateLimiter, ClientIpResolver
+│   └── validation/JsonSchemaValidator.kt
+├── plugins/Serialization.kt, StatusPages.kt
+└── tools/ValidateContentMain.kt
 ```
 
-**MUST:**
-
-1. Publish / rollback / import — **только** через `application.publish.*UseCase`.
-2. Public API читает **published files**, не draft tables напрямую (кроме affiliate sync при publish).
-3. Routes — без business logic (validate, sha256, version bump — не здесь).
-4. Exposed `Table` / SQL — только `infrastructure.persistence`.
-
-**MUST NOT:**
-
-- Править `content_v*.json.gz` на диске в обход publish use case
-- `routing { }` с validate → gzip → manifest update inline
-- Draft CRUD из public `/v1/*` routes
-
-См. также [AGENTS.md](../AGENTS.md).
+**MUST / MUST NOT** — см. [AGENTS.md](../AGENTS.md).
 
 ---
 
-## 2. Модули (целевая структура)
+## 2. Модули репозитория
 
 ```
 alice-commands-api/
-├── server/          # Ktor: public + admin API + static admin
-├── publish/         # BundleBuilder, ManifestWriter, Gzip, Sha256
-├── schema/          # JSON Schema (shared contract)
-├── admin-web/       # Static assets (HTML/JS/CSS)
-├── seed/            # Import JSON для dev
+├── server/              # Ktor: public + admin API + publish logic
+├── admin-web/           # Static assets (копируются в build/resources/main/admin)
+├── schema/              # JSON Schema (shared contract)
+├── seed/                # Dev / pipeline JSON
+├── tools/content/       # Python fetch → parse → build_bundle
+├── scripts/             # PowerShell automation (staging)
+├── deploy/              # systemd, nginx, remote-setup.sh
 └── docs/
 ```
 
-**v1.0 implementation:** можно начать с single-module `server/` включая publish logic.
+Publish-логика (gzip, sha256, manifest) живёт в `server/application/`, не в отдельном Gradle-модуле. Каталог `publish/` — placeholder для возможного выделения v1.0.1.
 
 ---
 
@@ -89,15 +90,17 @@ flowchart TB
   subgraph clients [Clients]
     Android[AliceCommands app]
     Browser[Admin browser]
+    Scripts[update-content.ps1]
   end
-  subgraph vps [VPS]
-    Nginx[nginx TLS cache]
-    Ktor[Ktor application]
+  subgraph vps [VPS / local]
+    Nginx[nginx TLS optional]
+    Ktor[Ktor :8080]
     PG[(PostgreSQL)]
-    FS[Bundle filesystem]
+    FS[storage/bundles + manifest]
   end
   Android -->|GET manifest bundle affiliate| Nginx
   Browser -->|HTTPS admin| Nginx
+  Scripts -->|POST import merge| Ktor
   Nginx --> Ktor
   Ktor --> PG
   Ktor --> FS
@@ -110,62 +113,86 @@ flowchart TB
 
 | Prefix | Auth | Назначение |
 | ------ | ---- | ---------- |
-| `/v1/content/*` | Public | manifest, bundle |
-| `/v1/affiliate/*` | Public | blocks |
-| `/admin/api/*` | Session | CRUD, publish, preview |
-| `/admin/*` | Session | Static admin UI |
-| `/health` | Public | ops |
+| `/v1/content/*` | Public | manifest, bundle, bundle-backup |
+| `/v1/affiliate/*` | Public | blocks (из published storage) |
+| `/admin/api/*` | Session cookie | CRUD, publish, import, content/pipeline, docs |
+| `/admin/*` | Static (login в SPA) | Admin UI |
+| `/health`, `/ready` | Public | ops |
 
 ---
 
-## 5. Publish flow (application layer)
+## 5. Publish flow
 
 ```kotlin
-// application/publish/PublishContentUseCase — не в route handler
-suspend fun execute(adminUser: String): PublishResult {
+// application/publish/PublishContentUseCase
+suspend fun execute(adminUser, minAppVersion, notes): PublishResult {
     val draft = draftRepository.loadFull()
     schemaValidator.validate(draft)
-    val json = bundleSerializer.toJson(draft)
-    val gzip = gzip(json)
+    val gzip = bundleCodec.toGzipJson(draft)
     val sha = sha256(gzip)
     val version = manifestRepository.nextVersion()
-    val path = bundleStorage.write("content_v$version.json.gz", gzip)
-    manifestRepository.update(version, path, sha, draft.minAppVersion)
-    publishHistory.insert(version, sha, adminUser)
+    val filename = "content_v$version.json.gz"
+    bundleStorage.write(filename, gzip)
+    manifestRepository.update(version, filename, sha, minAppVersion, gzip.size)
+    publishHistory.insert(version, sha, adminUser, notes)
+    affiliateStorage.writeFromDraft(draft.affiliateBlocks)
     bundleStorage.pruneOldBundles(retention = 5)
 }
 ```
 
+Rollback переключает `current_manifest` на существующий файл из history (retention 5).
+
 ---
 
-## 6. Масштабирование
+## 6. Content pipeline (offline)
+
+```
+Yandex HTML → tools/content/fetch.py
+           → parsers (support, smart_home, quick_commands)
+           → merge.py + command_bank.py
+           → build_bundle.py → seed/full-catalog.json
+           → gradlew :server:validateContent
+           → scripts/push-draft.ps1 → staging draft (merge)
+           → Admin review diff → Publish
+```
+
+Auto-publish **не** выполняется. См. [CONTENT-UPDATE.md](CONTENT-UPDATE.md).
+
+---
+
+## 7. Масштабирование
 
 | Установки | Поведение |
 | --------- | --------- |
-| 0–100k | Один VPS 2–4 GB, nginx cache bundle |
-| 100k–500k | Cloudflare cache + тот же VPS |
+| 0–100k | Один VPS Selectel 2 GB, nginx + Let's Encrypt, DNS only (без CF CDN в РФ) |
+| 100k–500k | Тот же VPS; optional CDN **не** Cloudflare proxy для RU |
 | >500k | Object storage + CDN; delta sync (v1.0.1) |
 
 Mobile clients **не** бьют в PostgreSQL — только manifest + bundle.
 
 ---
 
-## 7. Shared schema с Android
+## 8. Shared schema с Android
 
 - Канон: [`schema/content-bundle.schema.json`](../schema/content-bundle.schema.json)
-- App repo: копия или submodule (обновлять при bump `schema_version`)
-- CI обоих репо: validate seed/bundle against schema
+- CI: [`.github/workflows/validate-content.yml`](../.github/workflows/validate-content.yml) на PR/push
+- Процедура bump: [SCHEMA-SYNC.md](SCHEMA-SYNC.md)
 
 ---
 
-## 8. Local dev
+## 9. Local dev
 
-```bash
-docker compose up -d          # PostgreSQL
-cp .env.example .env
-./gradlew :server:run         # после реализации
-open http://localhost:8080/admin
+```powershell
+docker compose up -d
+Copy-Item .env.example .env
+.\gradlew.bat :server:test
+.\gradlew.bat :server:run
+# http://localhost:8080/admin
 ```
+
+В `APP_ENV=local` admin static served из `admin-web/` (hot reload без rebuild).
+
+В staging/prod admin встроен в JAR: Gradle `copyAdminWeb` → classpath `admin/`; Ktor отдаёт через `staticResources` (fallback `admin-web/` только если каталог существует на диске).
 
 ---
 

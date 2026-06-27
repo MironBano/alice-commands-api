@@ -2,6 +2,11 @@
 .env
 .env.local
 *.local
+deploy/.env.staging
+deploy/release.tar.gz
+deploy/bundle/
+.tmp-*.txt
+.tmp-*.json
 
 # JVM / Kotlin
 .gradle/
@@ -15,7 +20,11 @@ out/
 .idea/
 *.iml
 .vscode/
+.cursor/
 *.swp
+
+# Local Gradle overrides (machine-specific JDK path)
+gradle-local.properties
 
 # OS
 .DS_Store
@@ -34,3 +43,13 @@ logs/
 
 # Docker volumes (local)
 postgres-data/
+
+scripts/.env
+
+# Content pipeline cache (raw HTML)
+tools/content/cache/
+
+# Python
+tools/content/reports/
+__pycache__/
+*.pyc

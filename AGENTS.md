@@ -7,7 +7,7 @@
 - **Связанный app:** [AliceCommands](https://github.com/MironBano/AliceCommands) — **Full Clean** Android
 - **idea_ref:** MOB-20260626-001
 
-## Сборка и тесты (после реализации)
+## Сборка и тесты
 
 ```bash
 docker compose up -d
@@ -17,6 +17,11 @@ docker compose up -d
 
 Windows: `.\gradlew.bat :server:run`
 
+Content validate: `.\gradlew.bat :server:validateContent`  
+Staging pipeline: `.\scripts\update-content.ps1` (см. `docs/CONTENT-UPDATE.md`)  
+Staging deploy: `.\scripts\deploy-staging.ps1` (см. `docs/INFRASTRUCTURE.md`)  
+DNS (РФ, без VPN): `.\scripts\cloudflare-dns-direct.ps1`
+
 ## Документация
 
 | Путь | Назначение |
@@ -24,6 +29,8 @@ Windows: `.\gradlew.bat :server:run`
 | `docs/BACKEND-REQUIREMENTS.md` | **Главное ТЗ** |
 | `docs/ARCHITECTURE.md` | **Light Clean** — §1.1 |
 | `docs/API.md` | Контракт для Android |
+| `docs/CONTENT-UPDATE.md` | Pipeline контента (scripts + Python) |
+| `docs/INFRASTRUCTURE.md` | Selectel VPS, SSH, DNS, deploy |
 | `schema/content-bundle.schema.json` | JSON Schema (канон) |
 
 ## Архитектура (обязательно)

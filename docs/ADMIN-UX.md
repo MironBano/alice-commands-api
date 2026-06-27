@@ -1,34 +1,43 @@
 # Admin UX — alice-commands-api
 
-**Stack UI:** Ktor serves `/admin` → static HTML + Alpine.js + fetch API  
-**Auth:** login form → session cookie
+**Stack:** Ktor `/admin` → SPA (`admin-web/`) + Alpine.js 3 + fetch  
+**Auth:** cookie `alice_admin_session` (HttpOnly, Secure on staging/prod)  
+**Staging:** https://staging-api.alicecommands.ru/admin
 
 ---
 
-## 1. Screen map
+## 1. Global UI
 
-```
-/login
-/dashboard
-/categories
-/categories/{id}/commands
-/commands/{id}/edit
-/scenario-templates
-/scenario-templates/{id}/edit
-/checklist
-/affiliate
-/publish
-/publish/history
-/import
-```
+### Status bar (всегда видна)
+
+- Polling `/health` + `/ready` каждые **5 мин** (+ кнопка ↻)
+- Состояния: **Сервер OK** / **не готов (DB/storage)** / **недоступен**
+- На экране логина — подсказка при offline
+
+### Ошибки и сохранение
+
+- Сетевые ошибки: понятные сообщения (таймаут, VPN, connection reset)
+- Формы CRUD: `Сохранение…`, блокировка при offline, `formError` в модалке
+- Toast — успех; глобальный `error` — операции publish/import
 
 ---
 
-## 2. Login
+## 2. Navigation (SPA views)
 
-- Поля: username, password
-- Ошибка: «Неверный логин или пароль» (без уточнения)
-- Redirect → `/dashboard`
+| View | ID | Назначение |
+| ---- | -- | ---------- |
+| Dashboard | `dashboard` | Live, draft, сервер, quick actions |
+| Категории | `categories` | CRUD + reorder (↑/↓) |
+| Команды | `commands` | CRUD, filter by category |
+| Шаблоны | `scenarios` | Scenario templates CRUD |
+| Чеклист | `checklist` | Checklist items reorder |
+| Affiliate | `affiliate` | Affiliate blocks CRUD |
+| Publish | `publish` | Preview, Publish, History, Rollback |
+| Import | `import` | Upload JSON, diff, merge/replace |
+| Контент | `content` | Pipeline scripts, import seed с сервера |
+| API | `api` | In-app API reference (swagger-like) |
+
+Login screen до успешного `GET /admin/api/dashboard`.
 
 ---
 
@@ -36,24 +45,18 @@
 
 | Block | Содержание |
 | ----- | ---------- |
-| Status | Live `content_version`, `published_at` |
-| Draft | Count categories/commands; «есть неопубликованные изменения» |
-| Actions | [Preview] [Publish] [Import JSON] |
-| Warning | Если draft ≠ last publish |
+| Сервер | `/health` + `/ready`, DB/storage, ручная проверка |
+| Live | `content_version`, `published_at` |
+| Draft | counts + `hasUnpublishedChanges` |
+| Actions | Preview JSON, Publish, Обновление контента |
 
 ---
 
-## 4. Categories list
+## 4. Login
 
-| Column | |
-| ------ | -- |
-| sort_order | drag reorder |
-| title_ru | link → commands |
-| featured | toggle |
-| commands count | |
-| actions | edit, delete |
-
-Button: **+ Категория**
+- Поля: username, password
+- Ошибки: неверный пароль / rate limit (429) / сеть (без VPN hint)
+- Таймаут login: 60 с
 
 ---
 
@@ -62,72 +65,68 @@ Button: **+ Категория**
 | Field | Widget |
 | ----- | ------ |
 | title_ru | text |
-| phrases | list editor (add/remove) |
+| phrases | textarea (по строке) |
 | effect_description_ru | textarea |
 | category_id | select |
-| requires_alice_word | checkbox |
-| requires_plus | checkbox |
-| device_types | multi-select chips |
-| related_command_ids | multi-select |
-| tags | comma tags |
+| requires_alice_word / requires_plus | checkbox |
+| tags | comma (`needs_review` для pipeline) |
 | source_url | url (required) |
 
-Buttons: Save draft | Cancel
+Кнопка: **Сохранить draft** · Cancel
 
-Side panel: **Слушать** — optional TTS preview (browser speech, v1.0.1)
+*Planned:* `device_types`, `related_command_ids` chips (см. BACKEND-REQUIREMENTS).
 
 ---
 
-## 6. Publish screen
+## 6. Publish
 
-```
-Текущая версия в app: 41 (26.06.2026)
-Draft изменений: 12 команд, 1 категория
-
-[ Preview JSON ]  [ Publish as v42 ]
-
-⚠ Publish делает контент доступным всем пользователям app.
-
-История:
- v41 — 26.06.2026 — admin — [Rollback]
- v40 — ...
-```
-
-**Publish confirm modal:** «Опубликовать версию 42?»
-
-**Rollback confirm:** «Откатить app на v41?»
+- Текущая версия + **Опубликовать** (confirm)
+- Preview JSON (download)
+- История last 5 + Rollback
 
 ---
 
 ## 7. Import
 
-- Upload `.json` (bundle format or seed)
-- Radio: Merge draft | Replace all (destructive)
-- Preview diff summary before apply
+- Merge / Replace all
+- Diff vs **published** (`POST /import/preview`)
+- Фильтры: added/changed/removed, `needs_review`
+- Disabled при offline сервера
 
 ---
 
-## 8. Affiliate editor
+## 8. Контент (pipeline)
 
-Table of blocks; each block: title, ERID, advertiser, products (title, url, price).
-
-Preview маркировки «Реклама» + ERID как в app.
-
----
-
-## 9. Responsive
-
-- Desktop-first (admin = solo dev)
-- Min width 1024px достаточно
+1. PowerShell команды с кнопкой **Копировать** (`update-content.ps1`, `push-draft.ps1`, `verify-staging.ps1`)
+2. **Import seed → draft** — `POST /admin/api/content/import-seed?mode=merge|replace` (если `CONTENT_SEED_PATH` на VPS)
+3. Flow: script → Import diff → Publish
 
 ---
 
-## 10. Future (v1.0.1+)
+## 9. API (in-app docs)
 
-- Diff view vs last publish
-- Parser assist import from Yandex URL
-- KK fields toggle
+`GET /admin/api/docs` → секции Public / Auth / CRUD / Publish с method badges и `<details>`.
 
 ---
 
-*См. [BACKEND-REQUIREMENTS.md](BACKEND-REQUIREMENTS.md) B05–B09*
+## 10. Assets
+
+| Path | Назначение |
+| ---- | ---------- |
+| `admin-web/index.html` | Layout |
+| `admin-web/js/admin.js` | API client, health, forms |
+| `admin-web/css/admin.css` | Styles, status bar, API docs |
+
+Local: static из `admin-web/` (`APP_ENV=local`). Staging/prod: в JAR через Gradle `copyAdminWeb`.
+
+---
+
+## 11. Future (v1.0.1+)
+
+- TTS preview фраз
+- KK fields
+- Parser assist one-click import
+
+---
+
+*См. [API.md](API.md) §2, [CONTENT-UPDATE.md](CONTENT-UPDATE.md), [INFRASTRUCTURE.md](INFRASTRUCTURE.md)*

@@ -2,7 +2,7 @@
 
 **mob_id:** MOB-20260626-001  
 **Дата:** 2026-06-26  
-**Статус:** ТЗ v1.0 (готово к реализации)  
+**Статус:** ТЗ v1.0 — **реализовано** (Ktor server, admin UI, publish pipeline, content tools)  
 **Связанный app:** AliceCommands (`ru.appforsale.alicecommands`)
 
 ---
@@ -219,7 +219,7 @@ Workflow: правки в admin (или import) → ревью владельц�
 | Env | URL (TBD) | Назначение |
 | --- | --------- | ---------- |
 | local | `http://localhost:8080` | docker-compose + Gradle |
-| staging | `https://staging-api.<domain>` | Android debug/staging flavor |
+| staging | `https://staging-api.alicecommands.ru` | Android debug/staging flavor |
 | prod | `https://api.<domain>` | Release app |
 
 См. [DEPLOYMENT.md](DEPLOYMENT.md).
