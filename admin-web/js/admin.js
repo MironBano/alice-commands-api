@@ -13,6 +13,8 @@ function adminApp() {
     loginForm: { username: '', password: '' },
     dashboard: null,
     categories: [],
+    commandGroups: [],
+    allCommandGroups: [],
     commands: [],
     allCommands: [],
     scenarios: [],
@@ -24,6 +26,14 @@ function adminApp() {
     commandForm: null,
     commandEditing: false,
     commandFilter: '',
+    groupFilter: 'smart_home',
+    groupForm: null,
+    groupEditing: false,
+    validationWarnings: null,
+    iconCatalog: null,
+    visualCategories: [],
+    selectedCommandIds: [],
+    bulkGroupId: '',
     scenarioForm: null,
     scenarioEditing: false,
     affiliateForm: null,
@@ -36,6 +46,8 @@ function adminApp() {
     publishedDiff: null,
     diffFilter: 'all',
     diffNeedsReviewOnly: false,
+    pipelineDiffFilter: 'all',
+    pipelineDiffNeedsReviewOnly: false,
     previewJson: null,
     serverStatus: {
       online: null,
@@ -49,9 +61,30 @@ function adminApp() {
     healthTimer: null,
     pipeline: null,
     pipelineLoading: false,
+    pipelineDiff: null,
+    pipelineDiffLoading: false,
+    contentQueue: [],
+    contentQueueLoading: false,
+    editorialReview: null,
+    editorialReviewLoading: false,
+    editorialReviewSaving: false,
+    editorialReviewFilter: 'review',
+    editorialReviewSearch: '',
+    editorialImportLoading: false,
     seedImportLoading: false,
     apiDocs: null,
     apiDocsLoading: false,
+    feedbackItems: [],
+    feedbackLoading: false,
+    feedbackFilter: 'open',
+    feedbackSearch: '',
+    commandReports: [],
+    commandReportsLoading: false,
+    commandReportsFilter: 'open',
+    commandReportsSearch: '',
+    commandOfDay: null,
+    commandOfDayForm: null,
+    commandOfDayLoading: false,
 
     async init() {
       this.startHealthPolling();
@@ -131,7 +164,7 @@ function adminApp() {
       const ctrl = new AbortController();
       const timer = setTimeout(() => ctrl.abort(), timeout);
       try {
-        const res = await fetch(path, { credentials: 'include', signal: ctrl.signal });
+        const res = await fetch(path, { credentials: 'include', signal: ctrl.signal, cache: 'no-store' });
         const ct = res.headers.get('content-type') || '';
         const body = ct.includes('application/json') ? await res.json().catch(() => ({})) : {};
         if (!res.ok && !(allowError && body?.status)) {
@@ -147,7 +180,7 @@ function adminApp() {
     },
 
     async api(path, { method = 'GET', body, raw = false, redirectOn401 = true, timeout = REQUEST_TIMEOUT_MS } = {}) {
-      const opts = { method, credentials: 'include', headers: {}, signal: undefined };
+      const opts = { method, credentials: 'include', headers: {}, signal: undefined, cache: method === 'GET' ? 'no-store' : 'default' };
       const ctrl = new AbortController();
       opts.signal = ctrl.signal;
       const timer = setTimeout(() => ctrl.abort(), timeout);
@@ -240,13 +273,17 @@ function adminApp() {
       await Promise.all([
         this.loadDashboard(),
         this.loadCategories(),
+        this.loadCommandGroups(),
+        this.loadAllCommandGroups(),
         this.loadCommands(),
         this.loadAllCommands(),
         this.loadScenarios(),
         this.loadChecklist(),
+        this.loadCommandOfDay(),
         this.loadAffiliate(),
         this.loadHistory(),
         this.loadPipeline(),
+        this.loadValidationWarnings(),
       ]);
     },
 
@@ -259,6 +296,23 @@ function adminApp() {
     },
     async loadCategories() {
       this.categories = await this.api('/admin/api/categories') || [];
+      if (!this.groupFilter && this.categories.length) {
+        this.groupFilter = this.categories.find(c => c.id === 'smart_home')?.id || this.categories[0].id;
+      }
+    },
+    async loadCommandGroups() {
+      const q = this.groupFilter ? `?category_id=${encodeURIComponent(this.groupFilter)}` : '';
+      this.commandGroups = await this.api('/admin/api/command-groups' + q) || [];
+    },
+    async loadAllCommandGroups() {
+      this.allCommandGroups = await this.api('/admin/api/command-groups') || [];
+    },
+    async loadValidationWarnings() {
+      try {
+        this.validationWarnings = await this.api('/admin/api/content/validation-warnings');
+      } catch {
+        this.validationWarnings = null;
+      }
     },
     async loadCommands() {
       const q = this.commandFilter ? `?category_id=${encodeURIComponent(this.commandFilter)}` : '';
@@ -280,16 +334,363 @@ function adminApp() {
       this.history = await this.api('/admin/api/publish/history') || [];
     },
 
-    async loadPipeline() {
+    /**
+     * После любой мутации draft/pipeline/editorial обновляет dashboard и,
+     * если pipeline уже загружался или открыт раздел «Контент», пересинхронизирует wizard.
+     */
+    async refreshAfterDraftMutation(options = {}) {
+      const { reloadDiff = true } = options;
+      await this.loadDashboard();
+      if (this.view === 'content' || this.pipeline !== null) {
+        await this.loadPipeline({ reloadDiff, silent: true });
+        return;
+      }
+      if (reloadDiff && this.dashboard?.hasUnpublishedChanges) {
+        await this.loadDraftDiff(true);
+      } else if (!this.dashboard?.hasUnpublishedChanges) {
+        this.pipelineDiff = null;
+      }
+    },
+
+    async refreshAfterPublishMutation() {
+      this.pipelineDiff = null;
+      this.publishedDiff = null;
+      await Promise.all([this.loadDashboard(), this.loadHistory()]);
+      if (this.view === 'content' || this.pipeline !== null) {
+        await this.loadPipeline({ reloadDiff: false });
+      }
+    },
+
+    async loadPipeline(options = {}) {
+      const { reloadDiff = true, silent = false } = options;
       if (!this.authenticated) return;
-      this.pipelineLoading = true;
+      if (!silent) this.pipelineLoading = true;
       try {
         this.pipeline = await this.api('/admin/api/content/pipeline');
+        await this.loadDashboard();
+        await this.loadContentQueue(true);
+        await this.loadEditorialReview(true);
+        if (reloadDiff && this.pipeline?.hasUnpublishedChanges) {
+          await this.loadDraftDiff(true);
+        } else if (!this.pipeline?.hasUnpublishedChanges) {
+          this.pipelineDiff = null;
+        }
       } catch (e) {
         this.error = this.networkErrorMessage(e);
       } finally {
         this.pipelineLoading = false;
       }
+    },
+
+    async loadContentQueue(silent = false) {
+      if (!this.authenticated) return;
+      this.contentQueueLoading = true;
+      try {
+        this.contentQueue = await this.api('/admin/api/content/queue?status=open') || [];
+      } catch (e) {
+        if (!silent) this.error = this.networkErrorMessage(e);
+      } finally {
+        this.contentQueueLoading = false;
+      }
+    },
+
+    async approveQueueItem(item) {
+      const effect = prompt('Effect (описание для app):', item.suggested_effect || '');
+      if (effect === null) return;
+      const title = prompt('Заголовок:', item.title_ru || item.phrase || item.command_id);
+      if (title === null) return;
+      this.saving = true;
+      try {
+        await this.api(`/admin/api/content/queue/${encodeURIComponent(item.id)}/approve`, {
+          method: 'POST',
+          body: { title_ru: title, effect_description_ru: effect },
+        });
+        this.showToast('Команда одобрена и добавлена в draft');
+        await this.refreshAfterDraftMutation({ reloadDiff: true });
+      } catch (e) {
+        this.error = this.networkErrorMessage(e);
+      } finally {
+        this.saving = false;
+      }
+    },
+
+    async dismissQueueItem(item) {
+      if (!confirm(`Скрыть из очереди: ${item.command_id}?`)) return;
+      this.saving = true;
+      try {
+        await this.api(`/admin/api/content/queue/${encodeURIComponent(item.id)}/dismiss`, {
+          method: 'POST',
+          body: {},
+        });
+        await this.refreshAfterDraftMutation({ reloadDiff: true });
+      } catch (e) {
+        this.error = this.networkErrorMessage(e);
+      } finally {
+        this.saving = false;
+      }
+    },
+
+    async loadFeedback(silent = false) {
+      if (!this.authenticated) return;
+      this.feedbackLoading = true;
+      try {
+        const params = new URLSearchParams();
+        if (this.feedbackFilter) params.set('status', this.feedbackFilter);
+        if (this.feedbackSearch.trim()) params.set('search', this.feedbackSearch.trim());
+        const qs = params.toString();
+        this.feedbackItems = await this.api(`/admin/api/feedback${qs ? `?${qs}` : ''}`) || [];
+      } catch (e) {
+        if (!silent) this.error = this.networkErrorMessage(e);
+      } finally {
+        this.feedbackLoading = false;
+      }
+    },
+
+    async resolveFeedback(item) {
+      this.saving = true;
+      try {
+        await this.api(`/admin/api/feedback/${encodeURIComponent(item.id)}/resolve`, {
+          method: 'POST',
+          body: {},
+        });
+        this.showToast('Отзыв закрыт');
+        await Promise.all([this.loadFeedback(true), this.loadDashboard()]);
+      } catch (e) {
+        this.error = this.networkErrorMessage(e);
+      } finally {
+        this.saving = false;
+      }
+    },
+
+    async dismissFeedback(item) {
+      if (!confirm('Отклонить отзыв?')) return;
+      this.saving = true;
+      try {
+        await this.api(`/admin/api/feedback/${encodeURIComponent(item.id)}/dismiss`, {
+          method: 'POST',
+          body: {},
+        });
+        this.showToast('Отзыв отклонён');
+        await Promise.all([this.loadFeedback(true), this.loadDashboard()]);
+      } catch (e) {
+        this.error = this.networkErrorMessage(e);
+      } finally {
+        this.saving = false;
+      }
+    },
+
+    async loadCommandReports(silent = false) {
+      if (!this.authenticated) return;
+      this.commandReportsLoading = true;
+      try {
+        const params = new URLSearchParams();
+        if (this.commandReportsFilter) params.set('status', this.commandReportsFilter);
+        if (this.commandReportsSearch.trim()) params.set('search', this.commandReportsSearch.trim());
+        const qs = params.toString();
+        this.commandReports = await this.api(`/admin/api/command-reports${qs ? `?${qs}` : ''}`) || [];
+      } catch (e) {
+        if (!silent) this.error = this.networkErrorMessage(e);
+      } finally {
+        this.commandReportsLoading = false;
+      }
+    },
+
+    async resolveCommandReport(item) {
+      this.saving = true;
+      try {
+        await this.api(`/admin/api/command-reports/${encodeURIComponent(item.id)}/resolve`, {
+          method: 'POST',
+          body: {},
+        });
+        this.showToast('Report закрыт');
+        await Promise.all([this.loadCommandReports(true), this.loadDashboard()]);
+      } catch (e) {
+        this.error = this.networkErrorMessage(e);
+      } finally {
+        this.saving = false;
+      }
+    },
+
+    async dismissCommandReport(item) {
+      if (!confirm(`Отклонить report для ${item.command_id}?`)) return;
+      this.saving = true;
+      try {
+        await this.api(`/admin/api/command-reports/${encodeURIComponent(item.id)}/dismiss`, {
+          method: 'POST',
+          body: {},
+        });
+        this.showToast('Report отклонён');
+        await Promise.all([this.loadCommandReports(true), this.loadDashboard()]);
+      } catch (e) {
+        this.error = this.networkErrorMessage(e);
+      } finally {
+        this.saving = false;
+      }
+    },
+
+    issueTypeLabel(type) {
+      const map = {
+        wrong_effect: 'Неверный эффект',
+        outdated: 'Устарело',
+        phrase_not_working: 'Фраза не работает',
+        requires_plus_wrong: 'Неверно про Plus',
+        wrong_device: 'Неверное устройство',
+        other: 'Другое',
+      };
+      return map[type] || type;
+    },
+
+    async openCommandFromReport(item) {
+      this.view = 'commands';
+      this.commandFilter = item.category_id || '';
+      await this.loadCommands();
+      const cmd = this.commands.find(c => c.id === item.command_id) ||
+        this.allCommands.find(c => c.id === item.command_id);
+      if (cmd) {
+        this.editCommand(cmd);
+      } else {
+        this.showToast(`Команда ${item.command_id} не найдена в draft`);
+      }
+    },
+
+    queueEventLabel(type) {
+      const map = {
+        new_command: 'Новая команда',
+        new_phrase: 'Новая фраза',
+        gone_phrase: 'Фраза исчезла',
+        gone_command: 'Команда исчезла',
+        needs_review: 'Нужно вычитать',
+      };
+      return map[type] || type;
+    },
+
+    changeLabel(change) {
+      const map = { added: 'добавлено', changed: 'изменено', removed: 'удалено' };
+      return map[change] || change;
+    },
+
+    reasonLabel(reason) {
+      const map = {
+        changed: 'изменено',
+        pending: 'ожидает',
+        queue: 'очередь',
+        added: 'новое',
+        removed: 'удалено',
+      };
+      return map[reason] || reason;
+    },
+
+    isEditorialExport(parsed) {
+      return parsed && typeof parsed === 'object' && Array.isArray(parsed.records)
+        && parsed.records.some((r) => r?.edit?.title_ru != null || r?.edit?.effect_description_ru != null);
+    },
+
+    async loadEditorialReview(silent = false) {
+      if (!this.authenticated) return;
+      this.editorialReviewLoading = true;
+      try {
+        const params = new URLSearchParams({ filter: this.editorialReviewFilter });
+        if (this.editorialReviewSearch?.trim()) {
+          params.set('search', this.editorialReviewSearch.trim());
+        }
+        this.editorialReview = await this.api(`/admin/api/content/editorial-review?${params}`);
+      } catch (e) {
+        if (!silent) this.error = this.networkErrorMessage(e);
+      } finally {
+        this.editorialReviewLoading = false;
+      }
+    },
+
+    async saveEditorialReview() {
+      if (!this.editorialReview?.records?.length) return;
+      this.editorialReviewSaving = true;
+      try {
+        const records = this.editorialReview.records.map((row) => ({
+          command_id: row.command_id,
+          title_ru: row.edit.title_ru,
+          effect_description_ru: row.edit.effect_description_ru,
+          status: row.edit.status,
+        }));
+        const result = await this.api('/admin/api/content/editorial/batch', {
+          method: 'POST',
+          body: { records },
+        });
+        this.showToast(`Сохранено: ${result.updated} текстов; draft обновлён (${result.draft_rebuilt} команд, группы и метаданные сохранены)`);
+        await this.refreshAfterDraftMutation({ reloadDiff: true });
+      } catch (e) {
+        this.error = this.networkErrorMessage(e);
+      } finally {
+        this.editorialReviewSaving = false;
+      }
+    },
+
+    async exportEditorialReview() {
+      const params = new URLSearchParams({ filter: this.editorialReviewFilter });
+      if (this.editorialReviewSearch?.trim()) {
+        params.set('search', this.editorialReviewSearch.trim());
+      }
+      try {
+        const res = await fetch(`/admin/api/content/editorial-export?${params}`, { credentials: 'include' });
+        if (!res.ok) throw new Error(res.statusText);
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `editorial-export-${this.editorialReviewFilter}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        this.showToast('JSON скачан — отредактируйте в ИИ и загрузите обратно');
+      } catch (e) {
+        this.error = this.networkErrorMessage(e);
+      }
+    },
+
+    async importEditorialReviewFile(event) {
+      const file = event.target.files?.[0];
+      event.target.value = '';
+      if (!file) return;
+      this.editorialImportLoading = true;
+      try {
+        const text = await file.text();
+        const result = await this.api('/admin/api/content/editorial-import', {
+          method: 'POST',
+          body: text,
+          raw: true,
+        });
+        this.showToast(`Импорт: ${result.updated} записей, draft обновлён: ${result.draft_rebuilt}`);
+        await this.refreshAfterDraftMutation({ reloadDiff: true });
+      } catch (e) {
+        this.error = this.networkErrorMessage(e);
+      } finally {
+        this.editorialImportLoading = false;
+      }
+    },
+
+    async loadDraftDiff(forceReload = false, options = {}) {
+      const { resetFilters = false, showToast = false } = options;
+      if (this.pipelineDiff && !forceReload) return;
+      this.pipelineDiffLoading = true;
+      this.error = '';
+      try {
+        this.pipelineDiff = await this.api('/admin/api/content/draft-diff');
+        if (resetFilters) {
+          this.pipelineDiffFilter = 'all';
+          this.pipelineDiffNeedsReviewOnly = false;
+        }
+        if (showToast && this.view !== 'content') {
+          this.showToast('Diff draft vs опубликовано загружен — см. раздел «Контент»');
+        }
+      } catch (e) {
+        this.error = this.networkErrorMessage(e);
+      } finally {
+        this.pipelineDiffLoading = false;
+      }
+    },
+
+    openAdminGuide() {
+      const path = this.pipeline?.guidePath || 'docs/ADMIN-CONTENT-GUIDE.md';
+      this.copyText(path);
+      this.showToast('Путь к инструкции скопирован — откройте в репозитории или на рабочем столе (ИНСТРУКЦИЯ.md)');
     },
 
     async loadApiDocs() {
@@ -310,9 +711,10 @@ function adminApp() {
       this.error = '';
       try {
         await this.api(`/admin/api/content/import-seed?mode=${mode}`, { method: 'POST', body: {} });
-        this.showToast('Seed импортирован в draft — проверьте Import/Publish');
-        await this.loadAll();
-        this.view = 'import';
+        this.showToast('Seed импортирован — проверьте diff и публикацию');
+        this.clearImportFile();
+        this.view = 'content';
+        await this.refreshAfterDraftMutation({ reloadDiff: true });
       } catch (e) {
         this.error = e.message || this.networkErrorMessage(e);
       } finally {
@@ -329,15 +731,18 @@ function adminApp() {
     showCategoryForm() {
       this.formError = '';
       this.categoryEditing = false;
+      this.loadIconCatalog();
       this.categoryForm = {
         id: '', title_ru: '', sort_order: (this.categories.length + 1),
-        featured: false, icon_key: '', description_ru: '',
+        featured: false, icon_key: '', icon_url: '', accent_color: '', accent_color_dark: '',
+        description_ru: '',
         source_url: 'https://alice.yandex.ru/support/ru/station/skills/', device_types: [],
       };
     },
     editCategory(c) {
       this.formError = '';
       this.categoryEditing = true;
+      this.loadIconCatalog();
       this.categoryForm = { ...c };
     },
     async saveCategory() {
@@ -350,6 +755,7 @@ function adminApp() {
         }
         this.categoryForm = null;
         await this.loadCategories();
+        await this.refreshAfterDraftMutation();
         this.showToast('Категория сохранена');
       });
     },
@@ -358,6 +764,7 @@ function adminApp() {
       try {
         await this.api(`/admin/api/categories/${id}`, { method: 'DELETE' });
         await this.loadCategories();
+        await this.refreshAfterDraftMutation();
       } catch (e) {
         this.error = this.networkErrorMessage(e);
       }
@@ -374,6 +781,220 @@ function adminApp() {
           body: { ordered_ids: sorted.map(x => x.id) },
         });
         await this.loadCategories();
+        await this.refreshAfterDraftMutation({ reloadDiff: false });
+      } catch (e) {
+        this.error = this.networkErrorMessage(e);
+      }
+    },
+
+    commandsInGroup(groupId) {
+      return (this.allCommands || []).filter(c => c.group_id === groupId);
+    },
+    groupsForCategory(categoryId) {
+      return (this.allCommandGroups || []).filter(g => g.category_id === categoryId);
+    },
+    commandGroupsForFilter() {
+      return (this.allCommandGroups || []).filter(g => !this.commandFilter || g.category_id === this.commandFilter);
+    },
+    toggleCommandSelect(id, checked) {
+      if (checked) {
+        if (!this.selectedCommandIds.includes(id)) this.selectedCommandIds.push(id);
+      } else {
+        this.selectedCommandIds = this.selectedCommandIds.filter(x => x !== id);
+      }
+    },
+    async loadIconCatalog(force = false) {
+      if (this.iconCatalog && !force) return;
+      try {
+        this.iconCatalog = await this.api('/admin/api/icons/catalog');
+      } catch {
+        this.iconCatalog = { icons: [], accent_presets: [] };
+      }
+    },
+
+    async loadCategoryVisuals(force = false) {
+      await Promise.all([
+        this.loadCategories(),
+        this.loadIconCatalog(force),
+      ]);
+      this.visualCategories = this.categories.map(c => ({ ...c }));
+    },
+
+    applyIconToVisualCategory(c, slug) {
+      const icon = (this.iconCatalog?.icons || []).find(i => i.slug === slug);
+      if (!icon || !c) return;
+      c.icon_url = icon.url;
+      if (!c.icon_key) c.icon_key = icon.slug;
+    },
+
+    applyPresetToVisualCategory(preset) {
+      const c = this.visualCategories[0];
+      if (!c || !preset) return;
+      c.accent_color = preset.light;
+      c.accent_color_dark = preset.dark;
+      this.showToast(`Пресет «${preset.name}» — к «${c.title_ru}», нажмите Сохранить`);
+    },
+
+    async saveCategoryVisual(c) {
+      await this.runSaving(async () => {
+        const full = this.categories.find(x => x.id === c.id) || c;
+        const body = {
+          ...full,
+          icon_key: c.icon_key || null,
+          icon_url: c.icon_url || null,
+          accent_color: c.accent_color || null,
+          accent_color_dark: c.accent_color_dark || null,
+        };
+        await this.api(`/admin/api/categories/${c.id}`, { method: 'PUT', body });
+        await this.loadCategories();
+        this.visualCategories = this.categories.map(x => ({ ...x }));
+        await this.refreshAfterDraftMutation();
+        this.showToast(`Оформление «${c.title_ru}» сохранено`);
+      });
+    },
+
+    applyAccentPreset(target, preset) {
+      const form = target === 'category' ? this.categoryForm : this.groupForm;
+      if (!form) return;
+      form.accent_color = preset.light;
+      form.accent_color_dark = preset.dark;
+    },
+
+    applyIconFromCatalog(target, icon) {
+      const form = target === 'category' ? this.categoryForm : this.groupForm;
+      if (!form) return;
+      form.icon_url = icon.url;
+      if (!form.icon_key) form.icon_key = icon.slug;
+    },
+
+    async uploadIconFile(event, target) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      try {
+        const svg = await file.text();
+        const slug = file.name.replace(/\.svg$/i, '').toLowerCase().replace(/-/g, '_');
+        const result = await this.api('/admin/api/icons/upload', {
+          method: 'POST',
+          body: { slug, svg },
+        });
+        const form = target === 'category' ? this.categoryForm : target === 'group' ? this.groupForm : null;
+        if (form) {
+          form.icon_url = result.icon_url;
+          if (!form.icon_key) form.icon_key = result.icon_key;
+        }
+        this.iconCatalog = null;
+        await this.loadIconCatalog(true);
+        this.showToast('Иконка загружена');
+      } catch (e) {
+        this.formError = this.networkErrorMessage(e);
+      } finally {
+        event.target.value = '';
+      }
+    },
+
+    toggleGroupVisualInherit() {
+      if (!this.groupForm?.inheritVisuals) return;
+      this.groupForm.icon_url = '';
+      this.groupForm.accent_color = '';
+      this.groupForm.accent_color_dark = '';
+    },
+
+    hexWithAlpha(hex, alpha) {
+      if (!hex || !/^#[0-9A-Fa-f]{6}$/.test(hex)) return `rgba(27,107,90,${alpha})`;
+      const r = parseInt(hex.slice(1, 3), 16);
+      const g = parseInt(hex.slice(3, 5), 16);
+      const b = parseInt(hex.slice(5, 7), 16);
+      return `rgba(${r},${g},${b},${alpha})`;
+    },
+
+    async bulkAssignGroup() {
+      if (!this.selectedCommandIds.length) return;
+      try {
+        await this.api('/admin/api/commands/bulk-assign-group', {
+          method: 'PUT',
+          body: { command_ids: this.selectedCommandIds, group_id: this.bulkGroupId || null },
+        });
+        this.selectedCommandIds = [];
+        await Promise.all([this.loadCommands(), this.loadAllCommands(), this.loadValidationWarnings()]);
+        await this.refreshAfterDraftMutation();
+        this.showToast('Группа назначена');
+      } catch (e) {
+        this.error = this.networkErrorMessage(e);
+      }
+    },
+
+    showGroupForm() {
+      this.formError = '';
+      this.groupEditing = false;
+      this.loadIconCatalog();
+      this.groupForm = {
+        id: '', category_id: this.groupFilter || this.categories[0]?.id || '',
+        title_ru: '', sort_order: (this.commandGroups.length + 1) * 10,
+        description_ru: '', icon_key: '', icon_url: '', accent_color: '', accent_color_dark: '',
+        featured: false, previewIdsText: '', inheritVisuals: true,
+      };
+    },
+    editGroup(g) {
+      this.formError = '';
+      this.groupEditing = true;
+      this.loadIconCatalog();
+      const hasOwnVisuals = !!(g.icon_url || g.accent_color || g.accent_color_dark);
+      this.groupForm = {
+        ...g,
+        previewIdsText: (g.preview_command_ids || []).join(', '),
+        inheritVisuals: !hasOwnVisuals,
+      };
+    },
+    async saveGroup() {
+      await this.runSaving(async () => {
+        const f = this.groupForm;
+        const body = {
+          id: f.id,
+          category_id: f.category_id,
+          title_ru: f.title_ru,
+          sort_order: f.sort_order,
+          description_ru: f.description_ru || null,
+          icon_key: f.icon_key || null,
+          icon_url: f.inheritVisuals ? null : (f.icon_url || null),
+          accent_color: f.inheritVisuals ? null : (f.accent_color || null),
+          accent_color_dark: f.inheritVisuals ? null : (f.accent_color_dark || null),
+          featured: !!f.featured,
+          preview_command_ids: f.previewIdsText.split(',').map(s => s.trim()).filter(Boolean),
+        };
+        if (this.groupEditing) {
+          await this.api(`/admin/api/command-groups/${body.id}`, { method: 'PUT', body });
+        } else {
+          await this.api('/admin/api/command-groups', { method: 'POST', body });
+        }
+        this.groupForm = null;
+        await Promise.all([this.loadCommandGroups(), this.loadAllCommandGroups(), this.loadValidationWarnings()]);
+        await this.refreshAfterDraftMutation();
+        this.showToast('Группа сохранена');
+      });
+    },
+    async deleteGroup(id) {
+      if (!confirm(`Удалить группу ${id}? Команды останутся без группы.`)) return;
+      try {
+        await this.api(`/admin/api/command-groups/${id}`, { method: 'DELETE' });
+        await Promise.all([this.loadCommandGroups(), this.loadAllCommandGroups(), this.loadCommands(), this.loadAllCommands()]);
+        await this.refreshAfterDraftMutation();
+      } catch (e) {
+        this.error = this.networkErrorMessage(e);
+      }
+    },
+    async moveCommandGroup(g, delta) {
+      try {
+        const sorted = [...this.commandGroups].sort((a, b) => a.sort_order - b.sort_order);
+        const idx = sorted.findIndex(x => x.id === g.id);
+        const swap = idx + delta;
+        if (swap < 0 || swap >= sorted.length) return;
+        [sorted[idx], sorted[swap]] = [sorted[swap], sorted[idx]];
+        await this.api('/admin/api/command-groups/reorder', {
+          method: 'PUT',
+          body: { ordered_ids: sorted.map(x => x.id) },
+        });
+        await this.loadCommandGroups();
+        await this.refreshAfterDraftMutation({ reloadDiff: false });
       } catch (e) {
         this.error = this.networkErrorMessage(e);
       }
@@ -387,6 +1008,7 @@ function adminApp() {
         id: '', category_id: this.categories[0]?.id || '', title_ru: '',
         phrasesText: '', effect_description_ru: '', source_url: 'https://alice.yandex.ru/support/ru/station/skills/',
         requires_alice_word: true, requires_plus: false, tagsText: '', updated_at: now,
+        group_id: '', sort_order: null, variant_label_ru: '', is_primary_in_group: false, aliasesText: '',
       };
     },
     editCommand(cmd) {
@@ -394,8 +1016,10 @@ function adminApp() {
       this.commandEditing = true;
       this.commandForm = {
         ...cmd,
+        group_id: cmd.group_id || '',
         phrasesText: (cmd.phrases || []).join('\n'),
         tagsText: (cmd.tags || []).join(', '),
+        aliasesText: (cmd.search_aliases || []).join(', '),
       };
     },
     async saveCommand() {
@@ -414,6 +1038,11 @@ function adminApp() {
           source_url: f.source_url,
           updated_at: new Date().toISOString(),
           tags: f.tagsText.split(',').map(s => s.trim()).filter(Boolean),
+          group_id: f.group_id || null,
+          sort_order: f.sort_order ?? null,
+          variant_label_ru: f.variant_label_ru || null,
+          is_primary_in_group: !!f.is_primary_in_group,
+          search_aliases: f.aliasesText.split(',').map(s => s.trim()).filter(Boolean),
         };
         if (this.commandEditing) {
           await this.api(`/admin/api/commands/${body.id}`, { method: 'PUT', body });
@@ -421,7 +1050,8 @@ function adminApp() {
           await this.api('/admin/api/commands', { method: 'POST', body });
         }
         this.commandForm = null;
-        await Promise.all([this.loadCommands(), this.loadAllCommands(), this.loadDashboard()]);
+        await Promise.all([this.loadCommands(), this.loadAllCommands()]);
+        await this.refreshAfterDraftMutation();
         this.showToast('Команда сохранена');
       });
     },
@@ -430,6 +1060,7 @@ function adminApp() {
       try {
         await this.api(`/admin/api/commands/${id}`, { method: 'DELETE' });
         await Promise.all([this.loadCommands(), this.loadAllCommands()]);
+        await this.refreshAfterDraftMutation();
       } catch (e) {
         this.error = this.networkErrorMessage(e);
       }
@@ -472,6 +1103,7 @@ function adminApp() {
         }
         this.scenarioForm = null;
         await this.loadScenarios();
+        await this.refreshAfterDraftMutation();
         this.showToast('Шаблон сохранён');
       });
     },
@@ -480,6 +1112,7 @@ function adminApp() {
       try {
         await this.api(`/admin/api/scenario-templates/${id}`, { method: 'DELETE' });
         await this.loadScenarios();
+        await this.refreshAfterDraftMutation();
       } catch (e) {
         this.error = this.networkErrorMessage(e);
       }
@@ -490,6 +1123,7 @@ function adminApp() {
         await this.api('/admin/api/checklist-items', { method: 'PUT', body: this.checklist });
         this.showToast('Чеклист сохранён');
         await this.loadChecklist();
+        await this.refreshAfterDraftMutation();
       });
     },
 
@@ -498,7 +1132,7 @@ function adminApp() {
       this.affiliateEditing = false;
       this.affiliateForm = {
         id: '', title_ru: '', context_category_id: 'smart_home',
-        erid: '', advertiser_name: '', productsText: '',
+        erid: '', advertiser_name: '', products: [this.blankAffiliateProduct()],
       };
     },
     editAffiliate(b) {
@@ -506,25 +1140,104 @@ function adminApp() {
       this.affiliateEditing = true;
       this.affiliateForm = {
         ...b,
-        productsText: (b.products || []).map(p => `${p.title_ru}|${p.market_url}|${p.price_hint || ''}`).join('\n'),
+        products: (b.products || []).length
+          ? (b.products || []).map(p => ({
+            title_ru: p.title_ru || '',
+            market_url: p.market_url || '',
+            price_hint: p.price_hint || '',
+          }))
+          : [this.blankAffiliateProduct()],
       };
     },
-    parseProducts(text) {
-      return text.split('\n').map(line => line.trim()).filter(Boolean).map(line => {
-        const [title_ru, market_url, price_hint] = line.split('|');
-        return { title_ru: title_ru?.trim(), market_url: market_url?.trim(), price_hint: price_hint?.trim() || null };
-      }).filter(p => p.title_ru && p.market_url);
+    blankAffiliateProduct() {
+      return { title_ru: '', market_url: '', price_hint: '' };
+    },
+    addAffiliateProduct() {
+      if (!this.affiliateForm) return;
+      this.affiliateForm.products.push(this.blankAffiliateProduct());
+    },
+    removeAffiliateProduct(idx) {
+      if (!this.affiliateForm || this.affiliateForm.products.length <= 1) return;
+      this.affiliateForm.products.splice(idx, 1);
+    },
+    trimOrNull(value) {
+      const text = (value || '').trim();
+      return text || null;
+    },
+    normalizeAffiliateProducts(products) {
+      const normalized = (products || []).map((p, idx) => {
+        const title = (p.title_ru || '').trim();
+        const url = (p.market_url || '').trim();
+        const price = (p.price_hint || '').trim();
+        if (!title) throw new Error(`Товар #${idx + 1}: укажите название`);
+        if (!url) throw new Error(`Товар #${idx + 1}: укажите партнёрскую ссылку`);
+        let parsed;
+        try {
+          parsed = new URL(url);
+        } catch {
+          throw new Error(`Товар #${idx + 1}: ссылка должна быть корректным URL`);
+        }
+        if (parsed.protocol !== 'https:') throw new Error(`Товар #${idx + 1}: ссылка должна начинаться с https://`);
+        return { title_ru: title, market_url: url, price_hint: price || null };
+      });
+      if (!normalized.length) throw new Error('Добавьте хотя бы один товар с партнёрской ссылкой');
+      return normalized;
+    },
+    async loadCommandOfDay() {
+      this.commandOfDayLoading = true;
+      try {
+        const data = await this.api('/admin/api/command-of-day');
+        if (!data) return;
+        this.commandOfDay = data;
+        const s = data.settings || {};
+        this.commandOfDayForm = {
+          mode: s.mode || 'auto',
+          command_id: s.command_id || '',
+          auto_category_id: s.auto_category_id || (this.categories[0]?.id || ''),
+          auto_seed: s.auto_seed || 31,
+        };
+      } catch (e) {
+        this.error = this.networkErrorMessage(e);
+      } finally {
+        this.commandOfDayLoading = false;
+      }
+    },
+    async saveCommandOfDay() {
+      await this.runSaving(async () => {
+        const f = this.commandOfDayForm;
+        if (!f) throw new Error('Форма не загружена');
+        const body = {
+          mode: f.mode,
+          auto_seed: f.auto_seed || 31,
+        };
+        if (f.mode === 'manual') {
+          body.command_id = (f.command_id || '').trim();
+        } else {
+          body.auto_category_id = f.auto_category_id;
+        }
+        this.commandOfDay = await this.api('/admin/api/command-of-day', { method: 'PUT', body });
+        const s = this.commandOfDay.settings || {};
+        this.commandOfDayForm = {
+          mode: s.mode,
+          command_id: s.command_id || '',
+          auto_category_id: s.auto_category_id || '',
+          auto_seed: s.auto_seed || 31,
+        };
+        this.toast = 'Команда дня сохранена в draft';
+      });
     },
     async saveAffiliate() {
       await this.runSaving(async () => {
         const f = this.affiliateForm;
+        if (!this.trimOrNull(f.erid)) throw new Error('Укажите ERID');
+        if (!this.trimOrNull(f.advertiser_name)) throw new Error('Укажите advertiser_name');
         const body = {
-          id: f.id,
-          title_ru: f.title_ru,
-          context_category_id: f.context_category_id,
-          erid: f.erid,
-          advertiser_name: f.advertiser_name,
-          products: this.parseProducts(f.productsText),
+          id: (f.id || '').trim(),
+          title_ru: (f.title_ru || '').trim(),
+          context_category_id: this.trimOrNull(f.context_category_id),
+          erid: this.trimOrNull(f.erid),
+          advertiser_name: this.trimOrNull(f.advertiser_name),
+          products: this.normalizeAffiliateProducts(f.products),
         };
         if (this.affiliateEditing) {
           await this.api(`/admin/api/affiliate-blocks/${body.id}`, { method: 'PUT', body });
@@ -533,7 +1246,8 @@ function adminApp() {
         }
         this.affiliateForm = null;
         await this.loadAffiliate();
-        this.showToast('Affiliate блок сохранён');
+        await this.refreshAfterDraftMutation();
+        this.showToast('Партнёрский блок сохранён');
       });
     },
     async deleteAffiliate(id) {
@@ -541,6 +1255,7 @@ function adminApp() {
       try {
         await this.api(`/admin/api/affiliate-blocks/${id}`, { method: 'DELETE' });
         await this.loadAffiliate();
+        await this.refreshAfterDraftMutation();
       } catch (e) {
         this.error = this.networkErrorMessage(e);
       }
@@ -568,12 +1283,12 @@ function adminApp() {
     },
 
     async doPublish() {
-      if (!confirm('Опубликовать контент для всех пользователей app?')) return;
+      if (!confirm('Опубликовать текущий draft как live bundle? Пользователи app получат новую версию.')) return;
       this.loading = true;
       try {
         const r = await this.api('/admin/api/publish', { method: 'POST', body: {} });
         this.showToast(`Опубликовано v${r.contentVersion}`);
-        await this.loadAll();
+        await this.refreshAfterPublishMutation();
       } catch (e) {
         this.error = this.networkErrorMessage(e);
       } finally {
@@ -582,11 +1297,11 @@ function adminApp() {
     },
 
     async rollback(version) {
-      if (!confirm(`Откатить на v${version}?`)) return;
+      if (!confirm(`Откатить live bundle на v${version}? Текущий draft не изменится.`)) return;
       try {
         await this.api('/admin/api/publish/rollback', { method: 'POST', body: { content_version: version } });
         this.showToast(`Откат на v${version}`);
-        await this.loadAll();
+        await this.refreshAfterPublishMutation();
       } catch (e) {
         this.error = this.networkErrorMessage(e);
       }
@@ -613,6 +1328,7 @@ function adminApp() {
     buildImportPreview(parsed) {
       const counts = {
         categories: (parsed.categories || []).length,
+        command_groups: (parsed.command_groups || []).length,
         commands: (parsed.commands || []).length,
         scenario_templates: (parsed.scenario_templates || []).length,
         checklist_items: (parsed.checklist_items || []).length,
@@ -621,6 +1337,7 @@ function adminApp() {
       if (this.importMode === 'merge') {
         preview.mergeDiff = {
           categories: this.diffImportIds(parsed.categories, this.categories),
+          command_groups: this.diffImportIds(parsed.command_groups, this.allCommandGroups),
           commands: this.diffImportIds(parsed.commands, this.allCommands),
           scenario_templates: this.diffImportIds(parsed.scenario_templates, this.scenarios),
           checklist_items: this.diffImportIds(parsed.checklist_items, this.checklist),
@@ -634,6 +1351,7 @@ function adminApp() {
       if (!c) return [];
       return [
         { label: 'Категории', value: c.categories },
+        { label: 'Группы команд', value: c.command_groups },
         { label: 'Команды', value: c.commands },
         { label: 'Шаблоны сценариев', value: c.scenario_templates },
         { label: 'Чеклист', value: c.checklist_items },
@@ -645,6 +1363,7 @@ function adminApp() {
       if (!d) return [];
       const labels = {
         categories: 'Категории',
+        command_groups: 'Группы',
         commands: 'Команды',
         scenario_templates: 'Шаблоны',
         checklist_items: 'Чеклист',
@@ -703,25 +1422,38 @@ function adminApp() {
     },
 
     publishedDiffSections() {
-      if (!this.publishedDiff) return [];
+      return this.diffSections(this.publishedDiff);
+    },
+
+    diffSections(diff) {
+      if (!diff) return [];
       return [
-        { key: 'commands', label: 'Команды', section: this.publishedDiff.commands },
-        { key: 'categories', label: 'Категории', section: this.publishedDiff.categories },
-        { key: 'scenario_templates', label: 'Шаблоны', section: this.publishedDiff.scenario_templates },
-        { key: 'checklist_items', label: 'Чеклист', section: this.publishedDiff.checklist_items },
+        { key: 'commands', label: 'Команды', section: diff.commands },
+        { key: 'command_groups', label: 'Группы команд', section: diff.command_groups },
+        { key: 'categories', label: 'Категории', section: diff.categories },
+        { key: 'scenario_templates', label: 'Шаблоны', section: diff.scenario_templates },
+        { key: 'checklist_items', label: 'Чеклист', section: diff.checklist_items },
       ];
     },
 
-    filteredDiffItems(section) {
+    filteredDiffItems(section, context = 'import') {
       if (!section?.items) return [];
+      const filter = context === 'pipeline' ? this.pipelineDiffFilter : this.diffFilter;
+      const needsReviewOnly = context === 'pipeline' ? this.pipelineDiffNeedsReviewOnly : this.diffNeedsReviewOnly;
       let items = section.items;
-      if (this.diffFilter !== 'all') {
-        items = items.filter((i) => i.change === this.diffFilter);
+      if (filter !== 'all') {
+        items = items.filter((i) => i.change === filter);
       }
-      if (this.diffNeedsReviewOnly) {
+      if (needsReviewOnly) {
         items = items.filter((i) => (i.tags || []).includes('needs_review'));
       }
       return items;
+    },
+
+    pipelineDiffIsEmptyCatalog() {
+      const s = this.pipelineDiff?.summary;
+      if (!s) return false;
+      return s.added === 0 && s.changed === 0 && s.removed === 0;
     },
 
     diffFieldEntries(item) {
@@ -730,12 +1462,23 @@ function adminApp() {
     },
 
     publishedDiffSummaryText() {
-      const s = this.publishedDiff?.summary;
+      return this.diffSummaryText(this.publishedDiff);
+    },
+
+    diffSummaryText(diff) {
+      const s = diff?.summary;
       if (!s) return '';
-      const base = this.publishedDiff.base_content_version != null
-        ? `vs published v${this.publishedDiff.base_content_version}`
-        : `vs ${this.publishedDiff.base}`;
+      const base = diff.base_content_version != null
+        ? `сравнение с опубликованным v${diff.base_content_version}`
+        : `сравнение с ${diff.base}`;
       return `${base}: +${s.added} / ~${s.changed} / −${s.removed}`;
+    },
+
+    pipelineDiffHasVisibleItems() {
+      if (!this.pipelineDiff) return false;
+      return this.diffSections(this.pipelineDiff).some(
+        (sec) => this.filteredDiffItems(sec.section, 'pipeline').length > 0,
+      );
     },
 
     async selectImportFile(ev) {
@@ -756,6 +1499,11 @@ function adminApp() {
       if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
         this.importDraft = { name: file.name, sizeBytes: file.size, text: null, parsed: null, preview: null };
         this.importParseError = 'Ожидается JSON-объект формата content bundle';
+        return;
+      }
+      if (this.isEditorialExport(parsed)) {
+        this.importDraft = { name: file.name, sizeBytes: file.size, text: null, parsed: null, preview: null };
+        this.importParseError = 'Это editorial JSON (records/edit.*). Загружайте его в разделе «Контент» → шаг 3 «Редактор текстов», а не здесь.';
         return;
       }
       const hasContent = ['categories', 'commands', 'scenario_templates', 'checklist_items']
@@ -783,9 +1531,10 @@ function adminApp() {
         await this.api(`/admin/api/import/json?mode=${this.importMode}`, {
           method: 'POST', body: this.importDraft.text, raw: true, timeout: 120_000,
         });
-        this.showToast('Import выполнен — проверьте draft и сделайте Publish');
+        this.showToast('Bundle импортирован — проверьте diff и публикацию');
         this.clearImportFile();
-        await this.loadAll();
+        this.view = 'content';
+        await this.refreshAfterDraftMutation({ reloadDiff: true });
       } catch (e) {
         this.error = this.networkErrorMessage(e);
       } finally {

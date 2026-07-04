@@ -19,6 +19,9 @@ class PublishContentUseCase(
     private val manifestRepository: ManifestRepository,
     private val bundleStorage: BundleStorage,
     private val schemaValidator: SchemaValidator,
+    private val commandGroupValidationUseCase: CommandGroupValidationUseCase,
+    private val categoryVisualValidationUseCase: CategoryVisualValidationUseCase,
+    private val commandOfDayValidationUseCase: CommandOfDayValidationUseCase,
     private val bundleRetentionCount: Int,
 ) {
     fun execute(adminUser: String, minAppVersion: String = "1.0", notes: String? = null): PublishResult {
@@ -27,6 +30,9 @@ class PublishContentUseCase(
         val draft = draftRepository.loadFull(contentVersion = version, minAppVersion = minAppVersion)
             .copy(published_at = publishedAt)
 
+        commandGroupValidationUseCase.validateForPublish(draft)
+        categoryVisualValidationUseCase.validateForPublish(draft)
+        commandOfDayValidationUseCase.validateForPublish(draft)
         schemaValidator.validate(draft)
 
         val json = BundleCodec.toJson(draft)
@@ -58,22 +64,20 @@ class PublishContentUseCase(
             ),
         )
         bundleStorage.pruneOldBundles(bundleRetentionCount)
-        publishAffiliate(draftRepository, bundleStorage, publishedAt, version)
 
         return PublishResult(contentVersion = version, bundleSha256 = sha, publishedAt = publishedAt)
     }
+}
 
-    private fun publishAffiliate(
-        draftRepository: DraftRepository,
-        bundleStorage: BundleStorage,
-        publishedAt: String,
-        version: Int,
-    ) {
-        val blocks = draftRepository.listAffiliateBlocks()
-        val response = AffiliateBlocksResponse(updated_at = publishedAt, blocks = blocks)
+class PublishAffiliateUseCase(
+    private val draftRepository: DraftRepository,
+    private val bundleStorage: BundleStorage,
+) {
+    fun execute(updatedAt: String = Instant.now().toString()): AffiliateBlocksResponse {
+        val response = AffiliateBlocksResponse(updated_at = updatedAt, blocks = draftRepository.listAffiliateBlocks())
         val bytes = BundleCodec.json.encodeToString(response).toByteArray(Charsets.UTF_8)
-        bundleStorage.writeAffiliateVersion(version, bytes)
         bundleStorage.writeAffiliate(bytes)
+        return response
     }
 }
 
@@ -107,29 +111,11 @@ class RollbackPublishUseCase(
                 notes = "rollback to v$contentVersion",
             ),
         )
-        bundleStorage.restoreAffiliateFromVersion(contentVersion)
-            || throw IllegalArgumentException("Affiliate snapshot for version $contentVersion not found")
         return PublishResult(
             contentVersion = contentVersion,
             bundleSha256 = history.bundleSha256,
             publishedAt = manifest.publishedAt,
         )
-    }
-}
-
-class ImportJsonUseCase(
-    private val draftRepository: DraftRepository,
-    private val schemaValidator: SchemaValidator,
-) {
-    enum class Mode { REPLACE, MERGE }
-
-    fun execute(jsonText: String, mode: Mode) {
-        schemaValidator.validateJson(jsonText)
-        val bundle = BundleCodec.json.decodeFromString<ContentBundle>(jsonText)
-        when (mode) {
-            Mode.REPLACE -> draftRepository.replaceAll(bundle)
-            Mode.MERGE -> draftRepository.merge(bundle)
-        }
     }
 }
 

@@ -1,10 +1,14 @@
 # Content Update — runbook
 
+**Для админа (пошагово):** [ADMIN-CONTENT-GUIDE.md](ADMIN-CONTENT-GUIDE.md) — ярлыки на рабочий стол, мастер в admin UI.
+
 **Цель:** обновить каталог команд на **staging** draft без auto-publish.
 
 ---
 
 ## Быстрый старт
+
+**Админу:** папка **Alice Commands** на рабочем столе → **Alice 1 - Obnovit katalog** → **Alice 4 - Admin staging** → **Контент** → Publish. Подробно: [ADMIN-CONTENT-GUIDE.md](ADMIN-CONTENT-GUIDE.md).
 
 ```powershell
 # 1. Настройте credentials (один раз)
@@ -23,39 +27,61 @@ pip install -r tools/content/requirements.txt
 
 ---
 
-## Что делает pipeline
+## Что делает pipeline (inventory / editorial / catalog)
+
+Три слоя данных — **разные роли**, без перезаписи вычитанных описаний:
+
+| Слой | Файл | Кто обновляет | Содержимое |
+|------|------|---------------|------------|
+| **Inventory** | `seed/data/inventory_snapshot.json` | парсер (машина) | фразы, `raw_result`, `source_url` |
+| **Baseline** | `seed/data/inventory_baseline.json` | после Publish (`--finalize-baseline`) | снимок для diff |
+| **Editorial** | `seed/data/editorial.json` | вы + approve в admin | `title`, `effect`, `status=approved` |
+| **Queue** | `seed/data/queue.json` | diff inventory vs baseline | только NEW / GONE / needs_review |
+| **Catalog** | `seed/full-catalog.json` | join approved editorial + inventory | `schema_version: 2`; editorial groups — post-pilot |
 
 | Шаг | Команда | Результат |
 |-----|---------|-----------|
-| Fetch | `tools/content/fetch.py` | HTML в `tools/content/cache/` |
-| Parse | parsers + `command_bank.py` | ParsedCommand[] |
-| Merge | `merge.py` | dedupe по фразам |
-| Build | `build_bundle.py` | `seed/full-catalog.json` |
+| Fetch + parse | `tools/content/pipeline_run.py` | inventory snapshot + queue |
+| Sync diff | внутри pipeline | очередь delta (не «500 changed») |
+| Catalog | `catalog_build.py` | только `editorial.status=approved` |
 | Validate | `gradlew :server:validateContent` | JSON Schema |
-| Push draft | `scripts/push-draft.ps1` | POST import merge на staging |
-| Verify | `scripts/verify-staging.ps1` | manifest + sha256 + stats |
+| Push | `scripts/push-draft.ps1 -Mode sync` | pipeline-sync + import SYNC |
+| Verify | `scripts/verify-staging.ps1` | manifest + sha256 + **schema_version / groups count** |
 
-**Publish не выполняется автоматически.**
+**Publish не выполняется автоматически.** После Publish на staging:
+`python tools/content/pipeline_run.py --finalize-baseline` — обновить baseline.
+
+**Сеть РФ:** если DNS не резолвит `staging-api.alicecommands.ru`, `push-draft.ps1` и `verify-staging.ps1` автоматически используют `curl --resolve` на IP VPS (`STAGING_ORIGIN_IP` в `scripts/.env`, по умолчанию `161.104.46.92`).
+
+Первичная инициализация editorial из command bank:
+`python tools/content/pipeline_run.py --bootstrap --skip-fetch`
 
 ---
 
 ## Ручные команды
 
 ```powershell
-# Только сборка (без сети, из command bank + cache)
-python tools/content/build_bundle.py --skip-fetch
+# Полный pipeline (из cache)
+python tools/content/pipeline_run.py --skip-fetch
 
-# Принудительно обновить HTML с Yandex
-python tools/content/build_bundle.py --force-fetch
+# С fetch с support
+python tools/content/pipeline_run.py --force-fetch
 
 # Только validate
 .\gradlew.bat :server:validateContent -PcontentFile=seed/full-catalog.json
+.\gradlew.bat :server:validateContent -PcontentFile=seed/smart-home-groups-v2.json
 
-# Push без rebuild
-.\scripts\push-draft.ps1 -Mode merge
+# Pilot command groups (smart_home) — sync import
+.\scripts\push-draft.ps1 -Mode sync -BundleFile seed/smart-home-groups-v2.json
+
+# Push (sync — не затирает approved editorial)
+.\scripts\push-draft.ps1 -Mode sync
+
+# После Publish — зафиксировать baseline
+python tools/content/pipeline_run.py --skip-fetch --finalize-baseline
 
 # Push replace (осторожно на staging с данными)
-.\scripts\push-draft.ps1 -Mode replace -BundleFile seed/import-smart-home.json
+.\scripts\push-draft.ps1 -Mode replace -BundleFile seed/full-catalog.json
 
 # Проверить опубликованный bundle на staging
 .\scripts\verify-staging.ps1
@@ -97,14 +123,21 @@ python tools/content/build_bundle.py --force-fetch
 
 ## Источники контента
 
-Конфиг: `tools/content/sources.yaml`
+Конфиг: `tools/content/sources.yaml` + **auto-discovery** из оглавления справки Яндекса.
 
-| Приоритет | Источник |
-|-----------|----------|
-| primary | alice.yandex.ru/support (skills, music, timers, …) |
-| backup | quick-commands, calls, kids, plus |
-| baseline | `seed/import-smart-home.json` (УД pilot) |
+| Тип | Откуда |
+|-----|--------|
+| **auto** | `discovery.overview_url` → `https://alice.yandex.ru/support/ru/station/skills/` — все ссылки «Возможности и команды» (~66 страниц) |
+| manual | pilot `seed/smart-home-groups-v2.json` (groups), `seed/full-catalog.json` (full catalog) |
 | curated | `tools/content/command_bank.py` |
+
+Старые URL вида `/skills/timers/`, `/skills/music/` **больше не работают (404)**. Яндекс перешёл на slug-страницы: `/skills/timer`, `/skills/audio-settings`, `/station/call`, `/assistant/alice-plus/…`, `/smart-home/…`.
+
+Проверка источников:
+
+```powershell
+py -3 tools/content/discover_sources.py
+```
 
 Парсер = **assist only**. Перед prod publish — вычитка `source_url` и diff.
 

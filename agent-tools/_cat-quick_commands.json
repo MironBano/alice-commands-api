@@ -1,0 +1,619 @@
+[
+  {
+    "command_id": "quick_commands_budi_v_7_utra",
+    "category_id": "quick_commands",
+    "phrase_example": "Буди в 7 утра",
+    "phrases": [
+      "Буди в 7 утра"
+    ],
+    "raw_result": "Быстрая команда без слова «Алиса»: «Буди в 7 утра».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+    "published": {
+      "title_ru": "Буди в 7 утра",
+      "effect_description_ru": "Выполнит «Буди в 7 утра» без произнесения «Алиса». Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Буди в 7 утра",
+      "effect_description_ru": "Выполнит «Буди в 7 утра» без произнесения «Алиса». Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "quick_commands_budi_v_7_utra",
+      "title_ru": "Буди в 7 утра",
+      "effect_description_ru": "Выполнит «Буди в 7 утра» без произнесения «Алиса». Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_commands_dalshe",
+    "category_id": "quick_commands",
+    "phrase_example": "Дальше",
+    "phrases": [
+      "Дальше",
+      "Алиса, дальше"
+    ],
+    "raw_result": "Быстрая команда без слова «Алиса»: «Дальше».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/alice-show",
+    "published": {
+      "title_ru": "Дальше",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Дальше». Переключит на следующий трек или продолжит воспроизведение. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Дальше",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Дальше». Переключит на следующий трек или продолжит воспроизведение. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "quick_commands_dalshe",
+      "title_ru": "Дальше",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Дальше». Переключит на следующий трек или продолжит воспроизведение. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_commands_iandeks_s_alisoi",
+    "category_id": "quick_commands",
+    "phrase_example": "Яндекс — с Алисой",
+    "phrases": [
+      "Яндекс — с Алисой"
+    ],
+    "raw_result": "Алиса выполнит: настроить быстрые команды.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/news",
+    "published": {
+      "title_ru": "Яндекс — с Алисой",
+      "effect_description_ru": "Выполнит «Яндекс — с Алисой» без произнесения «Алиса». Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Яндекс — с Алисой",
+      "effect_description_ru": "Выполнит «Яндекс — с Алисой» без произнесения «Алиса». Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "quick_commands_iandeks_s_alisoi",
+      "title_ru": "Яндекс — с Алисой",
+      "effect_description_ru": "Выполнит «Яндекс — с Алисой» без произнесения «Алиса». Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_commands_kakaia_pogoda",
+    "category_id": "quick_commands",
+    "phrase_example": "Какая погода",
+    "phrases": [
+      "Какая погода"
+    ],
+    "raw_result": "Быстрая команда без слова «Алиса»: «Какая погода».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+    "published": {
+      "title_ru": "Какая погода",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Какая погода». Сообщит текущую погоду. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Какая погода",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Какая погода». Сообщит текущую погоду. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "quick_commands_kakaia_pogoda",
+      "title_ru": "Какая погода",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Какая погода». Сообщит текущую погоду. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_commands_kakaia_temperatura",
+    "category_id": "quick_commands",
+    "phrase_example": "Какая температура",
+    "phrases": [
+      "Какая температура"
+    ],
+    "raw_result": "Быстрая команда без слова «Алиса»: «Какая температура».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+    "published": {
+      "title_ru": "Какая температура",
+      "effect_description_ru": "Выполнит «Какая температура» без произнесения «Алиса». Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Какая температура",
+      "effect_description_ru": "Выполнит «Какая температура» без произнесения «Алиса». Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "quick_commands_kakaia_temperatura",
+      "title_ru": "Какая температура",
+      "effect_description_ru": "Выполнит «Какая температура» без произнесения «Алиса». Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_commands_khvatit",
+    "category_id": "quick_commands",
+    "phrase_example": "Хватит",
+    "phrases": [
+      "Хватит",
+      "Алиса, хватит",
+      "Алиса, закончи"
+    ],
+    "raw_result": "Быстрая команда без слова «Алиса»: «Хватит».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/timer",
+    "published": {
+      "title_ru": "Хватит",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Хватит». Остановит таймер, будильник или воспроизведение. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Хватит",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Хватит». Остановит таймер, будильник или воспроизведение. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "quick_commands_khvatit",
+      "title_ru": "Хватит",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Хватит». Остановит таймер, будильник или воспроизведение. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_commands_kotoryi_chas",
+    "category_id": "quick_commands",
+    "phrase_example": "Который час",
+    "phrases": [
+      "Который час"
+    ],
+    "raw_result": "Быстрая команда без слова «Алиса»: «Который час».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+    "published": {
+      "title_ru": "Который час",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Который час». Сообщит текущее время. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Который час",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Который час». Сообщит текущее время. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "quick_commands_kotoryi_chas",
+      "title_ru": "Который час",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Который час». Сообщит текущее время. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_commands_nastroi_kolonku",
+    "category_id": "quick_commands",
+    "phrase_example": "Настрой колонку",
+    "phrases": [
+      "Настрой колонку",
+      "Алиса, настрой колонку"
+    ],
+    "raw_result": "Алиса выполнит: настроить быстрые команды.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/news",
+    "published": {
+      "title_ru": "Настрой колонку",
+      "effect_description_ru": "Поможет перейти к настройке колонки. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Настрой колонку",
+      "effect_description_ru": "Поможет перейти к настройке колонки. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "quick_commands_nastroi_kolonku",
+      "title_ru": "Настрой колонку",
+      "effect_description_ru": "Поможет перейти к настройке колонки. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_commands_nazad",
+    "category_id": "quick_commands",
+    "phrase_example": "Назад",
+    "phrases": [
+      "Назад",
+      "Алиса, назад",
+      "Алиса, дальше"
+    ],
+    "raw_result": "Быстрая команда без слова «Алиса»: «Назад».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/video-search",
+    "published": {
+      "title_ru": "Назад",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Назад». Вернётся на предыдущий экран или трек. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Назад",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Назад». Вернётся на предыдущий экран или трек. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "quick_commands_nazad",
+      "title_ru": "Назад",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Назад». Вернётся на предыдущий экран или трек. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_commands_obed",
+    "category_id": "quick_commands",
+    "phrase_example": "Обед",
+    "phrases": [
+      "Обед"
+    ],
+    "raw_result": "Быстрая команда без слова «Алиса»: «Обед».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+    "published": {
+      "title_ru": "Обед",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Обед». Может запустить таймер или напоминание об обеде. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Обед",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Обед». Может запустить таймер или напоминание об обеде. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "quick_commands_obed",
+      "title_ru": "Обед",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Обед». Может запустить таймер или напоминание об обеде. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_commands_pogromche",
+    "category_id": "quick_commands",
+    "phrase_example": "Погромче",
+    "phrases": [
+      "Погромче"
+    ],
+    "raw_result": "Быстрая команда без слова «Алиса»: «Погромче».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+    "published": {
+      "title_ru": "Погромче",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Погромче». Увеличит громкость. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Погромче",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Погромче». Увеличит громкость. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "quick_commands_pogromche",
+      "title_ru": "Погромче",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Погромче». Увеличит громкость. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_commands_povtori",
+    "category_id": "quick_commands",
+    "phrase_example": "Повтори",
+    "phrases": [
+      "Повтори",
+      "Алиса, повтори"
+    ],
+    "raw_result": "Быстрая команда без слова «Алиса»: «Повтори».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/speech-trainer",
+    "published": {
+      "title_ru": "Повтори",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Повтори». Повторит последний ответ. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Повтори",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Повтори». Повторит последний ответ. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "quick_commands_povtori",
+      "title_ru": "Повтори",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Повтори». Повторит последний ответ. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_commands_pozvoni_mame",
+    "category_id": "quick_commands",
+    "phrase_example": "Позвони маме",
+    "phrases": [
+      "Позвони маме"
+    ],
+    "raw_result": "Быстрая команда без слова «Алиса»: «Позвони маме».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+    "published": {
+      "title_ru": "Позвони маме",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Позвони маме». Позвонит маме, если контакт сохранён. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Позвони маме",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Позвони маме». Позвонит маме, если контакт сохранён. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "quick_commands_pozvoni_mame",
+      "title_ru": "Позвони маме",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Позвони маме». Позвонит маме, если контакт сохранён. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_commands_predydushchii",
+    "category_id": "quick_commands",
+    "phrase_example": "Предыдущий",
+    "phrases": [
+      "Предыдущий"
+    ],
+    "raw_result": "Быстрая команда без слова «Алиса»: «Предыдущий».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+    "published": {
+      "title_ru": "Предыдущий",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Предыдущий». Переключит на предыдущий трек. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Предыдущий",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Предыдущий». Переключит на предыдущий трек. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "quick_commands_predydushchii",
+      "title_ru": "Предыдущий",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Предыдущий». Переключит на предыдущий трек. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_commands_priglushi_svet",
+    "category_id": "quick_commands",
+    "phrase_example": "Приглуши свет",
+    "phrases": [
+      "Приглуши свет",
+      "Алиса, приглуши свет",
+      "Алиса, сделай свет тусклее"
+    ],
+    "raw_result": "Быстрая команда без слова «Алиса»: «Приглуши свет».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+    "published": {
+      "title_ru": "Приглуши свет",
+      "effect_description_ru": "Быстрая команда без слова «Алиса»: «Приглуши свет»."
+    },
+    "draft": {
+      "title_ru": "Приглуши свет",
+      "effect_description_ru": "Быстрая команда без слова «Алиса»: «Приглуши свет»."
+    },
+    "edit": {
+      "command_id": "quick_commands_priglushi_svet",
+      "title_ru": "Приглуши свет",
+      "effect_description_ru": "Быстрая команда без слова «Алиса»: «Приглуши свет».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_commands_sleduiushchii",
+    "category_id": "quick_commands",
+    "phrase_example": "Следующий",
+    "phrases": [
+      "Следующий",
+      "Алиса, следующий",
+      "Алиса, хочу что-нибудь другое",
+      "Алиса, пропустить",
+      "Алиса, вперед",
+      "Алиса, давай дальше",
+      "Алиса, перемотай"
+    ],
+    "raw_result": "Быстрая команда без слова «Алиса»: «Следующий».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/audio-settings",
+    "published": {
+      "title_ru": "Следующий",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Следующий». Переключит на следующий трек. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Следующий",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Следующий». Переключит на следующий трек. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "quick_commands_sleduiushchii",
+      "title_ru": "Следующий",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Следующий». Переключит на следующий трек. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_commands_taimer_na_5_minut",
+    "category_id": "quick_commands",
+    "phrase_example": "Таймер на 5 минут",
+    "phrases": [
+      "Таймер на 5 минут"
+    ],
+    "raw_result": "Быстрая команда без слова «Алиса»: «Таймер на 5 минут».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+    "published": {
+      "title_ru": "Таймер на 5 минут",
+      "effect_description_ru": "Выполнит «Таймер на 5 минут» без произнесения «Алиса». Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Таймер на 5 минут",
+      "effect_description_ru": "Выполнит «Таймер на 5 минут» без произнесения «Алиса». Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "quick_commands_taimer_na_5_minut",
+      "title_ru": "Таймер на 5 минут",
+      "effect_description_ru": "Выполнит «Таймер на 5 минут» без произнесения «Алиса». Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_commands_uzhin",
+    "category_id": "quick_commands",
+    "phrase_example": "Ужин",
+    "phrases": [
+      "Ужин"
+    ],
+    "raw_result": "Быстрая команда без слова «Алиса»: «Ужин».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+    "published": {
+      "title_ru": "Ужин",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Ужин». Может запустить таймер или напоминание об ужине. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Ужин",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Ужин». Может запустить таймер или напоминание об ужине. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "quick_commands_uzhin",
+      "title_ru": "Ужин",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Ужин». Может запустить таймер или напоминание об ужине. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_commands_vkliuchi_radio",
+    "category_id": "quick_commands",
+    "phrase_example": "Включи радио",
+    "phrases": [
+      "Включи радио"
+    ],
+    "raw_result": "Быстрая команда без слова «Алиса»: «Включи радио».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+    "published": {
+      "title_ru": "Включи радио",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Включи радио». Запустит радио. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Включи радио",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Включи радио». Запустит радио. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "quick_commands_vkliuchi_radio",
+      "title_ru": "Включи радио",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Включи радио». Запустит радио. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_commands_vkliuchi_svet",
+    "category_id": "quick_commands",
+    "phrase_example": "Включи свет",
+    "phrases": [
+      "Включи свет",
+      "Алиса, включи свет",
+      "Алиса, зажги свет в гостиной"
+    ],
+    "raw_result": "Быстрая команда без слова «Алиса»: «Включи свет».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+    "published": {
+      "title_ru": "Включи свет",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Включи свет». Включит свет в умном доме. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Включи свет",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Включи свет». Включит свет в умном доме. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "quick_commands_vkliuchi_svet",
+      "title_ru": "Включи свет",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Включи свет». Включит свет в умном доме. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_commands_vykliuchi_muzyku",
+    "category_id": "quick_commands",
+    "phrase_example": "Выключи музыку",
+    "phrases": [
+      "Выключи музыку"
+    ],
+    "raw_result": "Быстрая команда без слова «Алиса»: «Выключи музыку».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+    "published": {
+      "title_ru": "Выключи музыку",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Выключи музыку». Остановит воспроизведение музыки. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Выключи музыку",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Выключи музыку». Остановит воспроизведение музыки. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "quick_commands_vykliuchi_muzyku",
+      "title_ru": "Выключи музыку",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Выключи музыку». Остановит воспроизведение музыки. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_commands_vykliuchi_svet",
+    "category_id": "quick_commands",
+    "phrase_example": "Выключи свет",
+    "phrases": [
+      "Выключи свет",
+      "Алиса, выключи свет",
+      "Алиса, погаси свет на кухне"
+    ],
+    "raw_result": "Быстрая команда без слова «Алиса»: «Выключи свет».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+    "published": {
+      "title_ru": "Выключи свет",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Выключи свет». Выключит свет в умном доме. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Выключи свет",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Выключи свет». Выключит свет в умном доме. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "quick_commands_vykliuchi_svet",
+      "title_ru": "Выключи свет",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Выключи свет». Выключит свет в умном доме. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_commands_zavtrak",
+    "category_id": "quick_commands",
+    "phrase_example": "Завтрак",
+    "phrases": [
+      "Завтрак"
+    ],
+    "raw_result": "Быстрая команда без слова «Алиса»: «Завтрак».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+    "published": {
+      "title_ru": "Завтрак",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Завтрак». Может запустить таймер или напоминание о завтраке. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Завтрак",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Завтрак». Может запустить таймер или напоминание о завтраке. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "quick_commands_zavtrak",
+      "title_ru": "Завтрак",
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Завтрак». Может запустить таймер или напоминание о завтраке. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  }
+]

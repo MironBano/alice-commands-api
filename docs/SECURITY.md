@@ -69,6 +69,8 @@ DELETE FROM login_attempts;
 
 Optional: `CONTENT_SEED_PATH` — path to seed JSON on VPS (admin import-seed, not secret).
 
+**Icons:** `ICON_URL_ALLOWED_HOSTS` — allowlist для `icon_url` при publish. SVG upload: admin-only, `SvgIconValidator` (no script tags, size/viewBox). Public `GET /icons/v1/*.svg` — read-only static.
+
 Шаблоны: `.env.example`, `deploy/.env.staging.example`, `scripts/.env.example`.
 
 ---

@@ -1,0 +1,1356 @@
+[
+  {
+    "command_id": "timers_budi_menia_po_budniam_v_7",
+    "category_id": "timers",
+    "phrase_example": "Алиса, буди меня по будням в 7",
+    "phrases": [
+      "Алиса, буди меня по будням в 7"
+    ],
+    "raw_result": "Повторяющийся будильник.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Буди меня по будням в 7",
+      "effect_description_ru": "Установит будильник по будням на 7:00. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Буди меня по будням в 7",
+      "effect_description_ru": "Установит будильник по будням на 7:00. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_budi_menia_po_budniam_v_7",
+      "title_ru": "Буди меня по будням в 7",
+      "effect_description_ru": "Установит будильник по будням на 7:00. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_budi_menia_pod_muzyku",
+    "category_id": "timers",
+    "phrase_example": "Алиса, буди меня под музыку",
+    "phrases": [
+      "Алиса, буди меня под музыку"
+    ],
+    "raw_result": "Будильник с музыкой.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Буди меня под музыку",
+      "effect_description_ru": "Установит будильник с музыкой. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Буди меня под музыку",
+      "effect_description_ru": "Установит будильник с музыкой. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_budi_menia_pod_muzyku",
+      "title_ru": "Буди меня под музыку",
+      "effect_description_ru": "Установит будильник с музыкой. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_budi_menia_v_7_utra",
+    "category_id": "timers",
+    "phrase_example": "Алиса, буди меня в 7 утра",
+    "phrases": [
+      "Алиса, буди меня в 7 утра",
+      "Алиса, поставь будильник на 8:30"
+    ],
+    "raw_result": "Установит будильник.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Буди меня в 7 утра",
+      "effect_description_ru": "Установит будильник на 7:00. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Буди меня в 7 утра",
+      "effect_description_ru": "Установит будильник на 7:00. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_budi_menia_v_7_utra",
+      "title_ru": "Буди меня в 7 утра",
+      "effect_description_ru": "Установит будильник на 7:00. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_chto_novogo",
+    "category_id": "timers",
+    "phrase_example": "Алиса, что нового?",
+    "phrases": [
+      "Алиса, что нового?"
+    ],
+    "raw_result": "На колонки от Яндекса могут приходить уведомления. Тогда вы услышите звуковой сигнал и увидите зеленую индикацию . Спросите Алису: , — и она прочитает уведомления.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/settings/notifications",
+    "published": {
+      "title_ru": "Что нового?",
+      "effect_description_ru": "Расскажет о новых возможностях Алисы или устройства. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Что нового?",
+      "effect_description_ru": "Расскажет о новых возможностях Алисы или устройства. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "timers_chto_novogo",
+      "title_ru": "Что нового?",
+      "effect_description_ru": "Расскажет о новых возможностях Алисы или устройства. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_eshche_5_minutochek",
+    "category_id": "timers",
+    "phrase_example": "Алиса, еще 5 минуточек",
+    "phrases": [
+      "Алиса, еще 5 минуточек",
+      "Алиса, переведи будильник на 10 утра",
+      "Алиса, разбуди попозже",
+      "Алиса, дай поспать (в этом случае Алиса перенесет будильник на 10 минут)"
+    ],
+    "raw_result": "Управлять будильником во время его звонка",
+    "source_url": "https://alice.yandex.ru/support/ru/station/alarm",
+    "published": {
+      "title_ru": "Еще 5 минуточек",
+      "effect_description_ru": "Запустит таймер на 5 минут. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Еще 5 минуточек",
+      "effect_description_ru": "Запустит таймер на 5 минут. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_eshche_5_minutochek",
+      "title_ru": "Еще 5 минуточек",
+      "effect_description_ru": "Запустит таймер на 5 минут. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_kakie_u_menia_budilniki",
+    "category_id": "timers",
+    "phrase_example": "Алиса, какие у меня будильники?",
+    "phrases": [
+      "Алиса, какие у меня будильники?"
+    ],
+    "raw_result": "Перечислит активные будильники.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Какие у меня будильники?",
+      "effect_description_ru": "Перечислит активные будильники. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Какие у меня будильники?",
+      "effect_description_ru": "Перечислит активные будильники. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_kakie_u_menia_budilniki",
+      "title_ru": "Какие у меня будильники?",
+      "effect_description_ru": "Перечислит активные будильники. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_kakie_vstrechi_budut_segodnia",
+    "category_id": "timers",
+    "phrase_example": "Алиса, какие встречи будут сегодня ?",
+    "phrases": [
+      "Алиса, какие встречи будут сегодня ?"
+    ],
+    "raw_result": "Узнать, какие события запланированы",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/calendar",
+    "published": {
+      "title_ru": "Какие встречи будут сегодня?",
+      "effect_description_ru": "Перечислит встречи из календаря на сегодня. Нужно: устройство с Алисой; подключённый календарь."
+    },
+    "draft": {
+      "title_ru": "Какие встречи будут сегодня?",
+      "effect_description_ru": "Перечислит встречи из календаря на сегодня. Нужно: устройство с Алисой; подключённый календарь."
+    },
+    "edit": {
+      "command_id": "timers_kakie_vstrechi_budut_segodnia",
+      "title_ru": "Какие встречи будут сегодня?",
+      "effect_description_ru": "Перечислит встречи из календаря на сегодня. Нужно: устройство с Алисой; подключённый календарь.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_kofe_s_druziami",
+    "category_id": "timers",
+    "phrase_example": "Алиса, кофе с друзьями",
+    "phrases": [
+      "Алиса, кофе с друзьями"
+    ],
+    "raw_result": "Поставь событие по пятницам на 17:00.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/calendar",
+    "published": {
+      "title_ru": "Кофе с друзьями",
+      "effect_description_ru": "Создаст или найдёт событие «Кофе с друзьями». Нужно: устройство с Алисой; подключённый календарь."
+    },
+    "draft": {
+      "title_ru": "Кофе с друзьями",
+      "effect_description_ru": "Создаст или найдёт событие «Кофе с друзьями». Нужно: устройство с Алисой; подключённый календарь."
+    },
+    "edit": {
+      "command_id": "timers_kofe_s_druziami",
+      "title_ru": "Кофе с друзьями",
+      "effect_description_ru": "Создаст или найдёт событие «Кофе с друзьями». Нужно: устройство с Алисой; подключённый календарь.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_mozhet_napomnit_vash_nomer_telefona_pros",
+    "category_id": "timers",
+    "phrase_example": "Алиса может напомнить ваш номер телефона. Просто скажите:",
+    "phrases": [
+      "Алиса может напомнить ваш номер телефона. Просто скажите:"
+    ],
+    "raw_result": "Алиса выполнит: узнать свой номер телефона.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/phone-search",
+    "published": {
+      "title_ru": "Напомни мой номер телефона",
+      "effect_description_ru": "Создаст напоминание. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Напомни мой номер телефона",
+      "effect_description_ru": "Создаст напоминание. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_mozhet_napomnit_vash_nomer_telefona_pros",
+      "title_ru": "Напомни мой номер телефона",
+      "effect_description_ru": "Создаст напоминание. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_napomni_cherez_chas_pozvonit",
+    "category_id": "timers",
+    "phrase_example": "Алиса, напомни через час позвонить",
+    "phrases": [
+      "Алиса, напомни через час позвонить",
+      "Алиса, напомни в 18:00 купить молоко"
+    ],
+    "raw_result": "Создаст напоминание.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Напомни через час позвонить",
+      "effect_description_ru": "Создаст напоминание «позвонить» через час. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Напомни через час позвонить",
+      "effect_description_ru": "Создаст напоминание «позвонить» через час. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_napomni_cherez_chas_pozvonit",
+      "title_ru": "Напомни через час позвонить",
+      "effect_description_ru": "Создаст напоминание «позвонить» через час. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_napomni_mne_pozvonit_mame_cherez_polchas",
+    "category_id": "timers",
+    "phrase_example": "Алиса, напомни мне позвонить маме через полчаса",
+    "phrases": [
+      "Алиса, напомни мне позвонить маме через полчаса",
+      "Алиса, напомни выключить духовку через 7 минут"
+    ],
+    "raw_result": "Установить напоминание",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/reminder",
+    "published": {
+      "title_ru": "Напомни мне позвонить маме через полчаса",
+      "effect_description_ru": "Создаст напоминание. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Напомни мне позвонить маме через полчаса",
+      "effect_description_ru": "Создаст напоминание. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_napomni_mne_pozvonit_mame_cherez_polchas",
+      "title_ru": "Напомни мне позвонить маме через полчаса",
+      "effect_description_ru": "Создаст напоминание. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_nochnik",
+    "category_id": "timers",
+    "phrase_example": "Алиса, ночник",
+    "phrases": [
+      "Алиса, ночник"
+    ],
+    "raw_result": "Подсветка в режиме (на Станции 2, Миди и Мини 3 Про).",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/sleep-timer",
+    "published": {
+      "title_ru": "Ночник",
+      "effect_description_ru": "Включит режим ночника на поддерживаемой колонке. Нужно: устройство с Алисой с подсветкой."
+    },
+    "draft": {
+      "title_ru": "Ночник",
+      "effect_description_ru": "Включит режим ночника на поддерживаемой колонке. Нужно: устройство с Алисой с подсветкой."
+    },
+    "edit": {
+      "command_id": "timers_nochnik",
+      "title_ru": "Ночник",
+      "effect_description_ru": "Включит режим ночника на поддерживаемой колонке. Нужно: устройство с Алисой с подсветкой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_otkliuchi_budilnik",
+    "category_id": "timers",
+    "phrase_example": "Алиса, отключи будильник",
+    "phrases": [
+      "Алиса, отключи будильник",
+      "Алиса, выключи все будильники"
+    ],
+    "raw_result": "Отключит будильники.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Отключи будильник",
+      "effect_description_ru": "Отключит активные будильники. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Отключи будильник",
+      "effect_description_ru": "Отключит активные будильники. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_otkliuchi_budilnik",
+      "title_ru": "Отключи будильник",
+      "effect_description_ru": "Отключит активные будильники. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_otmeni_taimer",
+    "category_id": "timers",
+    "phrase_example": "Алиса, отмени таймер",
+    "phrases": [
+      "Алиса, отмени таймер",
+      "Алиса, останови таймер",
+      "Алиса, отмени таймеры"
+    ],
+    "raw_result": "Остановит активный таймер.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/alice-recipe",
+    "published": {
+      "title_ru": "Отмени таймер",
+      "effect_description_ru": "Отменит активный таймер. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Отмени таймер",
+      "effect_description_ru": "Отменит активный таймер. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_otmeni_taimer",
+      "title_ru": "Отмени таймер",
+      "effect_description_ru": "Отменит активный таймер. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_perechisli_napominaniia",
+    "category_id": "timers",
+    "phrase_example": "Алиса, перечисли напоминания",
+    "phrases": [
+      "Алиса, перечисли напоминания"
+    ],
+    "raw_result": "Прослушать все напоминания",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/reminder",
+    "published": {
+      "title_ru": "Перечисли напоминания",
+      "effect_description_ru": "Перечислит активные напоминания. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Перечисли напоминания",
+      "effect_description_ru": "Перечислит активные напоминания. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_perechisli_napominaniia",
+      "title_ru": "Перечисли напоминания",
+      "effect_description_ru": "Перечислит активные напоминания. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_podpisatsia_na_novinki_ot_muzyki",
+    "category_id": "timers",
+    "phrase_example": "Алиса, подписаться на новинки от Музыки",
+    "phrases": [
+      "Алиса, подписаться на новинки от Музыки"
+    ],
+    "raw_result": "Подписаться на уведомления от сервисов Яндекса можно с помощью голосовых команд. Например, скажите.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/settings/notifications",
+    "published": {
+      "title_ru": "Подписаться на новинки от Музыки",
+      "effect_description_ru": "Включит уведомления о новинках Яндекс Музыки. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Подписаться на новинки от Музыки",
+      "effect_description_ru": "Включит уведомления о новинках Яндекс Музыки. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "timers_podpisatsia_na_novinki_ot_muzyki",
+      "title_ru": "Подписаться на новинки от Музыки",
+      "effect_description_ru": "Включит уведомления о новинках Яндекс Музыки. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_postav_budilnik_na_25_oktiabria_19_00",
+    "category_id": "timers",
+    "phrase_example": "Алиса, поставь будильник на 25 октября 19:00",
+    "phrases": [
+      "Алиса, поставь будильник на 25 октября 19:00"
+    ],
+    "raw_result": "Поставь будильник на 25 октября 19:00.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/alarm",
+    "published": {
+      "title_ru": "Поставь будильник на 25 октября 19:00",
+      "effect_description_ru": "Установит будильник на 25 октября в 19:00. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Поставь будильник на 25 октября 19:00",
+      "effect_description_ru": "Установит будильник на 25 октября в 19:00. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_postav_budilnik_na_25_oktiabria_19_00",
+      "title_ru": "Поставь будильник на 25 октября 19:00",
+      "effect_description_ru": "Установит будильник на 25 октября в 19:00. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_postav_budilnik_na_8_utra_po_budniam",
+    "category_id": "timers",
+    "phrase_example": "Алиса, поставь будильник на 8 утра по будням",
+    "phrases": [
+      "Алиса, поставь будильник на 8 утра по будням"
+    ],
+    "raw_result": "Поставь будильник на 8 утра по будням.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/alarm",
+    "published": {
+      "title_ru": "Поставь будильник на 8 утра по будням",
+      "effect_description_ru": "Установит будильник на 8 утра по будням. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Поставь будильник на 8 утра по будням",
+      "effect_description_ru": "Установит будильник на 8 утра по будням. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_postav_budilnik_na_8_utra_po_budniam",
+      "title_ru": "Поставь будильник на 8 утра по будням",
+      "effect_description_ru": "Установит будильник на 8 утра по будням. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_postav_etu_pesniu_na_budilnik_esli_igrae",
+    "category_id": "timers",
+    "phrase_example": "Алиса, поставь эту песню на будильник (если играет трек, который вам понравился)",
+    "phrases": [
+      "Алиса, поставь эту песню на будильник (если играет трек, который вам понравился)"
+    ],
+    "raw_result": "Поставь эту песню на будильник (если играет трек, который вам понравился).",
+    "source_url": "https://alice.yandex.ru/support/ru/station/alarm",
+    "published": {
+      "title_ru": "Поставь эту песню на будильник",
+      "effect_description_ru": "Сделает текущий трек мелодией будильника. Нужно: устройство с Алисой; играет трек."
+    },
+    "draft": {
+      "title_ru": "Поставь эту песню на будильник",
+      "effect_description_ru": "Сделает текущий трек мелодией будильника. Нужно: устройство с Алисой; играет трек."
+    },
+    "edit": {
+      "command_id": "timers_postav_etu_pesniu_na_budilnik_esli_igrae",
+      "title_ru": "Поставь эту песню на будильник",
+      "effect_description_ru": "Сделает текущий трек мелодией будильника. Нужно: устройство с Алисой; играет трек.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_postav_gromkost_budilnika_na_5",
+    "category_id": "timers",
+    "phrase_example": "Алиса, поставь громкость будильника на 5",
+    "phrases": [
+      "Алиса, поставь громкость будильника на 5",
+      "Алиса, измени громкость будильника на 10"
+    ],
+    "raw_result": "Изменить громкость будильника По умолчанию громкость будильника нарастает от 1 до 7. Максимальный уровень можно менять, а отключить нарастание не получится. Подробнее .",
+    "source_url": "https://alice.yandex.ru/support/ru/station/alarm",
+    "published": {
+      "title_ru": "Поставь громкость будильника на 5",
+      "effect_description_ru": "Установит громкость будильника на уровень 5. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Поставь громкость будильника на 5",
+      "effect_description_ru": "Установит громкость будильника на уровень 5. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_postav_gromkost_budilnika_na_5",
+      "title_ru": "Поставь громкость будильника на 5",
+      "effect_description_ru": "Установит громкость будильника на уровень 5. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_postav_moiu_muzyku_na_budilnik",
+    "category_id": "timers",
+    "phrase_example": "Алиса, поставь мою музыку на будильник",
+    "phrases": [
+      "Алиса, поставь мою музыку на будильник"
+    ],
+    "raw_result": "Поставь мою музыку на будильник.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/alarm",
+    "published": {
+      "title_ru": "Поставь мою музыку на будильник",
+      "effect_description_ru": "Выберет вашу музыку в качестве мелодии будильника. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Поставь мою музыку на будильник",
+      "effect_description_ru": "Выберет вашу музыку в качестве мелодии будильника. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "timers_postav_moiu_muzyku_na_budilnik",
+      "title_ru": "Поставь мою музыку на будильник",
+      "effect_description_ru": "Выберет вашу музыку в качестве мелодии будильника. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_postav_na_budilnik_arctic_monkeys_v_9_ut",
+    "category_id": "timers",
+    "phrase_example": "Алиса, поставь на будильник Arctic Monkeys в 9 утра по будням",
+    "phrases": [
+      "Алиса, поставь на будильник Arctic Monkeys в 9 утра по будням"
+    ],
+    "raw_result": "Поставь на будильник Arctic Monkeys в 9 утра по будням.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/alarm",
+    "published": {
+      "title_ru": "Будильник с Arctic Monkeys",
+      "effect_description_ru": "Установит будильник на 9 утра по будням с музыкой Arctic Monkeys. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Будильник с Arctic Monkeys",
+      "effect_description_ru": "Установит будильник на 9 утра по будням с музыкой Arctic Monkeys. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "timers_postav_na_budilnik_arctic_monkeys_v_9_ut",
+      "title_ru": "Будильник с Arctic Monkeys",
+      "effect_description_ru": "Установит будильник на 9 утра по будням с музыкой Arctic Monkeys. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_postav_napominanie_pochitat_knigu_na_kaz",
+    "category_id": "timers",
+    "phrase_example": "Алиса, поставь напоминание почитать книгу на каждый вторник в 20:00",
+    "phrases": [
+      "Алиса, поставь напоминание почитать книгу на каждый вторник в 20:00"
+    ],
+    "raw_result": "Поставь напоминание почитать книгу на каждый вторник в 20:00.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/reminder",
+    "published": {
+      "title_ru": "Напоминание почитать книгу",
+      "effect_description_ru": "Создаст повторяющееся напоминание почитать книгу по вторникам в 20:00. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Напоминание почитать книгу",
+      "effect_description_ru": "Создаст повторяющееся напоминание почитать книгу по вторникам в 20:00. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_postav_napominanie_pochitat_knigu_na_kaz",
+      "title_ru": "Напоминание почитать книгу",
+      "effect_description_ru": "Создаст повторяющееся напоминание почитать книгу по вторникам в 20:00. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_postav_pleilist_gromkie_novinki_mesiatsa",
+    "category_id": "timers",
+    "phrase_example": "Алиса, поставь плейлист Громкие новинки месяца на будильник",
+    "phrases": [
+      "Алиса, поставь плейлист Громкие новинки месяца на будильник"
+    ],
+    "raw_result": "Поставь плейлист Громкие новинки месяца на будильник.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/alarm",
+    "published": {
+      "title_ru": "Громкие новинки на будильник",
+      "effect_description_ru": "Выберет плейлист «Громкие новинки месяца» для будильника. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Громкие новинки на будильник",
+      "effect_description_ru": "Выберет плейлист «Громкие новинки месяца» для будильника. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "timers_postav_pleilist_gromkie_novinki_mesiatsa",
+      "title_ru": "Громкие новинки на будильник",
+      "effect_description_ru": "Выберет плейлист «Громкие новинки месяца» для будильника. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_postav_rok_na_budilnik_v_10_utra",
+    "category_id": "timers",
+    "phrase_example": "Алиса, поставь рок на будильник в 10 утра",
+    "phrases": [
+      "Алиса, поставь рок на будильник в 10 утра"
+    ],
+    "raw_result": "Поставь рок на будильник в 10 утра.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/alarm",
+    "published": {
+      "title_ru": "Поставь рок на будильник в 10 утра",
+      "effect_description_ru": "Установит будильник на 10 утра с рок-музыкой. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Поставь рок на будильник в 10 утра",
+      "effect_description_ru": "Установит будильник на 10 утра с рок-музыкой. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "timers_postav_rok_na_budilnik_v_10_utra",
+      "title_ru": "Поставь рок на будильник в 10 утра",
+      "effect_description_ru": "Установит будильник на 10 утра с рок-музыкой. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_postav_sobytie_po_piatnitsam_na_17_00_ko",
+    "category_id": "timers",
+    "phrase_example": "Алиса, поставь событие по пятницам на 17:00 «Кофе с друзьями",
+    "phrases": [
+      "Алиса, поставь событие по пятницам на 17:00 «Кофе с друзьями",
+      "Алиса, отметь в календаре тренировку по субботам в 10 утра"
+    ],
+    "raw_result": "Создать регулярное событие в календаре",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/calendar",
+    "published": {
+      "title_ru": "Поставь событие «Кофе с друзьями»",
+      "effect_description_ru": "Создаст повторяющееся событие в календаре по пятницам в 17:00. Нужно: устройство с Алисой; подключённый календарь."
+    },
+    "draft": {
+      "title_ru": "Поставь событие «Кофе с друзьями»",
+      "effect_description_ru": "Создаст повторяющееся событие в календаре по пятницам в 17:00. Нужно: устройство с Алисой; подключённый календарь."
+    },
+    "edit": {
+      "command_id": "timers_postav_sobytie_po_piatnitsam_na_17_00_ko",
+      "title_ru": "Поставь событие «Кофе с друзьями»",
+      "effect_description_ru": "Создаст повторяющееся событие в календаре по пятницам в 17:00. Нужно: устройство с Алисой; подключённый календарь.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_postav_standartnyi_zvuk_budilnika",
+    "category_id": "timers",
+    "phrase_example": "Алиса, поставь стандартный звук будильника",
+    "phrases": [
+      "Алиса, поставь стандартный звук будильника",
+      "Алиса, какая музыка на будильнике?",
+      "Алиса, какие будильники установлены?",
+      "Алиса, сколько осталось до будильника?",
+      "Алиса, удали будильник",
+      "Алиса, удали все будильники"
+    ],
+    "raw_result": "Управлять будильником",
+    "source_url": "https://alice.yandex.ru/support/ru/station/alarm",
+    "published": {
+      "title_ru": "Поставь стандартный звук будильника",
+      "effect_description_ru": "Вернёт стандартную мелодию будильника. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Поставь стандартный звук будильника",
+      "effect_description_ru": "Вернёт стандартную мелодию будильника. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_postav_standartnyi_zvuk_budilnika",
+      "title_ru": "Поставь стандартный звук будильника",
+      "effect_description_ru": "Вернёт стандартную мелодию будильника. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_postav_taimer_na_10_minut",
+    "category_id": "timers",
+    "phrase_example": "Алиса, поставь таймер на 10 минут",
+    "phrases": [
+      "Алиса, поставь таймер на 10 минут",
+      "Алиса, поставь таймер на час"
+    ],
+    "raw_result": "Запустит таймер на 10 мин.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/timer",
+    "published": {
+      "title_ru": "Поставь таймер на 10 минут",
+      "effect_description_ru": "Запустит таймер на 10 минут. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Поставь таймер на 10 минут",
+      "effect_description_ru": "Запустит таймер на 10 минут. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_postav_taimer_na_10_minut",
+      "title_ru": "Поставь таймер на 10 минут",
+      "effect_description_ru": "Запустит таймер на 10 минут. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_postav_taimer_na_15_minut",
+    "category_id": "timers",
+    "phrase_example": "Алиса, поставь таймер на 15 минут",
+    "phrases": [
+      "Алиса, поставь таймер на 15 минут"
+    ],
+    "raw_result": "Запустит таймер на 15 мин.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Поставь таймер на 15 минут",
+      "effect_description_ru": "Запустит таймер на 15 минут. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Поставь таймер на 15 минут",
+      "effect_description_ru": "Запустит таймер на 15 минут. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_postav_taimer_na_15_minut",
+      "title_ru": "Поставь таймер на 15 минут",
+      "effect_description_ru": "Запустит таймер на 15 минут. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_postav_taimer_na_1_minut",
+    "category_id": "timers",
+    "phrase_example": "Алиса, поставь таймер на 1 минут",
+    "phrases": [
+      "Алиса, поставь таймер на 1 минут"
+    ],
+    "raw_result": "Запустит таймер на 1 мин.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Поставь таймер на 1 минут",
+      "effect_description_ru": "Запустит таймер на 1 минуту. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Поставь таймер на 1 минут",
+      "effect_description_ru": "Запустит таймер на 1 минуту. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_postav_taimer_na_1_minut",
+      "title_ru": "Поставь таймер на 1 минут",
+      "effect_description_ru": "Запустит таймер на 1 минуту. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_postav_taimer_na_20_minut",
+    "category_id": "timers",
+    "phrase_example": "Алиса, поставь таймер на 20 минут",
+    "phrases": [
+      "Алиса, поставь таймер на 20 минут"
+    ],
+    "raw_result": "Запустит таймер на 20 мин.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Поставь таймер на 20 минут",
+      "effect_description_ru": "Запустит таймер на 20 минут. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Поставь таймер на 20 минут",
+      "effect_description_ru": "Запустит таймер на 20 минут. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_postav_taimer_na_20_minut",
+      "title_ru": "Поставь таймер на 20 минут",
+      "effect_description_ru": "Запустит таймер на 20 минут. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_postav_taimer_na_2_minut",
+    "category_id": "timers",
+    "phrase_example": "Алиса, поставь таймер на 2 минут",
+    "phrases": [
+      "Алиса, поставь таймер на 2 минут"
+    ],
+    "raw_result": "Запустит таймер на 2 мин.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Поставь таймер на 2 минут",
+      "effect_description_ru": "Запустит таймер на 2 минуты. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Поставь таймер на 2 минут",
+      "effect_description_ru": "Запустит таймер на 2 минуты. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_postav_taimer_na_2_minut",
+      "title_ru": "Поставь таймер на 2 минут",
+      "effect_description_ru": "Запустит таймер на 2 минуты. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_postav_taimer_na_30_minut",
+    "category_id": "timers",
+    "phrase_example": "Алиса, поставь таймер на 30 минут",
+    "phrases": [
+      "Алиса, поставь таймер на 30 минут"
+    ],
+    "raw_result": "Запустит таймер на 30 мин.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Поставь таймер на 30 минут",
+      "effect_description_ru": "Запустит таймер на 30 минут. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Поставь таймер на 30 минут",
+      "effect_description_ru": "Запустит таймер на 30 минут. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_postav_taimer_na_30_minut",
+      "title_ru": "Поставь таймер на 30 минут",
+      "effect_description_ru": "Запустит таймер на 30 минут. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_postav_taimer_na_3_minut",
+    "category_id": "timers",
+    "phrase_example": "Алиса, поставь таймер на 3 минут",
+    "phrases": [
+      "Алиса, поставь таймер на 3 минут"
+    ],
+    "raw_result": "Запустит таймер на 3 мин.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Поставь таймер на 3 минут",
+      "effect_description_ru": "Запустит таймер на 3 минуты. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Поставь таймер на 3 минут",
+      "effect_description_ru": "Запустит таймер на 3 минуты. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_postav_taimer_na_3_minut",
+      "title_ru": "Поставь таймер на 3 минут",
+      "effect_description_ru": "Запустит таймер на 3 минуты. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_postav_taimer_na_45_minut",
+    "category_id": "timers",
+    "phrase_example": "Алиса, поставь таймер на 45 минут",
+    "phrases": [
+      "Алиса, поставь таймер на 45 минут"
+    ],
+    "raw_result": "Запустит таймер на 45 мин.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Поставь таймер на 45 минут",
+      "effect_description_ru": "Запустит таймер на 45 минут. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Поставь таймер на 45 минут",
+      "effect_description_ru": "Запустит таймер на 45 минут. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_postav_taimer_na_45_minut",
+      "title_ru": "Поставь таймер на 45 минут",
+      "effect_description_ru": "Запустит таймер на 45 минут. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_postav_taimer_na_5_minut",
+    "category_id": "timers",
+    "phrase_example": "Алиса, поставь таймер на 5 минут",
+    "phrases": [
+      "Алиса, поставь таймер на 5 минут"
+    ],
+    "raw_result": "Запустит таймер на 5 мин.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Поставь таймер на 5 минут",
+      "effect_description_ru": "Запустит таймер на 5 минут. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Поставь таймер на 5 минут",
+      "effect_description_ru": "Запустит таймер на 5 минут. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_postav_taimer_na_5_minut",
+      "title_ru": "Поставь таймер на 5 минут",
+      "effect_description_ru": "Запустит таймер на 5 минут. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_postav_taimer_na_60_minut",
+    "category_id": "timers",
+    "phrase_example": "Алиса, поставь таймер на 60 минут",
+    "phrases": [
+      "Алиса, поставь таймер на 60 минут"
+    ],
+    "raw_result": "Запустит таймер на 60 мин.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Поставь таймер на 60 минут",
+      "effect_description_ru": "Запустит таймер на 60 минут. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Поставь таймер на 60 минут",
+      "effect_description_ru": "Запустит таймер на 60 минут. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_postav_taimer_na_60_minut",
+      "title_ru": "Поставь таймер на 60 минут",
+      "effect_description_ru": "Запустит таймер на 60 минут. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_postav_vstrechu_s_roditeliami_v_10",
+    "category_id": "timers",
+    "phrase_example": "Алиса, поставь встречу с родителями в 10",
+    "phrases": [
+      "Алиса, поставь встречу с родителями в 10",
+      "Алиса, установи в пятницу на 14:00 встречу с коллегами на 40 минут",
+      "Алиса, поставь встречу в аэропорту 27 мая в 5 утра"
+    ],
+    "raw_result": "Создать событие в календаре Если не уточнить продолжительность события, Алиса установит стандартную — 30 минут. Чтобы создать событие с полуночи до 6 утра, уточните время суток.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/calendar",
+    "published": {
+      "title_ru": "Поставь встречу с родителями в 10",
+      "effect_description_ru": "Добавит встречу с родителями в календарь. Нужно: устройство с Алисой; подключённый календарь."
+    },
+    "draft": {
+      "title_ru": "Поставь встречу с родителями в 10",
+      "effect_description_ru": "Добавит встречу с родителями в календарь. Нужно: устройство с Алисой; подключённый календарь."
+    },
+    "edit": {
+      "command_id": "timers_postav_vstrechu_s_roditeliami_v_10",
+      "title_ru": "Поставь встречу с родителями в 10",
+      "effect_description_ru": "Добавит встречу с родителями в календарь. Нужно: устройство с Алисой; подключённый календарь.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_skolko_ostalos_do_budilnika",
+    "category_id": "timers",
+    "phrase_example": "Алиса, сколько осталось до будильника?",
+    "phrases": [
+      "Алиса, сколько осталось до будильника?",
+      "Алиса, сколько на таймере?"
+    ],
+    "raw_result": "Сообщит оставшееся время.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Сколько осталось до будильника?",
+      "effect_description_ru": "Сообщит, сколько осталось до ближайшего будильника. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Сколько осталось до будильника?",
+      "effect_description_ru": "Сообщит, сколько осталось до ближайшего будильника. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_skolko_ostalos_do_budilnika",
+      "title_ru": "Сколько осталось до будильника?",
+      "effect_description_ru": "Сообщит, сколько осталось до ближайшего будильника. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_skolko_ostalos_do_kontsa_taimera_sna",
+    "category_id": "timers",
+    "phrase_example": "Алиса, сколько осталось до конца таймера сна?",
+    "phrases": [
+      "Алиса, сколько осталось до конца таймера сна?",
+      "Алиса, поставь таймер сна на паузу"
+    ],
+    "raw_result": "Управлять таймером сна",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/sleep-timer",
+    "published": {
+      "title_ru": "Сколько осталось до конца таймера сна?",
+      "effect_description_ru": "Сообщит, сколько осталось до будильника. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Сколько осталось до конца таймера сна?",
+      "effect_description_ru": "Сообщит, сколько осталось до будильника. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_skolko_ostalos_do_kontsa_taimera_sna",
+      "title_ru": "Сколько осталось до конца таймера сна?",
+      "effect_description_ru": "Сообщит, сколько осталось до будильника. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_skolko_ostalos_do_taimera",
+    "category_id": "timers",
+    "phrase_example": "Алиса, сколько осталось до таймера?",
+    "phrases": [
+      "Алиса, сколько осталось до таймера?",
+      "Алиса, поставь первый таймер на паузу",
+      "Алиса, какие таймеры установлены?",
+      "Алиса, удали таймер",
+      "Алиса, сколько до конца таймера?"
+    ],
+    "raw_result": "Управлять таймером",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/timer",
+    "published": {
+      "title_ru": "Сколько осталось до таймера?",
+      "effect_description_ru": "Сообщит, сколько осталось до будильника. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Сколько осталось до таймера?",
+      "effect_description_ru": "Сообщит, сколько осталось до будильника. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_skolko_ostalos_do_taimera",
+      "title_ru": "Сколько осталось до таймера?",
+      "effect_description_ru": "Сообщит, сколько осталось до будильника. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_taimer_na_30_sekund",
+    "category_id": "timers",
+    "phrase_example": "Алиса, таймер на 30 секунд",
+    "phrases": [
+      "Алиса, таймер на 30 секунд"
+    ],
+    "raw_result": "Короткий таймер.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Таймер на 30 секунд",
+      "effect_description_ru": "Запустит таймер на 30 секунд. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Таймер на 30 секунд",
+      "effect_description_ru": "Запустит таймер на 30 секунд. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_taimer_na_30_sekund",
+      "title_ru": "Таймер на 30 секунд",
+      "effect_description_ru": "Запустит таймер на 30 секунд. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_udali_budilnik_udali_vse_budilniki",
+    "category_id": "timers",
+    "phrase_example": "Алиса, удали будильник / Удали все будильники",
+    "phrases": [
+      "Алиса, удали будильник / Удали все будильники"
+    ],
+    "raw_result": "Удали будильник / Удали все будильники.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/alarm",
+    "published": {
+      "title_ru": "Удали будильники",
+      "effect_description_ru": "Удалит один или все будильники по запросу. Нужно: устройство с Алисой; настроенные будильники."
+    },
+    "draft": {
+      "title_ru": "Удали будильники",
+      "effect_description_ru": "Удалит один или все будильники по запросу. Нужно: устройство с Алисой; настроенные будильники."
+    },
+    "edit": {
+      "command_id": "timers_udali_budilnik_udali_vse_budilniki",
+      "title_ru": "Удали будильники",
+      "effect_description_ru": "Удалит один или все будильники по запросу. Нужно: устройство с Алисой; настроенные будильники.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_udali_napominanie",
+    "category_id": "timers",
+    "phrase_example": "Алиса, удали напоминание",
+    "phrases": [
+      "Алиса, удали напоминание",
+      "Алиса, удали все напоминания"
+    ],
+    "raw_result": "Удалить созданное напоминание",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/reminder",
+    "published": {
+      "title_ru": "Удали напоминание",
+      "effect_description_ru": "Отменит таймер или будильник. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Удали напоминание",
+      "effect_description_ru": "Отменит таймер или будильник. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_udali_napominanie",
+      "title_ru": "Удали напоминание",
+      "effect_description_ru": "Отменит таймер или будильник. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_udali_segodniashniuiu_vstrechu_v_14_00",
+    "category_id": "timers",
+    "phrase_example": "Алиса, удали сегодняшнюю встречу в 14:00",
+    "phrases": [
+      "Алиса, удали сегодняшнюю встречу в 14:00",
+      "Алиса, удали встречу 22 мая в 9:00 утра"
+    ],
+    "raw_result": "Удалить созданные события из календаря",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/calendar",
+    "published": {
+      "title_ru": "Удали сегодняшнюю встречу в 14:00",
+      "effect_description_ru": "Отменит таймер или будильник. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Удали сегодняшнюю встречу в 14:00",
+      "effect_description_ru": "Отменит таймер или будильник. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_udali_segodniashniuiu_vstrechu_v_14_00",
+      "title_ru": "Удали сегодняшнюю встречу в 14:00",
+      "effect_description_ru": "Отменит таймер или будильник. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_udali_taimer_sna",
+    "category_id": "timers",
+    "phrase_example": "Алиса, удали таймер сна",
+    "phrases": [
+      "Алиса, удали таймер сна"
+    ],
+    "raw_result": "Выключить таймер сна",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/sleep-timer",
+    "published": {
+      "title_ru": "Удали таймер сна",
+      "effect_description_ru": "Отменит таймер или будильник. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Удали таймер сна",
+      "effect_description_ru": "Отменит таймер или будильник. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_udali_taimer_sna",
+      "title_ru": "Удали таймер сна",
+      "effect_description_ru": "Отменит таймер или будильник. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_umnyi_dom",
+    "category_id": "timers",
+    "phrase_example": "Алиса, умный Дом",
+    "phrases": [
+      "Алиса, умный Дом"
+    ],
+    "raw_result": "Приложение Дом с Алисой объединяет все ваши устройства и позволяет легко ими управлять. Обратите внимание, что в вашем телефоне это приложение может называться.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/order-status",
+    "published": {
+      "title_ru": "Умный Дом",
+      "effect_description_ru": "Откроет или расскажет о возможностях умного дома. Нужно: устройство с Алисой; умные устройства при управлении ими."
+    },
+    "draft": {
+      "title_ru": "Умный Дом",
+      "effect_description_ru": "Откроет или расскажет о возможностях умного дома. Нужно: устройство с Алисой; умные устройства при управлении ими."
+    },
+    "edit": {
+      "command_id": "timers_umnyi_dom",
+      "title_ru": "Умный Дом",
+      "effect_description_ru": "Откроет или расскажет о возможностях умного дома. Нужно: устройство с Алисой; умные устройства при управлении ими.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_vkliuchi_chasy",
+    "category_id": "timers",
+    "phrase_example": "Алиса, включи часы",
+    "phrases": [
+      "Алиса, включи часы"
+    ],
+    "raw_result": "Чтобы снова включить часы, скажите.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/settings/clock-off",
+    "published": {
+      "title_ru": "Включи часы",
+      "effect_description_ru": "Покажет или включит часы на экране поддерживаемого устройства. Нужно: устройство с Алисой с экраном."
+    },
+    "draft": {
+      "title_ru": "Включи часы",
+      "effect_description_ru": "Покажет или включит часы на экране поддерживаемого устройства. Нужно: устройство с Алисой с экраном."
+    },
+    "edit": {
+      "command_id": "timers_vkliuchi_chasy",
+      "title_ru": "Включи часы",
+      "effect_description_ru": "Покажет или включит часы на экране поддерживаемого устройства. Нужно: устройство с Алисой с экраном.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_vykliuchi_vtoroi_taimer",
+    "category_id": "timers",
+    "phrase_example": "Алиса, выключи второй таймер",
+    "phrases": [
+      "Алиса, выключи второй таймер"
+    ],
+    "raw_result": "Удалить таймер",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/timer",
+    "published": {
+      "title_ru": "Выключи второй таймер",
+      "effect_description_ru": "Запустит или управляет таймером. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Выключи второй таймер",
+      "effect_description_ru": "Запустит или управляет таймером. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_vykliuchi_vtoroi_taimer",
+      "title_ru": "Выключи второй таймер",
+      "effect_description_ru": "Запустит или управляет таймером. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_vykliuchis_cherez_20_minut",
+    "category_id": "timers",
+    "phrase_example": "Алиса, выключись через 20 минут",
+    "phrases": [
+      "Алиса, выключись через 20 минут",
+      "Алиса, выключи музыку в полночь"
+    ],
+    "raw_result": "Включить таймер сна",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/sleep-timer",
+    "published": {
+      "title_ru": "Выключись через 20 минут",
+      "effect_description_ru": "Запустит таймер на 20 минут. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Выключись через 20 минут",
+      "effect_description_ru": "Запустит таймер на 20 минут. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_vykliuchis_cherez_20_minut",
+      "title_ru": "Выключись через 20 минут",
+      "effect_description_ru": "Запустит таймер на 20 минут. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "timers_zavari_chai_taimer_5_minut",
+    "category_id": "timers",
+    "phrase_example": "Алиса, завари чай — таймер 5 минут",
+    "phrases": [
+      "Алиса, завари чай — таймер 5 минут"
+    ],
+    "raw_result": "Таймер для заваривания чая.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Завари чай — таймер 5 минут",
+      "effect_description_ru": "Запустит таймер на 5 минут для заваривания чая. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Завари чай — таймер 5 минут",
+      "effect_description_ru": "Запустит таймер на 5 минут для заваривания чая. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "timers_zavari_chai_taimer_5_minut",
+      "title_ru": "Завари чай — таймер 5 минут",
+      "effect_description_ru": "Запустит таймер на 5 минут для заваривания чая. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  }
+]

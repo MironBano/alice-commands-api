@@ -1,6 +1,6 @@
 # Architecture — alice-commands-api
 
-**mob_id:** MOB-20260626-001 · **v1.0 (реализовано)**  
+**mob_id:** MOB-20260626-001 · **v1.0 + schema v2 (реализовано)**  
 **Стиль:** **Light Clean (hexagonal light)** — Android app использует **Full Clean** (отдельный repo).
 
 ---
@@ -13,7 +13,7 @@
 | HTTP | Ktor 3.1 (CIO) | Compression, call logging |
 | DB | PostgreSQL 16 | Docker Compose для local |
 | ORM | Exposed 0.57 | Только `infrastructure.persistence` |
-| Migrations | Flyway 11 | `V1__init.sql` |
+| Migrations | Flyway 11 | V1 init … **V5 category_visuals** |
 | Serialization | kotlinx.serialization | Bundle + API DTO |
 | Validation | networknt JSON Schema | `:server:validateContent` |
 | Admin UI | Static HTML + Alpine.js | `admin-web/` → classpath `/admin` |
@@ -32,7 +32,12 @@ routes (Ktor)  →  application  →  ports (interfaces)  ←  infrastructure
 | ---- | ----- | --------------- |
 | Publish, rollback, import, preview | `application/publish/` | Full use cases |
 | Public read (manifest, bundle, affiliate) | `application/read/` | Thin services |
-| Diff import vs published | `application/read/ContentDiffService` | Service |
+| Diff import vs published | `application/read/ContentDiffService` | Service (+ `command_groups`) |
+| **Delta published vN→current** | `application/read/ContentDeltaService` | Service |
+| **Group validation (publish gate)** | `application/publish/CommandGroupValidationUseCase` | Use case |
+| **Category visuals (publish gate)** | `application/publish/CategoryVisualValidationUseCase`, `SvgIconValidator` | Use case |
+| **Icon upload / catalog** | `application/publish/UploadIconUseCase`, `IconCatalogService` | Use cases |
+| **App feedback inbox** | `application/feedback/` | Use cases (submit, list, resolve) |
 | Admin CRUD | `routes` → `DraftRepository` | Прямой repo OK |
 | HTTP / auth / DTO | `routes/`, `plugins/` | Adapters only |
 
@@ -43,18 +48,20 @@ routes (Ktor)  →  application  →  ports (interfaces)  ←  infrastructure
 ├── config/AppConfig.kt
 ├── routes/
 │   ├── PublicRoutes.kt      # /v1/*, /health, /ready
+│   ├── FeedbackRoutes.kt    # POST /v1/feedback, /v1/commands/report
 │   ├── AdminRoutes.kt       # /admin/api/*
 │   └── AdminAuth.kt         # session cookie guard
 ├── application/
 │   ├── BundleCodec.kt
-│   ├── publish/PublishUseCases.kt
-│   └── read/ReadServices.kt, ContentDiffService.kt
+│   ├── publish/PublishUseCases.kt, CommandGroupValidationUseCase.kt, CategoryVisualValidationUseCase.kt, IconCatalogUseCases.kt
+│   ├── read/ReadServices.kt, ContentDiffService.kt, ContentDeltaService.kt
+│   └── feedback/FeedbackUseCases.kt
 ├── domain/
 │   ├── Models.kt
-│   └── ports/Ports.kt, HealthProbe.kt
+│   └── ports/Ports.kt, IconStoragePorts.kt, HealthProbe.kt
 ├── infrastructure/
 │   ├── persistence/         # Exposed tables + repositories
-│   ├── storage/FilesystemBundleStorage.kt
+│   ├── storage/FilesystemBundleStorage.kt, FilesystemIconStorage.kt
 │   ├── security/            # SessionSigner, LoginRateLimiter, ClientIpResolver
 │   └── validation/JsonSchemaValidator.kt
 ├── plugins/Serialization.kt, StatusPages.kt
@@ -96,9 +103,9 @@ flowchart TB
     Nginx[nginx TLS optional]
     Ktor[Ktor :8080]
     PG[(PostgreSQL)]
-    FS[storage/bundles + manifest]
+    FS[storage/bundles + manifest + icons/v1]
   end
-  Android -->|GET manifest bundle affiliate| Nginx
+  Android -->|GET manifest bundle icons| Nginx
   Browser -->|HTTPS admin| Nginx
   Scripts -->|POST import merge| Ktor
   Nginx --> Ktor
@@ -113,8 +120,10 @@ flowchart TB
 
 | Prefix | Auth | Назначение |
 | ------ | ---- | ---------- |
-| `/v1/content/*` | Public | manifest, bundle, bundle-backup |
+| `/v1/content/*` | Public | manifest, bundle, bundle-backup, **delta** |
+| `/icons/v1/*.svg` | Public | Category/group SVG (nginx static + Ktor fallback) |
 | `/v1/affiliate/*` | Public | blocks (из published storage) |
+| `/v1/feedback`, `/v1/commands/report` | Public (rate limited) | App feedback + command reports |
 | `/admin/api/*` | Session cookie | CRUD, publish, import, content/pipeline, docs |
 | `/admin/*` | Static (login в SPA) | Admin UI |
 | `/health`, `/ready` | Public | ops |
@@ -126,17 +135,11 @@ flowchart TB
 ```kotlin
 // application/publish/PublishContentUseCase
 suspend fun execute(adminUser, minAppVersion, notes): PublishResult {
-    val draft = draftRepository.loadFull()
+    val draft = draftRepository.loadFull()  // schema_version = 2
+    commandGroupValidation.validate(draft)  // publish gate
     schemaValidator.validate(draft)
     val gzip = bundleCodec.toGzipJson(draft)
-    val sha = sha256(gzip)
-    val version = manifestRepository.nextVersion()
-    val filename = "content_v$version.json.gz"
-    bundleStorage.write(filename, gzip)
-    manifestRepository.update(version, filename, sha, minAppVersion, gzip.size)
-    publishHistory.insert(version, sha, adminUser, notes)
-    affiliateStorage.writeFromDraft(draft.affiliateBlocks)
-    bundleStorage.pruneOldBundles(retention = 5)
+    // … write bundle, manifest, affiliate, prune retention 5
 }
 ```
 
@@ -146,17 +149,49 @@ Rollback переключает `current_manifest` на существующий
 
 ## 6. Content pipeline (offline)
 
-```
-Yandex HTML → tools/content/fetch.py
-           → parsers (support, smart_home, quick_commands)
-           → merge.py + command_bank.py
-           → build_bundle.py → seed/full-catalog.json
-           → gradlew :server:validateContent
-           → scripts/push-draft.ps1 → staging draft (merge)
-           → Admin review diff → Publish
+```mermaid
+flowchart LR
+  subgraph ingest [Inventory — парсер]
+    FETCH[fetch support]
+    INV[inventory_snapshot]
+  end
+  subgraph editorial [Editorial — human]
+    ED[editorial.json approved]
+    Q[queue delta]
+  end
+  subgraph out [Publish]
+    CAT[full-catalog.json]
+    DRAFT[PostgreSQL draft]
+    BUNDLE[bundle + manifest]
+  end
+  FETCH --> INV
+  INV --> Q
+  Q --> ED
+  INV --> CAT
+  ED --> CAT
+  CAT --> DRAFT --> BUNDLE
 ```
 
 Auto-publish **не** выполняется. См. [CONTENT-UPDATE.md](CONTENT-UPDATE.md).
+
+---
+
+## 6.1 Icon assets (category / group visuals)
+
+```
+content/icons/v1/*.svg          # pilot в репо
+        │ deploy-staging.ps1
+        ▼
+/opt/alice-api/storage/icons/v1/
+        │
+        ├── nginx /icons/  (staging-api + cdn vhost)
+        └── Ktor staticFiles fallback
+        │
+        ▼
+icon_url в bundle ← ICON_PUBLIC_BASE_URL + /icons/v1/{slug}.svg
+```
+
+Port: `IconStorage` → `FilesystemIconStorage`. Upload: `UploadIconUseCase` + `SvgIconValidator`. Полный контракт: [BACKEND-CATEGORY-VISUALS.md](BACKEND-CATEGORY-VISUALS.md).
 
 ---
 
@@ -166,7 +201,7 @@ Auto-publish **не** выполняется. См. [CONTENT-UPDATE.md](CONTENT-
 | --------- | --------- |
 | 0–100k | Один VPS Selectel 2 GB, nginx + Let's Encrypt, DNS only (без CF CDN в РФ) |
 | 100k–500k | Тот же VPS; optional CDN **не** Cloudflare proxy для RU |
-| >500k | Object storage + CDN; delta sync (v1.0.1) |
+| >500k | Object storage + CDN; delta sync уже в API (app opt-in) |
 
 Mobile clients **не** бьют в PostgreSQL — только manifest + bundle.
 
@@ -174,7 +209,7 @@ Mobile clients **не** бьют в PostgreSQL — только manifest + bundl
 
 ## 8. Shared schema с Android
 
-- Канон: [`schema/content-bundle.schema.json`](../schema/content-bundle.schema.json)
+- Канон: [`schema/content-bundle.schema.json`](../schema/content-bundle.schema.json) — **v2** (`command_groups[]`, group fields on commands)
 - CI: [`.github/workflows/validate-content.yml`](../.github/workflows/validate-content.yml) на PR/push
 - Процедура bump: [SCHEMA-SYNC.md](SCHEMA-SYNC.md)
 

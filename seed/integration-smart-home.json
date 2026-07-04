@@ -1,0 +1,51 @@
+{
+  "schema_version": 2,
+  "content_version": 0,
+  "published_at": "2026-06-29T12:00:00Z",
+  "min_app_version": "1.0",
+  "categories": [
+    {
+      "id": "smart_home",
+      "title_ru": "Умный дом",
+      "sort_order": 1,
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "description_ru": "Минимальный seed для интеграционных тестов",
+      "icon_key": "home_iot",
+      "featured": true,
+      "device_types": ["station", "phone"]
+    }
+  ],
+  "command_groups": [],
+  "commands": [
+    {
+      "id": "sh_light_on",
+      "category_id": "smart_home",
+      "title_ru": "Включить свет",
+      "phrases": ["Алиса, включи свет"],
+      "effect_description_ru": "Включает умный свет.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": ["station", "phone"],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "updated_at": "2026-06-29T12:00:00Z",
+      "tags": []
+    },
+    {
+      "id": "sh_light_off",
+      "category_id": "smart_home",
+      "title_ru": "Выключить свет",
+      "phrases": ["Алиса, выключи свет"],
+      "effect_description_ru": "Выключает умный свет.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": ["station", "phone"],
+      "related_command_ids": ["sh_light_on"],
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "updated_at": "2026-06-29T12:00:00Z",
+      "tags": []
+    }
+  ],
+  "scenario_templates": [],
+  "checklist_items": []
+}

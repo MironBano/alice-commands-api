@@ -1,0 +1,616 @@
+{
+  "schema_version": 2,
+  "content_version": 0,
+  "published_at": "2026-06-30T12:00:00Z",
+  "min_app_version": "1.0",
+  "categories": [
+    {
+      "id": "calls",
+      "title_ru": "Звонки и радионяня",
+      "sort_order": 9,
+      "source_url": "https://alice.yandex.ru/support/ru/station/call",
+      "description_ru": "Звонки и режим радионяни",
+      "icon_key": "phone_call",
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "icon_url": "https://cdn.alicecommands.ru/icons/v1/phone_call.svg",
+      "accent_color": "#059669",
+      "accent_color_dark": "#6EE7B7"
+    }
+  ],
+  "command_groups": [
+    {
+      "id": "calls_outgoing",
+      "category_id": "calls",
+      "title_ru": "Звонки",
+      "description_ru": "Исходящие, входящие и управление звонками",
+      "sort_order": 10,
+      "featured": true,
+      "preview_command_ids": [
+        "calls_pozvoni",
+        "calls_otvet_na_zvonok",
+        "calls_sbros_zvonok",
+        "calls_propushchennye_zvonki"
+      ],
+      "icon_key": "phone_call",
+      "icon_url": "https://cdn.alicecommands.ru/icons/v1/phone_call.svg"
+    },
+    {
+      "id": "calls_contacts",
+      "category_id": "calls",
+      "title_ru": "Контакты",
+      "description_ru": "Звонок сохранённому контакту по имени",
+      "sort_order": 20,
+      "featured": false,
+      "preview_command_ids": [
+        "calls_pozvoni_mama",
+        "calls_pozvoni_papa",
+        "calls_pozvoni_babushka",
+        "calls_pozvoni_dedushka"
+      ],
+      "icon_key": "contacts",
+      "icon_url": "https://cdn.alicecommands.ru/icons/v1/contacts.svg"
+    },
+    {
+      "id": "calls_intercom",
+      "category_id": "calls",
+      "title_ru": "Громкая связь",
+      "description_ru": "Intercom между колонками в одном доме",
+      "sort_order": 30,
+      "featured": false,
+      "preview_command_ids": [
+        "calls_vkliuchi_gromkuiu_sviaz"
+      ],
+      "icon_key": "intercom",
+      "icon_url": "https://cdn.alicecommands.ru/icons/v1/intercom.svg"
+    },
+    {
+      "id": "calls_babymonitor",
+      "category_id": "calls",
+      "title_ru": "Радионяня",
+      "description_ru": "Прослушивание ребёнка через колонки",
+      "sort_order": 40,
+      "featured": false,
+      "preview_command_ids": [
+        "calls_vkliuchi_radioniania",
+        "calls_vykliuchi_radioniania"
+      ],
+      "icon_key": "nanny",
+      "icon_url": "https://cdn.alicecommands.ru/icons/v1/nanny.svg"
+    },
+    {
+      "id": "calls_messages",
+      "category_id": "calls",
+      "title_ru": "Сообщения",
+      "description_ru": "Голосовые сообщения между колонками",
+      "sort_order": 50,
+      "featured": false,
+      "preview_command_ids": [
+        "calls_pozhaluista_nagreite_vodu_v_chainike",
+        "calls_rasskazhet_iz_kakoi_komnaty_prishlo_soob"
+      ],
+      "icon_key": "message",
+      "icon_url": "https://cdn.alicecommands.ru/icons/v1/message.svg"
+    }
+  ],
+  "commands": [
+    {
+      "id": "calls_pozvoni",
+      "category_id": "calls",
+      "group_id": "calls_outgoing",
+      "sort_order": 10,
+      "variant_label_ru": "Позвони",
+      "is_primary_in_group": true,
+      "title_ru": "Позвони",
+      "phrases": [
+        "Алиса, позвони",
+        "Алиса, позвони на мобильный"
+      ],
+      "effect_description_ru": "Начнёт исходящий звонок — уточнит, кому позвонить. Нужно: колонка с поддержкой звонков; настройка в приложении «Дом с Алисой».",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "звонок",
+        "позвонить"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/call",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "calls"
+      ]
+    },
+    {
+      "id": "calls_otvet_na_zvonok",
+      "category_id": "calls",
+      "group_id": "calls_outgoing",
+      "sort_order": 20,
+      "variant_label_ru": "Ответь на звонок",
+      "is_primary_in_group": false,
+      "title_ru": "Ответь на звонок",
+      "phrases": [
+        "Алиса, ответь на звонок"
+      ],
+      "effect_description_ru": "Примет входящий звонок на колонку. Нужно: колонка с поддержкой звонков; настройка в приложении «Дом с Алисой».",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "принять звонок",
+        "входящий"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/call",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "calls"
+      ]
+    },
+    {
+      "id": "calls_sbros_zvonok",
+      "category_id": "calls",
+      "group_id": "calls_outgoing",
+      "sort_order": 30,
+      "variant_label_ru": "Сбрось звонок",
+      "is_primary_in_group": false,
+      "title_ru": "Сбрось звонок",
+      "phrases": [
+        "Алиса, сбрось звонок"
+      ],
+      "effect_description_ru": "Завершит текущий звонок. Нужно: колонка с поддержкой звонков; настройка в приложении «Дом с Алисой».",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "сбросить",
+        "завершить звонок"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/call",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "calls"
+      ]
+    },
+    {
+      "id": "calls_propushchennye_zvonki",
+      "category_id": "calls",
+      "group_id": "calls_outgoing",
+      "sort_order": 40,
+      "variant_label_ru": "Пропущенные звонки",
+      "is_primary_in_group": false,
+      "title_ru": "Пропущенные звонки",
+      "phrases": [
+        "Алиса, пропущенные звонки"
+      ],
+      "effect_description_ru": "Перечислит пропущенные звонки на колонку. Нужно: колонка с поддержкой звонков; настройка в приложении «Дом с Алисой».",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "пропущенные"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/call",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "calls"
+      ]
+    },
+    {
+      "id": "calls_rezhim_ne_bespokoit_dlia_zvonkov",
+      "category_id": "calls",
+      "group_id": "calls_outgoing",
+      "sort_order": 50,
+      "variant_label_ru": "Режим не беспокоить для звонков",
+      "is_primary_in_group": false,
+      "title_ru": "Режим не беспокоить для звонков",
+      "phrases": [
+        "Алиса, режим не беспокоить для звонков"
+      ],
+      "effect_description_ru": "Включит режим «не беспокоить» для входящих звонков. Нужно: колонка с поддержкой звонков; настройка в приложении «Дом с Алисой».",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "не беспокоить",
+        "dnd"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/call",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "calls"
+      ]
+    },
+    {
+      "id": "calls_pozvoni_mama",
+      "category_id": "calls",
+      "group_id": "calls_contacts",
+      "sort_order": 10,
+      "variant_label_ru": "Позвони мама",
+      "is_primary_in_group": true,
+      "title_ru": "Позвони мама",
+      "phrases": [
+        "Алиса, позвони мама"
+      ],
+      "effect_description_ru": "Позвонит контакту «мама», если он сохранён. Нужно: колонка с поддержкой звонков; контакт в приложении «Дом с Алисой».",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "маме",
+        "маму"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/call",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "calls"
+      ]
+    },
+    {
+      "id": "calls_pozvoni_papa",
+      "category_id": "calls",
+      "group_id": "calls_contacts",
+      "sort_order": 20,
+      "variant_label_ru": "Позвони папа",
+      "is_primary_in_group": false,
+      "title_ru": "Позвони папа",
+      "phrases": [
+        "Алиса, позвони папа"
+      ],
+      "effect_description_ru": "Позвонит контакту «папа», если он сохранён. Нужно: колонка с поддержкой звонков; контакт в приложении «Дом с Алисой».",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "папе",
+        "папу"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/call",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "calls"
+      ]
+    },
+    {
+      "id": "calls_pozvoni_babushka",
+      "category_id": "calls",
+      "group_id": "calls_contacts",
+      "sort_order": 30,
+      "variant_label_ru": "Позвони бабушка",
+      "is_primary_in_group": false,
+      "title_ru": "Позвони бабушка",
+      "phrases": [
+        "Алиса, позвони бабушка"
+      ],
+      "effect_description_ru": "Позвонит контакту «бабушка», если он сохранён. Нужно: колонка с поддержкой звонков; контакт в приложении «Дом с Алисой».",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "бабушке"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/call",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "calls"
+      ]
+    },
+    {
+      "id": "calls_pozvoni_dedushka",
+      "category_id": "calls",
+      "group_id": "calls_contacts",
+      "sort_order": 40,
+      "variant_label_ru": "Позвони дедушка",
+      "is_primary_in_group": false,
+      "title_ru": "Позвони дедушка",
+      "phrases": [
+        "Алиса, позвони дедушка"
+      ],
+      "effect_description_ru": "Позвонит контакту «дедушка», если он сохранён. Нужно: колонка с поддержкой звонков; контакт в приложении «Дом с Алисой».",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "дедушке"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/call",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "calls"
+      ]
+    },
+    {
+      "id": "calls_pozvoni_brat",
+      "category_id": "calls",
+      "group_id": "calls_contacts",
+      "sort_order": 50,
+      "variant_label_ru": "Позвони брат",
+      "is_primary_in_group": false,
+      "title_ru": "Позвони брат",
+      "phrases": [
+        "Алиса, позвони брат"
+      ],
+      "effect_description_ru": "Позвонит контакту «брат», если он сохранён. Нужно: колонка с поддержкой звонков; контакт в приложении «Дом с Алисой».",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "брату"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/call",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "calls"
+      ]
+    },
+    {
+      "id": "calls_pozvoni_sestra",
+      "category_id": "calls",
+      "group_id": "calls_contacts",
+      "sort_order": 60,
+      "variant_label_ru": "Позвони сестра",
+      "is_primary_in_group": false,
+      "title_ru": "Позвони сестра",
+      "phrases": [
+        "Алиса, позвони сестра"
+      ],
+      "effect_description_ru": "Позвонит контакту «сестра», если он сохранён. Нужно: колонка с поддержкой звонков; контакт в приложении «Дом с Алисой».",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "сестре"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/call",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "calls"
+      ]
+    },
+    {
+      "id": "calls_pozvoni_muzh",
+      "category_id": "calls",
+      "group_id": "calls_contacts",
+      "sort_order": 70,
+      "variant_label_ru": "Позвони муж",
+      "is_primary_in_group": false,
+      "title_ru": "Позвони муж",
+      "phrases": [
+        "Алиса, позвони муж"
+      ],
+      "effect_description_ru": "Позвонит контакту «муж», если он сохранён. Нужно: колонка с поддержкой звонков; контакт в приложении «Дом с Алисой».",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "мужу"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/call",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "calls"
+      ]
+    },
+    {
+      "id": "calls_pozvoni_zhena",
+      "category_id": "calls",
+      "group_id": "calls_contacts",
+      "sort_order": 80,
+      "variant_label_ru": "Позвони жена",
+      "is_primary_in_group": false,
+      "title_ru": "Позвони жена",
+      "phrases": [
+        "Алиса, позвони жена"
+      ],
+      "effect_description_ru": "Позвонит контакту «жена», если он сохранён. Нужно: колонка с поддержкой звонков; контакт в приложении «Дом с Алисой».",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "жене"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/call",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "calls"
+      ]
+    },
+    {
+      "id": "calls_vkliuchi_gromkuiu_sviaz",
+      "category_id": "calls",
+      "group_id": "calls_intercom",
+      "sort_order": 10,
+      "variant_label_ru": "Включи громкую связь",
+      "is_primary_in_group": true,
+      "title_ru": "Включи громкую связь",
+      "phrases": [
+        "Алиса, включи громкую связь"
+      ],
+      "effect_description_ru": "Включит громкую связь между колонками в одном доме. Нужно: колонка с поддержкой звонков; настройка в приложении «Дом с Алисой».",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "интерком",
+        "связь между колонками"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/call",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "calls"
+      ]
+    },
+    {
+      "id": "calls_vkliuchi_radioniania",
+      "category_id": "calls",
+      "group_id": "calls_babymonitor",
+      "sort_order": 10,
+      "variant_label_ru": "Включи радионяня",
+      "is_primary_in_group": true,
+      "title_ru": "Включи радионяня",
+      "phrases": [
+        "Алиса, включи радионяня",
+        "Алиса, слушай ребёнка"
+      ],
+      "effect_description_ru": "Включит режим радионяни между двумя колонками. Нужно: колонка с поддержкой звонков; настройка в приложении «Дом с Алисой».",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "радионяня",
+        "слушать ребёнка"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/call",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "calls"
+      ]
+    },
+    {
+      "id": "calls_vykliuchi_radioniania",
+      "category_id": "calls",
+      "group_id": "calls_babymonitor",
+      "sort_order": 20,
+      "variant_label_ru": "Выключи радионяня",
+      "is_primary_in_group": false,
+      "title_ru": "Выключи радионяня",
+      "phrases": [
+        "Алиса, выключи радионяня"
+      ],
+      "effect_description_ru": "Выключит режим радионяни. Нужно: колонка с поддержкой звонков; настройка в приложении «Дом с Алисой».",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "отключить радионяню"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/call",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "calls"
+      ]
+    },
+    {
+      "id": "calls_pozhaluista_nagreite_vodu_v_chainike",
+      "category_id": "calls",
+      "group_id": "calls_messages",
+      "sort_order": 10,
+      "variant_label_ru": "Пожалуйста, нагрейте воду в чайнике",
+      "is_primary_in_group": true,
+      "title_ru": "Пожалуйста, нагрейте воду в чайнике",
+      "phrases": [
+        "Алиса, пожалуйста, нагрейте воду в чайнике"
+      ],
+      "effect_description_ru": "Передаст сообщение на колонку или умное устройство в другой комнате. Нужно: колонка с поддержкой звонков; настройка в приложении «Дом с Алисой».",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "сообщение",
+        "передать на кухню"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/message",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "calls"
+      ]
+    },
+    {
+      "id": "calls_rasskazhet_iz_kakoi_komnaty_prishlo_soob",
+      "category_id": "calls",
+      "group_id": "calls_messages",
+      "sort_order": 20,
+      "variant_label_ru": "Вопросы о сообщениях",
+      "is_primary_in_group": false,
+      "title_ru": "Вопросы о сообщениях",
+      "phrases": [
+        "Алиса расскажет, из какой комнаты пришло сообщение, а если устройство привязано к другому умному дому — уточнит и дом."
+      ],
+      "effect_description_ru": "Сообщит, из какой комнаты пришло голосовое сообщение. Нужно: колонка с поддержкой звонков; настройка в приложении «Дом с Алисой».",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "откуда сообщение",
+        "голосовое сообщение"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/message",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "calls"
+      ]
+    }
+  ]
+}

@@ -32,6 +32,7 @@ class ParsedCommand:
     related_command_ids: list[str] = field(default_factory=list)
     tags: list[str] = field(default_factory=list)
     source_priority: str = "primary"
+    raw_result: str | None = None
     updated_at: str = field(default_factory=lambda: datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"))
 
 

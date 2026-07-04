@@ -5,6 +5,8 @@ import ru.appforsale.alicecommands.api.domain.AffiliateBlocksResponse
 import ru.appforsale.alicecommands.api.domain.Category
 import ru.appforsale.alicecommands.api.domain.ChecklistItem
 import ru.appforsale.alicecommands.api.domain.Command
+import ru.appforsale.alicecommands.api.domain.CommandGroup
+import ru.appforsale.alicecommands.api.domain.CommandOfDaySettings
 import ru.appforsale.alicecommands.api.domain.ContentBundle
 import ru.appforsale.alicecommands.api.domain.CurrentManifest
 import ru.appforsale.alicecommands.api.domain.DraftStats
@@ -20,6 +22,13 @@ interface DraftRepository {
     fun updateCategory(category: Category)
     fun deleteCategory(id: String)
     fun reorderCategories(orderedIds: List<String>)
+    fun listCommandGroups(categoryId: String? = null): List<CommandGroup>
+    fun getCommandGroup(id: String): CommandGroup?
+    fun createCommandGroup(group: CommandGroup)
+    fun updateCommandGroup(group: CommandGroup)
+    fun deleteCommandGroup(id: String)
+    fun reorderCommandGroups(orderedIds: List<String>)
+    fun bulkAssignCommandsToGroup(commandIds: List<String>, groupId: String?)
     fun listCommands(categoryId: String? = null): List<Command>
     fun getCommand(id: String): Command?
     fun createCommand(command: Command)
@@ -39,6 +48,8 @@ interface DraftRepository {
     fun deleteAffiliateBlock(id: String)
     fun replaceAll(bundle: ContentBundle)
     fun merge(bundle: ContentBundle)
+    fun getCommandOfDaySettings(): CommandOfDaySettings?
+    fun upsertCommandOfDaySettings(settings: CommandOfDaySettings)
 }
 
 interface ManifestRepository {
@@ -57,8 +68,6 @@ interface BundleStorage {
     fun isWritable(): Boolean
     fun pruneOldBundles(retention: Int)
     fun writeAffiliate(jsonBytes: ByteArray)
-    fun writeAffiliateVersion(contentVersion: Int, jsonBytes: ByteArray)
-    fun restoreAffiliateFromVersion(contentVersion: Int): Boolean
     fun readAffiliate(): AffiliateBlocksResponse?
 }
 

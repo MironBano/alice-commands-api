@@ -20,18 +20,21 @@ Windows: `.\gradlew.bat :server:run`
 Content validate: `.\gradlew.bat :server:validateContent`  
 Staging pipeline: `.\scripts\update-content.ps1` (см. `docs/CONTENT-UPDATE.md`)  
 Staging deploy: `.\scripts\deploy-staging.ps1` (см. `docs/INFRASTRUCTURE.md`)  
-DNS (РФ, без VPN): `.\scripts\cloudflare-dns-direct.ps1`
+DNS (РФ, без VPN): `.\scripts\cloudflare-dns-direct.ps1` · CDN icons: `.\scripts\setup-cdn.ps1`
 
 ## Документация
 
 | Путь | Назначение |
 | ---- | ---------- |
 | `docs/BACKEND-REQUIREMENTS.md` | **Главное ТЗ** |
+| `docs/BACKEND-COMMAND-GROUPS.md` | **Schema v2 — command groups** |
+| `docs/BACKEND-COMMAND-OF-DAY.md` | **Команда дня** — editorial bundle field |
+| `docs/BACKEND-CATEGORY-VISUALS.md` | **Иконки + colors — CDN, admin, validation** |
 | `docs/ARCHITECTURE.md` | **Light Clean** — §1.1 |
-| `docs/API.md` | Контракт для Android |
+| `docs/API.md` | Контракт для Android (+ delta, admin groups) |
 | `docs/CONTENT-UPDATE.md` | Pipeline контента (scripts + Python) |
 | `docs/INFRASTRUCTURE.md` | Selectel VPS, SSH, DNS, deploy |
-| `schema/content-bundle.schema.json` | JSON Schema (канон) |
+| `schema/content-bundle.schema.json` | JSON Schema **v2** (канон) |
 
 ## Архитектура (обязательно)
 

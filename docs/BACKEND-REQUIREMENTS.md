@@ -1,8 +1,8 @@
 # BACKEND-REQUIREMENTS — alice-commands-api v1.0
 
 **mob_id:** MOB-20260626-001  
-**Дата:** 2026-06-26  
-**Статус:** ТЗ v1.0 — **реализовано** (Ktor server, admin UI, publish pipeline, content tools)  
+**Дата:** 2026-06-26 · **Обновлено:** 2026-07-01 (schema v2 groups + category visuals)  
+**Статус:** ТЗ v1.0 — **реализовано**; **schema v2** + **category visuals** — **реализовано**  
 **Связанный app:** AliceCommands (`ru.appforsale.alicecommands`)
 
 ---
@@ -29,15 +29,17 @@ Backend — **источник истины** для структуры конт
 | Import pilot JSON | ✅ |
 | PostgreSQL + Flyway | ✅ |
 | Docker-compose local | ✅ |
+| **Schema v2 command groups** | ✅ |
+| **Delta sync** `GET /v1/content/delta` | ✅ |
 
-### 1.3 Out of scope v1.0
+### 1.3 Out of scope / отложено
 
 - User accounts для app
 - FCM push при publish (v1.0.1)
-- Delta sync endpoint (v1.0.1)
 - Парсер Яндекса в runtime (только offline assist tool)
 - Object storage S3 (v1.0.1; v1.0 — filesystem на VPS)
 - Казахская локаль контента (v1.1)
+- Auto-generate `command_groups` из парсера без human review
 
 ---
 
@@ -84,6 +86,22 @@ Backend — **источник истины** для структуры конт
 - `Cache-Control: public, max-age=86400, immutable`
 - SHA256 совпадает с manifest
 - Размер gzip ≤ 2 MB
+- Bundle содержит `command_groups[]` (schema v2; может быть пустым для backward compat)
+- Команды могут иметь `group_id`, `sort_order`, `variant_label_ru`, `is_primary_in_group`, `search_aliases`
+
+### B02b — Public content delta
+
+| Поле | Значение |
+| ---- | -------- |
+| Endpoint | `GET /v1/content/delta?from={version}` |
+| Auth | Нет |
+| Priority | P1 |
+
+**AC:**
+- Возвращает incremental diff между published v{from} и current: `categories`, `command_groups`, `commands`, `scenario_templates`, `checklist_items`
+- `updated` — полные объекты; `removed` — ids
+- **409** `delta_unavailable` если bundle `from` не в retention (5 версий) → client fallback на full bundle
+- См. [API.md](API.md), [BACKEND-COMMAND-GROUPS.md](BACKEND-COMMAND-GROUPS.md)
 
 ### B03 — Affiliate blocks
 
@@ -115,8 +133,10 @@ Backend — **источник истины** для структуры конт
 
 | Сущность | Операции |
 | -------- | -------- |
-| Categories | list, create, update, delete, reorder |
-| Commands | list, create, update, delete, filter by category |
+| Categories | list, create, update, delete, reorder; **visual fields** (`icon_url`, `accent_color`, colors) |
+| **Command groups** | list, create, update, delete, reorder; filter by category; visual override / inherit |
+| **Icons** | `GET /icons/catalog`, `POST /icons/upload` (admin); public `GET /icons/v1/{slug}.svg` |
+| Commands | list, create, update, delete, filter by category; **bulk assign group** |
 | Scenario templates | list, create, update, delete |
 | Checklist items | list, update order, link command |
 | Affiliate blocks | list, create, update, delete |
@@ -124,6 +144,8 @@ Backend — **источник истины** для структуры конт
 **AC:**
 - Изменения пишутся в **draft** (PostgreSQL), не в live bundle до Publish
 - Валидация полей по [schema/content-bundle.schema.json](../schema/content-bundle.schema.json)
+- Publish дополнительно: `CommandGroupValidationUseCase`, `CategoryVisualValidationUseCase` (URL allowlist, hex, SVG upload)
+- `GET /admin/api/content/validation-warnings` — orphan commands, empty groups, visual warnings (не блокирует save)
 - `source_url` обязателен на command/category
 - Soft delete или hard delete с confirm в UI
 
@@ -135,8 +157,9 @@ Backend — **источник истины** для структуры конт
 
 **AC:**
 - Admin action **Publish**:
-  1. Validate full draft → JSON Schema
-  2. Build bundle JSON
+  1. Validate business rules (`CommandGroupValidationUseCase`)
+  2. Validate full draft → JSON Schema
+  3. Build bundle JSON (`schema_version: 2` from draft)
   3. gzip + sha256
   4. Write `content_v{N}.json.gz` to storage
   5. Update manifest atomically
@@ -164,7 +187,7 @@ Backend — **источник истины** для структуры конт
 | Priority | P1 |
 
 **AC:**
-- Upload `seed/import-smart-home.json` или pilot JSON
+- Upload `seed/smart-home-groups-v2.json` или `seed/full-catalog.json`
 - Merge или replace draft (с confirm)
 - Используется для dev seed и миграции из app repo
 
@@ -193,7 +216,7 @@ Backend — **источник истины** для структуры конт
 | -- | ---------- |
 | NFR-1 | Public API доступен 99.5% (niche app, solo) |
 | NFR-2 | Manifest p95 < 200 ms |
-| NFR-3 | Bundle отдаётся с CDN/nginx cache |
+| NFR-3 | Bundle + icons отдаются с nginx cache (DNS only, не CF proxy в РФ) |
 | NFR-4 | HTTPS only в staging/prod |
 | NFR-5 | PostgreSQL backup weekly (manual/script) |
 | NFR-6 | 152-ФЗ: только admin credentials; нет ПДн пользователей app |
@@ -207,8 +230,8 @@ Backend — **источник истины** для структуры конт
 | Этап | Объём | Критерий |
 | ---- | ----- | -------- |
 | Dev | Пилот УД: 8 команд, S1–S8, checklist | App sync staging |
-| Staging | 13 категорий, ~50–80 команд | E2E admin + API |
-| Prod | 300–500 команд | **Блокер релиза app в RuStore** |
+| Staging | 13 категорий, ~300 команд; pilot **smart_home groups** | E2E admin + API + grouped UI |
+| Prod | 300–500 команд + editorial groups по категориям | **Блокер grouped UI в app** |
 
 Workflow: правки в admin (или import) → ревью владельцем → **Publish**.
 
@@ -244,7 +267,8 @@ Workflow: правки в admin (или import) → ревью владельц�
 | Версия | Фичи |
 | ------ | ---- |
 | v1.0 | B01–B10, admin UI, filesystem storage |
-| v1.0.1 | Delta endpoint, S3 storage, FCM hook on publish |
+| **v1.0 + schema v2** | Command groups, delta sync, validation warnings |
+| v1.0.1 | S3 storage, FCM hook on publish |
 | v1.1 | `title_kk`, parser assist UI, bulk CSV import |
 
 ---
@@ -253,7 +277,7 @@ Workflow: правки в admin (или import) → ревью владельц�
 
 | Backend | App FR |
 | ------- | ------ |
-| B01, B02 | F01, F22, NFR-9 |
+| B01, B02, **B02b** | F01, F22, NFR-9 (delta optional in app) |
 | B03 | F25 |
 | B06 | Content sync, F30 «Новое» |
 | Admin CRUD | F01, F12, F17, F18 |
@@ -274,4 +298,4 @@ Workflow: правки в admin (или import) → ревью владельц�
 
 ---
 
-*ТЗ v1.0 — 2026-06-26*
+*ТЗ v1.0 — 2026-06-26 · schema v2 — 2026-06-29 · category visuals — [BACKEND-CATEGORY-VISUALS.md](BACKEND-CATEGORY-VISUALS.md)*

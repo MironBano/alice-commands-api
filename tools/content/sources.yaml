@@ -1,62 +1,23 @@
-# Content sources registry — primary Yandex docs first, backup pages second.
+# Content sources — whitelist + optional discovery (assist-only inventory).
 rate_limit_seconds: 1.0
 user_agent: "AliceCommandsContentBot/1.0 (assist-only; +https://github.com/MironBano/alice-commands-api)"
 
+# Discovery adds skill pages from overview. Excluded paths: device-control UI, not voice commands.
+discovery:
+  enabled: true
+  overview_url: https://alice.yandex.ru/support/ru/station/skills/
+
+# Paths excluded from discovery (navigation / device UI, not command tables)
+discovery_exclude_paths:
+  - /support/ru/station/alice-controls
+  - /support/ru/station/skills/alice-controls
+  - /support/ru/station/skills/lamp
+  - /support/ru/station/skills/socket
+  - /support/ru/station/skills/ir-remote
+  - /support/ru/station/skills/hdmi
+  - /support/ru/station/skills/tv
+
 sources:
-  - id: yandex_skills_overview
-    priority: primary
-    url: https://alice.yandex.ru/support/ru/station/skills/
-    parser: yandex_support
-    category_id: general
-
-  - id: yandex_music
-    priority: primary
-    url: https://alice.yandex.ru/support/ru/station/skills/music/
-    parser: yandex_support
-    category_id: music
-
-  - id: yandex_timers
-    priority: primary
-    url: https://alice.yandex.ru/support/ru/station/skills/timers/
-    parser: yandex_support
-    category_id: timers
-
-  - id: yandex_weather
-    priority: primary
-    url: https://alice.yandex.ru/support/ru/station/skills/weather/
-    parser: yandex_support
-    category_id: quick_answers
-
-  - id: yandex_smart_home
-    priority: primary
-    url: https://alice.yandex.ru/support/ru/station/skills/smart-home/
-    parser: yandex_smart_home
-    category_id: smart_home
-
-  - id: yandex_tv
-    priority: backup
-    url: https://alice.yandex.ru/support/ru/station/skills/tv/
-    parser: yandex_support
-    category_id: tv_video
-
-  - id: yandex_calls
-    priority: backup
-    url: https://alice.yandex.ru/support/ru/station/skills/calls/
-    parser: yandex_support
-    category_id: calls
-
-  - id: yandex_kids
-    priority: backup
-    url: https://alice.yandex.ru/support/ru/station/skills/kids/
-    parser: yandex_support
-    category_id: kids
-
-  - id: yandex_plus
-    priority: backup
-    url: https://alice.yandex.ru/support/ru/station/skills/plus/
-    parser: yandex_support
-    category_id: alice_plus
-
   - id: yandex_quick_commands
     priority: backup
     url: https://alice.yandex.ru/support/ru/station/start/quick-commands
@@ -65,6 +26,6 @@ sources:
 
   - id: pilot_smart_home
     priority: primary
-    url: file://seed/import-smart-home.json
+    url: file://seed/integration-smart-home.json
     parser: pilot_json
     category_id: smart_home

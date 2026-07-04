@@ -1,0 +1,831 @@
+{
+  "schema_version": 2,
+  "content_version": 0,
+  "published_at": "2026-06-30T12:00:00Z",
+  "min_app_version": "1.0",
+  "categories": [
+    {
+      "id": "quick_commands",
+      "title_ru": "Быстрые команды",
+      "sort_order": 12,
+      "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+      "description_ru": "Команды без слова «Алиса»",
+      "icon_key": "bolt",
+      "featured": true,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "icon_url": "https://cdn.alicecommands.ru/icons/v1/bolt.svg",
+      "accent_color": "#E8A317",
+      "accent_color_dark": "#F5C842"
+    }
+  ],
+  "command_groups": [
+    {
+      "id": "qc_playback",
+      "category_id": "quick_commands",
+      "title_ru": "Управление воспроизведением",
+      "description_ru": "Дальше, назад, повтор и громкость без «Алиса»",
+      "sort_order": 10,
+      "featured": true,
+      "preview_command_ids": [
+        "quick_commands_dalshe",
+        "quick_commands_nazad",
+        "quick_commands_sleduiushchii",
+        "quick_commands_predydushchii"
+      ],
+      "icon_key": "play",
+      "icon_url": "https://cdn.alicecommands.ru/icons/v1/play.svg"
+    },
+    {
+      "id": "qc_media",
+      "category_id": "quick_commands",
+      "title_ru": "Медиа",
+      "description_ru": "Радио и музыка без «Алиса»",
+      "sort_order": 20,
+      "featured": true,
+      "preview_command_ids": [
+        "quick_commands_vkliuchi_radio",
+        "quick_commands_vykliuchi_muzyku"
+      ],
+      "icon_key": "music_note",
+      "icon_url": "https://cdn.alicecommands.ru/icons/v1/music_note.svg"
+    },
+    {
+      "id": "qc_smart_home",
+      "category_id": "quick_commands",
+      "title_ru": "Умный дом",
+      "description_ru": "Свет без «Алиса»",
+      "sort_order": 30,
+      "featured": false,
+      "preview_command_ids": [
+        "quick_commands_vkliuchi_svet",
+        "quick_commands_vykliuchi_svet",
+        "quick_commands_priglushi_svet"
+      ],
+      "icon_key": "home_iot",
+      "icon_url": "https://cdn.alicecommands.ru/icons/v1/home_iot.svg"
+    },
+    {
+      "id": "qc_time",
+      "category_id": "quick_commands",
+      "title_ru": "Время и будильник",
+      "description_ru": "Часы, таймер и будильник без «Алиса»",
+      "sort_order": 40,
+      "featured": false,
+      "preview_command_ids": [
+        "quick_commands_kotoryi_chas",
+        "quick_commands_taimer_na_5_minut",
+        "quick_commands_budi_v_7_utra"
+      ],
+      "icon_key": "timer",
+      "icon_url": "https://cdn.alicecommands.ru/icons/v1/timer.svg"
+    },
+    {
+      "id": "qc_weather",
+      "category_id": "quick_commands",
+      "title_ru": "Погода",
+      "description_ru": "Погода и температура без «Алиса»",
+      "sort_order": 50,
+      "featured": false,
+      "preview_command_ids": [
+        "quick_commands_kakaia_pogoda",
+        "quick_commands_kakaia_temperatura"
+      ],
+      "icon_key": "weather",
+      "icon_url": "https://cdn.alicecommands.ru/icons/v1/weather.svg"
+    },
+    {
+      "id": "qc_calls",
+      "category_id": "quick_commands",
+      "title_ru": "Звонки",
+      "description_ru": "Быстрый звонок без «Алиса»",
+      "sort_order": 60,
+      "featured": false,
+      "preview_command_ids": [
+        "quick_commands_pozvoni_mame"
+      ],
+      "icon_key": "phone_call",
+      "icon_url": "https://cdn.alicecommands.ru/icons/v1/phone_call.svg"
+    },
+    {
+      "id": "qc_meals",
+      "category_id": "quick_commands",
+      "title_ru": "Приёмы пищи",
+      "description_ru": "Завтрак, обед и ужин без «Алиса»",
+      "sort_order": 70,
+      "featured": false,
+      "preview_command_ids": [
+        "quick_commands_zavtrak",
+        "quick_commands_obed",
+        "quick_commands_uzhin"
+      ],
+      "icon_key": "food",
+      "icon_url": "https://cdn.alicecommands.ru/icons/v1/food.svg"
+    },
+    {
+      "id": "qc_nav",
+      "category_id": "quick_commands",
+      "title_ru": "Настройка",
+      "description_ru": "Быстрые команды и колонка",
+      "sort_order": 80,
+      "featured": false,
+      "preview_command_ids": [
+        "quick_commands_iandeks_s_alisoi",
+        "quick_commands_nastroi_kolonku"
+      ],
+      "icon_key": "navigation",
+      "icon_url": "https://cdn.alicecommands.ru/icons/v1/navigation.svg"
+    }
+  ],
+  "commands": [
+    {
+      "id": "quick_commands_dalshe",
+      "category_id": "quick_commands",
+      "group_id": "qc_playback",
+      "sort_order": 10,
+      "variant_label_ru": "Дальше",
+      "is_primary_in_group": true,
+      "title_ru": "Дальше",
+      "phrases": [
+        "Дальше",
+        "Алиса, дальше"
+      ],
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Дальше». Переключит на следующий трек или продолжит воспроизведение. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "requires_alice_word": false,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "следующий",
+        "продолжи"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/alice-show",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "quick_commands"
+      ]
+    },
+    {
+      "id": "quick_commands_nazad",
+      "category_id": "quick_commands",
+      "group_id": "qc_playback",
+      "sort_order": 20,
+      "variant_label_ru": "Назад",
+      "is_primary_in_group": false,
+      "title_ru": "Назад",
+      "phrases": [
+        "Назад",
+        "Алиса, назад",
+        "Алиса, дальше"
+      ],
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Назад». Вернётся на предыдущий экран или трек. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "requires_alice_word": false,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "предыдущий",
+        "вернись"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/video-search",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "quick_commands"
+      ]
+    },
+    {
+      "id": "quick_commands_sleduiushchii",
+      "category_id": "quick_commands",
+      "group_id": "qc_playback",
+      "sort_order": 30,
+      "variant_label_ru": "Следующий",
+      "is_primary_in_group": false,
+      "title_ru": "Следующий",
+      "phrases": [
+        "Следующий",
+        "Алиса, следующий",
+        "Алиса, хочу что-нибудь другое",
+        "Алиса, пропустить",
+        "Алиса, вперед",
+        "Алиса, давай дальше",
+        "Алиса, перемотай"
+      ],
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Следующий». Переключит на следующий трек. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "requires_alice_word": false,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "дальше",
+        "пропустить"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/audio-settings",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "quick_commands"
+      ]
+    },
+    {
+      "id": "quick_commands_predydushchii",
+      "category_id": "quick_commands",
+      "group_id": "qc_playback",
+      "sort_order": 40,
+      "variant_label_ru": "Предыдущий",
+      "is_primary_in_group": false,
+      "title_ru": "Предыдущий",
+      "phrases": [
+        "Предыдущий"
+      ],
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Предыдущий». Переключит на предыдущий трек. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "requires_alice_word": false,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "назад"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "quick_commands"
+      ]
+    },
+    {
+      "id": "quick_commands_povtori",
+      "category_id": "quick_commands",
+      "group_id": "qc_playback",
+      "sort_order": 50,
+      "variant_label_ru": "Повтори",
+      "is_primary_in_group": false,
+      "title_ru": "Повтори",
+      "phrases": [
+        "Повтори",
+        "Алиса, повтори"
+      ],
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Повтори». Повторит последний ответ. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "requires_alice_word": false,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "ещё раз",
+        "повтор"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/speech-trainer",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "quick_commands"
+      ]
+    },
+    {
+      "id": "quick_commands_khvatit",
+      "category_id": "quick_commands",
+      "group_id": "qc_playback",
+      "sort_order": 60,
+      "variant_label_ru": "Хватит",
+      "is_primary_in_group": false,
+      "title_ru": "Хватит",
+      "phrases": [
+        "Хватит",
+        "Алиса, хватит",
+        "Алиса, закончи"
+      ],
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Хватит». Остановит таймер, будильник или воспроизведение. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "requires_alice_word": false,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "стоп",
+        "закончи"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/timer",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "quick_commands"
+      ]
+    },
+    {
+      "id": "quick_commands_pogromche",
+      "category_id": "quick_commands",
+      "group_id": "qc_playback",
+      "sort_order": 70,
+      "variant_label_ru": "Погромче",
+      "is_primary_in_group": false,
+      "title_ru": "Погромче",
+      "phrases": [
+        "Погромче"
+      ],
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Погромче». Увеличит громкость. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "requires_alice_word": false,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "громче",
+        "громкость"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "quick_commands"
+      ]
+    },
+    {
+      "id": "quick_commands_vkliuchi_radio",
+      "category_id": "quick_commands",
+      "group_id": "qc_media",
+      "sort_order": 10,
+      "variant_label_ru": "Включи радио",
+      "is_primary_in_group": true,
+      "title_ru": "Включи радио",
+      "phrases": [
+        "Включи радио"
+      ],
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Включи радио». Запустит радио. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "requires_alice_word": false,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "радио",
+        "включи"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "quick_commands"
+      ]
+    },
+    {
+      "id": "quick_commands_vykliuchi_muzyku",
+      "category_id": "quick_commands",
+      "group_id": "qc_media",
+      "sort_order": 20,
+      "variant_label_ru": "Выключи музыку",
+      "is_primary_in_group": false,
+      "title_ru": "Выключи музыку",
+      "phrases": [
+        "Выключи музыку"
+      ],
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Выключи музыку». Остановит воспроизведение музыки. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "requires_alice_word": false,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "стоп музыка",
+        "выключи"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "quick_commands"
+      ]
+    },
+    {
+      "id": "quick_commands_vkliuchi_svet",
+      "category_id": "quick_commands",
+      "group_id": "qc_smart_home",
+      "sort_order": 10,
+      "variant_label_ru": "Включи свет",
+      "is_primary_in_group": true,
+      "title_ru": "Включи свет",
+      "phrases": [
+        "Включи свет",
+        "Алиса, включи свет",
+        "Алиса, зажги свет в гостиной"
+      ],
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Включи свет». Включит свет в умном доме. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "requires_alice_word": false,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "свет",
+        "лампа"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "quick_commands"
+      ]
+    },
+    {
+      "id": "quick_commands_vykliuchi_svet",
+      "category_id": "quick_commands",
+      "group_id": "qc_smart_home",
+      "sort_order": 20,
+      "variant_label_ru": "Выключи свет",
+      "is_primary_in_group": false,
+      "title_ru": "Выключи свет",
+      "phrases": [
+        "Выключи свет",
+        "Алиса, выключи свет",
+        "Алиса, погаси свет на кухне"
+      ],
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Выключи свет». Выключит свет в умном доме. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "requires_alice_word": false,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "погаси",
+        "выключи свет"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "quick_commands"
+      ]
+    },
+    {
+      "id": "quick_commands_priglushi_svet",
+      "category_id": "quick_commands",
+      "group_id": "qc_smart_home",
+      "sort_order": 30,
+      "variant_label_ru": "Приглуши свет",
+      "is_primary_in_group": false,
+      "title_ru": "Приглуши свет",
+      "phrases": [
+        "Приглуши свет",
+        "Алиса, приглуши свет",
+        "Алиса, сделай свет тусклее"
+      ],
+      "effect_description_ru": "Быстрая команда без слова «Алиса»: «Приглуши свет».",
+      "requires_alice_word": false,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "тусклее",
+        "яркость"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "quick_commands"
+      ]
+    },
+    {
+      "id": "quick_commands_kotoryi_chas",
+      "category_id": "quick_commands",
+      "group_id": "qc_time",
+      "sort_order": 10,
+      "variant_label_ru": "Который час",
+      "is_primary_in_group": true,
+      "title_ru": "Который час",
+      "phrases": [
+        "Который час"
+      ],
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Который час». Сообщит текущее время. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "requires_alice_word": false,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "время",
+        "сколько времени"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "quick_commands"
+      ]
+    },
+    {
+      "id": "quick_commands_taimer_na_5_minut",
+      "category_id": "quick_commands",
+      "group_id": "qc_time",
+      "sort_order": 20,
+      "variant_label_ru": "Таймер на 5 минут",
+      "is_primary_in_group": false,
+      "title_ru": "Таймер на 5 минут",
+      "phrases": [
+        "Таймер на 5 минут"
+      ],
+      "effect_description_ru": "Выполнит «Таймер на 5 минут» без произнесения «Алиса». Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "requires_alice_word": false,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "таймер",
+        "минут"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "quick_commands"
+      ]
+    },
+    {
+      "id": "quick_commands_budi_v_7_utra",
+      "category_id": "quick_commands",
+      "group_id": "qc_time",
+      "sort_order": 30,
+      "variant_label_ru": "Буди в 7 утра",
+      "is_primary_in_group": false,
+      "title_ru": "Буди в 7 утра",
+      "phrases": [
+        "Буди в 7 утра"
+      ],
+      "effect_description_ru": "Выполнит «Буди в 7 утра» без произнесения «Алиса». Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "requires_alice_word": false,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "будильник",
+        "разбуди"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "quick_commands"
+      ]
+    },
+    {
+      "id": "quick_commands_kakaia_pogoda",
+      "category_id": "quick_commands",
+      "group_id": "qc_weather",
+      "sort_order": 10,
+      "variant_label_ru": "Какая погода",
+      "is_primary_in_group": true,
+      "title_ru": "Какая погода",
+      "phrases": [
+        "Какая погода"
+      ],
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Какая погода». Сообщит текущую погоду. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "requires_alice_word": false,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "погода",
+        "прогноз"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "quick_commands"
+      ]
+    },
+    {
+      "id": "quick_commands_kakaia_temperatura",
+      "category_id": "quick_commands",
+      "group_id": "qc_weather",
+      "sort_order": 20,
+      "variant_label_ru": "Какая температура",
+      "is_primary_in_group": false,
+      "title_ru": "Какая температура",
+      "phrases": [
+        "Какая температура"
+      ],
+      "effect_description_ru": "Выполнит «Какая температура» без произнесения «Алиса». Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "requires_alice_word": false,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "температура",
+        "градусы"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "quick_commands"
+      ]
+    },
+    {
+      "id": "quick_commands_pozvoni_mame",
+      "category_id": "quick_commands",
+      "group_id": "qc_calls",
+      "sort_order": 10,
+      "variant_label_ru": "Позвони маме",
+      "is_primary_in_group": true,
+      "title_ru": "Позвони маме",
+      "phrases": [
+        "Позвони маме"
+      ],
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Позвони маме». Позвонит маме, если контакт сохранён. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "requires_alice_word": false,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "звонок",
+        "мама"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "quick_commands"
+      ]
+    },
+    {
+      "id": "quick_commands_zavtrak",
+      "category_id": "quick_commands",
+      "group_id": "qc_meals",
+      "sort_order": 10,
+      "variant_label_ru": "Завтрак",
+      "is_primary_in_group": true,
+      "title_ru": "Завтрак",
+      "phrases": [
+        "Завтрак"
+      ],
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Завтрак». Может запустить таймер или напоминание о завтраке. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "requires_alice_word": false,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "утро",
+        "завтрак"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "quick_commands"
+      ]
+    },
+    {
+      "id": "quick_commands_obed",
+      "category_id": "quick_commands",
+      "group_id": "qc_meals",
+      "sort_order": 20,
+      "variant_label_ru": "Обед",
+      "is_primary_in_group": false,
+      "title_ru": "Обед",
+      "phrases": [
+        "Обед"
+      ],
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Обед». Может запустить таймер или напоминание об обеде. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "requires_alice_word": false,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "обед",
+        "полдень"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "quick_commands"
+      ]
+    },
+    {
+      "id": "quick_commands_uzhin",
+      "category_id": "quick_commands",
+      "group_id": "qc_meals",
+      "sort_order": 30,
+      "variant_label_ru": "Ужин",
+      "is_primary_in_group": false,
+      "title_ru": "Ужин",
+      "phrases": [
+        "Ужин"
+      ],
+      "effect_description_ru": "Быстрая команда без «Алиса»: «Ужин». Может запустить таймер или напоминание об ужине. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "requires_alice_word": false,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "ужин",
+        "вечер"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/start/quick-commands",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "quick_commands"
+      ]
+    },
+    {
+      "id": "quick_commands_iandeks_s_alisoi",
+      "category_id": "quick_commands",
+      "group_id": "qc_nav",
+      "sort_order": 10,
+      "variant_label_ru": "Яндекс — с Алисой",
+      "is_primary_in_group": true,
+      "title_ru": "Яндекс — с Алисой",
+      "phrases": [
+        "Яндекс — с Алисой"
+      ],
+      "effect_description_ru": "Выполнит «Яндекс — с Алисой» без произнесения «Алиса». Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "requires_alice_word": false,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "яндекс",
+        "настройки"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/news",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "quick_commands"
+      ]
+    },
+    {
+      "id": "quick_commands_nastroi_kolonku",
+      "category_id": "quick_commands",
+      "group_id": "qc_nav",
+      "sort_order": 20,
+      "variant_label_ru": "Настрой колонку",
+      "is_primary_in_group": false,
+      "title_ru": "Настрой колонку",
+      "phrases": [
+        "Настрой колонку",
+        "Алиса, настрой колонку"
+      ],
+      "effect_description_ru": "Поможет перейти к настройке колонки. Нужно: включённые быстрые команды в «Дом с Алисой»; устройство с Алисой.",
+      "requires_alice_word": false,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "search_aliases": [
+        "колонка",
+        "настрой"
+      ],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/news",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "quick_commands"
+      ]
+    }
+  ],
+  "scenario_templates": [],
+  "checklist_items": []
+}

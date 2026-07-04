@@ -6,9 +6,11 @@ import ru.appforsale.alicecommands.api.application.BundleCodec
 import ru.appforsale.alicecommands.api.domain.Category
 import ru.appforsale.alicecommands.api.domain.ChecklistItem
 import ru.appforsale.alicecommands.api.domain.Command
+import ru.appforsale.alicecommands.api.domain.CommandGroup
 import ru.appforsale.alicecommands.api.domain.ContentBundle
 import ru.appforsale.alicecommands.api.domain.ScenarioTemplate
 import ru.appforsale.alicecommands.api.domain.ports.BundleStorage
+import ru.appforsale.alicecommands.api.domain.ports.DraftRepository
 import ru.appforsale.alicecommands.api.domain.ports.ManifestRepository
 import ru.appforsale.alicecommands.api.domain.ports.SchemaValidator
 
@@ -48,12 +50,14 @@ data class ContentDiffResponse(
     val base_content_version: Int? = null,
     val summary: DiffSummary,
     val categories: EntityDiffSection,
+    val command_groups: EntityDiffSection,
     val commands: EntityDiffSection,
     val scenario_templates: EntityDiffSection,
     val checklist_items: EntityDiffSection,
 )
 
 class ContentDiffService(
+    private val draftRepository: DraftRepository,
     private val manifestRepository: ManifestRepository,
     private val bundleStorage: BundleStorage,
     private val schemaValidator: SchemaValidator,
@@ -63,6 +67,12 @@ class ContentDiffService(
         val incoming = BundleCodec.json.decodeFromString<ContentBundle>(jsonText)
         val published = loadPublishedBundle()
         return diffBundles(published.first, published.second, incoming)
+    }
+
+    fun draftVsPublished(): ContentDiffResponse {
+        val published = loadPublishedBundle()
+        val draft = draftRepository.loadFull()
+        return diffBundles(published.first, published.second, draft)
     }
 
     private fun loadPublishedBundle(): Pair<String, ContentBundle> {
@@ -79,6 +89,7 @@ class ContentDiffService(
     private fun emptyBundle(): ContentBundle = ContentBundle(
         published_at = "1970-01-01T00:00:00Z",
         categories = emptyList(),
+        command_groups = emptyList(),
         commands = emptyList(),
         scenario_templates = emptyList(),
         checklist_items = emptyList(),
@@ -86,15 +97,20 @@ class ContentDiffService(
 
     private fun diffBundles(baseLabel: String, base: ContentBundle, incoming: ContentBundle): ContentDiffResponse {
         val categories = diffCategories(base.categories, incoming.categories)
+        val commandGroups = diffCommandGroups(base.command_groups, incoming.command_groups)
         val commands = diffCommands(base.commands, incoming.commands)
         val scenarios = diffScenarios(base.scenario_templates, incoming.scenario_templates)
         val checklist = diffChecklist(base.checklist_items, incoming.checklist_items)
 
         val summary = DiffSummary(
-            added = categories.summary.added + commands.summary.added + scenarios.summary.added + checklist.summary.added,
-            removed = categories.summary.removed + commands.summary.removed + scenarios.summary.removed + checklist.summary.removed,
-            changed = categories.summary.changed + commands.summary.changed + scenarios.summary.changed + checklist.summary.changed,
-            unchanged = categories.summary.unchanged + commands.summary.unchanged + scenarios.summary.unchanged + checklist.summary.unchanged,
+            added = categories.summary.added + commandGroups.summary.added + commands.summary.added +
+                scenarios.summary.added + checklist.summary.added,
+            removed = categories.summary.removed + commandGroups.summary.removed + commands.summary.removed +
+                scenarios.summary.removed + checklist.summary.removed,
+            changed = categories.summary.changed + commandGroups.summary.changed + commands.summary.changed +
+                scenarios.summary.changed + checklist.summary.changed,
+            unchanged = categories.summary.unchanged + commandGroups.summary.unchanged + commands.summary.unchanged +
+                scenarios.summary.unchanged + checklist.summary.unchanged,
         )
 
         return ContentDiffResponse(
@@ -102,6 +118,7 @@ class ContentDiffService(
             base_content_version = manifestRepository.getCurrent()?.contentVersion,
             summary = summary,
             categories = categories,
+            command_groups = commandGroups,
             commands = commands,
             scenario_templates = scenarios,
             checklist_items = checklist,
@@ -121,10 +138,34 @@ class ContentDiffService(
                     "description_ru" to (old?.description_ru to new?.description_ru),
                     "featured" to (old?.featured?.toString() to new?.featured?.toString()),
                     "icon_key" to (old?.icon_key to new?.icon_key),
+                    "icon_url" to (old?.icon_url to new?.icon_url),
+                    "accent_color" to (old?.accent_color to new?.accent_color),
+                    "accent_color_dark" to (old?.accent_color_dark to new?.accent_color_dark),
                     "device_types" to (old?.device_types?.sorted()?.toString() to new?.device_types?.sorted()?.toString()),
                 )
             },
             toEntity = { id, change, diffs, item -> EntityDiff(id, change, diffs, item?.title_ru) },
+        )
+
+    private fun diffCommandGroups(base: List<CommandGroup>, incoming: List<CommandGroup>): EntityDiffSection =
+        diffEntities(
+            base.associateBy { it.id },
+            incoming.associateBy { it.id },
+            fieldDiffs = { old, new ->
+                mapDiffs(
+                    "title_ru" to (old?.title_ru to new?.title_ru),
+                    "category_id" to (old?.category_id to new?.category_id),
+                    "sort_order" to (old?.sort_order?.toString() to new?.sort_order?.toString()),
+                    "description_ru" to (old?.description_ru to new?.description_ru),
+                    "icon_key" to (old?.icon_key to new?.icon_key),
+                    "icon_url" to (old?.icon_url to new?.icon_url),
+                    "accent_color" to (old?.accent_color to new?.accent_color),
+                    "accent_color_dark" to (old?.accent_color_dark to new?.accent_color_dark),
+                    "featured" to (old?.featured?.toString() to new?.featured?.toString()),
+                    "preview_command_ids" to (old?.preview_command_ids?.sorted()?.toString() to new?.preview_command_ids?.sorted()?.toString()),
+                )
+            },
+            toEntity = { id, change, diffs, item -> EntityDiff(id, change, diffs, item?.title_ru, item?.category_id) },
         )
 
     private fun diffCommands(base: List<Command>, incoming: List<Command>): EntityDiffSection =
@@ -143,6 +184,11 @@ class ContentDiffService(
                     "related_command_ids" to (old?.related_command_ids?.sorted()?.toString() to new?.related_command_ids?.sorted()?.toString()),
                     "source_url" to (old?.source_url to new?.source_url),
                     "tags" to (old?.tags?.sorted()?.toString() to new?.tags?.sorted()?.toString()),
+                    "group_id" to (old?.group_id to new?.group_id),
+                    "sort_order" to (old?.sort_order?.toString() to new?.sort_order?.toString()),
+                    "variant_label_ru" to (old?.variant_label_ru to new?.variant_label_ru),
+                    "is_primary_in_group" to (old?.is_primary_in_group?.toString() to new?.is_primary_in_group?.toString()),
+                    "search_aliases" to (old?.search_aliases?.sorted()?.toString() to new?.search_aliases?.sorted()?.toString()),
                 )
             },
             toEntity = { id, change, diffs, item ->

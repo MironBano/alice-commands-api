@@ -1,6 +1,5 @@
 package ru.appforsale.alicecommands.api.application.read
 
-import kotlinx.serialization.encodeToString
 import ru.appforsale.alicecommands.api.application.BundleCodec
 import ru.appforsale.alicecommands.api.config.AppConfig
 import ru.appforsale.alicecommands.api.domain.AffiliateBlocksResponse
@@ -92,11 +91,9 @@ class DraftPublishStatusService(
         val current = manifestRepository.getCurrent()
         if (current == null) {
             val stats = draftRepository.stats()
-            return stats.categoriesCount > 0 || stats.commandsCount > 0 || stats.affiliateBlocksCount > 0
+            return stats.categoriesCount > 0 || stats.commandsCount > 0
         }
-        val catalogChanged = isCatalogChanged(current)
-        val affiliateChanged = isAffiliateChanged()
-        return catalogChanged || affiliateChanged
+        return isCatalogChanged(current)
     }
 
     private fun isCatalogChanged(current: ru.appforsale.alicecommands.api.domain.CurrentManifest): Boolean {
@@ -106,11 +103,4 @@ class DraftPublishStatusService(
         return BundleCodec.contentFingerprint(draftBundle) != BundleCodec.contentFingerprint(publishedBundle)
     }
 
-    private fun isAffiliateChanged(): Boolean {
-        val draftBlocks = draftRepository.listAffiliateBlocks()
-        val published = bundleStorage.readAffiliate()?.blocks ?: emptyList()
-        val draftJson = BundleCodec.json.encodeToString(draftBlocks.sortedBy { it.id })
-        val publishedJson = BundleCodec.json.encodeToString(published.sortedBy { it.id })
-        return draftJson != publishedJson
-    }
 }

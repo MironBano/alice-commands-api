@@ -39,9 +39,12 @@ ssh -i $env:USERPROFILE\.ssh\id_ed25519_selectel root@161.104.46.92
 | `/opt/alice-api/deploy/` | nginx, systemd |
 | `/opt/alice-api/storage/bundles/` | Published bundles |
 | `/opt/alice-api/storage/manifest/` | Manifest |
+| `/opt/alice-api/storage/icons/v1/` | Category/group SVG (runtime) |
+| `/opt/alice-api/content/icons/v1/` | Pilot SVG из репо (копируются при deploy) |
+| `/opt/alice-api/content/icon_catalog.json` | Справочник slug + пресеты цветов |
 | `/var/log/alice-api/app.log` | Логи |
 
-**Services:** `systemctl status alice-api nginx` · nginx config: `/etc/nginx/sites-available/alice-api` (HTTPS Let's Encrypt + proxy → `:8080`).
+**Services:** `systemctl status alice-api nginx` · nginx: `/etc/nginx/sites-available/alice-api` (API + `/icons/`), `alice-cdn` (только `cdn.alicecommands.ru`).
 
 ---
 
@@ -49,18 +52,31 @@ ssh -i $env:USERPROFILE\.ssh\id_ed25519_selectel root@161.104.46.92
 
 **Домен:** `alicecommands.ru` · NS: **Cloudflare** (`kaiser.ns.cloudflare.com`, `angelina.ns.cloudflare.com`).
 
-### Рабочая конфигурация (2026-06)
+### Рабочая конфигурация (2026-07)
 
-| Type | Name | Content | Proxy |
-| ---- | ---- | ------- | ----- |
-| A | `staging-api` | `161.104.46.92` | **DNS only** (серое облако) |
+| Type | Name | Content | Proxy | Назначение |
+| ---- | ---- | ------- | ----- | ---------- |
+| A | `staging-api` | `161.104.46.92` | **DNS only** | API + admin + иконки (staging) |
+| A | `cdn` | `161.104.46.92` | **DNS only** | Статика иконок (prod); создать через `cloudflare-dns-direct.ps1` или вручную в Cloudflare |
 
 **Проверка:**
 
 ```powershell
 nslookup staging-api.alicecommands.ru 8.8.8.8   # → 161.104.46.92
+nslookup cdn.alicecommands.ru 8.8.8.8         # → 161.104.46.92 (после записи cdn)
 curl https://staging-api.alicecommands.ru/health # → {"status":"ok"}
+curl https://staging-api.alicecommands.ru/icons/v1/child.svg  # → 200, SVG
+curl https://cdn.alicecommands.ru/icons/v1/child.svg          # → 200 после DNS + setup-cdn
 ```
+
+**Staging vs prod URL иконок:**
+
+| Среда | `ICON_PUBLIC_BASE_URL` | `icon_url` в bundle |
+| ----- | ---------------------- | ------------------- |
+| Staging (сейчас) | `https://staging-api.alicecommands.ru` | `https://staging-api.../icons/v1/{slug}.svg` |
+| Prod (цель) | `https://cdn.alicecommands.ru` | `https://cdn.../icons/v1/{slug}.svg` |
+
+Один и тот же файл на диске (`storage/icons/v1/`); меняется только hostname в URL. См. [BACKEND-CATEGORY-VISUALS.md](BACKEND-CATEGORY-VISUALS.md) §4.
 
 Предупреждения Cloudflare («Proxying required», missing www/root/email) — **можно игнорировать** для API subdomain.
 
@@ -70,14 +86,19 @@ curl https://staging-api.alicecommands.ru/health # → {"status":"ok"}
 
 **VPS Selectel доступен из РФ напрямую** — API и admin должны резолвиться на `161.104.46.92` без CF proxy.
 
-Для prod: запись **`api`** → A `161.104.46.92`, тоже **DNS only**.
+Для prod: запись **`api`** → A `161.104.46.92`, тоже **DNS only**. Иконки prod — **`cdn`** → тот же IP, **DNS only** (не CF CDN proxy).
 
-### Скрипт смены DNS (опционально)
+### Скрипты DNS и CDN
 
 ```powershell
-# scripts\.env: CF_API_TOKEN=...
-.\scripts\cloudflare-dns-direct.ps1
+# scripts\.env: CF_API_TOKEN=... (Cloudflare → Edit zone DNS)
+.\scripts\cloudflare-dns-direct.ps1   # по умолчанию: staging-api + cdn, proxied=false
+.\scripts\setup-cdn.ps1               # DNS → certbot → nginx alice-cdn → ICON_PUBLIC_BASE_URL=cdn
 ```
+
+Переменные: `CF_DNS_RECORDS=staging-api,cdn`, `STAGING_ORIGIN_IP=161.104.46.92` — см. `scripts/.env.example`.
+
+**Симптом `DNS_PROBE_FINISHED_NXDOMAIN` на `cdn.alicecommands.ru`:** нет A-записи `cdn` в Cloudflare — это не ошибка хранения файлов. До настройки DNS используйте `staging-api` URL или выполните `setup-cdn.ps1`.
 
 ### Альтернатива: DNS в Selectel
 
@@ -92,6 +113,8 @@ curl https://staging-api.alicecommands.ru/health # → {"status":"ok"}
 | Staging API | https://staging-api.alicecommands.ru |
 | Admin | https://staging-api.alicecommands.ru/admin |
 | Manifest | https://staging-api.alicecommands.ru/v1/content/manifest |
+| Icons (staging) | https://staging-api.alicecommands.ru/icons/v1/{slug}.svg |
+| Icons (prod CDN) | https://cdn.alicecommands.ru/icons/v1/{slug}.svg |
 | Health / Ready | `/health`, `/ready` |
 
 **Admin login:** `ADMIN_USERNAME` из `/opt/alice-api/.env` (staging: `miron`).
@@ -109,7 +132,17 @@ Copy-Item scripts\.env.example scripts\.env   # SSH_KEY_PATH, SSH_HOST
 .\scripts\deploy-staging.ps1
 ```
 
-`installDist` → scp → nginx reload → `systemctl restart alice-api`.
+`installDist` → scp (app, admin-web, icons, nginx) → `systemctl restart alice-api`.
+
+**Переменные иконок на VPS** (`/opt/alice-api/.env`):
+
+| Переменная | Пример staging | Назначение |
+| ---------- | -------------- | ---------- |
+| `ICON_STORAGE_PATH` | `/opt/alice-api/storage/icons` | Каталог SVG на диске |
+| `ICON_PUBLIC_BASE_URL` | `https://staging-api.alicecommands.ru` | База для `icon_url` при upload и в каталоге админки |
+| `ICON_URL_ALLOWED_HOSTS` | `staging-api.alicecommands.ru,cdn.alicecommands.ru,...` | Allowlist host при publish |
+
+`deploy-staging.ps1` **не перезаписывает** уже заданный `ICON_PUBLIC_BASE_URL`. Переключение на CDN — `setup-cdn.ps1`.
 
 ### Content pipeline
 

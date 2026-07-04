@@ -1,0 +1,471 @@
+[
+  {
+    "command_id": "alice_plus_aktivirui_promokod_plius",
+    "category_id": "alice_plus",
+    "phrase_example": "Алиса, активируй промокод Плюс",
+    "phrases": [
+      "Алиса, активируй промокод Плюс"
+    ],
+    "raw_result": "Активация промокода.",
+    "source_url": "https://alice.yandex.ru/support/ru/assistant/alice-plus/",
+    "published": {
+      "title_ru": "Активируй промокод Плюс",
+      "effect_description_ru": "Активирует промокод подписки Яндекс Плюс по вашему запросу. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Активируй промокод Плюс",
+      "effect_description_ru": "Активирует промокод подписки Яндекс Плюс по вашему запросу. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "alice_plus_aktivirui_promokod_plius",
+      "title_ru": "Активируй промокод Плюс",
+      "effect_description_ru": "Активирует промокод подписки Яндекс Плюс по вашему запросу. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "alice_plus_davai_praktikovat_angliiskii",
+    "category_id": "alice_plus",
+    "phrase_example": "Алиса, давай практиковать английский",
+    "phrases": [
+      "Алиса, давай практиковать английский"
+    ],
+    "raw_result": "Алиса выполнит: как запустить практику английского.",
+    "source_url": "https://alice.yandex.ru/support/ru/assistant/alice-plus/language-english",
+    "published": {
+      "title_ru": "Давай практиковать английский",
+      "effect_description_ru": "Запустит практику английского языка. Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "draft": {
+      "title_ru": "Давай практиковать английский",
+      "effect_description_ru": "Запустит практику английского языка. Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "edit": {
+      "command_id": "alice_plus_davai_praktikovat_angliiskii",
+      "title_ru": "Давай практиковать английский",
+      "effect_description_ru": "Запустит практику английского языка. Нужно: устройство с Алисой; подписка Яндекс Плюс.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "alice_plus_davai_uchit_tablitsu_umnozheniia",
+    "category_id": "alice_plus",
+    "phrase_example": "Алиса, давай учить таблицу умножения",
+    "phrases": [
+      "Алиса, давай учить таблицу умножения"
+    ],
+    "raw_result": "Чтобы начать тренировку, скажите Станции : — ассистент предложит выбрать режим.",
+    "source_url": "https://alice.yandex.ru/support/ru/assistant/alice-plus/multiplication-table",
+    "published": {
+      "title_ru": "Давай учить таблицу умножения",
+      "effect_description_ru": "Поможет учить таблицу умножения. Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "draft": {
+      "title_ru": "Давай учить таблицу умножения",
+      "effect_description_ru": "Поможет учить таблицу умножения. Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "edit": {
+      "command_id": "alice_plus_davai_uchit_tablitsu_umnozheniia",
+      "title_ru": "Давай учить таблицу умножения",
+      "effect_description_ru": "Поможет учить таблицу умножения. Нужно: устройство с Алисой; подписка Яндекс Плюс.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "alice_plus_detskii_kontent_plius",
+    "category_id": "alice_plus",
+    "phrase_example": "Алиса, детский контент Плюс",
+    "phrases": [
+      "Алиса, детский контент Плюс"
+    ],
+    "raw_result": "Детский раздел Плюс.",
+    "source_url": "https://alice.yandex.ru/support/ru/assistant/alice-plus/",
+    "published": {
+      "title_ru": "Детский контент Плюс",
+      "effect_description_ru": "Откроет детский раздел контента Яндекс Плюс. Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "draft": {
+      "title_ru": "Детский контент Плюс",
+      "effect_description_ru": "Откроет детский раздел контента Яндекс Плюс. Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "edit": {
+      "command_id": "alice_plus_detskii_kontent_plius",
+      "title_ru": "Детский контент Плюс",
+      "effect_description_ru": "Откроет детский раздел контента Яндекс Плюс. Нужно: устройство с Алисой; подписка Яндекс Плюс.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "alice_plus_dlia_vzroslykh",
+    "category_id": "alice_plus",
+    "phrase_example": "Алиса, для взрослых",
+    "phrases": [
+      "Алиса, для взрослых"
+    ],
+    "raw_result": "Алиса выполнит: вопросы о детских сценариях.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/series",
+    "published": {
+      "title_ru": "Для взрослых",
+      "effect_description_ru": "Включит режим контента «для взрослых». Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "draft": {
+      "title_ru": "Для взрослых",
+      "effect_description_ru": "Включит режим контента «для взрослых». Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "edit": {
+      "command_id": "alice_plus_dlia_vzroslykh",
+      "title_ru": "Для взрослых",
+      "effect_description_ru": "Включит режим контента «для взрослых». Нужно: устройство с Алисой; подписка Яндекс Плюс.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "alice_plus_est_li_u_menia_plius",
+    "category_id": "alice_plus",
+    "phrase_example": "Алиса, есть ли у меня Плюс?",
+    "phrases": [
+      "Алиса, есть ли у меня Плюс?",
+      "Алиса, статус подписки"
+    ],
+    "raw_result": "Статус подписки Яндекс Плюс.",
+    "source_url": "https://alice.yandex.ru/support/ru/assistant/alice-plus/",
+    "published": {
+      "title_ru": "Есть ли у меня Плюс?",
+      "effect_description_ru": "Сообщит, активна ли у вас подписка Яндекс Плюс. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Есть ли у меня Плюс?",
+      "effect_description_ru": "Сообщит, активна ли у вас подписка Яндекс Плюс. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "alice_plus_est_li_u_menia_plius",
+      "title_ru": "Есть ли у меня Плюс?",
+      "effect_description_ru": "Сообщит, активна ли у вас подписка Яндекс Плюс. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "alice_plus_film_po_podpiske_plius",
+    "category_id": "alice_plus",
+    "phrase_example": "Алиса, фильм по подписке Плюс",
+    "phrases": [
+      "Алиса, фильм по подписке Плюс"
+    ],
+    "raw_result": "Контент Кинопоиска по подписке.",
+    "source_url": "https://alice.yandex.ru/support/ru/assistant/alice-plus/",
+    "published": {
+      "title_ru": "Фильм по подписке Плюс",
+      "effect_description_ru": "Подберёт и запустит фильм из каталога Кинопоиска по подписке. Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "draft": {
+      "title_ru": "Фильм по подписке Плюс",
+      "effect_description_ru": "Подберёт и запустит фильм из каталога Кинопоиска по подписке. Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "edit": {
+      "command_id": "alice_plus_film_po_podpiske_plius",
+      "title_ru": "Фильм по подписке Плюс",
+      "effect_description_ru": "Подберёт и запустит фильм из каталога Кинопоиска по подписке. Нужно: устройство с Алисой; подписка Яндекс Плюс.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "alice_plus_kakie_u_menia_skidki_plius",
+    "category_id": "alice_plus",
+    "phrase_example": "Алиса, какие у меня скидки Плюс",
+    "phrases": [
+      "Алиса, какие у меня скидки Плюс"
+    ],
+    "raw_result": "Активные предложения Плюс.",
+    "source_url": "https://alice.yandex.ru/support/ru/assistant/alice-plus/",
+    "published": {
+      "title_ru": "Какие у меня скидки Плюс",
+      "effect_description_ru": "Расскажет о доступных скидках и предложениях Яндекс Плюс. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Какие у меня скидки Плюс",
+      "effect_description_ru": "Расскажет о доступных скидках и предложениях Яндекс Плюс. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "alice_plus_kakie_u_menia_skidki_plius",
+      "title_ru": "Какие у меня скидки Плюс",
+      "effect_description_ru": "Расскажет о доступных скидках и предложениях Яндекс Плюс. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "alice_plus_ne_zabud_formu_na_trenirovku",
+    "category_id": "alice_plus",
+    "phrase_example": "Алиса, не забудь форму на тренировку",
+    "phrases": [
+      "Алиса, не забудь форму на тренировку"
+    ],
+    "raw_result": "Алиса выполнит: настроить расписание.",
+    "source_url": "https://alice.yandex.ru/support/ru/assistant/alice-plus/kids",
+    "published": {
+      "title_ru": "Не забудь форму на тренировку",
+      "effect_description_ru": "Создаст напоминание по расписанию. Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "draft": {
+      "title_ru": "Не забудь форму на тренировку",
+      "effect_description_ru": "Создаст напоминание по расписанию. Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "edit": {
+      "command_id": "alice_plus_ne_zabud_formu_na_trenirovku",
+      "title_ru": "Не забудь форму на тренировку",
+      "effect_description_ru": "Создаст напоминание по расписанию. Нужно: устройство с Алисой; подписка Яндекс Плюс.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "alice_plus_ne_zabud_poobedat",
+    "category_id": "alice_plus",
+    "phrase_example": "Алиса, не забудь пообедать",
+    "phrases": [
+      "Алиса, не забудь пообедать"
+    ],
+    "raw_result": "Алиса выполнит: настроить расписание.",
+    "source_url": "https://alice.yandex.ru/support/ru/assistant/alice-plus/kids",
+    "published": {
+      "title_ru": "Не забудь пообедать",
+      "effect_description_ru": "Создаст напоминание по расписанию. Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "draft": {
+      "title_ru": "Не забудь пообедать",
+      "effect_description_ru": "Создаст напоминание по расписанию. Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "edit": {
+      "command_id": "alice_plus_ne_zabud_poobedat",
+      "title_ru": "Не забудь пообедать",
+      "effect_description_ru": "Создаст напоминание по расписанию. Нужно: устройство с Алисой; подписка Яндекс Плюс.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "alice_plus_razbudit_rebenka_ego_liubimoi_melodiei_p",
+    "category_id": "alice_plus",
+    "phrase_example": "Алиса разбудит ребенка его любимой мелодией, проведет бодрую зарядку и напомнит о том, что нужно умыться и позавтракать.",
+    "phrases": [
+      "Алиса разбудит ребенка его любимой мелодией, проведет бодрую зарядку и напомнит о том, что нужно умыться и позавтракать."
+    ],
+    "raw_result": "Алиса разбудит ребенка его любимой мелодией, проведет бодрую зарядку и напомнит о том, что нужно умыться и позавтракать.",
+    "source_url": "https://alice.yandex.ru/support/ru/assistant/alice-plus/kids",
+    "published": {
+      "title_ru": "Разбуди ребёнка",
+      "effect_description_ru": "Разбудит ребёнка любимой мелодией, проведёт зарядку и напомнит умыться и позавтракать. Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "draft": {
+      "title_ru": "Разбуди ребёнка",
+      "effect_description_ru": "Разбудит ребёнка любимой мелодией, проведёт зарядку и напомнит умыться и позавтракать. Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "edit": {
+      "command_id": "alice_plus_razbudit_rebenka_ego_liubimoi_melodiei_p",
+      "title_ru": "Разбуди ребёнка",
+      "effect_description_ru": "Разбудит ребёнка любимой мелодией, проведёт зарядку и напомнит умыться и позавтракать. Нужно: устройство с Алисой; подписка Яндекс Плюс.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "alice_plus_s_optsiei_alisa_plius_pomozhet_vyuchit_t",
+    "category_id": "alice_plus",
+    "phrase_example": "Алиса с опцией Алиса Плюс поможет выучить таблицу умножения, а также проверит, как усвоен материал.",
+    "phrases": [
+      "Алиса с опцией Алиса Плюс поможет выучить таблицу умножения, а также проверит, как усвоен материал."
+    ],
+    "raw_result": "Алиса с опцией Алиса Плюс поможет выучить таблицу умножения, а также проверит, как усвоен материал.",
+    "source_url": "https://alice.yandex.ru/support/ru/assistant/alice-plus/multiplication-table",
+    "published": {
+      "title_ru": "Выучить таблицу умножения",
+      "effect_description_ru": "Поможет выучить таблицу умножения и проверить, как ребёнок усвоил материал. Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "draft": {
+      "title_ru": "Выучить таблицу умножения",
+      "effect_description_ru": "Поможет выучить таблицу умножения и проверить, как ребёнок усвоил материал. Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "edit": {
+      "command_id": "alice_plus_s_optsiei_alisa_plius_pomozhet_vyuchit_t",
+      "title_ru": "Выучить таблицу умножения",
+      "effect_description_ru": "Поможет выучить таблицу умножения и проверить, как ребёнок усвоил материал. Нужно: устройство с Алисой; подписка Яндекс Плюс.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "alice_plus_semeinaia_podpiska",
+    "category_id": "alice_plus",
+    "phrase_example": "Алиса, семейная подписка",
+    "phrases": [
+      "Алиса, семейная подписка"
+    ],
+    "raw_result": "Информация о семейной подписке.",
+    "source_url": "https://alice.yandex.ru/support/ru/assistant/alice-plus/",
+    "published": {
+      "title_ru": "Семейная подписка",
+      "effect_description_ru": "Расскажет о семейной подписке Яндекс Плюс и её условиях. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Семейная подписка",
+      "effect_description_ru": "Расскажет о семейной подписке Яндекс Плюс и её условиях. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "alice_plus_semeinaia_podpiska",
+      "title_ru": "Семейная подписка",
+      "effect_description_ru": "Расскажет о семейной подписке Яндекс Плюс и её условиях. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "alice_plus_skolko_keshbeka",
+    "category_id": "alice_plus",
+    "phrase_example": "Алиса, сколько кешбэка",
+    "phrases": [
+      "Алиса, сколько кешбэка"
+    ],
+    "raw_result": "Баланс кешбэка.",
+    "source_url": "https://alice.yandex.ru/support/ru/assistant/alice-plus/",
+    "published": {
+      "title_ru": "Сколько кешбэка",
+      "effect_description_ru": "Сообщит баланс кешбэка по подписке Яндекс Плюс. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Сколько кешбэка",
+      "effect_description_ru": "Сообщит баланс кешбэка по подписке Яндекс Плюс. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "alice_plus_skolko_keshbeka",
+      "title_ru": "Сколько кешбэка",
+      "effect_description_ru": "Сообщит баланс кешбэка по подписке Яндекс Плюс. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "alice_plus_sokhrani",
+    "category_id": "alice_plus",
+    "phrase_example": "Алиса, сохрани",
+    "phrases": [
+      "Алиса, сохрани"
+    ],
+    "raw_result": "Вы можете начать общение с Алисой на колонке, а продолжить на телефоне или ноутбуке. Просто скажите: — и она добавит ответ в чат.",
+    "source_url": "https://alice.yandex.ru/support/ru/assistant/alice-plus/language-english",
+    "published": {
+      "title_ru": "Сохрани",
+      "effect_description_ru": "Сохранит ответ для продолжения в чате на телефоне. Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "draft": {
+      "title_ru": "Сохрани",
+      "effect_description_ru": "Сохранит ответ для продолжения в чате на телефоне. Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "edit": {
+      "command_id": "alice_plus_sokhrani",
+      "title_ru": "Сохрани",
+      "effect_description_ru": "Сохранит ответ для продолжения в чате на телефоне. Нужно: устройство с Алисой; подписка Яндекс Плюс.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "alice_plus_vkliuchi_knigu_iz_pliusa",
+    "category_id": "alice_plus",
+    "phrase_example": "Алиса, включи книгу из Плюса",
+    "phrases": [
+      "Алиса, включи книгу из Плюса"
+    ],
+    "raw_result": "Аудиокнига по подписке.",
+    "source_url": "https://alice.yandex.ru/support/ru/assistant/alice-plus/",
+    "published": {
+      "title_ru": "Включи книгу из Плюса",
+      "effect_description_ru": "Включит аудиокнигу из каталога Яндекс Плюс. Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "draft": {
+      "title_ru": "Включи книгу из Плюса",
+      "effect_description_ru": "Включит аудиокнигу из каталога Яндекс Плюс. Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "edit": {
+      "command_id": "alice_plus_vkliuchi_knigu_iz_pliusa",
+      "title_ru": "Включи книгу из Плюса",
+      "effect_description_ru": "Включит аудиокнигу из каталога Яндекс Плюс. Нужно: устройство с Алисой; подписка Яндекс Плюс.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "alice_plus_vkliuchi_muzyku_bez_reklamy",
+    "category_id": "alice_plus",
+    "phrase_example": "Алиса, включи музыку без рекламы",
+    "phrases": [
+      "Алиса, включи музыку без рекламы"
+    ],
+    "raw_result": "Музыка без рекламы (Плюс).",
+    "source_url": "https://alice.yandex.ru/support/ru/assistant/alice-plus/",
+    "published": {
+      "title_ru": "Включи музыку без рекламы",
+      "effect_description_ru": "Включит музыку без рекламных вставок. Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "draft": {
+      "title_ru": "Включи музыку без рекламы",
+      "effect_description_ru": "Включит музыку без рекламных вставок. Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "edit": {
+      "command_id": "alice_plus_vkliuchi_muzyku_bez_reklamy",
+      "title_ru": "Включи музыку без рекламы",
+      "effect_description_ru": "Включит музыку без рекламных вставок. Нужно: устройство с Алисой; подписка Яндекс Плюс.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "alice_plus_vkliuchi_podkast_plius_puteshestviia",
+    "category_id": "alice_plus",
+    "phrase_example": "Алиса, включи подкаст Плюс Путешествия",
+    "phrases": [
+      "Алиса, включи подкаст Плюс Путешествия"
+    ],
+    "raw_result": "Эксклюзивный подкаст.",
+    "source_url": "https://alice.yandex.ru/support/ru/assistant/alice-plus/",
+    "published": {
+      "title_ru": "Включи подкаст Плюс Путешествия",
+      "effect_description_ru": "Включит эксклюзивный подкаст «Плюс Путешествия». Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "draft": {
+      "title_ru": "Включи подкаст Плюс Путешествия",
+      "effect_description_ru": "Включит эксклюзивный подкаст «Плюс Путешествия». Нужно: устройство с Алисой; подписка Яндекс Плюс."
+    },
+    "edit": {
+      "command_id": "alice_plus_vkliuchi_podkast_plius_puteshestviia",
+      "title_ru": "Включи подкаст Плюс Путешествия",
+      "effect_description_ru": "Включит эксклюзивный подкаст «Плюс Путешествия». Нужно: устройство с Алисой; подписка Яндекс Плюс.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  }
+]

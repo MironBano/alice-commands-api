@@ -1,0 +1,717 @@
+[
+  {
+    "command_id": "quick_answers_aleksandr",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, александр",
+    "phrases": [
+      "Алиса, александр"
+    ],
+    "raw_result": "Требует вычитки",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/facts",
+    "published": {
+      "title_ru": "Александр",
+      "effect_description_ru": "Ответит на вопрос «Александр». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Александр",
+      "effect_description_ru": "Ответит на вопрос «Александр». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_aleksandr",
+      "title_ru": "Александр",
+      "effect_description_ru": "Ответит на вопрос «Александр». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_budet_li_dozhd",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, будет ли дождь?",
+    "phrases": [
+      "Алиса, будет ли дождь?",
+      "Алиса, нужен ли зонт?"
+    ],
+    "raw_result": "Скажет о вероятности осадков.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Будет ли дождь?",
+      "effect_description_ru": "Ответит на вопрос «Будет ли дождь?». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Будет ли дождь?",
+      "effect_description_ru": "Ответит на вопрос «Будет ли дождь?». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_budet_li_dozhd",
+      "title_ru": "Будет ли дождь?",
+      "effect_description_ru": "Ответит на вопрос «Будет ли дождь?». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_budet_li_sneg",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, будет ли снег?",
+    "phrases": [
+      "Алиса, будет ли снег?"
+    ],
+    "raw_result": "Прогноз по снегу.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Будет ли снег?",
+      "effect_description_ru": "Ответит на вопрос «Будет ли снег?». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Будет ли снег?",
+      "effect_description_ru": "Ответит на вопрос «Будет ли снег?». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_budet_li_sneg",
+      "title_ru": "Будет ли снег?",
+      "effect_description_ru": "Ответит на вопрос «Будет ли снег?». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_iskusstvennyi_intellekt",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, искусственный интеллект",
+    "phrases": [
+      "Алиса, искусственный интеллект"
+    ],
+    "raw_result": "— Как по-английски «искусственный интеллект»?",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/translation",
+    "published": {
+      "title_ru": "Искусственный интеллект",
+      "effect_description_ru": "Ответит на вопрос «Искусственный интеллект». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Искусственный интеллект",
+      "effect_description_ru": "Ответит на вопрос «Искусственный интеллект». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_iskusstvennyi_intellekt",
+      "title_ru": "Искусственный интеллект",
+      "effect_description_ru": "Ответит на вопрос «Искусственный интеллект». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_kakaia_pogoda",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, какая погода?",
+    "phrases": [
+      "Алиса, какая погода?",
+      "Алиса, какая погода на улице?"
+    ],
+    "raw_result": "Сообщит текущую погоду.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Какая погода?",
+      "effect_description_ru": "Сообщит текущую погоду в вашем городе. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Какая погода?",
+      "effect_description_ru": "Сообщит текущую погоду в вашем городе. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_kakaia_pogoda",
+      "title_ru": "Какая погода?",
+      "effect_description_ru": "Сообщит текущую погоду в вашем городе. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_kakaia_pogoda_v_ekaterinburg",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, какая погода в Екатеринбург?",
+    "phrases": [
+      "Алиса, какая погода в Екатеринбург?",
+      "Алиса, погода в Екатеринбург завтра"
+    ],
+    "raw_result": "Погода в городе Екатеринбург.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Какая погода в Екатеринбург?",
+      "effect_description_ru": "Сообщит погоду в Екатеринбурге. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Какая погода в Екатеринбург?",
+      "effect_description_ru": "Сообщит погоду в Екатеринбурге. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_kakaia_pogoda_v_ekaterinburg",
+      "title_ru": "Какая погода в Екатеринбург?",
+      "effect_description_ru": "Сообщит погоду в Екатеринбурге. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_kakaia_pogoda_v_kazan",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, какая погода в Казань?",
+    "phrases": [
+      "Алиса, какая погода в Казань?",
+      "Алиса, погода в Казань завтра"
+    ],
+    "raw_result": "Погода в городе Казань.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Какая погода в Казань?",
+      "effect_description_ru": "Сообщит погоду в Казани. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Какая погода в Казань?",
+      "effect_description_ru": "Сообщит погоду в Казани. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_kakaia_pogoda_v_kazan",
+      "title_ru": "Какая погода в Казань?",
+      "effect_description_ru": "Сообщит погоду в Казани. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_kakaia_pogoda_v_krasnodar",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, какая погода в Краснодар?",
+    "phrases": [
+      "Алиса, какая погода в Краснодар?",
+      "Алиса, погода в Краснодар завтра"
+    ],
+    "raw_result": "Погода в городе Краснодар.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Какая погода в Краснодар?",
+      "effect_description_ru": "Сообщит погоду в Краснодаре. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Какая погода в Краснодар?",
+      "effect_description_ru": "Сообщит погоду в Краснодаре. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_kakaia_pogoda_v_krasnodar",
+      "title_ru": "Какая погода в Краснодар?",
+      "effect_description_ru": "Сообщит погоду в Краснодаре. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_kakaia_pogoda_v_moskva",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, какая погода в Москва?",
+    "phrases": [
+      "Алиса, какая погода в Москва?",
+      "Алиса, погода в Москва завтра"
+    ],
+    "raw_result": "Погода в городе Москва.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Какая погода в Москва?",
+      "effect_description_ru": "Сообщит погоду в Москве. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Какая погода в Москва?",
+      "effect_description_ru": "Сообщит погоду в Москве. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_kakaia_pogoda_v_moskva",
+      "title_ru": "Какая погода в Москва?",
+      "effect_description_ru": "Сообщит погоду в Москве. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_kakaia_pogoda_v_novosibirsk",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, какая погода в Новосибирск?",
+    "phrases": [
+      "Алиса, какая погода в Новосибирск?",
+      "Алиса, погода в Новосибирск завтра"
+    ],
+    "raw_result": "Погода в городе Новосибирск.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Какая погода в Новосибирск?",
+      "effect_description_ru": "Сообщит погоду в Новосибирске. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Какая погода в Новосибирск?",
+      "effect_description_ru": "Сообщит погоду в Новосибирске. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_kakaia_pogoda_v_novosibirsk",
+      "title_ru": "Какая погода в Новосибирск?",
+      "effect_description_ru": "Сообщит погоду в Новосибирске. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_kakaia_pogoda_v_sankt_peterburg",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, какая погода в Санкт-Петербург?",
+    "phrases": [
+      "Алиса, какая погода в Санкт-Петербург?",
+      "Алиса, погода в Санкт-Петербург завтра"
+    ],
+    "raw_result": "Погода в городе Санкт-Петербург.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Какая погода в Санкт-Петербург?",
+      "effect_description_ru": "Сообщит погоду в Санкт-Петербурге. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Какая погода в Санкт-Петербург?",
+      "effect_description_ru": "Сообщит погоду в Санкт-Петербурге. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_kakaia_pogoda_v_sankt_peterburg",
+      "title_ru": "Какая погода в Санкт-Петербург?",
+      "effect_description_ru": "Сообщит погоду в Санкт-Петербурге. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_kakaia_pogoda_v_sochi",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, какая погода в Сочи?",
+    "phrases": [
+      "Алиса, какая погода в Сочи?",
+      "Алиса, погода в Сочи завтра"
+    ],
+    "raw_result": "Погода в городе Сочи.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Какая погода в Сочи?",
+      "effect_description_ru": "Сообщит погоду в Сочи. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Какая погода в Сочи?",
+      "effect_description_ru": "Сообщит погоду в Сочи. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_kakaia_pogoda_v_sochi",
+      "title_ru": "Какая погода в Сочи?",
+      "effect_description_ru": "Сообщит погоду в Сочи. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_kakaia_pogoda_v_vladivostok",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, какая погода в Владивосток?",
+    "phrases": [
+      "Алиса, какая погода в Владивосток?",
+      "Алиса, погода в Владивосток завтра"
+    ],
+    "raw_result": "Погода в городе Владивосток.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Какая погода в Владивосток?",
+      "effect_description_ru": "Сообщит погоду во Владивостоке. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Какая погода в Владивосток?",
+      "effect_description_ru": "Сообщит погоду во Владивостоке. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_kakaia_pogoda_v_vladivostok",
+      "title_ru": "Какая погода в Владивосток?",
+      "effect_description_ru": "Сообщит погоду во Владивостоке. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_kakaia_pogoda_zavtra",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, какая погода завтра?",
+    "phrases": [
+      "Алиса, какая погода завтра?",
+      "Алиса, будет ли дождь завтра?"
+    ],
+    "raw_result": "Прогноз на завтра.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Какая погода завтра?",
+      "effect_description_ru": "Расскажет прогноз погоды на завтра. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Какая погода завтра?",
+      "effect_description_ru": "Расскажет прогноз погоды на завтра. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_kakaia_pogoda_zavtra",
+      "title_ru": "Какая погода завтра?",
+      "effect_description_ru": "Расскажет прогноз погоды на завтра. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_kakaia_vlazhnost",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, какая влажность?",
+    "phrases": [
+      "Алиса, какая влажность?"
+    ],
+    "raw_result": "Влажность воздуха.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Какая влажность?",
+      "effect_description_ru": "Сообщит влажность воздуха. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Какая влажность?",
+      "effect_description_ru": "Сообщит влажность воздуха. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_kakaia_vlazhnost",
+      "title_ru": "Какая влажность?",
+      "effect_description_ru": "Сообщит влажность воздуха. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_kakoe_atmosfernoe_davlenie",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, какое атмосферное давление?",
+    "phrases": [
+      "Алиса, какое атмосферное давление?"
+    ],
+    "raw_result": "Текущее давление.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Какое атмосферное давление?",
+      "effect_description_ru": "Сообщит атмосферное давление. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Какое атмосферное давление?",
+      "effect_description_ru": "Сообщит атмосферное давление. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_kakoe_atmosfernoe_davlenie",
+      "title_ru": "Какое атмосферное давление?",
+      "effect_description_ru": "Сообщит атмосферное давление. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_kakoi_veter",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, какой ветер?",
+    "phrases": [
+      "Алиса, какой ветер?"
+    ],
+    "raw_result": "Скорость и направление ветра.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Какой ветер?",
+      "effect_description_ru": "Ответит на вопрос «Какой ветер?». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Какой ветер?",
+      "effect_description_ru": "Ответит на вопрос «Какой ветер?». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_kakoi_veter",
+      "title_ru": "Какой ветер?",
+      "effect_description_ru": "Ответит на вопрос «Какой ветер?». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_kto_takoi_pushkin",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, кто такой Пушкин",
+    "phrases": [
+      "Алиса, кто такой Пушкин",
+      "Алиса, что такое квантовый компьютер"
+    ],
+    "raw_result": "Краткая справка из энциклопедии.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Кто такой Пушкин",
+      "effect_description_ru": "Кратко расскажет, кто такой Александр Пушкин. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Кто такой Пушкин",
+      "effect_description_ru": "Кратко расскажет, кто такой Александр Пушкин. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_kto_takoi_pushkin",
+      "title_ru": "Кто такой Пушкин",
+      "effect_description_ru": "Кратко расскажет, кто такой Александр Пушкин. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_nastroi_novosti",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, настрой новости",
+    "phrases": [
+      "Алиса, настрой новости"
+    ],
+    "raw_result": "Алиса выполнит: выбрать источник новостей.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/news",
+    "published": {
+      "title_ru": "Настрой новости",
+      "effect_description_ru": "Кратко расскажет главные новости. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Настрой новости",
+      "effect_description_ru": "Кратко расскажет главные новости. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_nastroi_novosti",
+      "title_ru": "Настрой новости",
+      "effect_description_ru": "Кратко расскажет главные новости. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_pogoda_na_nedeliu",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, погода на неделю",
+    "phrases": [
+      "Алиса, погода на неделю"
+    ],
+    "raw_result": "Прогноз на несколько дней.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Погода на неделю",
+      "effect_description_ru": "Расскажет прогноз погоды на неделю. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Погода на неделю",
+      "effect_description_ru": "Расскажет прогноз погоды на неделю. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_pogoda_na_nedeliu",
+      "title_ru": "Погода на неделю",
+      "effect_description_ru": "Расскажет прогноз погоды на неделю. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_rasskazhi_interesnyi_fakt",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, расскажи интересный факт",
+    "phrases": [
+      "Алиса, расскажи интересный факт"
+    ],
+    "raw_result": "Случайный познавательный факт.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Расскажи интересный факт",
+      "effect_description_ru": "Ответит на вопрос «Расскажи интересный факт». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Расскажи интересный факт",
+      "effect_description_ru": "Ответит на вопрос «Расскажи интересный факт». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_rasskazhi_interesnyi_fakt",
+      "title_ru": "Расскажи интересный факт",
+      "effect_description_ru": "Ответит на вопрос «Расскажи интересный факт». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_skolko_chelovek_v_rossii",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, сколько человек в России",
+    "phrases": [
+      "Алиса, сколько человек в России"
+    ],
+    "raw_result": "Приблизительное население.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Сколько человек в России",
+      "effect_description_ru": "Назовёт приблизительную численность населения России. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Сколько человек в России",
+      "effect_description_ru": "Назовёт приблизительную численность населения России. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_skolko_chelovek_v_rossii",
+      "title_ru": "Сколько человек в России",
+      "effect_description_ru": "Назовёт приблизительную численность населения России. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_skolko_gradusov_na_ulitse",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, сколько градусов на улице?",
+    "phrases": [
+      "Алиса, сколько градусов на улице?"
+    ],
+    "raw_result": "Назовёт текущую температуру.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Сколько градусов на улице?",
+      "effect_description_ru": "Назовёт текущую температуру на улице. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Сколько градусов на улице?",
+      "effect_description_ru": "Назовёт текущую температуру на улице. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_skolko_gradusov_na_ulitse",
+      "title_ru": "Сколько градусов на улице?",
+      "effect_description_ru": "Назовёт текущую температуру на улице. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_stolitsa_iaponii",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, столица Японии",
+    "phrases": [
+      "Алиса, столица Японии",
+      "Алиса, столица Франции"
+    ],
+    "raw_result": "Назовёт столицу страны.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Столица Японии",
+      "effect_description_ru": "Назовёт столицу Японии. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Столица Японии",
+      "effect_description_ru": "Назовёт столицу Японии. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_stolitsa_iaponii",
+      "title_ru": "Столица Японии",
+      "effect_description_ru": "Назовёт столицу Японии. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_vo_skolko_voskhod_solntsa",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, во сколько восход солнца?",
+    "phrases": [
+      "Алиса, во сколько восход солнца?"
+    ],
+    "raw_result": "Время восхода.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Во сколько восход солнца?",
+      "effect_description_ru": "Сообщит время восхода солнца. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Во сколько восход солнца?",
+      "effect_description_ru": "Сообщит время восхода солнца. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_vo_skolko_voskhod_solntsa",
+      "title_ru": "Во сколько восход солнца?",
+      "effect_description_ru": "Сообщит время восхода солнца. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_vo_skolko_zakat",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, во сколько закат?",
+    "phrases": [
+      "Алиса, во сколько закат?"
+    ],
+    "raw_result": "Время заката.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Во сколько закат?",
+      "effect_description_ru": "Ответит на вопрос «Во сколько закат?». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Во сколько закат?",
+      "effect_description_ru": "Ответит на вопрос «Во сколько закат?». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_vo_skolko_zakat",
+      "title_ru": "Во сколько закат?",
+      "effect_description_ru": "Ответит на вопрос «Во сколько закат?». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "quick_answers_voskresene",
+    "category_id": "quick_answers",
+    "phrase_example": "Алиса, воскресенье",
+    "phrases": [
+      "Алиса, воскресенье"
+    ],
+    "raw_result": "Переведи на французский.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/translation",
+    "published": {
+      "title_ru": "Воскресенье",
+      "effect_description_ru": "Ответит на вопрос «Воскресенье». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Воскресенье",
+      "effect_description_ru": "Ответит на вопрос «Воскресенье». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "quick_answers_voskresene",
+      "title_ru": "Воскресенье",
+      "effect_description_ru": "Ответит на вопрос «Воскресенье». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  }
+]

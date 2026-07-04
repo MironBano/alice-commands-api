@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import sys
 import time
 from pathlib import Path
 from urllib.parse import urlparse
@@ -28,11 +29,18 @@ def meta_path(html_path: Path) -> Path:
     return html_path.with_suffix(".meta.json")
 
 
-def fetch_url(source_id: str, url: str, *, force: bool = False, rate_limit: float = 1.0) -> Path:
+def _warn(message: str) -> None:
+    print(message, file=sys.stderr)
+
+
+def fetch_url(source_id: str, url: str, *, force: bool = False, rate_limit: float = 1.0) -> Path | None:
     if url.startswith("file://"):
         local = Path(url.replace("file://", ""))
         if not local.is_absolute():
             local = Path(__file__).resolve().parents[2] / local
+        if not local.exists():
+            _warn(f"WARN fetch {source_id}: missing local file {local}")
+            return None
         return local
 
     html_path = cache_path(source_id, url)
@@ -52,10 +60,25 @@ def fetch_url(source_id: str, url: str, *, force: bool = False, rate_limit: floa
     time.sleep(rate_limit)
 
     with httpx.Client(timeout=30.0, follow_redirects=True, headers={"User-Agent": ua}) as client:
-        resp = client.get(url, headers=headers)
+        try:
+            resp = client.get(url, headers=headers)
+        except httpx.HTTPError as exc:
+            if html_path.exists():
+                _warn(f"WARN fetch {source_id}: {exc}; using cached copy")
+                return html_path
+            _warn(f"WARN fetch {source_id}: {exc}; skipped")
+            return None
+
         if resp.status_code == 304 and html_path.exists():
             return html_path
-        resp.raise_for_status()
+
+        if resp.status_code >= 400:
+            if html_path.exists():
+                _warn(f"WARN fetch {source_id}: HTTP {resp.status_code} for {url}; using cached copy")
+                return html_path
+            _warn(f"WARN fetch {source_id}: HTTP {resp.status_code} for {url}; skipped")
+            return None
+
         html_path.write_text(resp.text, encoding="utf-8")
         meta_file.write_text(
             json.dumps(
@@ -74,11 +97,17 @@ def fetch_url(source_id: str, url: str, *, force: bool = False, rate_limit: floa
     return html_path
 
 
-def fetch_all(*, force: bool = False) -> dict[str, Path]:
+def fetch_all(*, force: bool = False, sources: list[dict] | None = None) -> dict[str, Path]:
     config = load_config()
     rate = float(config.get("rate_limit_seconds", 1.0))
+    if sources is None:
+        from yandex_discovery import resolve_sources
+
+        sources = resolve_sources(config)
     result: dict[str, Path] = {}
-    for src in config.get("sources", []):
-        path = fetch_url(src["id"], src["url"], force=force, rate_limit=rate)
-        result[src["id"]] = path
+    for src in sources:
+        sid = src["id"]
+        path = fetch_url(sid, src["url"], force=force, rate_limit=rate)
+        if path is not None:
+            result[sid] = path
     return result

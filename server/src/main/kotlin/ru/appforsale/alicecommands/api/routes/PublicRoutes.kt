@@ -12,6 +12,7 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.route
 import ru.appforsale.alicecommands.api.deps
 import ru.appforsale.alicecommands.api.domain.ApiError
+import ru.appforsale.alicecommands.api.application.read.DeltaUnavailableException
 
 fun Route.publicRoutes() {
     route("/v1/content") {
@@ -59,6 +60,29 @@ fun Route.publicRoutes() {
             } else {
                 call.response.header(HttpHeaders.ContentEncoding, "gzip")
                 call.respondBytes(bytes, ContentType.Application.Json)
+            }
+        }
+
+        get("/delta") {
+            val fromParam = call.request.queryParameters["from"]
+                ?: return@get call.respond(
+                    HttpStatusCode.BadRequest,
+                    ApiError("validation_failed", "from query parameter required"),
+                )
+            val fromVersion = fromParam.toIntOrNull()
+                ?: return@get call.respond(
+                    HttpStatusCode.BadRequest,
+                    ApiError("validation_failed", "from must be an integer"),
+                )
+            try {
+                val delta = call.application.deps.contentDeltaService.getDelta(fromVersion)
+                call.response.header(HttpHeaders.CacheControl, "public, max-age=60")
+                call.respond(delta)
+            } catch (e: DeltaUnavailableException) {
+                call.respond(
+                    HttpStatusCode.Conflict,
+                    ApiError("delta_unavailable", e.message ?: "Use full bundle"),
+                )
             }
         }
     }

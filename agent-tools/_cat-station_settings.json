@@ -1,0 +1,530 @@
+[
+  {
+    "command_id": "station_settings_bolshe_basov",
+    "category_id": "station_settings",
+    "phrase_example": "Алиса, больше басов",
+    "phrases": [
+      "Алиса, больше басов"
+    ],
+    "raw_result": "Усилит бас.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Больше басов",
+      "effect_description_ru": "Усилит бас в звуке колонки. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Больше басов",
+      "effect_description_ru": "Усилит бас в звуке колонки. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "station_settings_bolshe_basov",
+      "title_ru": "Больше басов",
+      "effect_description_ru": "Усилит бас в звуке колонки. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "station_settings_govori_po_russki",
+    "category_id": "station_settings",
+    "phrase_example": "Алиса, говори по-русски",
+    "phrases": [
+      "Алиса, говори по-русски"
+    ],
+    "raw_result": "Язык ответов.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Говори по-русски",
+      "effect_description_ru": "Изменит настройки колонки: говори по-русски. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Говори по-русски",
+      "effect_description_ru": "Изменит настройки колонки: говори по-русски. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "station_settings_govori_po_russki",
+      "title_ru": "Говори по-русски",
+      "effect_description_ru": "Изменит настройки колонки: говори по-русски. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "station_settings_gromkost_50_protsentov",
+    "category_id": "station_settings",
+    "phrase_example": "Алиса, громкость 50 процентов",
+    "phrases": [
+      "Алиса, громкость 50 процентов"
+    ],
+    "raw_result": "Установит громкость в процентах.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Громкость 50 процентов",
+      "effect_description_ru": "Установит громкость на 50%. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Громкость 50 процентов",
+      "effect_description_ru": "Установит громкость на 50%. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "station_settings_gromkost_50_protsentov",
+      "title_ru": "Громкость 50 процентов",
+      "effect_description_ru": "Установит громкость на 50%. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "station_settings_kak_tebia_zovut",
+    "category_id": "station_settings",
+    "phrase_example": "Алиса, как тебя зовут?",
+    "phrases": [
+      "Алиса, как тебя зовут?"
+    ],
+    "raw_result": "Имя ассистента.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Как тебя зовут?",
+      "effect_description_ru": "Сообщит, как зовут ассистента. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Как тебя зовут?",
+      "effect_description_ru": "Сообщит, как зовут ассистента. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "station_settings_kak_tebia_zovut",
+      "title_ru": "Как тебя зовут?",
+      "effect_description_ru": "Сообщит, как зовут ассистента. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "station_settings_ne_bespokoi_do_utra",
+    "category_id": "station_settings",
+    "phrase_example": "Алиса, не беспокой до утра",
+    "phrases": [
+      "Алиса, не беспокой до утра"
+    ],
+    "raw_result": "Отложит уведомления.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Не беспокой до утра",
+      "effect_description_ru": "Отложит уведомления и звонки до утра. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Не беспокой до утра",
+      "effect_description_ru": "Отложит уведомления и звонки до утра. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "station_settings_ne_bespokoi_do_utra",
+      "title_ru": "Не беспокой до утра",
+      "effect_description_ru": "Отложит уведомления и звонки до утра. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "station_settings_otkliuchi_mikrofon",
+    "category_id": "station_settings",
+    "phrase_example": "Алиса, отключи микрофон",
+    "phrases": [
+      "Алиса, отключи микрофон",
+      "Алиса, включи микрофон"
+    ],
+    "raw_result": "Управление микрофоном.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Отключи микрофон",
+      "effect_description_ru": "Отключит микрофон на время (кнопка или команда). Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Отключи микрофон",
+      "effect_description_ru": "Отключит микрофон на время (кнопка или команда). Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "station_settings_otkliuchi_mikrofon",
+      "title_ru": "Отключи микрофон",
+      "effect_description_ru": "Отключит микрофон на время (кнопка или команда). Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "station_settings_perekliuchis_na_aux",
+    "category_id": "station_settings",
+    "phrase_example": "Алиса, переключись на AUX",
+    "phrases": [
+      "Алиса, переключись на AUX"
+    ],
+    "raw_result": "Переключит вход на AUX.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Переключись на AUX",
+      "effect_description_ru": "Переключит аудиовход на AUX. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Переключись на AUX",
+      "effect_description_ru": "Переключит аудиовход на AUX. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "station_settings_perekliuchis_na_aux",
+      "title_ru": "Переключись на AUX",
+      "effect_description_ru": "Переключит аудиовход на AUX. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "station_settings_prover_internet",
+    "category_id": "station_settings",
+    "phrase_example": "Алиса, проверь интернет",
+    "phrases": [
+      "Алиса, проверь интернет"
+    ],
+    "raw_result": "Проверит подключение.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Проверь интернет",
+      "effect_description_ru": "Проверит подключение колонки к интернету. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Проверь интернет",
+      "effect_description_ru": "Проверит подключение колонки к интернету. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "station_settings_prover_internet",
+      "title_ru": "Проверь интернет",
+      "effect_description_ru": "Проверит подключение колонки к интернету. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "station_settings_prover_obnovleniia",
+    "category_id": "station_settings",
+    "phrase_example": "Алиса, проверь обновления",
+    "phrases": [
+      "Алиса, проверь обновления"
+    ],
+    "raw_result": "Проверит обновления прошивки.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Проверь обновления",
+      "effect_description_ru": "Проверит наличие обновлений прошивки. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Проверь обновления",
+      "effect_description_ru": "Проверит наличие обновлений прошивки. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "station_settings_prover_obnovleniia",
+      "title_ru": "Проверь обновления",
+      "effect_description_ru": "Проверит наличие обновлений прошивки. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "station_settings_rezhim_dlia_vokala",
+    "category_id": "station_settings",
+    "phrase_example": "Алиса, режим для вокала",
+    "phrases": [
+      "Алиса, режим для вокала"
+    ],
+    "raw_result": "Оптимизация для голоса.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Режим для вокала",
+      "effect_description_ru": "Включит режим звука, оптимизированный для вокала. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Режим для вокала",
+      "effect_description_ru": "Включит режим звука, оптимизированный для вокала. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "station_settings_rezhim_dlia_vokala",
+      "title_ru": "Режим для вокала",
+      "effect_description_ru": "Включит режим звука, оптимизированный для вокала. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "station_settings_rezhim_svecha",
+    "category_id": "station_settings",
+    "phrase_example": "Алиса, режим свеча",
+    "phrases": [
+      "Алиса, режим свеча",
+      "Алиса, режим камин",
+      "Алиса, включи свечу"
+    ],
+    "raw_result": "Эмбиент-режим подсветки.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Режим свеча",
+      "effect_description_ru": "Включит режим подсветки «свеча». Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Режим свеча",
+      "effect_description_ru": "Включит режим подсветки «свеча». Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "station_settings_rezhim_svecha",
+      "title_ru": "Режим свеча",
+      "effect_description_ru": "Включит режим подсветки «свеча». Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "station_settings_sbros_nastroiki_zvuka",
+    "category_id": "station_settings",
+    "phrase_example": "Алиса, сбрось настройки звука",
+    "phrases": [
+      "Алиса, сбрось настройки звука"
+    ],
+    "raw_result": "Сброс звуковых настроек.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Сбрось настройки звука",
+      "effect_description_ru": "Сбросит пользовательские настройки звука. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Сбрось настройки звука",
+      "effect_description_ru": "Сбросит пользовательские настройки звука. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "station_settings_sbros_nastroiki_zvuka",
+      "title_ru": "Сбрось настройки звука",
+      "effect_description_ru": "Сбросит пользовательские настройки звука. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "station_settings_sdelai_podsvetku_krasnoi",
+    "category_id": "station_settings",
+    "phrase_example": "Алиса, сделай подсветку красной",
+    "phrases": [
+      "Алиса, сделай подсветку красной",
+      "Алиса, подсветка синяя"
+    ],
+    "raw_result": "Изменит цвет подсветки.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Сделай подсветку красной",
+      "effect_description_ru": "Изменит цвет LED-подсветки на красный. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Сделай подсветку красной",
+      "effect_description_ru": "Изменит цвет LED-подсветки на красный. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "station_settings_sdelai_podsvetku_krasnoi",
+      "title_ru": "Сделай подсветку красной",
+      "effect_description_ru": "Изменит цвет LED-подсветки на красный. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "station_settings_smeni_golos",
+    "category_id": "station_settings",
+    "phrase_example": "Алиса, смени голос",
+    "phrases": [
+      "Алиса, смени голос"
+    ],
+    "raw_result": "Смена голоса Алисы (если доступно).",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Смени голос",
+      "effect_description_ru": "Изменит настройки колонки: смени голос. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Смени голос",
+      "effect_description_ru": "Изменит настройки колонки: смени голос. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "station_settings_smeni_golos",
+      "title_ru": "Смени голос",
+      "effect_description_ru": "Изменит настройки колонки: смени голос. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "station_settings_sozdai_stereoparu",
+    "category_id": "station_settings",
+    "phrase_example": "Алиса, создай стереопару",
+    "phrases": [
+      "Алиса, создай стереопару",
+      "Алиса, подключи вторую колонку"
+    ],
+    "raw_result": "Настройка стереопары.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Создай стереопару",
+      "effect_description_ru": "Поможет настроить стереопару из двух колонок. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Создай стереопару",
+      "effect_description_ru": "Поможет настроить стереопару из двух колонок. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "station_settings_sozdai_stereoparu",
+      "title_ru": "Создай стереопару",
+      "effect_description_ru": "Поможет настроить стереопару из двух колонок. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "station_settings_vkliuchi_bluetooth_kolonku",
+    "category_id": "station_settings",
+    "phrase_example": "Алиса, включи Bluetooth-колонку",
+    "phrases": [
+      "Алиса, включи Bluetooth-колонку"
+    ],
+    "raw_result": "Режим Bluetooth-динамика.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи Bluetooth-колонку",
+      "effect_description_ru": "Включит режим Bluetooth-колонки для воспроизведения с телефона. Нужно: колонка с Bluetooth; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи Bluetooth-колонку",
+      "effect_description_ru": "Включит режим Bluetooth-колонки для воспроизведения с телефона. Нужно: колонка с Bluetooth; интернет."
+    },
+    "edit": {
+      "command_id": "station_settings_vkliuchi_bluetooth_kolonku",
+      "title_ru": "Включи Bluetooth-колонку",
+      "effect_description_ru": "Включит режим Bluetooth-колонки для воспроизведения с телефона. Нужно: колонка с Bluetooth; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "station_settings_vkliuchi_ekvalaizer",
+    "category_id": "station_settings",
+    "phrase_example": "Алиса, включи эквалайзер",
+    "phrases": [
+      "Алиса, включи эквалайзер",
+      "Алиса, режим эквалайзера"
+    ],
+    "raw_result": "Переключит режим звука.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи эквалайзер",
+      "effect_description_ru": "Переключит режим эквалайзера. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Включи эквалайзер",
+      "effect_description_ru": "Переключит режим эквалайзера. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "station_settings_vkliuchi_ekvalaizer",
+      "title_ru": "Включи эквалайзер",
+      "effect_description_ru": "Переключит режим эквалайзера. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "station_settings_vkliuchi_nochnoi_rezhim",
+    "category_id": "station_settings",
+    "phrase_example": "Алиса, включи ночной режим",
+    "phrases": [
+      "Алиса, включи ночной режим"
+    ],
+    "raw_result": "Приглушит звук и индикаторы.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи ночной режим",
+      "effect_description_ru": "Приглушит звук и индикаторы на ночь. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Включи ночной режим",
+      "effect_description_ru": "Приглушит звук и индикаторы на ночь. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "station_settings_vkliuchi_nochnoi_rezhim",
+      "title_ru": "Включи ночной режим",
+      "effect_description_ru": "Приглушит звук и индикаторы на ночь. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "station_settings_vkliuchi_podsvetku",
+    "category_id": "station_settings",
+    "phrase_example": "Алиса, включи подсветку",
+    "phrases": [
+      "Алиса, включи подсветку",
+      "Алиса, выключи подсветку"
+    ],
+    "raw_result": "Управление LED-подсветкой.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи подсветку",
+      "effect_description_ru": "Включит LED-подсветку колонки. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Включи подсветку",
+      "effect_description_ru": "Включит LED-подсветку колонки. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "station_settings_vkliuchi_podsvetku",
+      "title_ru": "Включи подсветку",
+      "effect_description_ru": "Включит LED-подсветку колонки. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "station_settings_vykliuchi_ekran",
+    "category_id": "station_settings",
+    "phrase_example": "Алиса, выключи экран",
+    "phrases": [
+      "Алиса, выключи экран",
+      "Алиса, включи экран"
+    ],
+    "raw_result": "Для колонок с экраном.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Выключи экран",
+      "effect_description_ru": "Выключит экран на колонках с дисплеем. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Выключи экран",
+      "effect_description_ru": "Выключит экран на колонках с дисплеем. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "station_settings_vykliuchi_ekran",
+      "title_ru": "Выключи экран",
+      "effect_description_ru": "Выключит экран на колонках с дисплеем. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  }
+]

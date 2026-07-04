@@ -1,0 +1,660 @@
+{
+  "schema_version": 2,
+  "content_version": 0,
+  "published_at": "2026-06-30T12:00:00Z",
+  "min_app_version": "1.0",
+  "categories": [
+    {
+      "id": "station_settings",
+      "title_ru": "Настройки колонки",
+      "sort_order": 8,
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "description_ru": "Громкость, эквалайзер, режимы колонки",
+      "icon_key": "speaker",
+      "device_types": [
+        "station"
+      ],
+      "icon_url": "https://cdn.alicecommands.ru/icons/v1/speaker.svg",
+      "accent_color": "#64748B",
+      "accent_color_dark": "#94A3B8"
+    }
+  ],
+  "command_groups": [
+    {
+      "id": "station_sound",
+      "category_id": "station_settings",
+      "title_ru": "Звук",
+      "description_ru": "Громкость, эквалайзер, бас и аудиовходы",
+      "sort_order": 10,
+      "featured": true,
+      "preview_command_ids": [
+        "station_settings_gromkost_50_protsentov",
+        "station_settings_bolshe_basov",
+        "station_settings_vkliuchi_ekvalaizer",
+        "station_settings_vkliuchi_bluetooth_kolonku"
+      ],
+      "icon_key": "volume_up",
+      "icon_url": "https://cdn.alicecommands.ru/icons/v1/volume_up.svg"
+    },
+    {
+      "id": "station_light_display",
+      "category_id": "station_settings",
+      "title_ru": "Подсветка и экран",
+      "description_ru": "LED-подсветка, цвет и экран колонки",
+      "sort_order": 20,
+      "featured": false,
+      "preview_command_ids": [
+        "station_settings_vkliuchi_podsvetku",
+        "station_settings_sdelai_podsvetku_krasnoi",
+        "station_settings_rezhim_svecha",
+        "station_settings_vykliuchi_ekran"
+      ],
+      "icon_key": "brightness",
+      "icon_url": "https://cdn.alicecommands.ru/icons/v1/brightness.svg"
+    },
+    {
+      "id": "station_system",
+      "category_id": "station_settings",
+      "title_ru": "Система",
+      "description_ru": "Сеть, обновления, режимы и микрофон",
+      "sort_order": 30,
+      "featured": false,
+      "preview_command_ids": [
+        "station_settings_prover_internet",
+        "station_settings_prover_obnovleniia",
+        "station_settings_vkliuchi_nochnoi_rezhim",
+        "station_settings_sozdai_stereoparu"
+      ],
+      "icon_key": "settings",
+      "icon_url": "https://cdn.alicecommands.ru/icons/v1/settings.svg"
+    },
+    {
+      "id": "station_personality",
+      "category_id": "station_settings",
+      "title_ru": "Голос и язык",
+      "description_ru": "Голос Алисы, язык ответов и имя",
+      "sort_order": 40,
+      "featured": false,
+      "preview_command_ids": [
+        "station_settings_smeni_golos",
+        "station_settings_govori_po_russki",
+        "station_settings_kak_tebia_zovut"
+      ],
+      "icon_key": "voice",
+      "icon_url": "https://cdn.alicecommands.ru/icons/v1/voice.svg"
+    }
+  ],
+  "commands": [
+    {
+      "id": "station_settings_gromkost_50_protsentov",
+      "category_id": "station_settings",
+      "group_id": "station_sound",
+      "sort_order": 10,
+      "variant_label_ru": "50%",
+      "is_primary_in_group": true,
+      "title_ru": "Громкость 50 процентов",
+      "phrases": [
+        "Алиса, громкость 50 процентов"
+      ],
+      "effect_description_ru": "Установит громкость на 50%. Нужно: устройство с Алисой.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "station_settings"
+      ],
+      "search_aliases": [
+        "громкость",
+        "громче",
+        "тише"
+      ]
+    },
+    {
+      "id": "station_settings_bolshe_basov",
+      "category_id": "station_settings",
+      "group_id": "station_sound",
+      "sort_order": 20,
+      "variant_label_ru": "Больше басов",
+      "is_primary_in_group": false,
+      "title_ru": "Больше басов",
+      "phrases": [
+        "Алиса, больше басов"
+      ],
+      "effect_description_ru": "Усилит бас в звуке колонки. Нужно: устройство с Алисой.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "station_settings"
+      ],
+      "search_aliases": [
+        "бас",
+        "эквалайзер"
+      ]
+    },
+    {
+      "id": "station_settings_vkliuchi_ekvalaizer",
+      "category_id": "station_settings",
+      "group_id": "station_sound",
+      "sort_order": 30,
+      "variant_label_ru": "Эквалайзер",
+      "is_primary_in_group": false,
+      "title_ru": "Включи эквалайзер",
+      "phrases": [
+        "Алиса, включи эквалайзер",
+        "Алиса, режим эквалайзера"
+      ],
+      "effect_description_ru": "Переключит режим эквалайзера. Нужно: устройство с Алисой.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "station_settings"
+      ],
+      "search_aliases": [
+        "звук",
+        "режим звука"
+      ]
+    },
+    {
+      "id": "station_settings_sbros_nastroiki_zvuka",
+      "category_id": "station_settings",
+      "group_id": "station_sound",
+      "sort_order": 40,
+      "variant_label_ru": "Сброс звука",
+      "is_primary_in_group": false,
+      "title_ru": "Сбрось настройки звука",
+      "phrases": [
+        "Алиса, сбрось настройки звука"
+      ],
+      "effect_description_ru": "Сбросит пользовательские настройки звука. Нужно: устройство с Алисой.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "station_settings"
+      ],
+      "search_aliases": [
+        "сброс",
+        "по умолчанию"
+      ]
+    },
+    {
+      "id": "station_settings_rezhim_dlia_vokala",
+      "category_id": "station_settings",
+      "group_id": "station_sound",
+      "sort_order": 50,
+      "variant_label_ru": "Для вокала",
+      "is_primary_in_group": false,
+      "title_ru": "Режим для вокала",
+      "phrases": [
+        "Алиса, режим для вокала"
+      ],
+      "effect_description_ru": "Включит режим звука, оптимизированный для вокала. Нужно: устройство с Алисой.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "station_settings"
+      ],
+      "search_aliases": [
+        "вокал",
+        "голос"
+      ]
+    },
+    {
+      "id": "station_settings_vkliuchi_bluetooth_kolonku",
+      "category_id": "station_settings",
+      "group_id": "station_sound",
+      "sort_order": 60,
+      "variant_label_ru": "Bluetooth",
+      "is_primary_in_group": false,
+      "title_ru": "Включи Bluetooth-колонку",
+      "phrases": [
+        "Алиса, включи Bluetooth-колонку"
+      ],
+      "effect_description_ru": "Включит режим Bluetooth-колонки для воспроизведения с телефона. Нужно: колонка с Bluetooth; интернет.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "station_settings"
+      ],
+      "search_aliases": [
+        "блютуз",
+        "динамик"
+      ]
+    },
+    {
+      "id": "station_settings_perekliuchis_na_aux",
+      "category_id": "station_settings",
+      "group_id": "station_sound",
+      "sort_order": 70,
+      "variant_label_ru": "AUX",
+      "is_primary_in_group": false,
+      "title_ru": "Переключись на AUX",
+      "phrases": [
+        "Алиса, переключись на AUX"
+      ],
+      "effect_description_ru": "Переключит аудиовход на AUX. Нужно: устройство с Алисой.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "station_settings"
+      ],
+      "search_aliases": [
+        "вход",
+        "разъём"
+      ]
+    },
+    {
+      "id": "station_settings_vkliuchi_podsvetku",
+      "category_id": "station_settings",
+      "group_id": "station_light_display",
+      "sort_order": 10,
+      "variant_label_ru": "Подсветка",
+      "is_primary_in_group": true,
+      "title_ru": "Включи подсветку",
+      "phrases": [
+        "Алиса, включи подсветку",
+        "Алиса, выключи подсветку"
+      ],
+      "effect_description_ru": "Включит LED-подсветку колонки. Нужно: устройство с Алисой.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "station_settings"
+      ],
+      "search_aliases": [
+        "свет",
+        "led"
+      ]
+    },
+    {
+      "id": "station_settings_sdelai_podsvetku_krasnoi",
+      "category_id": "station_settings",
+      "group_id": "station_light_display",
+      "sort_order": 20,
+      "variant_label_ru": "Красная",
+      "is_primary_in_group": false,
+      "title_ru": "Сделай подсветку красной",
+      "phrases": [
+        "Алиса, сделай подсветку красной",
+        "Алиса, подсветка синяя"
+      ],
+      "effect_description_ru": "Изменит цвет LED-подсветки на красный. Нужно: устройство с Алисой.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "station_settings"
+      ],
+      "search_aliases": [
+        "цвет",
+        "синяя"
+      ]
+    },
+    {
+      "id": "station_settings_rezhim_svecha",
+      "category_id": "station_settings",
+      "group_id": "station_light_display",
+      "sort_order": 30,
+      "variant_label_ru": "Свеча",
+      "is_primary_in_group": false,
+      "title_ru": "Режим свеча",
+      "phrases": [
+        "Алиса, режим свеча",
+        "Алиса, режим камин",
+        "Алиса, включи свечу"
+      ],
+      "effect_description_ru": "Включит режим подсветки «свеча». Нужно: устройство с Алисой.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "station_settings"
+      ],
+      "search_aliases": [
+        "камин",
+        "эмбиент"
+      ]
+    },
+    {
+      "id": "station_settings_vykliuchi_ekran",
+      "category_id": "station_settings",
+      "group_id": "station_light_display",
+      "sort_order": 40,
+      "variant_label_ru": "Экран",
+      "is_primary_in_group": false,
+      "title_ru": "Выключи экран",
+      "phrases": [
+        "Алиса, выключи экран",
+        "Алиса, включи экран"
+      ],
+      "effect_description_ru": "Выключит экран на колонках с дисплеем. Нужно: устройство с Алисой.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "station_settings"
+      ],
+      "search_aliases": [
+        "дисплей",
+        "экранчик"
+      ]
+    },
+    {
+      "id": "station_settings_prover_internet",
+      "category_id": "station_settings",
+      "group_id": "station_system",
+      "sort_order": 10,
+      "variant_label_ru": "Интернет",
+      "is_primary_in_group": true,
+      "title_ru": "Проверь интернет",
+      "phrases": [
+        "Алиса, проверь интернет"
+      ],
+      "effect_description_ru": "Проверит подключение колонки к интернету. Нужно: устройство с Алисой.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "station_settings"
+      ],
+      "search_aliases": [
+        "wi-fi",
+        "сеть"
+      ]
+    },
+    {
+      "id": "station_settings_prover_obnovleniia",
+      "category_id": "station_settings",
+      "group_id": "station_system",
+      "sort_order": 20,
+      "variant_label_ru": "Обновления",
+      "is_primary_in_group": false,
+      "title_ru": "Проверь обновления",
+      "phrases": [
+        "Алиса, проверь обновления"
+      ],
+      "effect_description_ru": "Проверит наличие обновлений прошивки. Нужно: устройство с Алисой; интернет.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "station_settings"
+      ],
+      "search_aliases": [
+        "прошивка",
+        "обновление"
+      ]
+    },
+    {
+      "id": "station_settings_vkliuchi_nochnoi_rezhim",
+      "category_id": "station_settings",
+      "group_id": "station_system",
+      "sort_order": 30,
+      "variant_label_ru": "Ночной режим",
+      "is_primary_in_group": false,
+      "title_ru": "Включи ночной режим",
+      "phrases": [
+        "Алиса, включи ночной режим"
+      ],
+      "effect_description_ru": "Приглушит звук и индикаторы на ночь. Нужно: устройство с Алисой.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "station_settings"
+      ],
+      "search_aliases": [
+        "ночь",
+        "тихо"
+      ]
+    },
+    {
+      "id": "station_settings_ne_bespokoi_do_utra",
+      "category_id": "station_settings",
+      "group_id": "station_system",
+      "sort_order": 40,
+      "variant_label_ru": "Не беспокоить",
+      "is_primary_in_group": false,
+      "title_ru": "Не беспокой до утра",
+      "phrases": [
+        "Алиса, не беспокой до утра"
+      ],
+      "effect_description_ru": "Отложит уведомления и звонки до утра. Нужно: устройство с Алисой.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "station_settings"
+      ],
+      "search_aliases": [
+        "dnd",
+        "тихий час"
+      ]
+    },
+    {
+      "id": "station_settings_otkliuchi_mikrofon",
+      "category_id": "station_settings",
+      "group_id": "station_system",
+      "sort_order": 50,
+      "variant_label_ru": "Микрофон",
+      "is_primary_in_group": false,
+      "title_ru": "Отключи микрофон",
+      "phrases": [
+        "Алиса, отключи микрофон",
+        "Алиса, включи микрофон"
+      ],
+      "effect_description_ru": "Отключит микрофон на время (кнопка или команда). Нужно: устройство с Алисой.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "station_settings"
+      ],
+      "search_aliases": [
+        "слушание",
+        "приватность"
+      ]
+    },
+    {
+      "id": "station_settings_sozdai_stereoparu",
+      "category_id": "station_settings",
+      "group_id": "station_system",
+      "sort_order": 60,
+      "variant_label_ru": "Стереопара",
+      "is_primary_in_group": false,
+      "title_ru": "Создай стереопару",
+      "phrases": [
+        "Алиса, создай стереопару",
+        "Алиса, подключи вторую колонку"
+      ],
+      "effect_description_ru": "Поможет настроить стереопару из двух колонок. Нужно: устройство с Алисой.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "station_settings"
+      ],
+      "search_aliases": [
+        "стерео",
+        "вторая колонка"
+      ]
+    },
+    {
+      "id": "station_settings_smeni_golos",
+      "category_id": "station_settings",
+      "group_id": "station_personality",
+      "sort_order": 10,
+      "variant_label_ru": "Смени голос",
+      "is_primary_in_group": true,
+      "title_ru": "Смени голос",
+      "phrases": [
+        "Алиса, смени голос"
+      ],
+      "effect_description_ru": "Изменит настройки колонки: смени голос. Нужно: устройство с Алисой.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "station_settings"
+      ],
+      "search_aliases": [
+        "голос",
+        "ассистент"
+      ]
+    },
+    {
+      "id": "station_settings_govori_po_russki",
+      "category_id": "station_settings",
+      "group_id": "station_personality",
+      "sort_order": 20,
+      "variant_label_ru": "По-русски",
+      "is_primary_in_group": false,
+      "title_ru": "Говори по-русски",
+      "phrases": [
+        "Алиса, говори по-русски"
+      ],
+      "effect_description_ru": "Изменит настройки колонки: говори по-русски. Нужно: устройство с Алисой.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "station_settings"
+      ],
+      "search_aliases": [
+        "язык",
+        "русский"
+      ]
+    },
+    {
+      "id": "station_settings_kak_tebia_zovut",
+      "category_id": "station_settings",
+      "group_id": "station_personality",
+      "sort_order": 30,
+      "variant_label_ru": "Как зовут?",
+      "is_primary_in_group": false,
+      "title_ru": "Как тебя зовут?",
+      "phrases": [
+        "Алиса, как тебя зовут?"
+      ],
+      "effect_description_ru": "Сообщит, как зовут ассистента. Нужно: устройство с Алисой.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+      "updated_at": "2026-06-30T12:00:00Z",
+      "tags": [
+        "station_settings"
+      ],
+      "search_aliases": [
+        "имя",
+        "ассистент"
+      ]
+    }
+  ],
+  "scenario_templates": [],
+  "checklist_items": []
+}

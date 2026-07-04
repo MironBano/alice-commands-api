@@ -1,0 +1,745 @@
+[
+  {
+    "command_id": "sh_camera_view",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, покажи камеру в прихожей на телевизоре",
+    "phrases": [
+      "Алиса, покажи камеру в прихожей на телевизоре"
+    ],
+    "raw_result": "Выводит видеопоток умной камеры на экран ТВ с Алисой. Нужны совместимые устройства.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Показать камеру на ТВ",
+      "effect_description_ru": "Выводит видеопоток умной камеры на экран ТВ с Алисой. Нужны совместимые устройства."
+    },
+    "draft": {
+      "title_ru": "Показать камеру на ТВ",
+      "effect_description_ru": "Выводит видеопоток умной камеры на экран ТВ с Алисой. Нужны совместимые устройства."
+    },
+    "edit": {
+      "command_id": "sh_camera_view",
+      "title_ru": "Показать камеру на ТВ",
+      "effect_description_ru": "Выводит видеопоток умной камеры на экран ТВ с Алисой. Нужны совместимые устройства.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "sh_scenario_morning",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, доброе утро",
+    "phrases": [
+      "Алиса, доброе утро",
+      "Алиса, запусти сценарий доброе утро"
+    ],
+    "raw_result": "Запускает заранее настроенный сценарий в «Дом с Алисой». Создайте сценарий в приложении или используйте шаблон в разделе «Шаблоны».",
+    "source_url": "https://alice.yandex.ru/support/ru/smart-home/scenarios/create",
+    "published": {
+      "title_ru": "Запустить сценарий «Доброе утро»",
+      "effect_description_ru": "Запускает заранее настроенный сценарий в «Дом с Алисой». Создайте сценарий в приложении или используйте шаблон в разделе «Шаблоны»."
+    },
+    "draft": {
+      "title_ru": "Запустить сценарий «Доброе утро»",
+      "effect_description_ru": "Запускает заранее настроенный сценарий в «Дом с Алисой». Создайте сценарий в приложении или используйте шаблон в разделе «Шаблоны»."
+    },
+    "edit": {
+      "command_id": "sh_scenario_morning",
+      "title_ru": "Запустить сценарий «Доброе утро»",
+      "effect_description_ru": "Запускает заранее настроенный сценарий в «Дом с Алисой». Создайте сценарий в приложении или используйте шаблон в разделе «Шаблоны».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "sh_socket_off",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, выключи розетку",
+    "phrases": [
+      "Алиса, выключи розетку"
+    ],
+    "raw_result": "Отключает питание умной розетки.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Выключить розетку",
+      "effect_description_ru": "Отключает питание умной розетки."
+    },
+    "draft": {
+      "title_ru": "Выключить розетку",
+      "effect_description_ru": "Отключает питание умной розетки."
+    },
+    "edit": {
+      "command_id": "sh_socket_off",
+      "title_ru": "Выключить розетку",
+      "effect_description_ru": "Отключает питание умной розетки.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "sh_socket_on",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, включи розетку",
+    "phrases": [
+      "Алиса, включи розетку",
+      "Алиса, включи чайник"
+    ],
+    "raw_result": "Подает питание на умную розетку. Убедитесь, что устройство названо в «Дом с Алисой».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включить розетку",
+      "effect_description_ru": "Подает питание на умную розетку. Убедитесь, что устройство названо в «Дом с Алисой»."
+    },
+    "draft": {
+      "title_ru": "Включить розетку",
+      "effect_description_ru": "Подает питание на умную розетку. Убедитесь, что устройство названо в «Дом с Алисой»."
+    },
+    "edit": {
+      "command_id": "sh_socket_on",
+      "title_ru": "Включить розетку",
+      "effect_description_ru": "Подает питание на умную розетку. Убедитесь, что устройство названо в «Дом с Алисой».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "sh_temp_query",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, какая температура в детской",
+    "phrases": [
+      "Алиса, какая температура в детской",
+      "Алиса, какая влажность в спальне"
+    ],
+    "raw_result": "Сообщает показания умного датчика, привязанного к «Дому с Алисой».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Температура с датчика",
+      "effect_description_ru": "Сообщает показания умного датчика, привязанного к «Дому с Алисой»."
+    },
+    "draft": {
+      "title_ru": "Температура с датчика",
+      "effect_description_ru": "Сообщает показания умного датчика, привязанного к «Дому с Алисой»."
+    },
+    "edit": {
+      "command_id": "sh_temp_query",
+      "title_ru": "Температура с датчика",
+      "effect_description_ru": "Сообщает показания умного датчика, привязанного к «Дому с Алисой».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "smart_home_chto_vkliucheno_doma",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, что включено дома?",
+    "phrases": [
+      "Алиса, что включено дома?",
+      "Алиса, статус умного дома"
+    ],
+    "raw_result": "Сообщит состояние устройств.",
+    "source_url": "https://alice.yandex.ru/support/smart-home/",
+    "published": {
+      "title_ru": "Что включено дома?",
+      "effect_description_ru": "Сообщит состояние устройств."
+    },
+    "draft": {
+      "title_ru": "Что включено дома?",
+      "effect_description_ru": "Сообщит состояние устройств."
+    },
+    "edit": {
+      "command_id": "smart_home_chto_vkliucheno_doma",
+      "title_ru": "Что включено дома?",
+      "effect_description_ru": "Сообщит, какие умные устройства сейчас включены. Нужно: устройство с Алисой; умное устройство в «Дом с Алисой».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "smart_home_otkroi_shtory",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, открой шторы",
+    "phrases": [
+      "Алиса, открой шторы",
+      "Алиса, открой шторы в спальне"
+    ],
+    "raw_result": "Открывает умные шторы.",
+    "source_url": "https://alice.yandex.ru/support/smart-home/",
+    "published": {
+      "title_ru": "Открой шторы",
+      "effect_description_ru": "Открывает умные шторы."
+    },
+    "draft": {
+      "title_ru": "Открой шторы",
+      "effect_description_ru": "Открывает умные шторы."
+    },
+    "edit": {
+      "command_id": "smart_home_otkroi_shtory",
+      "title_ru": "Открой шторы",
+      "effect_description_ru": "Откроет умные шторы. Нужно: устройство с Алисой; умное устройство в «Дом с Алисой».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "smart_home_ustanovi_temperaturu_22_gradusa",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, установи температуру 22 градуса",
+    "phrases": [
+      "Алиса, установи температуру 22 градуса"
+    ],
+    "raw_result": "Задаёт целевую температуру.",
+    "source_url": "https://alice.yandex.ru/support/smart-home/",
+    "published": {
+      "title_ru": "Установи температуру 22 градуса",
+      "effect_description_ru": "Задаёт целевую температуру."
+    },
+    "draft": {
+      "title_ru": "Установи температуру 22 градуса",
+      "effect_description_ru": "Задаёт целевую температуру."
+    },
+    "edit": {
+      "command_id": "smart_home_ustanovi_temperaturu_22_gradusa",
+      "title_ru": "Установи температуру 22 градуса",
+      "effect_description_ru": "Установит целевую температуру 22 °C на терморегуляторе. Нужно: устройство с Алисой; умное устройство в «Дом с Алисой».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "smart_home_vkliuchi_girliandu",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, включи гирлянду",
+    "phrases": [
+      "Алиса, включи гирлянду"
+    ],
+    "raw_result": "Включает умную гирлянду.",
+    "source_url": "https://alice.yandex.ru/support/smart-home/",
+    "published": {
+      "title_ru": "Включи гирлянду",
+      "effect_description_ru": "Включает умную гирлянду."
+    },
+    "draft": {
+      "title_ru": "Включи гирлянду",
+      "effect_description_ru": "Включает умную гирлянду."
+    },
+    "edit": {
+      "command_id": "smart_home_vkliuchi_girliandu",
+      "title_ru": "Включи гирлянду",
+      "effect_description_ru": "Включит умную гирлянду. Нужно: устройство с Алисой; умное устройство в «Дом с Алисой».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "smart_home_vkliuchi_konditsioner",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, включи кондиционер",
+    "phrases": [
+      "Алиса, включи кондиционер"
+    ],
+    "raw_result": "Включает кондиционер в «Дом с Алисой».",
+    "source_url": "https://alice.yandex.ru/support/smart-home/",
+    "published": {
+      "title_ru": "Включи кондиционер",
+      "effect_description_ru": "Включает кондиционер в «Дом с Алисой»."
+    },
+    "draft": {
+      "title_ru": "Включи кондиционер",
+      "effect_description_ru": "Включает кондиционер в «Дом с Алисой»."
+    },
+    "edit": {
+      "command_id": "smart_home_vkliuchi_konditsioner",
+      "title_ru": "Включи кондиционер",
+      "effect_description_ru": "Включит кондиционер, привязанный к «Дому с Алисой». Нужно: устройство с Алисой; умное устройство в «Дом с Алисой».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "smart_home_vkliuchi_obogrevatel",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, включи обогреватель",
+    "phrases": [
+      "Алиса, включи обогреватель"
+    ],
+    "raw_result": "Включает обогреватель.",
+    "source_url": "https://alice.yandex.ru/support/smart-home/",
+    "published": {
+      "title_ru": "Включи обогреватель",
+      "effect_description_ru": "Включает обогреватель."
+    },
+    "draft": {
+      "title_ru": "Включи обогреватель",
+      "effect_description_ru": "Включает обогреватель."
+    },
+    "edit": {
+      "command_id": "smart_home_vkliuchi_obogrevatel",
+      "title_ru": "Включи обогреватель",
+      "effect_description_ru": "Включит умный обогреватель. Нужно: устройство с Алисой; умное устройство в «Дом с Алисой».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "smart_home_vkliuchi_okhranu",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, включи охрану",
+    "phrases": [
+      "Алиса, включи охрану",
+      "Алиса, сними с охраны"
+    ],
+    "raw_result": "Режим охраны умного дома.",
+    "source_url": "https://alice.yandex.ru/support/smart-home/",
+    "published": {
+      "title_ru": "Включи охрану",
+      "effect_description_ru": "Режим охраны умного дома."
+    },
+    "draft": {
+      "title_ru": "Включи охрану",
+      "effect_description_ru": "Режим охраны умного дома."
+    },
+    "edit": {
+      "command_id": "smart_home_vkliuchi_okhranu",
+      "title_ru": "Включи охрану",
+      "effect_description_ru": "Включит режим охраны умного дома. Нужно: устройство с Алисой; умное устройство в «Дом с Алисой».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "smart_home_vkliuchi_poliv",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, включи полив",
+    "phrases": [
+      "Алиса, включи полив"
+    ],
+    "raw_result": "Запускает систему полива.",
+    "source_url": "https://alice.yandex.ru/support/smart-home/",
+    "published": {
+      "title_ru": "Включи полив",
+      "effect_description_ru": "Запускает систему полива."
+    },
+    "draft": {
+      "title_ru": "Включи полив",
+      "effect_description_ru": "Запускает систему полива."
+    },
+    "edit": {
+      "command_id": "smart_home_vkliuchi_poliv",
+      "title_ru": "Включи полив",
+      "effect_description_ru": "Запустит систему полива. Нужно: устройство с Алисой; умное устройство в «Дом с Алисой».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "smart_home_vkliuchi_svet_v_balkone",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, включи свет в балконе",
+    "phrases": [
+      "Алиса, включи свет в балконе",
+      "Алиса, выключи свет в балконе"
+    ],
+    "raw_result": "Управление светом в балконе.",
+    "source_url": "https://alice.yandex.ru/support/smart-home/",
+    "published": {
+      "title_ru": "Включи свет в балконе",
+      "effect_description_ru": "Управление светом в балконе."
+    },
+    "draft": {
+      "title_ru": "Включи свет в балконе",
+      "effect_description_ru": "Управление светом в балконе."
+    },
+    "edit": {
+      "command_id": "smart_home_vkliuchi_svet_v_balkone",
+      "title_ru": "Включи свет в балконе",
+      "effect_description_ru": "Включит свет на балконе. Нужно: устройство с Алисой; умное устройство в «Дом с Алисой».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "smart_home_vkliuchi_svet_v_detskoi",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, включи свет в детской",
+    "phrases": [
+      "Алиса, включи свет в детской",
+      "Алиса, выключи свет в детской"
+    ],
+    "raw_result": "Управление светом в детской.",
+    "source_url": "https://alice.yandex.ru/support/smart-home/",
+    "published": {
+      "title_ru": "Включи свет в детской",
+      "effect_description_ru": "Управление светом в детской."
+    },
+    "draft": {
+      "title_ru": "Включи свет в детской",
+      "effect_description_ru": "Управление светом в детской."
+    },
+    "edit": {
+      "command_id": "smart_home_vkliuchi_svet_v_detskoi",
+      "title_ru": "Включи свет в детской",
+      "effect_description_ru": "Включит свет в детской. Нужно: устройство с Алисой; умное устройство в «Дом с Алисой».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "smart_home_vkliuchi_svet_v_gostinoi",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, включи свет в гостиной",
+    "phrases": [
+      "Алиса, включи свет в гостиной",
+      "Алиса, выключи свет в гостиной"
+    ],
+    "raw_result": "Управление светом в гостиной.",
+    "source_url": "https://alice.yandex.ru/support/smart-home/",
+    "published": {
+      "title_ru": "Включи свет в гостиной",
+      "effect_description_ru": "Управление светом в гостиной."
+    },
+    "draft": {
+      "title_ru": "Включи свет в гостиной",
+      "effect_description_ru": "Управление светом в гостиной."
+    },
+    "edit": {
+      "command_id": "smart_home_vkliuchi_svet_v_gostinoi",
+      "title_ru": "Включи свет в гостиной",
+      "effect_description_ru": "Включит свет в гостиной. Нужно: устройство с Алисой; умное устройство в «Дом с Алисой».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "smart_home_vkliuchi_svet_v_koridore",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, включи свет в коридоре",
+    "phrases": [
+      "Алиса, включи свет в коридоре",
+      "Алиса, выключи свет в коридоре"
+    ],
+    "raw_result": "Управление светом в коридоре.",
+    "source_url": "https://alice.yandex.ru/support/smart-home/",
+    "published": {
+      "title_ru": "Включи свет в коридоре",
+      "effect_description_ru": "Управление светом в коридоре."
+    },
+    "draft": {
+      "title_ru": "Включи свет в коридоре",
+      "effect_description_ru": "Управление светом в коридоре."
+    },
+    "edit": {
+      "command_id": "smart_home_vkliuchi_svet_v_koridore",
+      "title_ru": "Включи свет в коридоре",
+      "effect_description_ru": "Включит свет в коридоре. Нужно: устройство с Алисой; умное устройство в «Дом с Алисой».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "smart_home_vkliuchi_svet_v_kukhne",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, включи свет в кухне",
+    "phrases": [
+      "Алиса, включи свет в кухне",
+      "Алиса, выключи свет в кухне"
+    ],
+    "raw_result": "Управление светом в кухне.",
+    "source_url": "https://alice.yandex.ru/support/smart-home/",
+    "published": {
+      "title_ru": "Включи свет в кухне",
+      "effect_description_ru": "Управление светом в кухне."
+    },
+    "draft": {
+      "title_ru": "Включи свет в кухне",
+      "effect_description_ru": "Управление светом в кухне."
+    },
+    "edit": {
+      "command_id": "smart_home_vkliuchi_svet_v_kukhne",
+      "title_ru": "Включи свет в кухне",
+      "effect_description_ru": "Включит свет на кухне. Нужно: устройство с Алисой; умное устройство в «Дом с Алисой».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "smart_home_vkliuchi_svet_v_spalne",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, включи свет в спальне",
+    "phrases": [
+      "Алиса, включи свет в спальне",
+      "Алиса, выключи свет в спальне"
+    ],
+    "raw_result": "Управление светом в спальне.",
+    "source_url": "https://alice.yandex.ru/support/smart-home/",
+    "published": {
+      "title_ru": "Включи свет в спальне",
+      "effect_description_ru": "Управление светом в спальне."
+    },
+    "draft": {
+      "title_ru": "Включи свет в спальне",
+      "effect_description_ru": "Управление светом в спальне."
+    },
+    "edit": {
+      "command_id": "smart_home_vkliuchi_svet_v_spalne",
+      "title_ru": "Включи свет в спальне",
+      "effect_description_ru": "Включит свет в спальне. Нужно: устройство с Алисой; умное устройство в «Дом с Алисой».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "smart_home_vkliuchi_svet_v_vannoi",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, включи свет в ванной",
+    "phrases": [
+      "Алиса, включи свет в ванной",
+      "Алиса, выключи свет в ванной"
+    ],
+    "raw_result": "Управление светом в ванной.",
+    "source_url": "https://alice.yandex.ru/support/smart-home/",
+    "published": {
+      "title_ru": "Включи свет в ванной",
+      "effect_description_ru": "Управление светом в ванной."
+    },
+    "draft": {
+      "title_ru": "Включи свет в ванной",
+      "effect_description_ru": "Управление светом в ванной."
+    },
+    "edit": {
+      "command_id": "smart_home_vkliuchi_svet_v_vannoi",
+      "title_ru": "Включи свет в ванной",
+      "effect_description_ru": "Включит свет в ванной. Нужно: устройство с Алисой; умное устройство в «Дом с Алисой».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "smart_home_vkliuchi_uvlazhnitel",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, включи увлажнитель",
+    "phrases": [
+      "Алиса, включи увлажнитель"
+    ],
+    "raw_result": "Включает увлажнитель воздуха.",
+    "source_url": "https://alice.yandex.ru/support/smart-home/",
+    "published": {
+      "title_ru": "Включи увлажнитель",
+      "effect_description_ru": "Включает увлажнитель воздуха."
+    },
+    "draft": {
+      "title_ru": "Включи увлажнитель",
+      "effect_description_ru": "Включает увлажнитель воздуха."
+    },
+    "edit": {
+      "command_id": "smart_home_vkliuchi_uvlazhnitel",
+      "title_ru": "Включи увлажнитель",
+      "effect_description_ru": "Включит умный увлажнитель воздуха. Нужно: устройство с Алисой; умное устройство в «Дом с Алисой».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "smart_home_vkliuchi_vechernii_svet",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, включи вечерний свет",
+    "phrases": [
+      "Алиса, включи вечерний свет"
+    ],
+    "raw_result": "Сценарий приглушённого света.",
+    "source_url": "https://alice.yandex.ru/support/smart-home/",
+    "published": {
+      "title_ru": "Включи вечерний свет",
+      "effect_description_ru": "Сценарий приглушённого света."
+    },
+    "draft": {
+      "title_ru": "Включи вечерний свет",
+      "effect_description_ru": "Сценарий приглушённого света."
+    },
+    "edit": {
+      "command_id": "smart_home_vkliuchi_vechernii_svet",
+      "title_ru": "Включи вечерний свет",
+      "effect_description_ru": "Запустит сценарий приглушённого вечернего света. Нужно: устройство с Алисой; умное устройство в «Дом с Алисой».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "smart_home_vkliuchi_ventiliator",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, включи вентилятор",
+    "phrases": [
+      "Алиса, включи вентилятор"
+    ],
+    "raw_result": "Включает умный вентилятор.",
+    "source_url": "https://alice.yandex.ru/support/smart-home/",
+    "published": {
+      "title_ru": "Включи вентилятор",
+      "effect_description_ru": "Включает умный вентилятор."
+    },
+    "draft": {
+      "title_ru": "Включи вентилятор",
+      "effect_description_ru": "Включает умный вентилятор."
+    },
+    "edit": {
+      "command_id": "smart_home_vkliuchi_ventiliator",
+      "title_ru": "Включи вентилятор",
+      "effect_description_ru": "Включит умный вентилятор. Нужно: устройство с Алисой; умное устройство в «Дом с Алисой».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "smart_home_vremia_uborki",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, время уборки",
+    "phrases": [
+      "Алиса, время уборки"
+    ],
+    "raw_result": "Алиса выполнит: управление сценариями.",
+    "source_url": "https://alice.yandex.ru/support/smart-home/scenarios/create.html",
+    "published": {
+      "title_ru": "Время уборки",
+      "effect_description_ru": "Запустит сценарий уборки. Нужно: устройство с Алисой; настроенный сценарий или робот-пылесос в «Дом с Алисой»."
+    },
+    "draft": {
+      "title_ru": "Время уборки",
+      "effect_description_ru": "Запустит сценарий уборки. Нужно: устройство с Алисой; настроенный сценарий или робот-пылесос в «Дом с Алисой»."
+    },
+    "edit": {
+      "command_id": "smart_home_vremia_uborki",
+      "title_ru": "Время уборки",
+      "effect_description_ru": "Запустит сценарий уборки. Нужно: устройство с Алисой; настроенный сценарий или робот-пылесос в «Дом с Алисой».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "smart_home_vykliuchi_konditsioner",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, выключи кондиционер",
+    "phrases": [
+      "Алиса, выключи кондиционер"
+    ],
+    "raw_result": "Выключает кондиционер.",
+    "source_url": "https://alice.yandex.ru/support/smart-home/",
+    "published": {
+      "title_ru": "Выключи кондиционер",
+      "effect_description_ru": "Выключает кондиционер."
+    },
+    "draft": {
+      "title_ru": "Выключи кондиционер",
+      "effect_description_ru": "Выключает кондиционер."
+    },
+    "edit": {
+      "command_id": "smart_home_vykliuchi_konditsioner",
+      "title_ru": "Выключи кондиционер",
+      "effect_description_ru": "Выключит кондиционер. Нужно: устройство с Алисой; умное устройство в «Дом с Алисой».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "smart_home_vykliuchi_ves_svet",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, выключи весь свет",
+    "phrases": [
+      "Алиса, выключи весь свет",
+      "Алиса, я ушёл"
+    ],
+    "raw_result": "Выключает группу устройств.",
+    "source_url": "https://alice.yandex.ru/support/smart-home/",
+    "published": {
+      "title_ru": "Выключи весь свет",
+      "effect_description_ru": "Выключает группу устройств."
+    },
+    "draft": {
+      "title_ru": "Выключи весь свет",
+      "effect_description_ru": "Выключает группу устройств."
+    },
+    "edit": {
+      "command_id": "smart_home_vykliuchi_ves_svet",
+      "title_ru": "Выключи весь свет",
+      "effect_description_ru": "Выключит весь свет или группу ламп. Нужно: устройство с Алисой; умное устройство в «Дом с Алисой».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "smart_home_zakroi_shtory",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, закрой шторы",
+    "phrases": [
+      "Алиса, закрой шторы"
+    ],
+    "raw_result": "Закрывает умные шторы.",
+    "source_url": "https://alice.yandex.ru/support/smart-home/",
+    "published": {
+      "title_ru": "Закрой шторы",
+      "effect_description_ru": "Закрывает умные шторы."
+    },
+    "draft": {
+      "title_ru": "Закрой шторы",
+      "effect_description_ru": "Закрывает умные шторы."
+    },
+    "edit": {
+      "command_id": "smart_home_zakroi_shtory",
+      "title_ru": "Закрой шторы",
+      "effect_description_ru": "Закроет умные шторы. Нужно: устройство с Алисой; умное устройство в «Дом с Алисой».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "smart_home_zakroi_zamok",
+    "category_id": "smart_home",
+    "phrase_example": "Алиса, закрой замок",
+    "phrases": [
+      "Алиса, закрой замок",
+      "Алиса, открой замок"
+    ],
+    "raw_result": "Управление умным замком.",
+    "source_url": "https://alice.yandex.ru/support/smart-home/",
+    "published": {
+      "title_ru": "Закрой замок",
+      "effect_description_ru": "Управление умным замком."
+    },
+    "draft": {
+      "title_ru": "Закрой замок",
+      "effect_description_ru": "Управление умным замком."
+    },
+    "edit": {
+      "command_id": "smart_home_zakroi_zamok",
+      "title_ru": "Закрой замок",
+      "effect_description_ru": "Закроет умный замок. Нужно: устройство с Алисой; умный замок в «Дом с Алисой».",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  }
+]

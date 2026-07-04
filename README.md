@@ -6,8 +6,8 @@ Backend для [AliceCommands](https://github.com/MironBano/AliceCommands) — �
 
 ## Назначение
 
-- **Public API** — manifest + content bundle для Android app (offline sync)
-- **Admin** — веб-редактор каталога (категории, команды, шаблоны, affiliate)
+- **Public API** — manifest + content bundle + **delta sync** для Android app (offline sync)
+- **Admin** — веб-редактор каталога (категории, **оформление** иконок/цветов, **группы команд**, команды, шаблоны, affiliate)
 - **Publish pipeline** — PostgreSQL (draft) → immutable `content_vN.json.gz` + manifest
 - **Content tools** — Python-парсеры и PowerShell-скрипты для обновления каталога
 
@@ -23,7 +23,7 @@ docker compose up -d
 
 Admin UI: http://localhost:8080/admin
 
-Первый publish: Admin → Import → `seed/import-smart-home.json` (Replace) → Publish.
+Первый publish: Admin → Import → `seed/smart-home-groups-v2.json` (Sync) → review **Группы команд** → Publish. См. [docs/RUNBOOK-PUBLISH.md](docs/RUNBOOK-PUBLISH.md) §10.
 
 Gradle скачивает JDK 21 автоматически (Foojay toolchain). При необходимости укажите `org.gradle.java.home` в `gradle-local.properties` (см. `gradle-local.properties.example`).
 
@@ -33,8 +33,9 @@ Gradle скачивает JDK 21 автоматически (Foojay toolchain). 
 alice-commands-api/
 ├── server/              # Ktor API (public + admin + publish use cases)
 ├── admin-web/           # Static admin UI (Alpine.js)
-├── schema/              # JSON Schema — канон контракта с Android
-├── seed/                # import-smart-home.json (pilot), full-catalog.json (pipeline)
+├── schema/              # JSON Schema v2 — канон контракта с Android
+├── content/             # icon_catalog.json, pilot SVG (icons/v1/)
+├── seed/                # smart-home-groups-v2.json (pilot), full-catalog.json (pipeline)
 ├── tools/content/       # Python: fetch, parse, merge, build_bundle
 ├── scripts/             # PowerShell: update-content, push-draft, verify-staging, deploy-staging
 ├── deploy/              # systemd, nginx, remote-setup.sh, staging .env example
@@ -48,11 +49,13 @@ alice-commands-api/
 | ------- | ---------- |
 | `.\gradlew.bat :server:run` | Запуск API на `:8080` |
 | `.\gradlew.bat :server:test` | Unit + integration (Testcontainers, нужен Docker) |
-| `.\gradlew.bat :server:validateContent` | JSON Schema check для `seed/full-catalog.json` |
+| `.\gradlew.bat :server:validateContent` | JSON Schema check (`seed/full-catalog.json` или `-PcontentFile=...`) |
 | `.\gradlew.bat :server:installDist` | Сборка дистрибутива для VPS (`server/build/install/server/`) |
 | `.\scripts\update-content.ps1` | Полный pipeline контента → staging draft |
-| `.\scripts\deploy-staging.ps1` | Деплой API на Selectel VPS |
-| `.\scripts\cloudflare-dns-direct.ps1` | DNS only для API (без CF proxy, РФ) |
+| `.\scripts\deploy-staging.ps1` | Деплой API на Selectel VPS (+ icons, admin-web, nginx) |
+| `.\scripts\cloudflare-dns-direct.ps1` | DNS only для API и CDN (без CF proxy, РФ) |
+| `.\scripts\setup-cdn.ps1` | Поднять `cdn.alicecommands.ru` (DNS + TLS + nginx) |
+| `.\scripts\publish-staging-visuals.ps1` | Merge category visuals → publish staging |
 
 ## Staging (prod-like)
 
@@ -68,6 +71,8 @@ alice-commands-api/
 | Документ | Описание |
 | -------- | -------- |
 | [docs/BACKEND-REQUIREMENTS.md](docs/BACKEND-REQUIREMENTS.md) | **Главное ТЗ** |
+| [docs/BACKEND-COMMAND-GROUPS.md](docs/BACKEND-COMMAND-GROUPS.md) | **Schema v2 — command groups** |
+| [docs/BACKEND-CATEGORY-VISUALS.md](docs/BACKEND-CATEGORY-VISUALS.md) | **Иконки и цвета категорий** |
 | [docs/API.md](docs/API.md) | HTTP-контракт для Android |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Light Clean, Ktor, PostgreSQL |
 | [docs/ADMIN-UX.md](docs/ADMIN-UX.md) | Веб-админка |

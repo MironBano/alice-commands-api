@@ -1,0 +1,734 @@
+[
+  {
+    "command_id": "audiobooks_igrai_vezde",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, играй везде",
+    "phrases": [
+      "Алиса, играй везде"
+    ],
+    "raw_result": "Алиса выполнит: качество музыки.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/track",
+    "published": {
+      "title_ru": "Качество музыки",
+      "effect_description_ru": "Алиса выполнит: качество музыки."
+    },
+    "draft": {
+      "title_ru": "Качество музыки",
+      "effect_description_ru": "Алиса выполнит: качество музыки."
+    },
+    "edit": {
+      "command_id": "audiobooks_igrai_vezde",
+      "title_ru": "Качество музыки",
+      "effect_description_ru": "Алиса выполнит: качество музыки.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_ne_vkliuchaet_muzyku_na_stantsii",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса не включает музыку на Станции",
+    "phrases": [
+      "Алиса не включает музыку на Станции"
+    ],
+    "raw_result": "Требует вычитки",
+    "source_url": "https://alice.yandex.ru/support/ru/station/audio",
+    "published": {
+      "title_ru": "Не включает музыку на Станции",
+      "effect_description_ru": "Подскажет, почему не включается музыка, и что проверить. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Не включает музыку на Станции",
+      "effect_description_ru": "Подскажет, почему не включается музыка, и что проверить. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_ne_vkliuchaet_muzyku_na_stantsii",
+      "title_ru": "Не включает музыку на Станции",
+      "effect_description_ru": "Подскажет, почему не включается музыка, и что проверить. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_postav_zakladku",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, поставь закладку",
+    "phrases": [
+      "Алиса, поставь закладку"
+    ],
+    "raw_result": "Сохранит текущую позицию.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Поставь закладку",
+      "effect_description_ru": "Сохранит закладку в текущей аудиокниге или подкасте. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Поставь закладку",
+      "effect_description_ru": "Сохранит закладку в текущей аудиокниге или подкасте. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_postav_zakladku",
+      "title_ru": "Поставь закладку",
+      "effect_description_ru": "Сохранит закладку в текущей аудиокниге или подкасте. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_sleduiushchaia_glava",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, следующая глава",
+    "phrases": [
+      "Алиса, следующая глава",
+      "Алиса, предыдущая глава"
+    ],
+    "raw_result": "Переключит главу аудиокниги.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Следующая глава",
+      "effect_description_ru": "Переключит на следующую главу. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Следующая глава",
+      "effect_description_ru": "Переключит на следующую главу. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_sleduiushchaia_glava",
+      "title_ru": "Следующая глава",
+      "effect_description_ru": "Переключит на следующую главу. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_uskor_audioknigu",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, ускорь аудиокнигу",
+    "phrases": [
+      "Алиса, ускорь аудиокнигу",
+      "Алиса, замедли аудиокнигу"
+    ],
+    "raw_result": "Изменит скорость воспроизведения.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Ускорь аудиокнигу",
+      "effect_description_ru": "Увеличит скорость воспроизведения аудиокниги. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Ускорь аудиокнигу",
+      "effect_description_ru": "Увеличит скорость воспроизведения аудиокниги. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_uskor_audioknigu",
+      "title_ru": "Ускорь аудиокнигу",
+      "effect_description_ru": "Увеличит скорость воспроизведения аудиокниги. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_vkliuchi_audioknigu",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, включи аудиокнигу",
+    "phrases": [
+      "Алиса, включи аудиокнигу",
+      "Алиса, продолжи аудиокнигу"
+    ],
+    "raw_result": "Продолжит или начнёт аудиокнигу.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи аудиокнигу",
+      "effect_description_ru": "Продолжит последнюю аудиокнигу или начнёт новую по запросу. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи аудиокнигу",
+      "effect_description_ru": "Продолжит последнюю аудиокнигу или начнёт новую по запросу. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_vkliuchi_audioknigu",
+      "title_ru": "Включи аудиокнигу",
+      "effect_description_ru": "Продолжит последнюю аудиокнигу или начнёт новую по запросу. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_vkliuchi_audioknigu_1984",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, включи аудиокнигу 1984",
+    "phrases": [
+      "Алиса, включи аудиокнигу 1984"
+    ],
+    "raw_result": "Найдёт и включит «1984».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи аудиокнигу 1984",
+      "effect_description_ru": "Найдёт и включит аудиокнигу «1984». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи аудиокнигу 1984",
+      "effect_description_ru": "Найдёт и включит аудиокнигу «1984». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_vkliuchi_audioknigu_1984",
+      "title_ru": "Включи аудиокнигу 1984",
+      "effect_description_ru": "Найдёт и включит аудиокнигу «1984». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_vkliuchi_audioknigu_garri_potter",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, включи аудиокнигу Гарри Поттер",
+    "phrases": [
+      "Алиса, включи аудиокнигу Гарри Поттер"
+    ],
+    "raw_result": "Найдёт и включит «Гарри Поттер».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи аудиокнигу Гарри Поттер",
+      "effect_description_ru": "Найдёт и включит аудиокнигу о Гарри Поттере. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи аудиокнигу Гарри Поттер",
+      "effect_description_ru": "Найдёт и включит аудиокнигу о Гарри Поттере. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_vkliuchi_audioknigu_garri_potter",
+      "title_ru": "Включи аудиокнигу Гарри Поттер",
+      "effect_description_ru": "Найдёт и включит аудиокнигу о Гарри Поттере. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_vkliuchi_audioknigu_master_i_margarita",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, включи аудиокнигу Мастер и Маргарита",
+    "phrases": [
+      "Алиса, включи аудиокнигу Мастер и Маргарита"
+    ],
+    "raw_result": "Найдёт и включит «Мастер и Маргарита».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи аудиокнигу Мастер и Маргарита",
+      "effect_description_ru": "Найдёт и включит аудиокнигу «Мастер и Маргарита». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи аудиокнигу Мастер и Маргарита",
+      "effect_description_ru": "Найдёт и включит аудиокнигу «Мастер и Маргарита». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_vkliuchi_audioknigu_master_i_margarita",
+      "title_ru": "Включи аудиокнигу Мастер и Маргарита",
+      "effect_description_ru": "Найдёт и включит аудиокнигу «Мастер и Маргарита». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_vkliuchi_audioknigu_piknik_na_obochke",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, включи аудиокнигу Пикник на обochке",
+    "phrases": [
+      "Алиса, включи аудиокнигу Пикник на обochке"
+    ],
+    "raw_result": "Найдёт и включит «Пикник на обochке».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи аудиокнигу Пикник на обочине",
+      "effect_description_ru": "Найдёт и включит аудиокнигу «Пикник на обочине». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи аудиокнигу Пикник на обочине",
+      "effect_description_ru": "Найдёт и включит аудиокнигу «Пикник на обочине». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_vkliuchi_audioknigu_piknik_na_obochke",
+      "title_ru": "Включи аудиокнигу Пикник на обочине",
+      "effect_description_ru": "Найдёт и включит аудиокнигу «Пикник на обочине». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_vkliuchi_audioknigu_prestuplenie_i_nakaz",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, включи аудиокнигу Преступление и наказание",
+    "phrases": [
+      "Алиса, включи аудиокнигу Преступление и наказание"
+    ],
+    "raw_result": "Найдёт и включит «Преступление и наказание».",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи аудиокнигу Преступление и наказание",
+      "effect_description_ru": "Найдёт и включит аудиокнигу «Преступление и наказание». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи аудиокнигу Преступление и наказание",
+      "effect_description_ru": "Найдёт и включит аудиокнигу «Преступление и наказание». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_vkliuchi_audioknigu_prestuplenie_i_nakaz",
+      "title_ru": "Включи аудиокнигу Преступление и наказание",
+      "effect_description_ru": "Найдёт и включит аудиокнигу «Преступление и наказание». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_vkliuchi_detektiv",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, включи детектив",
+    "phrases": [
+      "Алиса, включи детектив",
+      "Алиса, включи фантастику"
+    ],
+    "raw_result": "Подберёт аудиокнигу по жанру.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи детектив",
+      "effect_description_ru": "Подберёт и включит аудиокнигу в жанре детектива. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи детектив",
+      "effect_description_ru": "Подберёт и включит аудиокнигу в жанре детектива. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_vkliuchi_detektiv",
+      "title_ru": "Включи детектив",
+      "effect_description_ru": "Подберёт и включит аудиокнигу в жанре детектива. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_vkliuchi_skazku_nomer_1",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, включи сказку номер 1",
+    "phrases": [
+      "Алиса, включи сказку номер 1"
+    ],
+    "raw_result": "Включит детскую сказку из каталога.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи сказку номер 1",
+      "effect_description_ru": "Включит детскую сказку № 1 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи сказку номер 1",
+      "effect_description_ru": "Включит детскую сказку № 1 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_vkliuchi_skazku_nomer_1",
+      "title_ru": "Включи сказку номер 1",
+      "effect_description_ru": "Включит детскую сказку № 1 из каталога. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_vkliuchi_skazku_nomer_10",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, включи сказку номер 10",
+    "phrases": [
+      "Алиса, включи сказку номер 10"
+    ],
+    "raw_result": "Включит детскую сказку из каталога.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи сказку номер 10",
+      "effect_description_ru": "Включит детскую сказку № 10 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи сказку номер 10",
+      "effect_description_ru": "Включит детскую сказку № 10 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_vkliuchi_skazku_nomer_10",
+      "title_ru": "Включи сказку номер 10",
+      "effect_description_ru": "Включит детскую сказку № 10 из каталога. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_vkliuchi_skazku_nomer_11",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, включи сказку номер 11",
+    "phrases": [
+      "Алиса, включи сказку номер 11"
+    ],
+    "raw_result": "Включит детскую сказку из каталога.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи сказку номер 11",
+      "effect_description_ru": "Включит детскую сказку № 11 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи сказку номер 11",
+      "effect_description_ru": "Включит детскую сказку № 11 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_vkliuchi_skazku_nomer_11",
+      "title_ru": "Включи сказку номер 11",
+      "effect_description_ru": "Включит детскую сказку № 11 из каталога. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_vkliuchi_skazku_nomer_12",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, включи сказку номер 12",
+    "phrases": [
+      "Алиса, включи сказку номер 12"
+    ],
+    "raw_result": "Включит детскую сказку из каталога.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи сказку номер 12",
+      "effect_description_ru": "Включит детскую сказку № 12 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи сказку номер 12",
+      "effect_description_ru": "Включит детскую сказку № 12 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_vkliuchi_skazku_nomer_12",
+      "title_ru": "Включи сказку номер 12",
+      "effect_description_ru": "Включит детскую сказку № 12 из каталога. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_vkliuchi_skazku_nomer_13",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, включи сказку номер 13",
+    "phrases": [
+      "Алиса, включи сказку номер 13"
+    ],
+    "raw_result": "Включит детскую сказку из каталога.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи сказку номер 13",
+      "effect_description_ru": "Включит детскую сказку № 13 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи сказку номер 13",
+      "effect_description_ru": "Включит детскую сказку № 13 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_vkliuchi_skazku_nomer_13",
+      "title_ru": "Включи сказку номер 13",
+      "effect_description_ru": "Включит детскую сказку № 13 из каталога. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_vkliuchi_skazku_nomer_14",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, включи сказку номер 14",
+    "phrases": [
+      "Алиса, включи сказку номер 14"
+    ],
+    "raw_result": "Включит детскую сказку из каталога.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи сказку номер 14",
+      "effect_description_ru": "Включит детскую сказку № 14 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи сказку номер 14",
+      "effect_description_ru": "Включит детскую сказку № 14 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_vkliuchi_skazku_nomer_14",
+      "title_ru": "Включи сказку номер 14",
+      "effect_description_ru": "Включит детскую сказку № 14 из каталога. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_vkliuchi_skazku_nomer_15",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, включи сказку номер 15",
+    "phrases": [
+      "Алиса, включи сказку номер 15"
+    ],
+    "raw_result": "Включит детскую сказку из каталога.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи сказку номер 15",
+      "effect_description_ru": "Включит детскую сказку № 15 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи сказку номер 15",
+      "effect_description_ru": "Включит детскую сказку № 15 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_vkliuchi_skazku_nomer_15",
+      "title_ru": "Включи сказку номер 15",
+      "effect_description_ru": "Включит детскую сказку № 15 из каталога. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_vkliuchi_skazku_nomer_2",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, включи сказку номер 2",
+    "phrases": [
+      "Алиса, включи сказку номер 2"
+    ],
+    "raw_result": "Включит детскую сказку из каталога.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи сказку номер 2",
+      "effect_description_ru": "Включит детскую сказку № 2 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи сказку номер 2",
+      "effect_description_ru": "Включит детскую сказку № 2 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_vkliuchi_skazku_nomer_2",
+      "title_ru": "Включи сказку номер 2",
+      "effect_description_ru": "Включит детскую сказку № 2 из каталога. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_vkliuchi_skazku_nomer_3",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, включи сказку номер 3",
+    "phrases": [
+      "Алиса, включи сказку номер 3"
+    ],
+    "raw_result": "Включит детскую сказку из каталога.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи сказку номер 3",
+      "effect_description_ru": "Включит детскую сказку № 3 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи сказку номер 3",
+      "effect_description_ru": "Включит детскую сказку № 3 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_vkliuchi_skazku_nomer_3",
+      "title_ru": "Включи сказку номер 3",
+      "effect_description_ru": "Включит детскую сказку № 3 из каталога. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_vkliuchi_skazku_nomer_4",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, включи сказку номер 4",
+    "phrases": [
+      "Алиса, включи сказку номер 4"
+    ],
+    "raw_result": "Включит детскую сказку из каталога.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи сказку номер 4",
+      "effect_description_ru": "Включит детскую сказку № 4 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи сказку номер 4",
+      "effect_description_ru": "Включит детскую сказку № 4 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_vkliuchi_skazku_nomer_4",
+      "title_ru": "Включи сказку номер 4",
+      "effect_description_ru": "Включит детскую сказку № 4 из каталога. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_vkliuchi_skazku_nomer_5",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, включи сказку номер 5",
+    "phrases": [
+      "Алиса, включи сказку номер 5"
+    ],
+    "raw_result": "Включит детскую сказку из каталога.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи сказку номер 5",
+      "effect_description_ru": "Включит детскую сказку № 5 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи сказку номер 5",
+      "effect_description_ru": "Включит детскую сказку № 5 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_vkliuchi_skazku_nomer_5",
+      "title_ru": "Включи сказку номер 5",
+      "effect_description_ru": "Включит детскую сказку № 5 из каталога. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_vkliuchi_skazku_nomer_6",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, включи сказку номер 6",
+    "phrases": [
+      "Алиса, включи сказку номер 6"
+    ],
+    "raw_result": "Включит детскую сказку из каталога.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи сказку номер 6",
+      "effect_description_ru": "Включит детскую сказку № 6 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи сказку номер 6",
+      "effect_description_ru": "Включит детскую сказку № 6 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_vkliuchi_skazku_nomer_6",
+      "title_ru": "Включи сказку номер 6",
+      "effect_description_ru": "Включит детскую сказку № 6 из каталога. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_vkliuchi_skazku_nomer_7",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, включи сказку номер 7",
+    "phrases": [
+      "Алиса, включи сказку номер 7"
+    ],
+    "raw_result": "Включит детскую сказку из каталога.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи сказку номер 7",
+      "effect_description_ru": "Включит детскую сказку № 7 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи сказку номер 7",
+      "effect_description_ru": "Включит детскую сказку № 7 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_vkliuchi_skazku_nomer_7",
+      "title_ru": "Включи сказку номер 7",
+      "effect_description_ru": "Включит детскую сказку № 7 из каталога. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_vkliuchi_skazku_nomer_8",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, включи сказку номер 8",
+    "phrases": [
+      "Алиса, включи сказку номер 8"
+    ],
+    "raw_result": "Включит детскую сказку из каталога.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи сказку номер 8",
+      "effect_description_ru": "Включит детскую сказку № 8 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи сказку номер 8",
+      "effect_description_ru": "Включит детскую сказку № 8 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_vkliuchi_skazku_nomer_8",
+      "title_ru": "Включи сказку номер 8",
+      "effect_description_ru": "Включит детскую сказку № 8 из каталога. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_vkliuchi_skazku_nomer_9",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, включи сказку номер 9",
+    "phrases": [
+      "Алиса, включи сказку номер 9"
+    ],
+    "raw_result": "Включит детскую сказку из каталога.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи сказку номер 9",
+      "effect_description_ru": "Включит детскую сказку № 9 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи сказку номер 9",
+      "effect_description_ru": "Включит детскую сказку № 9 из каталога. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_vkliuchi_skazku_nomer_9",
+      "title_ru": "Включи сказку номер 9",
+      "effect_description_ru": "Включит детскую сказку № 9 из каталога. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "audiobooks_volshebnik_izumrudnogo_goroda",
+    "category_id": "audiobooks",
+    "phrase_example": "Алиса, волшебник Изумрудного города",
+    "phrases": [
+      "Алиса, волшебник Изумрудного города"
+    ],
+    "raw_result": "Алиса, продолжи книгу.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/track",
+    "published": {
+      "title_ru": "Волшебник Изумрудного города",
+      "effect_description_ru": "Найдёт и включит аудиокнигу «Волшебник Изумрудного города». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Волшебник Изумрудного города",
+      "effect_description_ru": "Найдёт и включит аудиокнигу «Волшебник Изумрудного города». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "audiobooks_volshebnik_izumrudnogo_goroda",
+      "title_ru": "Волшебник Изумрудного города",
+      "effect_description_ru": "Найдёт и включит аудиокнигу «Волшебник Изумрудного города». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  }
+]

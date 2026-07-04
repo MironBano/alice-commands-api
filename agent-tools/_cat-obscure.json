@@ -1,0 +1,887 @@
+[
+  {
+    "command_id": "obscure_chto_ty_slyshish",
+    "category_id": "obscure",
+    "phrase_example": "Алиса, что ты слышишь?",
+    "phrases": [
+      "Алиса, что ты слышишь?"
+    ],
+    "raw_result": "Расскажет об окружающих звуках (если доступно).",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Что ты слышишь?",
+      "effect_description_ru": "Расскажет, какие звуки слышит вокруг (если функция доступна на устройстве). Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Что ты слышишь?",
+      "effect_description_ru": "Расскажет, какие звуки слышит вокруг (если функция доступна на устройстве). Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_chto_ty_slyshish",
+      "title_ru": "Что ты слышишь?",
+      "effect_description_ru": "Расскажет, какие звуки слышит вокруг (если функция доступна на устройстве). Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_disko_podsvetka",
+    "category_id": "obscure",
+    "phrase_example": "Алиса, диско подсветка",
+    "phrases": [
+      "Алиса, диско подсветка"
+    ],
+    "raw_result": "Цветомузыка на подсветке.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Диско подсветка",
+      "effect_description_ru": "Диско подсветка — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Диско подсветка",
+      "effect_description_ru": "Диско подсветка — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_disko_podsvetka",
+      "title_ru": "Диско подсветка",
+      "effect_description_ru": "Диско подсветка — дополнительная возможность Алисы. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_mertsaiushchaia_podsvetka",
+    "category_id": "obscure",
+    "phrase_example": "Алиса, мерцающая подсветка",
+    "phrases": [
+      "Алиса, мерцающая подсветка"
+    ],
+    "raw_result": "Эффект мерцания.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Мерцающая подсветка",
+      "effect_description_ru": "Включит эффект мерцающей подсветки на колонке. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Мерцающая подсветка",
+      "effect_description_ru": "Включит эффект мерцающей подсветки на колонке. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_mertsaiushchaia_podsvetka",
+      "title_ru": "Мерцающая подсветка",
+      "effect_description_ru": "Включит эффект мерцающей подсветки на колонке. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_mozhet_vypolniat_srazu_dva_zaprosa_v_odn",
+    "category_id": "obscure",
+    "phrase_example": "Алиса может выполнять сразу два запроса в одной команде.",
+    "phrases": [
+      "Алиса может выполнять сразу два запроса в одной команде."
+    ],
+    "raw_result": "Алиса выполнит: другие полезные навыки.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/non-obvious",
+    "published": {
+      "title_ru": "Два запроса в одной фразе",
+      "effect_description_ru": "Выполнит два действия в одной голосовой команде. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Два запроса в одной фразе",
+      "effect_description_ru": "Выполнит два действия в одной голосовой команде. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_mozhet_vypolniat_srazu_dva_zaprosa_v_odn",
+      "title_ru": "Два запроса в одной фразе",
+      "effect_description_ru": "Выполнит два действия в одной голосовой команде. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_perevedet_slovo_ili_frazu_na_nuzhnyi_iaz",
+    "category_id": "obscure",
+    "phrase_example": "Алиса переведет слово или фразу на нужный язык.",
+    "phrases": [
+      "Алиса переведет слово или фразу на нужный язык."
+    ],
+    "raw_result": "Алиса выполнит: другие полезные навыки.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/non-obvious",
+    "published": {
+      "title_ru": "Перевод слова или фразы",
+      "effect_description_ru": "Переведёт слово или фразу на нужный язык. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Перевод слова или фразы",
+      "effect_description_ru": "Переведёт слово или фразу на нужный язык. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_perevedet_slovo_ili_frazu_na_nuzhnyi_iaz",
+      "title_ru": "Перевод слова или фразы",
+      "effect_description_ru": "Переведёт слово или фразу на нужный язык. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_podskazhet_nazvanie_neznakomoi_vam_pesni",
+    "category_id": "obscure",
+    "phrase_example": "Алиса подскажет название незнакомой вам песни.",
+    "phrases": [
+      "Алиса подскажет название незнакомой вам песни."
+    ],
+    "raw_result": "Алиса подскажет название незнакомой вам песни.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/non-obvious",
+    "published": {
+      "title_ru": "Подскажет название незнакомой вам песни.",
+      "effect_description_ru": "Подскажет название незнакомой вам песни — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Подскажет название незнакомой вам песни.",
+      "effect_description_ru": "Подскажет название незнакомой вам песни — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_podskazhet_nazvanie_neznakomoi_vam_pesni",
+      "title_ru": "Подскажет название незнакомой вам песни.",
+      "effect_description_ru": "Подскажет название незнакомой вам песни — дополнительная возможность Алисы. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_pomozhet_bystro_oformit_zakaz_v_lavke",
+    "category_id": "obscure",
+    "phrase_example": "Алиса поможет быстро оформить заказ в Лавке .",
+    "phrases": [
+      "Алиса поможет быстро оформить заказ в Лавке ."
+    ],
+    "raw_result": "Алиса выполнит: покупки и такси.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/non-obvious",
+    "published": {
+      "title_ru": "Заказ в Лавке",
+      "effect_description_ru": "Поможет оформить заказ в Яндекс Лавке. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Заказ в Лавке",
+      "effect_description_ru": "Поможет оформить заказ в Яндекс Лавке. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_pomozhet_bystro_oformit_zakaz_v_lavke",
+      "title_ru": "Заказ в Лавке",
+      "effect_description_ru": "Поможет оформить заказ в Яндекс Лавке. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_pomozhet_bystro_sviazatsia_so_sluzhboi_p",
+    "category_id": "obscure",
+    "phrase_example": "Алиса поможет быстро связаться со службой поддержки .",
+    "phrases": [
+      "Алиса поможет быстро связаться со службой поддержки ."
+    ],
+    "raw_result": "Алиса выполнит: другие полезные навыки.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/non-obvious",
+    "published": {
+      "title_ru": "Связь со службой поддержки",
+      "effect_description_ru": "Связь со службой поддержки — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Связь со службой поддержки",
+      "effect_description_ru": "Связь со службой поддержки — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_pomozhet_bystro_sviazatsia_so_sluzhboi_p",
+      "title_ru": "Связь со службой поддержки",
+      "effect_description_ru": "Связь со службой поддержки — дополнительная возможность Алисы. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_pomozhet_otpravit_vam_poslanie_v_budushc",
+    "category_id": "obscure",
+    "phrase_example": "Алиса поможет отправить вам послание в будущее.",
+    "phrases": [
+      "Алиса поможет отправить вам послание в будущее."
+    ],
+    "raw_result": "Алиса поможет отправить вам послание в будущее.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/non-obvious",
+    "published": {
+      "title_ru": "Поможет отправить вам послание в будущее.",
+      "effect_description_ru": "Поможет отправить вам послание в будущее — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Поможет отправить вам послание в будущее.",
+      "effect_description_ru": "Поможет отправить вам послание в будущее — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_pomozhet_otpravit_vam_poslanie_v_budushc",
+      "title_ru": "Поможет отправить вам послание в будущее.",
+      "effect_description_ru": "Поможет отправить вам послание в будущее — дополнительная возможность Алисы. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_pomozhet_pridumat_skazku_ili_rasskazhet",
+    "category_id": "obscure",
+    "phrase_example": "Алиса поможет придумать сказку или расскажет что-нибудь из своей коллекции.",
+    "phrases": [
+      "Алиса поможет придумать сказку или расскажет что-нибудь из своей коллекции."
+    ],
+    "raw_result": "Алиса поможет придумать сказку или расскажет что-нибудь из своей коллекции.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/non-obvious",
+    "published": {
+      "title_ru": "Придумай сказку",
+      "effect_description_ru": "Поможет придумать сказку или расскажет что-нибудь из своей коллекции — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Придумай сказку",
+      "effect_description_ru": "Поможет придумать сказку или расскажет что-нибудь из своей коллекции — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_pomozhet_pridumat_skazku_ili_rasskazhet",
+      "title_ru": "Придумай сказку",
+      "effect_description_ru": "Поможет придумать сказку или расскажет что-нибудь из своей коллекции — дополнительная возможность Алисы. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_pomozhet_upravliat_sobytiiami_v_kalendar",
+    "category_id": "obscure",
+    "phrase_example": "Алиса поможет управлять событиями в календаре.",
+    "phrases": [
+      "Алиса поможет управлять событиями в календаре."
+    ],
+    "raw_result": "Алиса выполнит: тайм-менеджмент.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/non-obvious",
+    "published": {
+      "title_ru": "События в календаре",
+      "effect_description_ru": "События в календаре — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "События в календаре",
+      "effect_description_ru": "События в календаре — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_pomozhet_upravliat_sobytiiami_v_kalendar",
+      "title_ru": "События в календаре",
+      "effect_description_ru": "События в календаре — дополнительная возможность Алисы. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_pridumai_rifmu",
+    "category_id": "obscure",
+    "phrase_example": "Алиса, придумай рифму",
+    "phrases": [
+      "Алиса, придумай рифму"
+    ],
+    "raw_result": "Игра с рифмами.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Придумай рифму",
+      "effect_description_ru": "Подберёт рифму к вашему слову. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Придумай рифму",
+      "effect_description_ru": "Подберёт рифму к вашему слову. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_pridumai_rifmu",
+      "title_ru": "Придумай рифму",
+      "effect_description_ru": "Подберёт рифму к вашему слову. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_prochitaet_stikhotvorenie_sobstvennogo_s",
+    "category_id": "obscure",
+    "phrase_example": "Алиса прочитает стихотворение собственного сочинения на любую тему.",
+    "phrases": [
+      "Алиса прочитает стихотворение собственного сочинения на любую тему."
+    ],
+    "raw_result": "Алиса прочитает стихотворение собственного сочинения на любую тему.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/non-obvious",
+    "published": {
+      "title_ru": "Прочитай стих на тему",
+      "effect_description_ru": "Прочитает стихотворение собственного сочинения на любую тему — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Прочитай стих на тему",
+      "effect_description_ru": "Прочитает стихотворение собственного сочинения на любую тему — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_prochitaet_stikhotvorenie_sobstvennogo_s",
+      "title_ru": "Прочитай стих на тему",
+      "effect_description_ru": "Прочитает стихотворение собственного сочинения на любую тему — дополнительная возможность Алисы. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_prosnis",
+    "category_id": "obscure",
+    "phrase_example": "Алиса, проснись",
+    "phrases": [
+      "Алиса, проснись"
+    ],
+    "raw_result": "Выход из режима ожидания.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Проснись",
+      "effect_description_ru": "Выведет колонку из режима ожидания. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Проснись",
+      "effect_description_ru": "Выведет колонку из режима ожидания. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_prosnis",
+      "title_ru": "Проснись",
+      "effect_description_ru": "Выведет колонку из режима ожидания. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_rezhim_kamin",
+    "category_id": "obscure",
+    "phrase_example": "Алиса, режим камин",
+    "phrases": [
+      "Алиса, режим камин"
+    ],
+    "raw_result": "Анимация камина на подсветке.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Режим камин",
+      "effect_description_ru": "Режим камин — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Режим камин",
+      "effect_description_ru": "Режим камин — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_rezhim_kamin",
+      "title_ru": "Режим камин",
+      "effect_description_ru": "Режим камин — дополнительная возможность Алисы. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_rezhim_zakat",
+    "category_id": "obscure",
+    "phrase_example": "Алиса, режим закат",
+    "phrases": [
+      "Алиса, режим закат"
+    ],
+    "raw_result": "Плавное затемнение.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Режим закат",
+      "effect_description_ru": "Режим закат — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Режим закат",
+      "effect_description_ru": "Режим закат — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_rezhim_zakat",
+      "title_ru": "Режим закат",
+      "effect_description_ru": "Режим закат — дополнительная возможность Алисы. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_severnoe_siianie",
+    "category_id": "obscure",
+    "phrase_example": "Алиса, северное сияние",
+    "phrases": [
+      "Алиса, северное сияние"
+    ],
+    "raw_result": "Включи режим подсветки.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/settings/ambient-light",
+    "published": {
+      "title_ru": "Северное сияние",
+      "effect_description_ru": "Северное сияние — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Северное сияние",
+      "effect_description_ru": "Северное сияние — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_severnoe_siianie",
+      "title_ru": "Северное сияние",
+      "effect_description_ru": "Северное сияние — дополнительная возможность Алисы. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_shepotom",
+    "category_id": "obscure",
+    "phrase_example": "Алиса, шёпотом",
+    "phrases": [
+      "Алиса, шёпотом"
+    ],
+    "raw_result": "Алиса ответит тише.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Шёпотом",
+      "effect_description_ru": "Алиса ответит тихим шёпотом; можно также говорить шёпотом без команды. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Шёпотом",
+      "effect_description_ru": "Алиса ответит тихим шёпотом; можно также говорить шёпотом без команды. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_shepotom",
+      "title_ru": "Шёпотом",
+      "effect_description_ru": "Алиса ответит тихим шёпотом; можно также говорить шёпотом без команды. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_skorogovorka",
+    "category_id": "obscure",
+    "phrase_example": "Алиса, скороговорка",
+    "phrases": [
+      "Алиса, скороговорка"
+    ],
+    "raw_result": "Расскажет скороговорку.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Скороговорка",
+      "effect_description_ru": "Расскажет скороговорку. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Скороговорка",
+      "effect_description_ru": "Расскажет скороговорку. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_skorogovorka",
+      "title_ru": "Скороговорка",
+      "effect_description_ru": "Расскажет скороговорку. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_spi",
+    "category_id": "obscure",
+    "phrase_example": "Алиса, спи",
+    "phrases": [
+      "Алиса, спи"
+    ],
+    "raw_result": "Колонка в режим ожидания.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Спи",
+      "effect_description_ru": "Переведёт колонку в режим ожидания. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Спи",
+      "effect_description_ru": "Переведёт колонку в режим ожидания. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_spi",
+      "title_ru": "Спи",
+      "effect_description_ru": "Переведёт колонку в режим ожидания. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_stroboskop",
+    "category_id": "obscure",
+    "phrase_example": "Алиса, стробоскоп",
+    "phrases": [
+      "Алиса, стробоскоп"
+    ],
+    "raw_result": "Требует вычитки",
+    "source_url": "https://alice.yandex.ru/support/ru/station/settings/ambient-light",
+    "published": {
+      "title_ru": "Стробоскоп",
+      "effect_description_ru": "Включит эффект стroboscope на подсветке колонки. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Стробоскоп",
+      "effect_description_ru": "Включит эффект стroboscope на подсветке колонки. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_stroboskop",
+      "title_ru": "Стробоскоп",
+      "effect_description_ru": "Включит эффект стroboscope на подсветке колонки. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_svecha",
+    "category_id": "obscure",
+    "phrase_example": "Алиса, свеча",
+    "phrases": [
+      "Алиса, свеча"
+    ],
+    "raw_result": "Алиса, отключи режим.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/light-modes",
+    "published": {
+      "title_ru": "Свеча",
+      "effect_description_ru": "Свеча — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Свеча",
+      "effect_description_ru": "Свеча — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_svecha",
+      "title_ru": "Свеча",
+      "effect_description_ru": "Свеча — дополнительная возможность Алисы. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_svetomuzyka",
+    "category_id": "obscure",
+    "phrase_example": "Алиса, светомузыка",
+    "phrases": [
+      "Алиса, светомузыка"
+    ],
+    "raw_result": "Требует вычитки",
+    "source_url": "https://alice.yandex.ru/support/ru/station/settings/ambient-light",
+    "published": {
+      "title_ru": "Светомузыка",
+      "effect_description_ru": "Включит режим «светомузыка» на колонке. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Светомузыка",
+      "effect_description_ru": "Включит режим «светомузыка» на колонке. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_svetomuzyka",
+      "title_ru": "Светомузыка",
+      "effect_description_ru": "Включит режим «светомузыка» на колонке. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_tikhii_rezhim",
+    "category_id": "obscure",
+    "phrase_example": "Алиса, тихий режим",
+    "phrases": [
+      "Алиса, тихий режим"
+    ],
+    "raw_result": "Минимум звуков и света.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Тихий режим",
+      "effect_description_ru": "Включит тихий режим: меньше звуков и света. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Тихий режим",
+      "effect_description_ru": "Включит тихий режим: меньше звуков и света. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_tikhii_rezhim",
+      "title_ru": "Тихий режим",
+      "effect_description_ru": "Включит тихий режим: меньше звуков и света. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_udivi_menia",
+    "category_id": "obscure",
+    "phrase_example": "Алиса, удиви меня",
+    "phrases": [
+      "Алиса, удиви меня"
+    ],
+    "raw_result": "Случайная полезная команда.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Удиви меня",
+      "effect_description_ru": "Предложит случайную полезную команду или факт. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Удиви меня",
+      "effect_description_ru": "Предложит случайную полезную команду или факт. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_udivi_menia",
+      "title_ru": "Удиви меня",
+      "effect_description_ru": "Предложит случайную полезную команду или факт. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_uprazhnenie_dykhaniia",
+    "category_id": "obscure",
+    "phrase_example": "Алиса, упражнение дыхания",
+    "phrases": [
+      "Алиса, упражнение дыхания"
+    ],
+    "raw_result": "Дыхательная практика.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Упражнение дыхания",
+      "effect_description_ru": "Проведёт короткое дыхательное упражнение. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Упражнение дыхания",
+      "effect_description_ru": "Проведёт короткое дыхательное упражнение. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_uprazhnenie_dykhaniia",
+      "title_ru": "Упражнение дыхания",
+      "effect_description_ru": "Проведёт короткое дыхательное упражнение. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_vkliuchi_meditatsiiu",
+    "category_id": "obscure",
+    "phrase_example": "Алиса, включи медитацию",
+    "phrases": [
+      "Алиса, включи медитацию"
+    ],
+    "raw_result": "Guided meditation.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи медитацию",
+      "effect_description_ru": "Включит медитацию с голосовым сопровождением. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Включи медитацию",
+      "effect_description_ru": "Включит медитацию с голосовым сопровождением. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_vkliuchi_meditatsiiu",
+      "title_ru": "Включи медитацию",
+      "effect_description_ru": "Включит медитацию с голосовым сопровождением. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_vkliuchi_naoborot",
+    "category_id": "obscure",
+    "phrase_example": "Алиса, включи наоборот",
+    "phrases": [
+      "Алиса, включи наоборот"
+    ],
+    "raw_result": "Шутливый ответ.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи наоборот",
+      "effect_description_ru": "Ответит шутливо или «наоборот» — развлекательная команда. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Включи наоборот",
+      "effect_description_ru": "Ответит шутливо или «наоборот» — развлекательная команда. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_vkliuchi_naoborot",
+      "title_ru": "Включи наоборот",
+      "effect_description_ru": "Ответит шутливо или «наоборот» — развлекательная команда. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_vkliuchi_rassvet",
+    "category_id": "obscure",
+    "phrase_example": "Алиса, включи рассвет",
+    "phrases": [
+      "Алиса, включи рассвет",
+      "Алиса, имитация рассвета"
+    ],
+    "raw_result": "Плавное увеличение света.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи рассвет",
+      "effect_description_ru": "Плавно увеличит яркость подсветки, имитируя рассвет. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Включи рассвет",
+      "effect_description_ru": "Плавно увеличит яркость подсветки, имитируя рассвет. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_vkliuchi_rassvet",
+      "title_ru": "Включи рассвет",
+      "effect_description_ru": "Плавно увеличит яркость подсветки, имитируя рассвет. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_vkliuchit_metronom_i_pomozhet_sledovat_z",
+    "category_id": "obscure",
+    "phrase_example": "Алиса включит метроном и поможет следовать заданному темпу.",
+    "phrases": [
+      "Алиса включит метроном и поможет следовать заданному темпу."
+    ],
+    "raw_result": "Алиса включит метроном и поможет следовать заданному темпу.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/non-obvious",
+    "published": {
+      "title_ru": "Включи метроном",
+      "effect_description_ru": "Включит метроном и поможет следовать заданному темпу — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Включи метроном",
+      "effect_description_ru": "Включит метроном и поможет следовать заданному темпу — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_vkliuchit_metronom_i_pomozhet_sledovat_z",
+      "title_ru": "Включи метроном",
+      "effect_description_ru": "Включит метроном и поможет следовать заданному темпу — дополнительная возможность Алисы. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_vykliuchi_rezhim_nochnik",
+    "category_id": "obscure",
+    "phrase_example": "Алиса, выключи режим “Ночник”",
+    "phrases": [
+      "Алиса, выключи режим “Ночник”"
+    ],
+    "raw_result": "Если у вас уже есть устройства с подобными именами, могут возникнуть конфликты команд. Тогда попробуйте заменить фразы на синонимичные, к примеру.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/light-modes",
+    "published": {
+      "title_ru": "Выключи режим “Ночник”",
+      "effect_description_ru": "Выключит режим ночника на колонке. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Выключи режим “Ночник”",
+      "effect_description_ru": "Выключит режим ночника на колонке. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_vykliuchi_rezhim_nochnik",
+      "title_ru": "Выключи режим “Ночник”",
+      "effect_description_ru": "Выключит режим ночника на колонке. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_zvuk_dozhdia",
+    "category_id": "obscure",
+    "phrase_example": "Алиса, звук дождя",
+    "phrases": [
+      "Алиса, звук дождя"
+    ],
+    "raw_result": "Белый шум дождя.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Звук дождя",
+      "effect_description_ru": "Звук дождя — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Звук дождя",
+      "effect_description_ru": "Звук дождя — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_zvuk_dozhdia",
+      "title_ru": "Звук дождя",
+      "effect_description_ru": "Звук дождя — дополнительная возможность Алисы. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_zvuki_kosmosa",
+    "category_id": "obscure",
+    "phrase_example": "Алиса, звуки космоса",
+    "phrases": [
+      "Алиса, звуки космоса"
+    ],
+    "raw_result": "Ambience космоса.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Звуки космоса",
+      "effect_description_ru": "Включит фоновые звуки космоса. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Звуки космоса",
+      "effect_description_ru": "Включит фоновые звуки космоса. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_zvuki_kosmosa",
+      "title_ru": "Звуки космоса",
+      "effect_description_ru": "Включит фоновые звуки космоса. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "obscure_zvuki_lesa",
+    "category_id": "obscure",
+    "phrase_example": "Алиса, звуки леса",
+    "phrases": [
+      "Алиса, звуки леса"
+    ],
+    "raw_result": "Ambience природы.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Звуки леса",
+      "effect_description_ru": "Звуки леса — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Звуки леса",
+      "effect_description_ru": "Звуки леса — дополнительная возможность Алисы. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "obscure_zvuki_lesa",
+      "title_ru": "Звуки леса",
+      "effect_description_ru": "Звуки леса — дополнительная возможность Алисы. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  }
+]

@@ -20,7 +20,12 @@ import ru.appforsale.alicecommands.api.domain.AffiliateProduct
 import ru.appforsale.alicecommands.api.domain.Category
 import ru.appforsale.alicecommands.api.domain.ChecklistItem
 import ru.appforsale.alicecommands.api.domain.Command
+import ru.appforsale.alicecommands.api.domain.CommandGroup
 import ru.appforsale.alicecommands.api.domain.ContentBundle
+import ru.appforsale.alicecommands.api.application.publish.CommandOfDayBundleBuilder
+import ru.appforsale.alicecommands.api.application.publish.CommandOfDayResolver
+import ru.appforsale.alicecommands.api.application.publish.CommandOfDayValidationUseCase
+import ru.appforsale.alicecommands.api.domain.CommandOfDaySettings
 import ru.appforsale.alicecommands.api.domain.CurrentManifest
 import ru.appforsale.alicecommands.api.domain.DraftStats
 import ru.appforsale.alicecommands.api.domain.PublishHistoryEntry
@@ -60,21 +65,28 @@ class ExposedDraftRepository(private val database: Database) : DraftRepository {
     }
     override fun loadFull(contentVersion: Int, minAppVersion: String): ContentBundle =
         transaction(database) {
+            val commands = listCommandsInternal()
+            ensureCommandOfDaySettingsInternal()
+            val settings = getCommandOfDaySettingsInternal()
+            val commandOfDay = settings?.let { CommandOfDayBundleBuilder.build(it, commands) }
             ContentBundle(
-                schema_version = 1,
+                schema_version = 2,
                 content_version = contentVersion,
                 published_at = Instant.now().toIsoString(),
                 min_app_version = minAppVersion,
                 categories = listCategoriesInternal(),
-                commands = listCommandsInternal(),
+                command_groups = listCommandGroupsInternal(),
+                commands = commands,
                 scenario_templates = listScenarioTemplatesInternal(),
                 checklist_items = listChecklistItemsInternal(),
+                command_of_day = commandOfDay,
             )
         }
 
     override fun stats(): DraftStats = transaction(database) {
         DraftStats(
             categoriesCount = CategoriesTable.selectAll().count().toInt(),
+            commandGroupsCount = CommandGroupsTable.selectAll().count().toInt(),
             commandsCount = CommandsTable.selectAll().count().toInt(),
             scenarioTemplatesCount = ScenarioTemplatesTable.selectAll().count().toInt(),
             checklistItemsCount = ChecklistItemsTable.selectAll().count().toInt(),
@@ -87,66 +99,23 @@ class ExposedDraftRepository(private val database: Database) : DraftRepository {
     private fun listCategoriesInternal(): List<Category> =
         CategoriesTable.selectAll()
             .orderBy(CategoriesTable.sortOrder to SortOrder.ASC)
-            .map { row ->
-                Category(
-                    id = row[CategoriesTable.id],
-                    title_ru = row[CategoriesTable.titleRu],
-                    title_kk = row[CategoriesTable.titleKk],
-                    sort_order = row[CategoriesTable.sortOrder],
-                    featured = row[CategoriesTable.featured],
-                    icon_key = row[CategoriesTable.iconKey],
-                    description_ru = row[CategoriesTable.descriptionRu],
-                    source_url = row[CategoriesTable.sourceUrl],
-                    device_types = row[CategoriesTable.deviceTypes].toList(),
-                )
-            }
+            .map { it.toCategory() }
 
     override fun getCategory(id: String): Category? = transaction(database) {
         CategoriesTable.selectAll().where { CategoriesTable.id eq id }
-            .map { row ->
-                Category(
-                    id = row[CategoriesTable.id],
-                    title_ru = row[CategoriesTable.titleRu],
-                    title_kk = row[CategoriesTable.titleKk],
-                    sort_order = row[CategoriesTable.sortOrder],
-                    featured = row[CategoriesTable.featured],
-                    icon_key = row[CategoriesTable.iconKey],
-                    description_ru = row[CategoriesTable.descriptionRu],
-                    source_url = row[CategoriesTable.sourceUrl],
-                    device_types = row[CategoriesTable.deviceTypes].toList(),
-                )
-            }.singleOrNull()
+            .map { it.toCategory() }.singleOrNull()
     }
 
     override fun createCategory(category: Category) {
         unitTx {
-        CategoriesTable.insert {
-            it[id] = category.id
-            it[titleRu] = category.title_ru
-            it[titleKk] = category.title_kk
-            it[sortOrder] = category.sort_order
-            it[featured] = category.featured
-            it[iconKey] = category.icon_key
-            it[descriptionRu] = category.description_ru
-            it[sourceUrl] = category.source_url
-            it[deviceTypes] = category.device_types
-            it[updatedAt] = OffsetDateTime.now(ZoneOffset.UTC)
-        }
+        CategoriesTable.insert { it.fromCategory(category) }
         }
     }
 
     override fun updateCategory(category: Category) {
         unitTx {
         CategoriesTable.update({ CategoriesTable.id eq category.id }) {
-            it[titleRu] = category.title_ru
-            it[titleKk] = category.title_kk
-            it[sortOrder] = category.sort_order
-            it[featured] = category.featured
-            it[iconKey] = category.icon_key
-            it[descriptionRu] = category.description_ru
-            it[sourceUrl] = category.source_url
-            it[deviceTypes] = category.device_types
-            it[updatedAt] = OffsetDateTime.now(ZoneOffset.UTC)
+            it.fromCategory(category)
         }
         }
     }
@@ -165,6 +134,73 @@ class ExposedDraftRepository(private val database: Database) : DraftRepository {
         }
     }
 
+    override fun listCommandGroups(categoryId: String?): List<CommandGroup> =
+        transaction(database) { listCommandGroupsInternal(categoryId) }
+
+    private fun listCommandGroupsInternal(categoryId: String? = null): List<CommandGroup> {
+        val query = if (categoryId != null) {
+            CommandGroupsTable.selectAll().where { CommandGroupsTable.categoryId eq categoryId }
+        } else {
+            CommandGroupsTable.selectAll()
+        }
+        return query.orderBy(CommandGroupsTable.sortOrder to SortOrder.ASC).map { it.toCommandGroup() }
+    }
+
+    override fun getCommandGroup(id: String): CommandGroup? = transaction(database) {
+        CommandGroupsTable.selectAll().where { CommandGroupsTable.id eq id }
+            .map { it.toCommandGroup() }.singleOrNull()
+    }
+
+    override fun createCommandGroup(group: CommandGroup) {
+        unitTx {
+            CommandGroupsTable.insert { it.fromCommandGroup(group) }
+        }
+    }
+
+    override fun updateCommandGroup(group: CommandGroup) {
+        unitTx {
+            CommandGroupsTable.update({ CommandGroupsTable.id eq group.id }) {
+                it.fromCommandGroup(group)
+            }
+        }
+    }
+
+    override fun deleteCommandGroup(id: String) {
+        unitTx { CommandGroupsTable.deleteWhere { CommandGroupsTable.id eq id } }
+    }
+
+    override fun reorderCommandGroups(orderedIds: List<String>) {
+        unitTx {
+            orderedIds.forEachIndexed { index, groupId ->
+                CommandGroupsTable.update({ CommandGroupsTable.id eq groupId }) {
+                    it[sortOrder] = index + 1
+                }
+            }
+        }
+    }
+
+    override fun bulkAssignCommandsToGroup(commandIds: List<String>, groupId: String?) {
+        unitTx {
+            val baseSort = if (groupId == null) {
+                0
+            } else {
+                CommandsTable.selectAll()
+                    .where { CommandsTable.groupId eq groupId }
+                    .maxOfOrNull { it[CommandsTable.sortOrder] ?: 0 } ?: 0
+            }
+            commandIds.forEachIndexed { index, commandId ->
+                CommandsTable.update({ CommandsTable.id eq commandId }) {
+                    it[CommandsTable.groupId] = groupId
+                    if (groupId != null) {
+                        it[CommandsTable.sortOrder] = baseSort + (index + 1) * 10
+                        it[CommandsTable.isPrimaryInGroup] = false
+                    }
+                    it[updatedAt] = OffsetDateTime.now(ZoneOffset.UTC)
+                }
+            }
+        }
+    }
+
     override fun listCommands(categoryId: String?): List<Command> =
         transaction(database) { listCommandsInternal(categoryId) }
 
@@ -174,7 +210,41 @@ class ExposedDraftRepository(private val database: Database) : DraftRepository {
         } else {
             CommandsTable.selectAll()
         }
-        return query.orderBy(CommandsTable.titleRu to SortOrder.ASC).map { row -> row.toCommand() }
+        return query.orderBy(
+            CommandsTable.groupId to SortOrder.ASC_NULLS_LAST,
+            CommandsTable.sortOrder to SortOrder.ASC_NULLS_LAST,
+            CommandsTable.titleRu to SortOrder.ASC,
+        ).map { row -> row.toCommand() }
+    }
+
+    private fun getCommandOfDaySettingsInternal(): CommandOfDaySettings? =
+        CommandOfDaySettingsTable.selectAll()
+            .where { CommandOfDaySettingsTable.id eq 1 }
+            .map { it.toCommandOfDaySettings() }
+            .singleOrNull()
+
+    private fun ensureCommandOfDaySettingsInternal() {
+        if (getCommandOfDaySettingsInternal() != null) return
+        val categories = listCategoriesInternal()
+        val commands = listCommandsInternal()
+        val categoryId = categories.firstOrNull { it.id == "music" }?.id
+            ?: categories.firstOrNull { it.featured }?.id
+            ?: categories.firstOrNull()?.id
+            ?: return
+        val pool = CommandOfDayResolver.buildPool(commands, categoryId)
+        if (pool.isEmpty()) return
+        val commandId = CommandOfDayResolver.resolveCommandId(pool, CommandOfDayResolver.todayMoscow())
+        val settings = CommandOfDaySettings(
+            mode = CommandOfDayValidationUseCase.MODE_AUTO,
+            command_id = commandId,
+            auto_category_id = categoryId,
+            auto_seed = CommandOfDayResolver.DEFAULT_SEED,
+            updated_at = Instant.now().toIsoString(),
+        )
+        CommandOfDaySettingsTable.insert {
+            it[id] = 1
+            it.fromCommandOfDaySettings(settings)
+        }
     }
 
     override fun getCommand(id: String): Command? = transaction(database) {
@@ -281,13 +351,38 @@ class ExposedDraftRepository(private val database: Database) : DraftRepository {
         unitTx { AffiliateBlocksTable.deleteWhere { AffiliateBlocksTable.id eq id } }
     }
 
+    override fun getCommandOfDaySettings(): CommandOfDaySettings? =
+        transaction(database) {
+            ensureCommandOfDaySettingsInternal()
+            getCommandOfDaySettingsInternal()
+        }
+
+    override fun upsertCommandOfDaySettings(settings: CommandOfDaySettings) {
+        unitTx {
+            val existing = getCommandOfDaySettingsInternal()
+            if (existing == null) {
+                CommandOfDaySettingsTable.insert {
+                    it[id] = 1
+                    it.fromCommandOfDaySettings(settings)
+                }
+            } else {
+                CommandOfDaySettingsTable.update({ CommandOfDaySettingsTable.id eq 1 }) {
+                    it.fromCommandOfDaySettings(settings)
+                }
+            }
+        }
+    }
+
     override fun replaceAll(bundle: ContentBundle) {
         unitTx {
+        CommandOfDaySettingsTable.deleteWhere { CommandOfDaySettingsTable.id eq 1 }
         ChecklistItemsTable.deleteAll()
         CommandsTable.deleteAll()
+        CommandGroupsTable.deleteAll()
         ScenarioTemplatesTable.deleteAll()
         CategoriesTable.deleteAll()
         bundle.categories.forEach { createCategoryInternal(it) }
+        bundle.command_groups.forEach { createCommandGroupInternal(it) }
         bundle.commands.forEach { createCommandInternal(it) }
         bundle.scenario_templates.forEach { createScenarioTemplateInternal(it) }
         bundle.checklist_items.forEach { item ->
@@ -298,6 +393,7 @@ class ExposedDraftRepository(private val database: Database) : DraftRepository {
                 it[hintRu] = item.hint_ru
             }
         }
+        ensureCommandOfDaySettingsInternal()
         }
     }
 
@@ -306,6 +402,10 @@ class ExposedDraftRepository(private val database: Database) : DraftRepository {
         bundle.categories.forEach { cat ->
             if (getCategoryInternal(cat.id) == null) createCategoryInternal(cat)
             else updateCategoryInternal(cat)
+        }
+        bundle.command_groups.forEach { group ->
+            if (getCommandGroupInternal(group.id) == null) createCommandGroupInternal(group)
+            else updateCommandGroupInternal(group)
         }
         bundle.commands.forEach { cmd ->
             if (getCommandInternal(cmd.id) == null) createCommandInternal(cmd)
@@ -328,49 +428,32 @@ class ExposedDraftRepository(private val database: Database) : DraftRepository {
     }
 
     private fun createCategoryInternal(category: Category) {
-        CategoriesTable.insert {
-            it[id] = category.id
-            it[titleRu] = category.title_ru
-            it[titleKk] = category.title_kk
-            it[sortOrder] = category.sort_order
-            it[featured] = category.featured
-            it[iconKey] = category.icon_key
-            it[descriptionRu] = category.description_ru
-            it[sourceUrl] = category.source_url
-            it[deviceTypes] = category.device_types
-            it[updatedAt] = OffsetDateTime.now(ZoneOffset.UTC)
-        }
+        CategoriesTable.insert { it.fromCategory(category) }
     }
 
     private fun updateCategoryInternal(category: Category) {
         CategoriesTable.update({ CategoriesTable.id eq category.id }) {
-            it[titleRu] = category.title_ru
-            it[titleKk] = category.title_kk
-            it[sortOrder] = category.sort_order
-            it[featured] = category.featured
-            it[iconKey] = category.icon_key
-            it[descriptionRu] = category.description_ru
-            it[sourceUrl] = category.source_url
-            it[deviceTypes] = category.device_types
-            it[updatedAt] = OffsetDateTime.now(ZoneOffset.UTC)
+            it.fromCategory(category)
         }
     }
 
     private fun getCategoryInternal(id: String): Category? =
         CategoriesTable.selectAll().where { CategoriesTable.id eq id }
-            .map { row ->
-                Category(
-                    id = row[CategoriesTable.id],
-                    title_ru = row[CategoriesTable.titleRu],
-                    title_kk = row[CategoriesTable.titleKk],
-                    sort_order = row[CategoriesTable.sortOrder],
-                    featured = row[CategoriesTable.featured],
-                    icon_key = row[CategoriesTable.iconKey],
-                    description_ru = row[CategoriesTable.descriptionRu],
-                    source_url = row[CategoriesTable.sourceUrl],
-                    device_types = row[CategoriesTable.deviceTypes].toList(),
-                )
-            }.singleOrNull()
+            .map { it.toCategory() }.singleOrNull()
+
+    private fun getCommandGroupInternal(id: String): CommandGroup? =
+        CommandGroupsTable.selectAll().where { CommandGroupsTable.id eq id }
+            .map { it.toCommandGroup() }.singleOrNull()
+
+    private fun createCommandGroupInternal(group: CommandGroup) {
+        CommandGroupsTable.insert { it.fromCommandGroup(group) }
+    }
+
+    private fun updateCommandGroupInternal(group: CommandGroup) {
+        CommandGroupsTable.update({ CommandGroupsTable.id eq group.id }) {
+            it.fromCommandGroup(group)
+        }
+    }
 
     private fun createCommandInternal(command: Command) {
         CommandsTable.insert { it.fromCommand(command) }
@@ -502,6 +585,66 @@ class ExposedManifestRepository(private val database: Database) : ManifestReposi
     }
 }
 
+private fun org.jetbrains.exposed.sql.ResultRow.toCategory(): Category = Category(
+    id = this[CategoriesTable.id],
+    title_ru = this[CategoriesTable.titleRu],
+    title_kk = this[CategoriesTable.titleKk],
+    sort_order = this[CategoriesTable.sortOrder],
+    featured = this[CategoriesTable.featured],
+    icon_key = this[CategoriesTable.iconKey],
+    icon_url = this[CategoriesTable.iconUrl],
+    accent_color = this[CategoriesTable.accentColor],
+    accent_color_dark = this[CategoriesTable.accentColorDark],
+    description_ru = this[CategoriesTable.descriptionRu],
+    source_url = this[CategoriesTable.sourceUrl],
+    device_types = this[CategoriesTable.deviceTypes].toList(),
+)
+
+private fun org.jetbrains.exposed.sql.statements.UpdateBuilder<*>.fromCategory(category: Category) {
+    this[CategoriesTable.id] = category.id
+    this[CategoriesTable.titleRu] = category.title_ru
+    this[CategoriesTable.titleKk] = category.title_kk
+    this[CategoriesTable.sortOrder] = category.sort_order
+    this[CategoriesTable.featured] = category.featured
+    this[CategoriesTable.iconKey] = category.icon_key
+    this[CategoriesTable.iconUrl] = category.icon_url
+    this[CategoriesTable.accentColor] = category.accent_color
+    this[CategoriesTable.accentColorDark] = category.accent_color_dark
+    this[CategoriesTable.descriptionRu] = category.description_ru
+    this[CategoriesTable.sourceUrl] = category.source_url
+    this[CategoriesTable.deviceTypes] = category.device_types
+    this[CategoriesTable.updatedAt] = OffsetDateTime.now(ZoneOffset.UTC)
+}
+
+private fun org.jetbrains.exposed.sql.ResultRow.toCommandGroup(): CommandGroup = CommandGroup(
+    id = this[CommandGroupsTable.id],
+    category_id = this[CommandGroupsTable.categoryId],
+    title_ru = this[CommandGroupsTable.titleRu],
+    sort_order = this[CommandGroupsTable.sortOrder],
+    description_ru = this[CommandGroupsTable.descriptionRu],
+    icon_key = this[CommandGroupsTable.iconKey],
+    icon_url = this[CommandGroupsTable.iconUrl],
+    accent_color = this[CommandGroupsTable.accentColor],
+    accent_color_dark = this[CommandGroupsTable.accentColorDark],
+    featured = this[CommandGroupsTable.featured],
+    preview_command_ids = this[CommandGroupsTable.previewCommandIds].toList(),
+)
+
+private fun org.jetbrains.exposed.sql.statements.UpdateBuilder<*>.fromCommandGroup(group: CommandGroup) {
+    this[CommandGroupsTable.id] = group.id
+    this[CommandGroupsTable.categoryId] = group.category_id
+    this[CommandGroupsTable.titleRu] = group.title_ru
+    this[CommandGroupsTable.descriptionRu] = group.description_ru
+    this[CommandGroupsTable.sortOrder] = group.sort_order
+    this[CommandGroupsTable.iconKey] = group.icon_key
+    this[CommandGroupsTable.iconUrl] = group.icon_url
+    this[CommandGroupsTable.accentColor] = group.accent_color
+    this[CommandGroupsTable.accentColorDark] = group.accent_color_dark
+    this[CommandGroupsTable.featured] = group.featured
+    this[CommandGroupsTable.previewCommandIds] = group.preview_command_ids
+    this[CommandGroupsTable.updatedAt] = OffsetDateTime.now(ZoneOffset.UTC)
+}
+
 private fun org.jetbrains.exposed.sql.ResultRow.toCommand(): Command = Command(
     id = this[CommandsTable.id],
     category_id = this[CommandsTable.categoryId],
@@ -516,11 +659,21 @@ private fun org.jetbrains.exposed.sql.ResultRow.toCommand(): Command = Command(
     published_at = this[CommandsTable.publishedAt]?.toIsoString(),
     updated_at = this[CommandsTable.updatedAt].toIsoString(),
     tags = this[CommandsTable.tags].toList(),
+    group_id = this[CommandsTable.groupId],
+    sort_order = this[CommandsTable.sortOrder],
+    variant_label_ru = this[CommandsTable.variantLabelRu],
+    is_primary_in_group = this[CommandsTable.isPrimaryInGroup],
+    search_aliases = this[CommandsTable.searchAliases].toList(),
 )
 
 private fun org.jetbrains.exposed.sql.statements.UpdateBuilder<*>.fromCommand(command: Command) {
     this[CommandsTable.id] = command.id
     this[CommandsTable.categoryId] = command.category_id
+    this[CommandsTable.groupId] = command.group_id
+    this[CommandsTable.sortOrder] = command.sort_order
+    this[CommandsTable.variantLabelRu] = command.variant_label_ru
+    this[CommandsTable.isPrimaryInGroup] = command.is_primary_in_group
+    this[CommandsTable.searchAliases] = command.search_aliases
     this[CommandsTable.titleRu] = command.title_ru
     this[CommandsTable.phrases] = command.phrases
     this[CommandsTable.effectDescriptionRu] = command.effect_description_ru
@@ -573,6 +726,25 @@ private fun org.jetbrains.exposed.sql.statements.UpdateBuilder<*>.fromAffiliateB
     this[AffiliateBlocksTable.advertiserName] = block.advertiser_name
     this[AffiliateBlocksTable.products] = block.products
     this[AffiliateBlocksTable.updatedAt] = OffsetDateTime.now(ZoneOffset.UTC)
+}
+
+private fun org.jetbrains.exposed.sql.ResultRow.toCommandOfDaySettings(): CommandOfDaySettings =
+    CommandOfDaySettings(
+        mode = this[CommandOfDaySettingsTable.mode],
+        command_id = this[CommandOfDaySettingsTable.commandId],
+        auto_category_id = this[CommandOfDaySettingsTable.autoCategoryId],
+        auto_seed = this[CommandOfDaySettingsTable.autoSeed],
+        updated_at = this[CommandOfDaySettingsTable.updatedAt].toIsoString(),
+        updated_by = this[CommandOfDaySettingsTable.updatedBy],
+    )
+
+private fun org.jetbrains.exposed.sql.statements.UpdateBuilder<*>.fromCommandOfDaySettings(settings: CommandOfDaySettings) {
+    this[CommandOfDaySettingsTable.mode] = settings.mode
+    this[CommandOfDaySettingsTable.commandId] = settings.command_id
+    this[CommandOfDaySettingsTable.autoCategoryId] = settings.auto_category_id
+    this[CommandOfDaySettingsTable.autoSeed] = settings.auto_seed
+    this[CommandOfDaySettingsTable.updatedAt] = Instant.parse(settings.updated_at).atOffset(ZoneOffset.UTC)
+    this[CommandOfDaySettingsTable.updatedBy] = settings.updated_by
 }
 
 class ExposedSessionRepository(private val database: Database) :

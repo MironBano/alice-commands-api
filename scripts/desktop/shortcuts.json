@@ -1,0 +1,11 @@
+{
+  "folderName": "Alice Commands",
+  "shortcuts": [
+    { "name": "Alice 1 - Obnovit katalog", "target": "1-Obnovit-katalog.bat", "icon": "shell32.dll,167" },
+    { "name": "Alice 2 - Sobrat lokalno", "target": "2-Sobrat-lokalno.bat", "icon": "shell32.dll,165" },
+    { "name": "Alice 3 - Force fetch", "target": "3-Force-fetch.bat", "icon": "shell32.dll,13" },
+    { "name": "Alice 4 - Admin staging", "target": "4-Otkryt-admin.bat", "icon": "shell32.dll,14" },
+    { "name": "Alice 5 - Proverit staging", "target": "5-Proverit-staging.bat", "icon": "shell32.dll,220" },
+    { "name": "Alice 6 - Deploy backend", "target": "6-Deploy-staging.bat", "icon": "shell32.dll,21" }
+  ]
+}

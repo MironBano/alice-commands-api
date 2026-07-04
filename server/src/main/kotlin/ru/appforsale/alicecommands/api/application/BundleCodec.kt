@@ -37,6 +37,6 @@ object BundleCodec {
     /** Fingerprint of catalog content ignoring publish metadata. */
     fun contentFingerprint(bundle: ContentBundle): String {
         val normalized = bundle.copy(content_version = 0, published_at = "")
-        return sha256(gzip(toJson(normalized)))
+        return sha256(toJson(normalized).toByteArray(Charsets.UTF_8))
     }
 }

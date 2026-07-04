@@ -1,0 +1,2932 @@
+[
+  {
+    "command_id": "music_anna_karenina",
+    "category_id": "music",
+    "phrase_example": "Алиса, анна Каренина",
+    "phrases": [
+      "Алиса, анна Каренина"
+    ],
+    "raw_result": "Требует вычитки",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/track",
+    "published": {
+      "title_ru": "Анна Каренина",
+      "effect_description_ru": "Найдёт и включит «Анна Каренина». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Анна Каренина",
+      "effect_description_ru": "Найдёт и включит «Анна Каренина». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_anna_karenina",
+      "title_ru": "Анна Каренина",
+      "effect_description_ru": "Найдёт и включит «Анна Каренина». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_avtoradio",
+    "category_id": "music",
+    "phrase_example": "Алиса, авторадио",
+    "phrases": [
+      "Алиса, авторадио"
+    ],
+    "raw_result": "Требует вычитки",
+    "source_url": "https://alice.yandex.ru/support/ru/station/radio",
+    "published": {
+      "title_ru": "Авторадио",
+      "effect_description_ru": "Запустит радиостанцию «Авторадио». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Авторадио",
+      "effect_description_ru": "Запустит радиостанцию «Авторадио». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_avtoradio",
+      "title_ru": "Авторадио",
+      "effect_description_ru": "Запустит радиостанцию «Авторадио». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_belarus",
+    "category_id": "music",
+    "phrase_example": "Алиса, беларусь",
+    "phrases": [
+      "Алиса, беларусь"
+    ],
+    "raw_result": "Метка стоит у международных станций, которые вещают повсеместно. Метка стоит у станций, которые работают только в Беларуси.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/radio",
+    "published": {
+      "title_ru": "Беларусь",
+      "effect_description_ru": "Запустит радиостанцию с меткой «Беларусь». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Беларусь",
+      "effect_description_ru": "Запустит радиостанцию с меткой «Беларусь». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_belarus",
+      "title_ru": "Беларусь",
+      "effect_description_ru": "Запустит радиостанцию с меткой «Беларусь». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_belye_rozy",
+    "category_id": "music",
+    "phrase_example": "Алиса, белые розы",
+    "phrases": [
+      "Алиса, белые розы"
+    ],
+    "raw_result": "Включи песню на повторе.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/track",
+    "published": {
+      "title_ru": "Белые розы",
+      "effect_description_ru": "Включи песню на повторе. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Белые розы",
+      "effect_description_ru": "Включи песню на повторе. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_belye_rozy",
+      "title_ru": "Белые розы",
+      "effect_description_ru": "Включи песню на повторе. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_chto_seichas_igraet",
+    "category_id": "music",
+    "phrase_example": "Алиса, что сейчас играет?",
+    "phrases": [
+      "Алиса, что сейчас играет?",
+      "Алиса, какая песня?"
+    ],
+    "raw_result": "Назовёт текущий трек.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Что сейчас играет?",
+      "effect_description_ru": "Назовёт текущий трек или передачу. Нужно: устройство с Алисой; идёт воспроизведение."
+    },
+    "draft": {
+      "title_ru": "Что сейчас играет?",
+      "effect_description_ru": "Назовёт текущий трек или передачу. Нужно: устройство с Алисой; идёт воспроизведение."
+    },
+    "edit": {
+      "command_id": "music_chto_seichas_igraet",
+      "title_ru": "Что сейчас играет?",
+      "effect_description_ru": "Назовёт текущий трек или передачу. Нужно: устройство с Алисой; идёт воспроизведение.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_davai_poslushaem_business_fm",
+    "category_id": "music",
+    "phrase_example": "Алиса, давай послушаем Business FM",
+    "phrases": [
+      "Алиса, давай послушаем Business FM"
+    ],
+    "raw_result": "Давай послушаем Business FM.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/radio",
+    "published": {
+      "title_ru": "Давай послушаем Business FM",
+      "effect_description_ru": "Давай послушаем Business FM. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Давай послушаем Business FM",
+      "effect_description_ru": "Давай послушаем Business FM. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_davai_poslushaem_business_fm",
+      "title_ru": "Давай послушаем Business FM",
+      "effect_description_ru": "Давай послушаем Business FM. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_davai_poslushaem_diskoteku_80_kh",
+    "category_id": "music",
+    "phrase_example": "Алиса, давай послушаем дискотеку 80-х",
+    "phrases": [
+      "Алиса, давай послушаем дискотеку 80-х"
+    ],
+    "raw_result": "Давай послушаем дискотеку 80-х.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/track",
+    "published": {
+      "title_ru": "Давай послушаем дискотеку 80-х",
+      "effect_description_ru": "Давай послушаем дискотеку 80-х. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Давай послушаем дискотеку 80-х",
+      "effect_description_ru": "Давай послушаем дискотеку 80-х. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_davai_poslushaem_diskoteku_80_kh",
+      "title_ru": "Давай послушаем дискотеку 80-х",
+      "effect_description_ru": "Давай послушаем дискотеку 80-х. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_davai_poslushaem_russkuiu_muzyku",
+    "category_id": "music",
+    "phrase_example": "Алиса, давай послушаем русскую музыку",
+    "phrases": [
+      "Алиса, давай послушаем русскую музыку",
+      "Алиса, поставь кельтскую музыку",
+      "Алиса, запусти восточную музыку"
+    ],
+    "raw_result": "Народная или региональная музыка",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/recommended",
+    "published": {
+      "title_ru": "Давай послушаем русскую музыку",
+      "effect_description_ru": "Народная или региональная музыка. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Давай послушаем русскую музыку",
+      "effect_description_ru": "Народная или региональная музыка. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_davai_poslushaem_russkuiu_muzyku",
+      "title_ru": "Давай послушаем русскую музыку",
+      "effect_description_ru": "Народная или региональная музыка. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_dezhaviu",
+    "category_id": "music",
+    "phrase_example": "Алиса, дежавю",
+    "phrases": [
+      "Алиса, дежавю"
+    ],
+    "raw_result": "Личный плейлист (в том числе автоматически формируемые персональные плейлисты — , , , ).",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/your-playlist",
+    "published": {
+      "title_ru": "Дежавю",
+      "effect_description_ru": "Включит персональную подборку «Дежavu». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Дежавю",
+      "effect_description_ru": "Включит персональную подборку «Дежavu». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_dezhaviu",
+      "title_ru": "Дежавю",
+      "effect_description_ru": "Включит персональную подборку «Дежavu». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_didzhei",
+    "category_id": "music",
+    "phrase_example": "Алиса, диджей",
+    "phrases": [
+      "Алиса, диджей"
+    ],
+    "raw_result": "Требует вычитки",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/recognize-track",
+    "published": {
+      "title_ru": "Диджей",
+      "effect_description_ru": "Включит DJ-микс или подборку диджея. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Диджей",
+      "effect_description_ru": "Включит DJ-микс или подборку диджея. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_didzhei",
+      "title_ru": "Диджей",
+      "effect_description_ru": "Включит DJ-микс или подборку диджея. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_dizlaik",
+    "category_id": "music",
+    "phrase_example": "Алиса, дизлайк",
+    "phrases": [
+      "Алиса, дизлайк"
+    ],
+    "raw_result": "Команды и распознаются без обращения к Алисе. Подробнее о быстрых командах.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/your-playlist",
+    "published": {
+      "title_ru": "Дизлайк",
+      "effect_description_ru": "Поставит дизлайк и пропустит текущий трек. Нужно: устройство с Алисой; идёт воспроизведение."
+    },
+    "draft": {
+      "title_ru": "Дизлайк",
+      "effect_description_ru": "Поставит дизлайк и пропустит текущий трек. Нужно: устройство с Алисой; идёт воспроизведение."
+    },
+    "edit": {
+      "command_id": "music_dizlaik",
+      "title_ru": "Дизлайк",
+      "effect_description_ru": "Поставит дизлайк и пропустит текущий трек. Нужно: устройство с Алисой; идёт воспроизведение.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_gruppa_krovi",
+    "category_id": "music",
+    "phrase_example": "Алиса, группа крови",
+    "phrases": [
+      "Алиса, группа крови"
+    ],
+    "raw_result": "Требует вычитки",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/track",
+    "published": {
+      "title_ru": "Группа крови",
+      "effect_description_ru": "Найдёт и включит «Группа крови». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Группа крови",
+      "effect_description_ru": "Найдёт и включит «Группа крови». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_gruppa_krovi",
+      "title_ru": "Группа крови",
+      "effect_description_ru": "Найдёт и включит «Группа крови». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_kakoe_radio_u_tebia_est",
+    "category_id": "music",
+    "phrase_example": "Алиса, какое радио у тебя есть?",
+    "phrases": [
+      "Алиса, какое радио у тебя есть?",
+      "Алиса, какие радиостанции у тебя есть?",
+      "Алиса, а еще?"
+    ],
+    "raw_result": "Выбрать, что послушать",
+    "source_url": "https://alice.yandex.ru/support/ru/station/radio",
+    "published": {
+      "title_ru": "Какое радио у тебя есть?",
+      "effect_description_ru": "Сообщит, какое радио сейчас играет. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Какое радио у тебя есть?",
+      "effect_description_ru": "Сообщит, какое радио сейчас играет. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_kakoe_radio_u_tebia_est",
+      "title_ru": "Какое радио у тебя есть?",
+      "effect_description_ru": "Сообщит, какое радио сейчас играет. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_kakoe_radio_u_tebia_est_kakie_radiostant",
+    "category_id": "music",
+    "phrase_example": "Алиса, какое радио у тебя есть? / Какие радиостанции у тебя есть? / А еще?",
+    "phrases": [
+      "Алиса, какое радио у тебя есть? / Какие радиостанции у тебя есть? / А еще?"
+    ],
+    "raw_result": "Требует вычитки",
+    "source_url": "https://alice.yandex.ru/support/ru/station/radio",
+    "published": {
+      "title_ru": "Какие радиостанции есть?",
+      "effect_description_ru": "Сообщит текущее радио или список станций. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Какие радиостанции есть?",
+      "effect_description_ru": "Сообщит текущее радио или список станций. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_kakoe_radio_u_tebia_est_kakie_radiostant",
+      "title_ru": "Какие радиостанции есть?",
+      "effect_description_ru": "Сообщит текущее радио или список станций. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_kakoi_trek_igraet",
+    "category_id": "music",
+    "phrase_example": "Алиса, какой трек играет?",
+    "phrases": [
+      "Алиса, какой трек играет?",
+      "Алиса, что играет?"
+    ],
+    "raw_result": "Узнать, что играет См. также Анонсировать треки (режим DJ)",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/recognize-track",
+    "published": {
+      "title_ru": "Какой трек играет?",
+      "effect_description_ru": "Узнать, что играет См. также Анонсировать треки (режим DJ). Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Какой трек играет?",
+      "effect_description_ru": "Узнать, что играет См. также Анонсировать треки (режим DJ). Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_kakoi_trek_igraet",
+      "title_ru": "Какой трек играет?",
+      "effect_description_ru": "Узнать, что играет См. также Анонсировать треки (режим DJ). Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_karaoke",
+    "category_id": "music",
+    "phrase_example": "Алиса, караоке",
+    "phrases": [
+      "Алиса, караоке"
+    ],
+    "raw_result": "Алиса выполнит: вопросы о караоке.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/karaoke",
+    "published": {
+      "title_ru": "Караоке",
+      "effect_description_ru": "Запустит режим караоке. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Караоке",
+      "effect_description_ru": "Запустит режим караоке. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_karaoke",
+      "title_ru": "Караоке",
+      "effect_description_ru": "Запустит режим караоке. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_khimeru",
+    "category_id": "music",
+    "phrase_example": "Алиса, химеру",
+    "phrases": [
+      "Алиса, химеру"
+    ],
+    "raw_result": "Требует вычитки",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/track",
+    "published": {
+      "title_ru": "Химеру",
+      "effect_description_ru": "Найдёт и включит «Химеру». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Химеру",
+      "effect_description_ru": "Найдёт и включит «Химеру». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_khimeru",
+      "title_ru": "Химеру",
+      "effect_description_ru": "Найдёт и включит «Химеру». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_khoroshee_nastroenie",
+    "category_id": "music",
+    "phrase_example": "Алиса, хорошее настроение",
+    "phrases": [
+      "Алиса, хорошее настроение"
+    ],
+    "raw_result": "Врубай плейлист вперемешку.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/audio-settings",
+    "published": {
+      "title_ru": "Хорошее настроение",
+      "effect_description_ru": "Врубай плейлист вперемешку. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Хорошее настроение",
+      "effect_description_ru": "Врубай плейлист вперемешку. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_khoroshee_nastroenie",
+      "title_ru": "Хорошее настроение",
+      "effect_description_ru": "Врубай плейлист вперемешку. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_luchshie_kompozitsii",
+    "category_id": "music",
+    "phrase_example": "Алиса, лучшие композиции",
+    "phrases": [
+      "Алиса, лучшие композиции"
+    ],
+    "raw_result": "Поставь плейлист вперемешку.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/audio-settings",
+    "published": {
+      "title_ru": "Лучшие композиции",
+      "effect_description_ru": "Поставь плейлист вперемешку. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Лучшие композиции",
+      "effect_description_ru": "Поставь плейлист вперемешку. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_luchshie_kompozitsii",
+      "title_ru": "Лучшие композиции",
+      "effect_description_ru": "Поставь плейлист вперемешку. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_mne_ne_nravitsia_eta_pesnia",
+    "category_id": "music",
+    "phrase_example": "Алиса, мне не нравится эта песня",
+    "phrases": [
+      "Алиса, мне не нравится эта песня"
+    ],
+    "raw_result": "Пропустит и учтёт предпочтения.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Мне не нравится эта песня",
+      "effect_description_ru": "Пропустит трек и учтёт ваши предпочтения. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Мне не нравится эта песня",
+      "effect_description_ru": "Пропустит трек и учтёт ваши предпочтения. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_mne_ne_nravitsia_eta_pesnia",
+      "title_ru": "Мне не нравится эта песня",
+      "effect_description_ru": "Пропустит трек и учтёт ваши предпочтения. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_mne_nravitsia",
+    "category_id": "music",
+    "phrase_example": "Алиса, мне нравится",
+    "phrases": [
+      "Алиса, мне нравится"
+    ],
+    "raw_result": "Требует вычитки",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/track",
+    "published": {
+      "title_ru": "Мне нравится",
+      "effect_description_ru": "Найдёт и включит «Мне нравится». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Мне нравится",
+      "effect_description_ru": "Найдёт и включит «Мне нравится». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_mne_nravitsia",
+      "title_ru": "Мне нравится",
+      "effect_description_ru": "Найдёт и включит «Мне нравится». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_mne_nravitsia_eta_pesnia",
+    "category_id": "music",
+    "phrase_example": "Алиса, мне нравится эта песня",
+    "phrases": [
+      "Алиса, мне нравится эта песня"
+    ],
+    "raw_result": "Добавит трек в избранное (Яндекс Музыка).",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Мне нравится эта песня",
+      "effect_description_ru": "Добавит трек в избранное (Яндекс Музыка). Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Мне нравится эта песня",
+      "effect_description_ru": "Добавит трек в избранное (Яндекс Музыка). Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_mne_nravitsia_eta_pesnia",
+      "title_ru": "Мне нравится эта песня",
+      "effect_description_ru": "Добавит трек в избранное (Яндекс Музыка). Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_moe_serdtse",
+    "category_id": "music",
+    "phrase_example": "Алиса, мое сердце",
+    "phrases": [
+      "Алиса, мое сердце"
+    ],
+    "raw_result": "Поставь трек на повторе.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/track",
+    "published": {
+      "title_ru": "Мое сердце",
+      "effect_description_ru": "Поставь трек на повторе. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Мое сердце",
+      "effect_description_ru": "Поставь трек на повторе. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_moe_serdtse",
+      "title_ru": "Мое сердце",
+      "effect_description_ru": "Поставь трек на повторе. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_moi_izbrannye_treki",
+    "category_id": "music",
+    "phrase_example": "Алиса, мои избранные треки",
+    "phrases": [
+      "Алиса, мои избранные треки"
+    ],
+    "raw_result": "Требует вычитки",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/your-playlist",
+    "published": {
+      "title_ru": "Мои избранные треки",
+      "effect_description_ru": "Откроет список избранных треков. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Мои избранные треки",
+      "effect_description_ru": "Откроет список избранных треков. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_moi_izbrannye_treki",
+      "title_ru": "Мои избранные треки",
+      "effect_description_ru": "Откроет список избранных треков. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_muzyka",
+    "category_id": "music",
+    "phrase_example": "Алиса, музыка",
+    "phrases": [
+      "Алиса, музыка"
+    ],
+    "raw_result": "Алиса выполнит: настроить шоу Алисы.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/alice-show",
+    "published": {
+      "title_ru": "Музыка",
+      "effect_description_ru": "Включит музыку по запросу. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Музыка",
+      "effect_description_ru": "Включит музыку по запросу. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_muzyka",
+      "title_ru": "Музыка",
+      "effect_description_ru": "Включит музыку по запросу. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_muzyku_gromche",
+    "category_id": "music",
+    "phrase_example": "Алиса, музыку громче",
+    "phrases": [
+      "Алиса, музыку громче",
+      "Алиса, музыку тише"
+    ],
+    "raw_result": "Регулирует громкость воспроизведения.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Музыку громче",
+      "effect_description_ru": "Увеличит громкость воспроизведения. Нужно: устройство с Алисой."
+    },
+    "draft": {
+      "title_ru": "Музыку громче",
+      "effect_description_ru": "Увеличит громкость воспроизведения. Нужно: устройство с Алисой."
+    },
+    "edit": {
+      "command_id": "music_muzyku_gromche",
+      "title_ru": "Музыку громче",
+      "effect_description_ru": "Увеличит громкость воспроизведения. Нужно: устройство с Алисой.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_na_10_sekund_vpered",
+    "category_id": "music",
+    "phrase_example": "Алиса, на 10 секунд вперед",
+    "phrases": [
+      "Алиса, на 10 секунд вперед",
+      "Алиса, на 20 секунд назад"
+    ],
+    "raw_result": "Перемотать",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/audio-settings",
+    "published": {
+      "title_ru": "На 10 секунд вперед",
+      "effect_description_ru": "Перемотать. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "На 10 секунд вперед",
+      "effect_description_ru": "Перемотать. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_na_10_sekund_vpered",
+      "title_ru": "На 10 секунд вперед",
+      "effect_description_ru": "Перемотать. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_nachni_snachala",
+    "category_id": "music",
+    "phrase_example": "Алиса, начни сначала",
+    "phrases": [
+      "Алиса, начни сначала"
+    ],
+    "raw_result": "Повторить трек",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/audio-settings",
+    "published": {
+      "title_ru": "Начни сначала",
+      "effect_description_ru": "Повторить трек. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Начни сначала",
+      "effect_description_ru": "Повторить трек. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_nachni_snachala",
+      "title_ru": "Начни сначала",
+      "effect_description_ru": "Повторить трек. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_ostanovi_muzyku_v_gostinoi",
+    "category_id": "music",
+    "phrase_example": "Алиса, останови музыку в гостиной",
+    "phrases": [
+      "Алиса, останови музыку в гостиной"
+    ],
+    "raw_result": "Выключит указанный режим.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/multiroom",
+    "published": {
+      "title_ru": "Останови музыку в гостиной",
+      "effect_description_ru": "Выключит указанный режим. Нужно: две и более колонки Яндекса в одном аккаунте."
+    },
+    "draft": {
+      "title_ru": "Останови музыку в гостиной",
+      "effect_description_ru": "Выключит указанный режим. Нужно: две и более колонки Яндекса в одном аккаунте."
+    },
+    "edit": {
+      "command_id": "music_ostanovi_muzyku_v_gostinoi",
+      "title_ru": "Останови музыку в гостиной",
+      "effect_description_ru": "Выключит указанный режим. Нужно: две и более колонки Яндекса в одном аккаунте.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_otkroi_spisok_moikh_trekov",
+    "category_id": "music",
+    "phrase_example": "Алиса, открой список моих треков",
+    "phrases": [
+      "Алиса, открой список моих треков",
+      "Алиса, открой плейлист «Мне нравится",
+      "Алиса, покажи исполнителя"
+    ],
+    "raw_result": "Посмотреть на экране Станции Дуо Макс список любимых треков и исполнителей",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/track",
+    "published": {
+      "title_ru": "Открой список моих треков",
+      "effect_description_ru": "Покажет список ваших треков на экране, если устройство это поддерживает. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Открой список моих треков",
+      "effect_description_ru": "Покажет список ваших треков на экране, если устройство это поддерживает. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_otkroi_spisok_moikh_trekov",
+      "title_ru": "Открой список моих треков",
+      "effect_description_ru": "Покажет список ваших треков на экране, если устройство это поддерживает. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_pleilist_dnia",
+    "category_id": "music",
+    "phrase_example": "Алиса, плейлист дня",
+    "phrases": [
+      "Алиса, плейлист дня"
+    ],
+    "raw_result": "Личный плейлист (в том числе автоматически формируемые персональные плейлисты — , , , ).",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/your-playlist",
+    "published": {
+      "title_ru": "Плейлист дня",
+      "effect_description_ru": "Включит персональный «Плейлист дня». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Плейлист дня",
+      "effect_description_ru": "Включит персональный «Плейлист дня». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_pleilist_dnia",
+      "title_ru": "Плейлист дня",
+      "effect_description_ru": "Включит персональный «Плейлист дня». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_pokazhi_tekst_pesni",
+    "category_id": "music",
+    "phrase_example": "Алиса, покажи текст песни",
+    "phrases": [
+      "Алиса, покажи текст песни",
+      "Алиса, покажи слова песни"
+    ],
+    "raw_result": "Показать текст песни на экране телевизора, подключенного к Станции Макс",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/audio-settings",
+    "published": {
+      "title_ru": "Покажи текст песни",
+      "effect_description_ru": "Покажет текст текущей песни на экране, если он доступен. Нужно: колонка с экраном или телевизор."
+    },
+    "draft": {
+      "title_ru": "Покажи текст песни",
+      "effect_description_ru": "Покажет текст текущей песни на экране, если он доступен. Нужно: колонка с экраном или телевизор."
+    },
+    "edit": {
+      "command_id": "music_pokazhi_tekst_pesni",
+      "title_ru": "Покажи текст песни",
+      "effect_description_ru": "Покажет текст текущей песни на экране, если он доступен. Нужно: колонка с экраном или телевизор.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_postav_albom_gruppa_krovi",
+    "category_id": "music",
+    "phrase_example": "Алиса, поставь альбом «Группа крови",
+    "phrases": [
+      "Алиса, поставь альбом «Группа крови",
+      "Алиса, давай послушаем «Химеру"
+    ],
+    "raw_result": "Альбом Треки играют по порядку. После завершения альбома включается музыка того же жанра и стиля, что и альбом. Вы можете перемешать треки в альбоме.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/track",
+    "published": {
+      "title_ru": "Поставь альбом «Группа крови»",
+      "effect_description_ru": "Запустит альбом «Группа крови» по порядку. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Поставь альбом «Группа крови»",
+      "effect_description_ru": "Запустит альбом «Группа крови» по порядку. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_postav_albom_gruppa_krovi",
+      "title_ru": "Поставь альбом «Группа крови»",
+      "effect_description_ru": "Запустит альбом «Группа крови» по порядку. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_postav_muzyku_dlia_trenirovki",
+    "category_id": "music",
+    "phrase_example": "Алиса, поставь музыку для тренировки",
+    "phrases": [
+      "Алиса, поставь музыку для тренировки",
+      "Алиса, давай послушаем фоновую музыку",
+      "Алиса, врубай музыку для вечеринки"
+    ],
+    "raw_result": "Музыка для занятия чем-либо",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/recommended",
+    "published": {
+      "title_ru": "Поставь музыку для тренировки",
+      "effect_description_ru": "Музыка для занятия чем-либо. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Поставь музыку для тренировки",
+      "effect_description_ru": "Музыка для занятия чем-либо. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_postav_muzyku_dlia_trenirovki",
+      "title_ru": "Поставь музыку для тренировки",
+      "effect_description_ru": "Музыка для занятия чем-либо. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_postav_muzyku_na_russkom_iazyke",
+    "category_id": "music",
+    "phrase_example": "Алиса, поставь музыку на русском языке",
+    "phrases": [
+      "Алиса, поставь музыку на русском языке",
+      "Алиса, давай послушаем музыку на английском языке"
+    ],
+    "raw_result": "Музыка на русском или английском языке",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/recommended",
+    "published": {
+      "title_ru": "Поставь музыку на русском языке",
+      "effect_description_ru": "Музыка на русском или английском языке. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Поставь музыку на русском языке",
+      "effect_description_ru": "Музыка на русском или английском языке. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_postav_muzyku_na_russkom_iazyke",
+      "title_ru": "Поставь музыку на русском языке",
+      "effect_description_ru": "Музыка на русском или английском языке. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_postav_na_pauzu",
+    "category_id": "music",
+    "phrase_example": "Алиса, поставь на паузу",
+    "phrases": [
+      "Алиса, поставь на паузу",
+      "Алиса, замолчи",
+      "Алиса, выключи",
+      "Алиса, выруби",
+      "Алиса, нажми стоп",
+      "Алиса, хватит",
+      "Алиса, закончи"
+    ],
+    "raw_result": "Остановить / поставить на паузу",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/audio-settings",
+    "published": {
+      "title_ru": "Поставь на паузу",
+      "effect_description_ru": "Остановить / поставить на паузу. Нужно: устройство с Алисой; идёт воспроизведение."
+    },
+    "draft": {
+      "title_ru": "Поставь на паузу",
+      "effect_description_ru": "Остановить / поставить на паузу. Нужно: устройство с Алисой; идёт воспроизведение."
+    },
+    "edit": {
+      "command_id": "music_postav_na_pauzu",
+      "title_ru": "Поставь на паузу",
+      "effect_description_ru": "Остановить / поставить на паузу. Нужно: устройство с Алисой; идёт воспроизведение.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_postav_na_pauzu_stop_zamolchi_vykliuchi",
+    "category_id": "music",
+    "phrase_example": "Алиса, поставь на паузу / стоп / замолчи / выключи / выруби / нажми стоп / хватит / закончи",
+    "phrases": [
+      "Алиса, поставь на паузу / стоп / замолчи / выключи / выруби / нажми стоп / хватит / закончи"
+    ],
+    "raw_result": "Поставь на паузу / стоп / замолчи / выключи / выруби / нажми стоп / хватит / закончи.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/audio-settings",
+    "published": {
+      "title_ru": "Поставь на паузу",
+      "effect_description_ru": "Поставит воспроизведение на паузу или остановит его. Нужно: устройство с Алисой; идёт воспроизведение."
+    },
+    "draft": {
+      "title_ru": "Поставь на паузу",
+      "effect_description_ru": "Поставит воспроизведение на паузу или остановит его. Нужно: устройство с Алисой; идёт воспроизведение."
+    },
+    "edit": {
+      "command_id": "music_postav_na_pauzu_stop_zamolchi_vykliuchi",
+      "title_ru": "Поставь на паузу",
+      "effect_description_ru": "Поставит воспроизведение на паузу или остановит его. Нужно: устройство с Алисой; идёт воспроизведение.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_predydushchii_trek",
+    "category_id": "music",
+    "phrase_example": "Алиса, предыдущий трек",
+    "phrases": [
+      "Алиса, предыдущий трек",
+      "Алиса, назад"
+    ],
+    "raw_result": "Вернёт предыдущую композицию.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/audio-settings",
+    "published": {
+      "title_ru": "Предыдущий трек",
+      "effect_description_ru": "Переключит на предыдущую композицию. Нужно: устройство с Алисой; идёт воспроизведение."
+    },
+    "draft": {
+      "title_ru": "Предыдущий трек",
+      "effect_description_ru": "Переключит на предыдущую композицию. Нужно: устройство с Алисой; идёт воспроизведение."
+    },
+    "edit": {
+      "command_id": "music_predydushchii_trek",
+      "title_ru": "Предыдущий трек",
+      "effect_description_ru": "Переключит на предыдущую композицию. Нужно: устройство с Алисой; идёт воспроизведение.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_premera",
+    "category_id": "music",
+    "phrase_example": "Алиса, премьера",
+    "phrases": [
+      "Алиса, премьера"
+    ],
+    "raw_result": "Личный плейлист (в том числе автоматически формируемые персональные плейлисты — , , , ).",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/your-playlist",
+    "published": {
+      "title_ru": "Премьера",
+      "effect_description_ru": "Включит новинки и премьеры. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Премьера",
+      "effect_description_ru": "Включит новинки и премьеры. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_premera",
+      "title_ru": "Премьера",
+      "effect_description_ru": "Включит новинки и премьеры. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_prodolzhai_igrat",
+    "category_id": "music",
+    "phrase_example": "Алиса, продолжай играть",
+    "phrases": [
+      "Алиса, продолжай играть",
+      "Алиса, снова запусти",
+      "Алиса, возобнови",
+      "Алиса, верни музыку"
+    ],
+    "raw_result": "Продолжить воспроизведение",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/audio-settings",
+    "published": {
+      "title_ru": "Продолжай играть",
+      "effect_description_ru": "Продолжить воспроизведение. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Продолжай играть",
+      "effect_description_ru": "Продолжить воспроизведение. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_prodolzhai_igrat",
+      "title_ru": "Продолжай играть",
+      "effect_description_ru": "Продолжить воспроизведение. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_prodolzhi",
+    "category_id": "music",
+    "phrase_example": "Алиса, продолжи",
+    "phrases": [
+      "Алиса, продолжи"
+    ],
+    "raw_result": "Продолжить воспроизведение музыки, которую вы слушали ранее",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/track",
+    "published": {
+      "title_ru": "Продолжи",
+      "effect_description_ru": "Продолжить воспроизведение музыки, которую вы слушали ранее. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Продолжи",
+      "effect_description_ru": "Продолжить воспроизведение музыки, которую вы слушали ранее. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_prodolzhi",
+      "title_ru": "Продолжи",
+      "effect_description_ru": "Продолжить воспроизведение музыки, которую вы слушали ранее. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_prodolzhi_knigu_volshebnik_izumrudnogo_g",
+    "category_id": "music",
+    "phrase_example": "Алиса, продолжи книгу «Волшебник Изумрудного города",
+    "phrases": [
+      "Алиса, продолжи книгу «Волшебник Изумрудного города",
+      "Алиса, включи аудиокнигу «Анна Каренина"
+    ],
+    "raw_result": "Продолжить воспроизведение аудиокниги с момента, на котором вы остановились",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/track",
+    "published": {
+      "title_ru": "Продолжи «Волшебник Изумрудного города»",
+      "effect_description_ru": "Продолжит аудиокнигу «Волшебник Изумрудного города» с места остановки. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Продолжи «Волшебник Изумрудного города»",
+      "effect_description_ru": "Продолжит аудиокнигу «Волшебник Изумрудного города» с места остановки. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_prodolzhi_knigu_volshebnik_izumrudnogo_g",
+      "title_ru": "Продолжи «Волшебник Изумрудного города»",
+      "effect_description_ru": "Продолжит аудиокнигу «Волшебник Изумрудного города» с места остановки. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_prodolzhi_muzyku_vezde",
+    "category_id": "music",
+    "phrase_example": "Алиса, продолжи музыку везде",
+    "phrases": [
+      "Алиса, продолжи музыку везде",
+      "Алиса, включи везде"
+    ],
+    "raw_result": "Включит указанный режим на колонках.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/audio-settings",
+    "published": {
+      "title_ru": "Продолжи музыку везде",
+      "effect_description_ru": "Включит указанный режим на колонках. Нужно: две и более колонки Яндекса в одном аккаунте."
+    },
+    "draft": {
+      "title_ru": "Продолжи музыку везде",
+      "effect_description_ru": "Включит указанный режим на колонках. Нужно: две и более колонки Яндекса в одном аккаунте."
+    },
+    "edit": {
+      "command_id": "music_prodolzhi_muzyku_vezde",
+      "title_ru": "Продолжи музыку везде",
+      "effect_description_ru": "Включит указанный режим на колонках. Нужно: две и более колонки Яндекса в одном аккаунте.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_radio_jazz",
+    "category_id": "music",
+    "phrase_example": "Алиса, радио JAZZ",
+    "phrases": [
+      "Алиса, радио JAZZ"
+    ],
+    "raw_result": "Требует вычитки",
+    "source_url": "https://alice.yandex.ru/support/ru/station/radio",
+    "published": {
+      "title_ru": "Радио JAZZ",
+      "effect_description_ru": "Запустит радиостанцию «Radio Jazz». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Радио JAZZ",
+      "effect_description_ru": "Запустит радиостанцию «Radio Jazz». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_radio_jazz",
+      "title_ru": "Радио JAZZ",
+      "effect_description_ru": "Запустит радиостанцию «Radio Jazz». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_radio_mfm",
+    "category_id": "music",
+    "phrase_example": "Алиса, радио MFM",
+    "phrases": [
+      "Алиса, радио MFM"
+    ],
+    "raw_result": "Требует вычитки",
+    "source_url": "https://alice.yandex.ru/support/ru/station/radio",
+    "published": {
+      "title_ru": "Радио MFM",
+      "effect_description_ru": "Запустит радиостанцию «Radio MFM». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Радио MFM",
+      "effect_description_ru": "Запустит радиостанцию «Radio MFM». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_radio_mfm",
+      "title_ru": "Радио MFM",
+      "effect_description_ru": "Запустит радиостанцию «Radio MFM». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_radio_ns",
+    "category_id": "music",
+    "phrase_example": "Алиса, радио NS",
+    "phrases": [
+      "Алиса, радио NS"
+    ],
+    "raw_result": "Требует вычитки",
+    "source_url": "https://alice.yandex.ru/support/ru/station/radio",
+    "published": {
+      "title_ru": "Радио NS",
+      "effect_description_ru": "Запустит радиостанцию «Radio NS». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Радио NS",
+      "effect_description_ru": "Запустит радиостанцию «Radio NS». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_radio_ns",
+      "title_ru": "Радио NS",
+      "effect_description_ru": "Запустит радиостанцию «Radio NS». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_romashki",
+    "category_id": "music",
+    "phrase_example": "Алиса, ромашки",
+    "phrases": [
+      "Алиса, ромашки"
+    ],
+    "raw_result": "Требует вычитки",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/track",
+    "published": {
+      "title_ru": "Ромашки",
+      "effect_description_ru": "Найдёт и включит «Ромашки». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Ромашки",
+      "effect_description_ru": "Найдёт и включит «Ромашки». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_romashki",
+      "title_ru": "Ромашки",
+      "effect_description_ru": "Найдёт и включит «Ромашки». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_sdelai_gromche",
+    "category_id": "music",
+    "phrase_example": "Алиса, сделай громче",
+    "phrases": [
+      "Алиса, сделай громче",
+      "Алиса, сделай тише",
+      "Алиса, громкость на семь",
+      "Алиса, вруби на всю",
+      "Алиса, громкость на семь (только при подключении Станции по HDMI)"
+    ],
+    "raw_result": "Изменить громкость",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/video-settings",
+    "published": {
+      "title_ru": "Сделай громче",
+      "effect_description_ru": "Изменить громкость. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Сделай громче",
+      "effect_description_ru": "Изменить громкость. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_sdelai_gromche",
+      "title_ru": "Сделай громче",
+      "effect_description_ru": "Изменить громкость. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_sdelai_gromche_v_detskoi",
+    "category_id": "music",
+    "phrase_example": "Алиса, сделай громче в детской",
+    "phrases": [
+      "Алиса, сделай громче в детской"
+    ],
+    "raw_result": "Изменит громкость колонки или музыки.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/multiroom",
+    "published": {
+      "title_ru": "Сделай громче в детской",
+      "effect_description_ru": "Изменит громкость колонки или музыки. Нужно: две и более колонки Яндекса в одном аккаунте."
+    },
+    "draft": {
+      "title_ru": "Сделай громче в детской",
+      "effect_description_ru": "Изменит громкость колонки или музыки. Нужно: две и более колонки Яндекса в одном аккаунте."
+    },
+    "edit": {
+      "command_id": "music_sdelai_gromche_v_detskoi",
+      "title_ru": "Сделай громче в детской",
+      "effect_description_ru": "Изменит громкость колонки или музыки. Нужно: две и более колонки Яндекса в одном аккаунте.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_shtil",
+    "category_id": "music",
+    "phrase_example": "Алиса, штиль",
+    "phrases": [
+      "Алиса, штиль"
+    ],
+    "raw_result": "Включи песню в караоке.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/audio-settings",
+    "published": {
+      "title_ru": "Штиль",
+      "effect_description_ru": "Включи песню в караоке. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Штиль",
+      "effect_description_ru": "Включи песню в караоке. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_shtil",
+      "title_ru": "Штиль",
+      "effect_description_ru": "Включи песню в караоке. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_sleduiushchaia",
+    "category_id": "music",
+    "phrase_example": "Алиса, следующая",
+    "phrases": [
+      "Алиса, следующая",
+      "Алиса, предыдущая станция"
+    ],
+    "raw_result": "Пролистать список радиостанций, ближайших по частоте",
+    "source_url": "https://alice.yandex.ru/support/ru/station/radio",
+    "published": {
+      "title_ru": "Следующая",
+      "effect_description_ru": "Переключит на следующую радиостанцию. Нужно: устройство с Алисой; идёт воспроизведение."
+    },
+    "draft": {
+      "title_ru": "Следующая",
+      "effect_description_ru": "Переключит на следующую радиостанцию. Нужно: устройство с Алисой; идёт воспроизведение."
+    },
+    "edit": {
+      "command_id": "music_sleduiushchaia",
+      "title_ru": "Следующая",
+      "effect_description_ru": "Переключит на следующую радиостанцию. Нужно: устройство с Алисой; идёт воспроизведение.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_sleduiushchii_trek",
+    "category_id": "music",
+    "phrase_example": "Алиса, следующий трек",
+    "phrases": [
+      "Алиса, следующий трек",
+      "Алиса, дальше"
+    ],
+    "raw_result": "Переключит на следующую композицию.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Следующий трек",
+      "effect_description_ru": "Переключит на следующую композицию. Нужно: устройство с Алисой; идёт воспроизведение."
+    },
+    "draft": {
+      "title_ru": "Следующий трек",
+      "effect_description_ru": "Переключит на следующую композицию. Нужно: устройство с Алисой; идёт воспроизведение."
+    },
+    "edit": {
+      "command_id": "music_sleduiushchii_trek",
+      "title_ru": "Следующий трек",
+      "effect_description_ru": "Переключит на следующую композицию. Нужно: устройство с Алисой; идёт воспроизведение.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_tainik",
+    "category_id": "music",
+    "phrase_example": "Алиса, тайник",
+    "phrases": [
+      "Алиса, тайник"
+    ],
+    "raw_result": "Личный плейлист (в том числе автоматически формируемые персональные плейлисты — , , , ).",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/your-playlist",
+    "published": {
+      "title_ru": "Тайник",
+      "effect_description_ru": "Откроет музыкальный «тайник» — случайную подборку. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Тайник",
+      "effect_description_ru": "Откроет музыкальный «тайник» — случайную подборку. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_tainik",
+      "title_ru": "Тайник",
+      "effect_description_ru": "Откроет музыкальный «тайник» — случайную подборку. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_tango",
+    "category_id": "music",
+    "phrase_example": "Алиса, танго",
+    "phrases": [
+      "Алиса, танго"
+    ],
+    "raw_result": "Требует вычитки",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/track",
+    "published": {
+      "title_ru": "Танго",
+      "effect_description_ru": "Найдёт и включит «Танго». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Танго",
+      "effect_description_ru": "Найдёт и включит «Танго». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_tango",
+      "title_ru": "Танго",
+      "effect_description_ru": "Найдёт и включит «Танго». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_test",
+    "category_id": "music",
+    "phrases": [],
+    "edit": {
+      "command_id": "music_test",
+      "title_ru": "Включи джаз",
+      "effect_description_ru": "Включит музыку в жанре джаз. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vechno_molodoi",
+    "category_id": "music",
+    "phrase_example": "Алиса, вечно молодой",
+    "phrases": [
+      "Алиса, вечно молодой"
+    ],
+    "raw_result": "Требует вычитки",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/track",
+    "published": {
+      "title_ru": "Вечно молодой",
+      "effect_description_ru": "Найдёт и включит «Вечно молодой». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Вечно молодой",
+      "effect_description_ru": "Найдёт и включит «Вечно молодой». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vechno_molodoi",
+      "title_ru": "Вечно молодой",
+      "effect_description_ru": "Найдёт и включит «Вечно молодой». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vernis",
+    "category_id": "music",
+    "phrase_example": "Алиса, вернись",
+    "phrases": [
+      "Алиса, вернись",
+      "Алиса, выйти"
+    ],
+    "raw_result": "Выйти из плеера",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/video-settings",
+    "published": {
+      "title_ru": "Вернись",
+      "effect_description_ru": "Выйти из плеера. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Вернись",
+      "effect_description_ru": "Выйти из плеера. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vernis",
+      "title_ru": "Вернись",
+      "effect_description_ru": "Выйти из плеера. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_ves_mir",
+    "category_id": "music",
+    "phrase_example": "Алиса, весь мир",
+    "phrases": [
+      "Алиса, весь мир"
+    ],
+    "raw_result": "Метка стоит у международных станций, которые вещают повсеместно. Метка стоит у станций, которые работают только в Беларуси.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/radio",
+    "published": {
+      "title_ru": "Весь мир",
+      "effect_description_ru": "Запустит международную радиостанцию (метка «Весь мир»). Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Весь мир",
+      "effect_description_ru": "Запустит международную радиостанцию (метка «Весь мир»). Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_ves_mir",
+      "title_ru": "Весь мир",
+      "effect_description_ru": "Запустит международную радиостанцию (метка «Весь мир»). Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vesnu_fm",
+    "category_id": "music",
+    "phrase_example": "Алиса, весну FM",
+    "phrases": [
+      "Алиса, весну FM"
+    ],
+    "raw_result": "Требует вычитки",
+    "source_url": "https://alice.yandex.ru/support/ru/station/radio",
+    "published": {
+      "title_ru": "Весну FM",
+      "effect_description_ru": "Запустит радиостанцию «Vesna FM». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Весну FM",
+      "effect_description_ru": "Запустит радиостанцию «Vesna FM». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vesnu_fm",
+      "title_ru": "Весну FM",
+      "effect_description_ru": "Запустит радиостанцию «Vesna FM». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи",
+    "phrases": [
+      "Алиса, включи",
+      "Алиса, запусти",
+      "Алиса, поставь",
+      "Алиса, давай послушаем радио",
+      "Алиса, запусти «Легко сказать",
+      "Алиса, давай тренировать звуки"
+    ],
+    "raw_result": "Любая доступная радиостанция",
+    "source_url": "https://alice.yandex.ru/support/ru/station/speech-trainer",
+    "published": {
+      "title_ru": "Включи",
+      "effect_description_ru": "Любая доступная радиостанция. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи",
+      "effect_description_ru": "Любая доступная радиостанция. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi",
+      "title_ru": "Включи",
+      "effect_description_ru": "Любая доступная радиостанция. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_audioknigu_diuna",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи аудиокнигу «Дюна",
+    "phrases": [
+      "Алиса, включи аудиокнигу «Дюна",
+      "Алиса, запусти книгу «Война и мир",
+      "Алиса, замедли",
+      "Алиса, ускорь в полтора раза",
+      "Алиса, поставь скорость 2",
+      "Алиса, какая скорость воспроизведения?"
+    ],
+    "raw_result": "Аудиокнига Главы аудиокниги воспроизводятся по порядку. Вы можете управлять скоростью воспроизведения. Подробнее о Яндекс Книгах .",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/track",
+    "published": {
+      "title_ru": "Включи аудиокнигу «Дюна»",
+      "effect_description_ru": "Найдёт и включит аудиокнигу «Дюна». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи аудиокнигу «Дюна»",
+      "effect_description_ru": "Найдёт и включит аудиокнигу «Дюна». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_audioknigu_diuna",
+      "title_ru": "Включи аудиокнигу «Дюна»",
+      "effect_description_ru": "Найдёт и включит аудиокнигу «Дюна». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_bi_2",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи Би-2",
+    "phrases": [
+      "Алиса, включи Би-2",
+      "Алиса, поставь Би-2"
+    ],
+    "raw_result": "Включит музыку исполнителя Би-2.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи Би-2",
+      "effect_description_ru": "Включит музыку группы «Би-2». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи Би-2",
+      "effect_description_ru": "Включит музыку группы «Би-2». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_bi_2",
+      "title_ru": "Включи Би-2",
+      "effect_description_ru": "Включит музыку группы «Би-2». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_bodroe_muzyku",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи бодрое музыку",
+    "phrases": [
+      "Алиса, включи бодрое музыку"
+    ],
+    "raw_result": "Подберёт бодрое музыку.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи бодрое музыку",
+      "effect_description_ru": "Подберёт и включит бодрую музыку. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи бодрое музыку",
+      "effect_description_ru": "Подберёт и включит бодрую музыку. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_bodroe_muzyku",
+      "title_ru": "Включи бодрое музыку",
+      "effect_description_ru": "Подберёт и включит бодрую музыку. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_chto_nibud_novenkoe",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи что-нибудь новенькое",
+    "phrases": [
+      "Алиса, включи что-нибудь новенькое"
+    ],
+    "raw_result": "Персональная подборка треков, которые вы раньше не слушали",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/recommended",
+    "published": {
+      "title_ru": "Включи что-нибудь новенькое",
+      "effect_description_ru": "Персональная подборка треков, которые вы раньше не слушали. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи что-нибудь новенькое",
+      "effect_description_ru": "Персональная подборка треков, которые вы раньше не слушали. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_chto_nibud_novenkoe",
+      "title_ru": "Включи что-нибудь новенькое",
+      "effect_description_ru": "Персональная подборка треков, которые вы раньше не слушали. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_druguiu_versiiu",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи другую версию",
+    "phrases": [
+      "Алиса, включи другую версию"
+    ],
+    "raw_result": "Включить другую версию трека (ремикс, концертную запись, другого исполнителя)",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/track",
+    "published": {
+      "title_ru": "Включи другую версию",
+      "effect_description_ru": "Включить другую версию трека (ремикс, концертную запись, другого исполнителя). Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи другую версию",
+      "effect_description_ru": "Включить другую версию трека (ремикс, концертную запись, другого исполнителя). Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_druguiu_versiiu",
+      "title_ru": "Включи другую версию",
+      "effect_description_ru": "Включить другую версию трека (ремикс, концертную запись, другого исполнителя). Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_dzhaz",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи джаз",
+    "phrases": [
+      "Алиса, включи джаз",
+      "Алиса, включи рок"
+    ],
+    "raw_result": "Включит музыку выбранного жанра.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи джаз",
+      "effect_description_ru": "Включит музыку в жанре джаз. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи джаз",
+      "effect_description_ru": "Включит музыку в жанре джаз. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_dzhaz",
+      "title_ru": "Включи джаз",
+      "effect_description_ru": "Включит музыку в жанре джаз. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_elvisa_presli_vperemeshku",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи Элвиса Пресли вперемешку",
+    "phrases": [
+      "Алиса, включи Элвиса Пресли вперемешку",
+      "Алиса, запусти Metallica вперемешку",
+      "Алиса, врубай плейлист «Хорошее настроение» вперемешку",
+      "Алиса, поставь плейлист «Лучшие композиции» вперемешку",
+      "Алиса, давай послушаем альбом Thriller вперемешку"
+    ],
+    "raw_result": "Включить музыку исполнителя, альбом или плейлист вперемешку (перемешав порядок треков)",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/audio-settings",
+    "published": {
+      "title_ru": "Включи Элвиса Пресли вперемешку",
+      "effect_description_ru": "Включить музыку исполнителя, альбом или плейлист вперемешку (перемешав порядок треков). Нужно: устройство с Алисой; идёт воспроизведение."
+    },
+    "draft": {
+      "title_ru": "Включи Элвиса Пресли вперемешку",
+      "effect_description_ru": "Включить музыку исполнителя, альбом или плейлист вперемешку (перемешав порядок треков). Нужно: устройство с Алисой; идёт воспроизведение."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_elvisa_presli_vperemeshku",
+      "title_ru": "Включи Элвиса Пресли вперемешку",
+      "effect_description_ru": "Включить музыку исполнителя, альбом или плейлист вперемешку (перемешав порядок треков). Нужно: устройство с Алисой; идёт воспроизведение.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_energichnoe_muzyku",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи энергичное музыку",
+    "phrases": [
+      "Алиса, включи энергичное музыку"
+    ],
+    "raw_result": "Подберёт энергичное музыку.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи энергичное музыку",
+      "effect_description_ru": "Подберёт и включит энергичную музыку. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи энергичное музыку",
+      "effect_description_ru": "Подберёт и включит энергичную музыку. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_energichnoe_muzyku",
+      "title_ru": "Включи энергичное музыку",
+      "effect_description_ru": "Подберёт и включит энергичную музыку. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_grustnoe_muzyku",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи грустное музыку",
+    "phrases": [
+      "Алиса, включи грустное музыку"
+    ],
+    "raw_result": "Подберёт грустное музыку.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи грустное музыку",
+      "effect_description_ru": "Подберёт и включит грустную музыку. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи грустное музыку",
+      "effect_description_ru": "Подберёт и включит грустную музыку. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_grustnoe_muzyku",
+      "title_ru": "Включи грустное музыку",
+      "effect_description_ru": "Подберёт и включит грустную музыку. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_karaoke",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи караоке",
+    "phrases": [
+      "Алиса, включи караоке",
+      "Алиса, включи песню «Штиль» в караоке",
+      "Алиса, давай споем под караоке песню МакSим «Знаешь ли ты"
+    ],
+    "raw_result": "Включить режим караоке на экране телевизора, подключенного к Станции Макс",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/audio-settings",
+    "published": {
+      "title_ru": "Включи караоке",
+      "effect_description_ru": "Включить режим караоке на экране телевизора, подключенного к Станции Макс. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи караоке",
+      "effect_description_ru": "Включить режим караоке на экране телевизора, подключенного к Станции Макс. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_karaoke",
+      "title_ru": "Включи караоке",
+      "effect_description_ru": "Включить режим караоке на экране телевизора, подключенного к Станции Макс. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_klassiku_disko",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи классику диско",
+    "phrases": [
+      "Алиса, включи классику диско"
+    ],
+    "raw_result": "Включи классику диско.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/track",
+    "published": {
+      "title_ru": "Включи классику диско",
+      "effect_description_ru": "Включи классику диско. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи классику диско",
+      "effect_description_ru": "Включи классику диско. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_klassiku_disko",
+      "title_ru": "Включи классику диско",
+      "effect_description_ru": "Включи классику диско. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_leningrad",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи Ленинград",
+    "phrases": [
+      "Алиса, включи Ленинград",
+      "Алиса, поставь Ленинград"
+    ],
+    "raw_result": "Включит музыку исполнителя Ленинград.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи Ленинград",
+      "effect_description_ru": "Включит музыку группы «Ленинград». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи Ленинград",
+      "effect_description_ru": "Включит музыку группы «Ленинград». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_leningrad",
+      "title_ru": "Включи Ленинград",
+      "effect_description_ru": "Включит музыку группы «Ленинград». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_maikla_dzheksona",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи Майкла Джексона",
+    "phrases": [
+      "Алиса, включи Майкла Джексона",
+      "Алиса, запусти Наутилус Помпилиус"
+    ],
+    "raw_result": "Исполнитель или группа",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/track",
+    "published": {
+      "title_ru": "Включи Майкла Джексона",
+      "effect_description_ru": "Исполнитель или группа. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи Майкла Джексона",
+      "effect_description_ru": "Исполнитель или группа. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_maikla_dzheksona",
+      "title_ru": "Включи Майкла Джексона",
+      "effect_description_ru": "Исполнитель или группа. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_maksim",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи МакSим",
+    "phrases": [
+      "Алиса, включи МакSим",
+      "Алиса, поставь МакSим"
+    ],
+    "raw_result": "Включит музыку исполнителя МакSим.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи Максим",
+      "effect_description_ru": "Включит музыку исполнительницы Максим. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи Максим",
+      "effect_description_ru": "Включит музыку исполнительницы Максим. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_maksim",
+      "title_ru": "Включи Максим",
+      "effect_description_ru": "Включит музыку исполнительницы Максим. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_moiu_muzyku",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи мою музыку",
+    "phrases": [
+      "Алиса, включи мою музыку",
+      "Алиса, включи любимые треки"
+    ],
+    "raw_result": "Включит персональную подборку.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/your-playlist",
+    "published": {
+      "title_ru": "Включи мою музыку",
+      "effect_description_ru": "Включит вашу персональную подборку «Моя волна». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи мою музыку",
+      "effect_description_ru": "Включит вашу персональную подборку «Моя волна». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_moiu_muzyku",
+      "title_ru": "Включи мою музыку",
+      "effect_description_ru": "Включит вашу персональную подборку «Моя волна». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_mumii_troll",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи Мумий Тролль",
+    "phrases": [
+      "Алиса, включи Мумий Тролль",
+      "Алиса, поставь Мумий Тролль"
+    ],
+    "raw_result": "Включит музыку исполнителя Мумий Тролль.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи Мумий Тролль",
+      "effect_description_ru": "Включит музыку группы «Мумий Тролль». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи Мумий Тролль",
+      "effect_description_ru": "Включит музыку группы «Мумий Тролль». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_mumii_troll",
+      "title_ru": "Включи Мумий Тролль",
+      "effect_description_ru": "Включит музыку группы «Мумий Тролль». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_muzyku",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи музыку",
+    "phrases": [
+      "Алиса, включи музыку",
+      "Алиса, включи радио",
+      "Включи музыку"
+    ],
+    "raw_result": "Запустит музыку или радио по умолчанию.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/recommended",
+    "published": {
+      "title_ru": "Включи музыку",
+      "effect_description_ru": "Запустит музыку или радио по умолчанию. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи музыку",
+      "effect_description_ru": "Запустит музыку или радио по умолчанию. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_muzyku",
+      "title_ru": "Включи музыку",
+      "effect_description_ru": "Запустит музыку или радио по умолчанию. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_muzyku_s_muzhskim_vokalom",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи музыку с мужским вокалом",
+    "phrases": [
+      "Алиса, включи музыку с мужским вокалом",
+      "Алиса, запусти музыку с женским вокалом",
+      "Алиса, давай послушаем инструментальную музыку"
+    ],
+    "raw_result": "Музыка с мужским или женским вокалом либо инструментальная музыка",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/recommended",
+    "published": {
+      "title_ru": "Включи музыку с мужским вокалом",
+      "effect_description_ru": "Музыка с мужским или женским вокалом либо инструментальная музыка. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи музыку с мужским вокалом",
+      "effect_description_ru": "Музыка с мужским или женским вокалом либо инструментальная музыка. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_muzyku_s_muzhskim_vokalom",
+      "title_ru": "Включи музыку с мужским вокалом",
+      "effect_description_ru": "Музыка с мужским или женским вокалом либо инструментальная музыка. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_muzyku_vezde",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи музыку везде",
+    "phrases": [
+      "Алиса, включи музыку везде"
+    ],
+    "raw_result": "Включит указанный режим на колонках.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/multiroom",
+    "published": {
+      "title_ru": "Включи музыку везде",
+      "effect_description_ru": "Включит указанный режим на колонках. Нужно: две и более колонки Яндекса в одном аккаунте."
+    },
+    "draft": {
+      "title_ru": "Включи музыку везде",
+      "effect_description_ru": "Включит указанный режим на колонках. Нужно: две и более колонки Яндекса в одном аккаунте."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_muzyku_vezde",
+      "title_ru": "Включи музыку везде",
+      "effect_description_ru": "Включит указанный режим на колонках. Нужно: две и более колонки Яндекса в одном аккаунте.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_na_povtor",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи на повтор",
+    "phrases": [
+      "Алиса, включи на повтор",
+      "Алиса, повтори этот трек"
+    ],
+    "raw_result": "Включит повтор текущего трека.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи на повтор",
+      "effect_description_ru": "Включит повтор текущего трека. Нужно: устройство с Алисой; идёт воспроизведение."
+    },
+    "draft": {
+      "title_ru": "Включи на повтор",
+      "effect_description_ru": "Включит повтор текущего трека. Нужно: устройство с Алисой; идёт воспроизведение."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_na_povtor",
+      "title_ru": "Включи на повтор",
+      "effect_description_ru": "Включит повтор текущего трека. Нужно: устройство с Алисой; идёт воспроизведение.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_peremeshivanie",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи перемешивание",
+    "phrases": [
+      "Алиса, включи перемешивание"
+    ],
+    "raw_result": "Включит случайный порядок в плейлисте.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи перемешивание",
+      "effect_description_ru": "Включит случайный порядок треков в плейлисте. Нужно: устройство с Алисой; идёт воспроизведение."
+    },
+    "draft": {
+      "title_ru": "Включи перемешивание",
+      "effect_description_ru": "Включит случайный порядок треков в плейлисте. Нужно: устройство с Алисой; идёт воспроизведение."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_peremeshivanie",
+      "title_ru": "Включи перемешивание",
+      "effect_description_ru": "Включит случайный порядок треков в плейлисте. Нужно: устройство с Алисой; идёт воспроизведение.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_pesniu_belye_rozy_na_povtore",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи песню «Белые розы» на повторе",
+    "phrases": [
+      "Алиса, включи песню «Белые розы» на повторе",
+      "Алиса, поставь трек «Мое сердце» на повторе"
+    ],
+    "raw_result": "Трек на повторе",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/track",
+    "published": {
+      "title_ru": "Включи песню «Белые розы» на повторе",
+      "effect_description_ru": "Трек на повторе. Нужно: устройство с Алисой; идёт воспроизведение."
+    },
+    "draft": {
+      "title_ru": "Включи песню «Белые розы» на повторе",
+      "effect_description_ru": "Трек на повторе. Нужно: устройство с Алисой; идёт воспроизведение."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_pesniu_belye_rozy_na_povtore",
+      "title_ru": "Включи песню «Белые розы» на повторе",
+      "effect_description_ru": "Трек на повторе. Нужно: устройство с Алисой; идёт воспроизведение.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_pesniu_po_baram_na_povtore",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи песню По барам на повторе",
+    "phrases": [
+      "Алиса, включи песню По барам на повторе"
+    ],
+    "raw_result": "Зациклить трек",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/audio-settings",
+    "published": {
+      "title_ru": "Включи песню По барам на повторе",
+      "effect_description_ru": "Зациклить трек. Нужно: устройство с Алисой; идёт воспроизведение."
+    },
+    "draft": {
+      "title_ru": "Включи песню По барам на повторе",
+      "effect_description_ru": "Зациклить трек. Нужно: устройство с Алисой; идёт воспроизведение."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_pesniu_po_baram_na_povtore",
+      "title_ru": "Включи песню По барам на повторе",
+      "effect_description_ru": "Зациклить трек. Нужно: устройство с Алисой; идёт воспроизведение.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_pleilist_dlia_raboty",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи плейлист для работы",
+    "phrases": [
+      "Алиса, включи плейлист для работы"
+    ],
+    "raw_result": "Запустит плейлист по запросу.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи плейлист для работы",
+      "effect_description_ru": "Запустит плейлист для работы. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи плейлист для работы",
+      "effect_description_ru": "Запустит плейлист для работы. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_pleilist_dlia_raboty",
+      "title_ru": "Включи плейлист для работы",
+      "effect_description_ru": "Запустит плейлист для работы. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_podkast",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи подкаст",
+    "phrases": [
+      "Алиса, включи подкаст",
+      "Алиса, найди подкаст про технологии"
+    ],
+    "raw_result": "Найдёт и включит подкаст.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи подкаст",
+      "effect_description_ru": "Найдёт и включит подкаст по запросу. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи подкаст",
+      "effect_description_ru": "Найдёт и включит подкаст по запросу. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_podkast",
+      "title_ru": "Включи подкаст",
+      "effect_description_ru": "Найдёт и включит подкаст по запросу. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_radio_evropa_plius",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи радио Европа Плюс",
+    "phrases": [
+      "Алиса, включи радио Европа Плюс",
+      "Алиса, включи радио Маяк"
+    ],
+    "raw_result": "Запустит указанную радиостанцию.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи радио Европа Плюс",
+      "effect_description_ru": "Запустит радиостанцию «Европа Плюс». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи радио Европа Плюс",
+      "effect_description_ru": "Запустит радиостанцию «Европа Плюс». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_radio_evropa_plius",
+      "title_ru": "Включи радио Европа Плюс",
+      "effect_description_ru": "Запустит радиостанцию «Европа Плюс». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_radostnoe",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи радостное",
+    "phrases": [
+      "Алиса, включи радостное",
+      "Алиса, давай послушаем грустное",
+      "Алиса, поставь осеннее"
+    ],
+    "raw_result": "Музыка определенного настроения",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/recommended",
+    "published": {
+      "title_ru": "Включи радостное",
+      "effect_description_ru": "Музыка определенного настроения. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи радостное",
+      "effect_description_ru": "Музыка определенного настроения. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_radostnoe",
+      "title_ru": "Включи радостное",
+      "effect_description_ru": "Музыка определенного настроения. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_rezhim_didzhei",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи режим «Диджей",
+    "phrases": [
+      "Алиса, включи режим «Диджей"
+    ],
+    "raw_result": "Всегда анонсировать треки",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/recognize-track",
+    "published": {
+      "title_ru": "Включи режим «Диджей»",
+      "effect_description_ru": "Включит постоянный анонс треков. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи режим «Диджей»",
+      "effect_description_ru": "Включит постоянный анонс треков. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_rezhim_didzhei",
+      "title_ru": "Включи режим «Диджей»",
+      "effect_description_ru": "Включит постоянный анонс треков. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_romanticheskoe_muzyku",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи романтическое музыку",
+    "phrases": [
+      "Алиса, включи романтическое музыку"
+    ],
+    "raw_result": "Подберёт романтическое музыку.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи романтическое музыку",
+      "effect_description_ru": "Подберёт и включит романтическую музыку. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи романтическое музыку",
+      "effect_description_ru": "Подберёт и включит романтическую музыку. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_romanticheskoe_muzyku",
+      "title_ru": "Включи романтическое музыку",
+      "effect_description_ru": "Подберёт и включит романтическую музыку. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_russkuiu_pop_muzyku",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи русскую поп-музыку",
+    "phrases": [
+      "Алиса, включи русскую поп-музыку",
+      "Алиса, запусти диско Врубай индастриал"
+    ],
+    "raw_result": "Музыка определенного жанра",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/recommended",
+    "published": {
+      "title_ru": "Включи русскую поп-музыку",
+      "effect_description_ru": "Музыка определенного жанра. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи русскую поп-музыку",
+      "effect_description_ru": "Музыка определенного жанра. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_russkuiu_pop_muzyku",
+      "title_ru": "Включи русскую поп-музыку",
+      "effect_description_ru": "Музыка определенного жанра. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_saundtrek_iz_filma_interstellar",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи саундтрек из фильма Интерстellar",
+    "phrases": [
+      "Алиса, включи саундтрек из фильма Интерстellar"
+    ],
+    "raw_result": "Найдёт саундтрек по запросу.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Саундтрек из «Интерстеллар»",
+      "effect_description_ru": "Найдёт и включит саундтрек к фильму «Интерстеллар». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Саундтрек из «Интерстеллар»",
+      "effect_description_ru": "Найдёт и включит саундтрек к фильму «Интерстеллар». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_saundtrek_iz_filma_interstellar",
+      "title_ru": "Саундтрек из «Интерстеллар»",
+      "effect_description_ru": "Найдёт и включит саундтрек к фильму «Интерстеллар». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_shum_dozhdia",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи шум дождя",
+    "phrases": [
+      "Алиса, включи шум дождя",
+      "Алиса, поставь пение птиц",
+      "Алиса, давай послушаем шум океана"
+    ],
+    "raw_result": "Звуки природы",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/track",
+    "published": {
+      "title_ru": "Включи шум дождя",
+      "effect_description_ru": "Звуки природы. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи шум дождя",
+      "effect_description_ru": "Звуки природы. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_shum_dozhdia",
+      "title_ru": "Включи шум дождя",
+      "effect_description_ru": "Звуки природы. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_skazki_v_spalne",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи сказки в спальне",
+    "phrases": [
+      "Алиса, включи сказки в спальне"
+    ],
+    "raw_result": "Включит указанный режим на колонках.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/multiroom",
+    "published": {
+      "title_ru": "Включи сказки в спальне",
+      "effect_description_ru": "Включит указанный режим на колонках. Нужно: две и более колонки Яндекса в одном аккаунте."
+    },
+    "draft": {
+      "title_ru": "Включи сказки в спальне",
+      "effect_description_ru": "Включит указанный режим на колонках. Нужно: две и более колонки Яндекса в одном аккаунте."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_skazki_v_spalne",
+      "title_ru": "Включи сказки в спальне",
+      "effect_description_ru": "Включит указанный режим на колонках. Нужно: две и более колонки Яндекса в одном аккаунте.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_splin",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи Сплин",
+    "phrases": [
+      "Алиса, включи Сплин",
+      "Алиса, поставь Сплин"
+    ],
+    "raw_result": "Включит музыку исполнителя Сплин.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи Сплин",
+      "effect_description_ru": "Включит музыку группы «Сплин». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи Сплин",
+      "effect_description_ru": "Включит музыку группы «Сплин». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_splin",
+      "title_ru": "Включи Сплин",
+      "effect_description_ru": "Включит музыку группы «Сплин». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_spokoinoe_muzyku",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи спокойное музыку",
+    "phrases": [
+      "Алиса, включи спокойное музыку"
+    ],
+    "raw_result": "Подберёт спокойное музыку.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи спокойное музыку",
+      "effect_description_ru": "Подберёт и включит спокойную музыку. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи спокойное музыку",
+      "effect_description_ru": "Подберёт и включит спокойную музыку. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_spokoinoe_muzyku",
+      "title_ru": "Включи спокойное музыку",
+      "effect_description_ru": "Подберёт и включит спокойную музыку. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_trek_v_zhanre_dzhaz",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи трек в жанре джаз",
+    "phrases": [
+      "Алиса, включи трек в жанре джаз",
+      "Алиса, давай послушаем песню в жанре рок"
+    ],
+    "raw_result": "Трек определенного жанра После завершения трека включается музыка того же жанра и стиля, что и исходный трек.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/recommended",
+    "published": {
+      "title_ru": "Включи трек в жанре джаз",
+      "effect_description_ru": "Подберёт и включит музыку в жанре «Включи трек в жанре джаз». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи трек в жанре джаз",
+      "effect_description_ru": "Подберёт и включит музыку в жанре «Включи трек в жанре джаз». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_trek_v_zhanre_dzhaz",
+      "title_ru": "Включи трек в жанре джаз",
+      "effect_description_ru": "Подберёт и включит музыку в жанре «Включи трек в жанре джаз». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_veselyi_rok_dlia_trenirovki",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи веселый рок для тренировки",
+    "phrases": [
+      "Алиса, включи веселый рок для тренировки",
+      "Алиса, давай послушаем грустную восточную музыку",
+      "Алиса, поставь музыку 60-х на английском"
+    ],
+    "raw_result": "Сочетать жанры и стили музыки",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/recommended",
+    "published": {
+      "title_ru": "Включи веселый рок для тренировки",
+      "effect_description_ru": "Сочетать жанры и стили музыки. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи веселый рок для тренировки",
+      "effect_description_ru": "Сочетать жанры и стили музыки. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_veselyi_rok_dlia_trenirovki",
+      "title_ru": "Включи веселый рок для тренировки",
+      "effect_description_ru": "Сочетать жанры и стили музыки. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_vezde",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи везде",
+    "phrases": [
+      "Алиса, включи везде"
+    ],
+    "raw_result": "Включит указанный режим на колонках.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/multiroom",
+    "published": {
+      "title_ru": "Включи везде",
+      "effect_description_ru": "Включит указанный режим на колонках. Нужно: две и более колонки Яндекса в одном аккаунте."
+    },
+    "draft": {
+      "title_ru": "Включи везде",
+      "effect_description_ru": "Включит указанный режим на колонках. Нужно: две и более колонки Яндекса в одном аккаунте."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_vezde",
+      "title_ru": "Включи везде",
+      "effect_description_ru": "Включит указанный режим на колонках. Нужно: две и более колонки Яндекса в одном аккаунте.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_zapusti_postav_davai_poslushaem",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи / запусти / поставь / давай послушаем радио",
+    "phrases": [
+      "Алиса, включи / запусти / поставь / давай послушаем радио"
+    ],
+    "raw_result": "Включи / запусти / поставь / давай послушаем радио.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/radio",
+    "published": {
+      "title_ru": "Включи радио",
+      "effect_description_ru": "Включи / запусти / поставь / давай послушаем радио. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи радио",
+      "effect_description_ru": "Включи / запусти / поставь / давай послушаем радио. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_zapusti_postav_davai_poslushaem",
+      "title_ru": "Включи радио",
+      "effect_description_ru": "Включи / запусти / поставь / давай послушаем радио. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vkliuchi_zemfira",
+    "category_id": "music",
+    "phrase_example": "Алиса, включи Zemfira",
+    "phrases": [
+      "Алиса, включи Zemfira",
+      "Алиса, поставь Zemfira"
+    ],
+    "raw_result": "Включит музыку исполнителя Zemfira.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/",
+    "published": {
+      "title_ru": "Включи Zemfira",
+      "effect_description_ru": "Включит музыку исполнительницы Zemfira. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Включи Zemfira",
+      "effect_description_ru": "Включит музыку исполнительницы Zemfira. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vkliuchi_zemfira",
+      "title_ru": "Включи Zemfira",
+      "effect_description_ru": "Включит музыку исполнительницы Zemfira. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_voina_i_mir",
+    "category_id": "music",
+    "phrase_example": "Алиса, война и мир",
+    "phrases": [
+      "Алиса, война и мир"
+    ],
+    "raw_result": "Требует вычитки",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/track",
+    "published": {
+      "title_ru": "Война и мир",
+      "effect_description_ru": "Найдёт и включит «Война и мир». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Война и мир",
+      "effect_description_ru": "Найдёт и включит «Война и мир». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_voina_i_mir",
+      "title_ru": "Война и мир",
+      "effect_description_ru": "Найдёт и включит «Война и мир». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vrubai_novuiu_muzyku",
+    "category_id": "music",
+    "phrase_example": "Алиса, врубай новую музыку",
+    "phrases": [
+      "Алиса, врубай новую музыку",
+      "Алиса, включи музыкальные новинки"
+    ],
+    "raw_result": "Новая музыка Включается плейлист Громкие новинки месяца .",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/recommended",
+    "published": {
+      "title_ru": "Врубай новую музыку",
+      "effect_description_ru": "Новая музыка Включается плейлист Громкие новинки месяца. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Врубай новую музыку",
+      "effect_description_ru": "Новая музыка Включается плейлист Громкие новинки месяца. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vrubai_novuiu_muzyku",
+      "title_ru": "Врубай новую музыку",
+      "effect_description_ru": "Новая музыка Включается плейлист Громкие новинки месяца. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vykliuchi_karaoke",
+    "category_id": "music",
+    "phrase_example": "Алиса, выключи караоке",
+    "phrases": [
+      "Алиса, выключи караоке"
+    ],
+    "raw_result": "Алиса выполнит: вопросы о караоке.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/karaoke",
+    "published": {
+      "title_ru": "Выключи караоке",
+      "effect_description_ru": "Запустит караoke-версию «Выключи караоке». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Выключи караоке",
+      "effect_description_ru": "Запустит караoke-версию «Выключи караоке». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vykliuchi_karaoke",
+      "title_ru": "Выключи караоке",
+      "effect_description_ru": "Запустит караoke-версию «Выключи караоке». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_vykliuchis_cherez_15_minut",
+    "category_id": "music",
+    "phrase_example": "Алиса, выключись через 15 минут",
+    "phrases": [
+      "Алиса, выключись через 15 минут",
+      "Алиса, выключи музыку в полночь",
+      "Алиса, выключи Станцию через 2 часа"
+    ],
+    "raw_result": "Выключить музыку в определенное время",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/audio-settings",
+    "published": {
+      "title_ru": "Выключись через 15 минут",
+      "effect_description_ru": "Выключить музыку в определенное время. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Выключись через 15 минут",
+      "effect_description_ru": "Выключить музыку в определенное время. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_vykliuchis_cherez_15_minut",
+      "title_ru": "Выключись через 15 минут",
+      "effect_description_ru": "Выключить музыку в определенное время. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_zabud_moi_golos",
+    "category_id": "music",
+    "phrase_example": "Алиса, забудь мой голос",
+    "phrases": [
+      "Алиса, забудь мой голос"
+    ],
+    "raw_result": "Алиса выполнит: как удалить голос.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/settings/voice-profile",
+    "published": {
+      "title_ru": "Забудь мой голос",
+      "effect_description_ru": "Удалит привязку вашего голоса из голосового профиля. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Забудь мой голос",
+      "effect_description_ru": "Удалит привязку вашего голоса из голосового профиля. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_zabud_moi_golos",
+      "title_ru": "Забудь мой голос",
+      "effect_description_ru": "Удалит привязку вашего голоса из голосового профиля. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_zapusti_muzyku_v_spalne",
+    "category_id": "music",
+    "phrase_example": "Алиса, запусти музыку в спальне",
+    "phrases": [
+      "Алиса, запусти музыку в спальне",
+      "Алиса, включи «Битлз» везде"
+    ],
+    "raw_result": "Включить музыку в определенной комнате или во всем доме Подробнее о режиме «Играй везде»",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/track",
+    "published": {
+      "title_ru": "Запусти музыку в спальне",
+      "effect_description_ru": "Включить музыку в определенной комнате или во всем доме Подробнее о режиме «Играй везде». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Запусти музыку в спальне",
+      "effect_description_ru": "Включить музыку в определенной комнате или во всем доме Подробнее о режиме «Играй везде». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_zapusti_muzyku_v_spalne",
+      "title_ru": "Запусти музыку в спальне",
+      "effect_description_ru": "Включить музыку в определенной комнате или во всем доме Подробнее о режиме «Играй везде». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_zapusti_pesniu_romashki",
+    "category_id": "music",
+    "phrase_example": "Алиса, запусти песню «Ромашки",
+    "phrases": [
+      "Алиса, запусти песню «Ромашки",
+      "Алиса, врубай трек « Вечно молодой "
+    ],
+    "raw_result": "Трек После завершения трека включается музыка того же жанра и стиля, что и исходный трек.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/track",
+    "published": {
+      "title_ru": "Запусти песню «Ромашки»",
+      "effect_description_ru": "Найдёт и включит песню «Ромашки». Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Запусти песню «Ромашки»",
+      "effect_description_ru": "Найдёт и включит песню «Ромашки». Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_zapusti_pesniu_romashki",
+      "title_ru": "Запусти песню «Ромашки»",
+      "effect_description_ru": "Найдёт и включит песню «Ромашки». Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_zapusti_samoe_populiarnoe",
+    "category_id": "music",
+    "phrase_example": "Алиса, запусти самое популярное",
+    "phrases": [
+      "Алиса, запусти самое популярное",
+      "Алиса, давай послушаем популярную музыку"
+    ],
+    "raw_result": "Популярная музыка Включается чарт Яндекс Музыки",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/recommended",
+    "published": {
+      "title_ru": "Запусти самое популярное",
+      "effect_description_ru": "Популярная музыка Включается чарт Яндекс Музыки. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Запусти самое популярное",
+      "effect_description_ru": "Популярная музыка Включается чарт Яндекс Музыки. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_zapusti_samoe_populiarnoe",
+      "title_ru": "Запусти самое популярное",
+      "effect_description_ru": "Популярная музыка Включается чарт Яндекс Музыки. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_zapusti_vechnye_khity",
+    "category_id": "music",
+    "phrase_example": "Алиса, запусти вечные хиты",
+    "phrases": [
+      "Алиса, запусти вечные хиты",
+      "Алиса, включи музыку 50-х",
+      "Алиса, поставь музыку 80-х"
+    ],
+    "raw_result": "Музыка определенной эпохи",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/recommended",
+    "published": {
+      "title_ru": "Запусти вечные хиты",
+      "effect_description_ru": "Музыка определенной эпохи. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Запусти вечные хиты",
+      "effect_description_ru": "Музыка определенной эпохи. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_zapusti_vechnye_khity",
+      "title_ru": "Запусти вечные хиты",
+      "effect_description_ru": "Музыка определенной эпохи. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  },
+  {
+    "command_id": "music_znaesh_li_ty",
+    "category_id": "music",
+    "phrase_example": "Алиса, знаешь ли ты",
+    "phrases": [
+      "Алиса, знаешь ли ты"
+    ],
+    "raw_result": "Давай споем под караоке песню МакSим.",
+    "source_url": "https://alice.yandex.ru/support/ru/station/skills/audio-settings",
+    "published": {
+      "title_ru": "Знаешь ли ты",
+      "effect_description_ru": "Давай споем под караоке песню МакSим. Нужно: устройство с Алисой; интернет."
+    },
+    "draft": {
+      "title_ru": "Знаешь ли ты",
+      "effect_description_ru": "Давай споем под караоке песню МакSим. Нужно: устройство с Алисой; интернет."
+    },
+    "edit": {
+      "command_id": "music_znaesh_li_ty",
+      "title_ru": "Знаешь ли ты",
+      "effect_description_ru": "Давай споем под караоке песню МакSим. Нужно: устройство с Алисой; интернет.",
+      "status": "approved"
+    },
+    "reasons": [],
+    "queue_events": []
+  }
+]

@@ -1,0 +1,1296 @@
+{
+  "icons": [
+    {
+      "slug": "ac",
+      "label_ru": "Ac"
+    },
+    {
+      "slug": "air_purifier",
+      "label_ru": "Air purifier"
+    },
+    {
+      "slug": "alarm",
+      "label_ru": "Alarm"
+    },
+    {
+      "slug": "album",
+      "label_ru": "Album"
+    },
+    {
+      "slug": "alphabet",
+      "label_ru": "Alphabet"
+    },
+    {
+      "slug": "animals",
+      "label_ru": "Animals"
+    },
+    {
+      "slug": "apps",
+      "label_ru": "Apps"
+    },
+    {
+      "slug": "aquarium",
+      "label_ru": "Aquarium"
+    },
+    {
+      "slug": "art",
+      "label_ru": "Art"
+    },
+    {
+      "slug": "artist",
+      "label_ru": "Artist"
+    },
+    {
+      "slug": "assistant",
+      "label_ru": "Assistant"
+    },
+    {
+      "slug": "atom",
+      "label_ru": "Atom"
+    },
+    {
+      "slug": "audiobooks",
+      "label_ru": "Audiobooks"
+    },
+    {
+      "slug": "automation",
+      "label_ru": "Automation"
+    },
+    {
+      "slug": "away",
+      "label_ru": "Away"
+    },
+    {
+      "slug": "baby_monitor",
+      "label_ru": "Baby monitor"
+    },
+    {
+      "slug": "baking",
+      "label_ru": "Baking"
+    },
+    {
+      "slug": "bank",
+      "label_ru": "Bank"
+    },
+    {
+      "slug": "battery",
+      "label_ru": "Battery"
+    },
+    {
+      "slug": "bike",
+      "label_ru": "Bike"
+    },
+    {
+      "slug": "biology",
+      "label_ru": "Biology"
+    },
+    {
+      "slug": "birthday",
+      "label_ru": "Birthday"
+    },
+    {
+      "slug": "blinds",
+      "label_ru": "Blinds"
+    },
+    {
+      "slug": "bluetooth",
+      "label_ru": "Bluetooth"
+    },
+    {
+      "slug": "bolt",
+      "label_ru": "Bolt"
+    },
+    {
+      "slug": "book",
+      "label_ru": "Book"
+    },
+    {
+      "slug": "bridge",
+      "label_ru": "Bridge"
+    },
+    {
+      "slug": "brightness",
+      "label_ru": "Brightness"
+    },
+    {
+      "slug": "browser",
+      "label_ru": "Browser"
+    },
+    {
+      "slug": "bus",
+      "label_ru": "Bus"
+    },
+    {
+      "slug": "button",
+      "label_ru": "Button"
+    },
+    {
+      "slug": "calculator",
+      "label_ru": "Calculator"
+    },
+    {
+      "slug": "calendar",
+      "label_ru": "Calendar"
+    },
+    {
+      "slug": "calls",
+      "label_ru": "Calls"
+    },
+    {
+      "slug": "camera",
+      "label_ru": "Camera"
+    },
+    {
+      "slug": "capital",
+      "label_ru": "Capital"
+    },
+    {
+      "slug": "capital_city",
+      "label_ru": "Capital city"
+    },
+    {
+      "slug": "card",
+      "label_ru": "Card"
+    },
+    {
+      "slug": "cast",
+      "label_ru": "Cast"
+    },
+    {
+      "slug": "category",
+      "label_ru": "Category"
+    },
+    {
+      "slug": "ceiling_light",
+      "label_ru": "Ceiling light"
+    },
+    {
+      "slug": "chandelier",
+      "label_ru": "Chandelier"
+    },
+    {
+      "slug": "channel",
+      "label_ru": "Channel"
+    },
+    {
+      "slug": "channels",
+      "label_ru": "Channels"
+    },
+    {
+      "slug": "checklist",
+      "label_ru": "Checklist"
+    },
+    {
+      "slug": "chemistry",
+      "label_ru": "Chemistry"
+    },
+    {
+      "slug": "child",
+      "label_ru": "Дети"
+    },
+    {
+      "slug": "cleaning",
+      "label_ru": "Cleaning"
+    },
+    {
+      "slug": "climate",
+      "label_ru": "Climate"
+    },
+    {
+      "slug": "clock",
+      "label_ru": "Clock"
+    },
+    {
+      "slug": "cloud",
+      "label_ru": "Cloud"
+    },
+    {
+      "slug": "coffee",
+      "label_ru": "Coffee"
+    },
+    {
+      "slug": "coffee_maker",
+      "label_ru": "Coffee maker"
+    },
+    {
+      "slug": "color_light",
+      "label_ru": "Color light"
+    },
+    {
+      "slug": "colored_bulb",
+      "label_ru": "Colored bulb"
+    },
+    {
+      "slug": "commute",
+      "label_ru": "Commute"
+    },
+    {
+      "slug": "compass",
+      "label_ru": "Compass"
+    },
+    {
+      "slug": "concert",
+      "label_ru": "Concert"
+    },
+    {
+      "slug": "contacts",
+      "label_ru": "Contacts"
+    },
+    {
+      "slug": "cooking",
+      "label_ru": "Cooking"
+    },
+    {
+      "slug": "cool",
+      "label_ru": "Cool"
+    },
+    {
+      "slug": "copy",
+      "label_ru": "Copy"
+    },
+    {
+      "slug": "countdown",
+      "label_ru": "Countdown"
+    },
+    {
+      "slug": "currency",
+      "label_ru": "Currency"
+    },
+    {
+      "slug": "curtain",
+      "label_ru": "Curtain"
+    },
+    {
+      "slug": "dehumidifier",
+      "label_ru": "Dehumidifier"
+    },
+    {
+      "slug": "delivery",
+      "label_ru": "Delivery"
+    },
+    {
+      "slug": "desk_lamp",
+      "label_ru": "Desk lamp"
+    },
+    {
+      "slug": "dictionary",
+      "label_ru": "Dictionary"
+    },
+    {
+      "slug": "diet",
+      "label_ru": "Diet"
+    },
+    {
+      "slug": "dimmer",
+      "label_ru": "Dimmer"
+    },
+    {
+      "slug": "discount",
+      "label_ru": "Discount"
+    },
+    {
+      "slug": "dishwasher",
+      "label_ru": "Dishwasher"
+    },
+    {
+      "slug": "door",
+      "label_ru": "Door"
+    },
+    {
+      "slug": "doorbell",
+      "label_ru": "Doorbell"
+    },
+    {
+      "slug": "dry",
+      "label_ru": "Dry"
+    },
+    {
+      "slug": "eco",
+      "label_ru": "Eco"
+    },
+    {
+      "slug": "education",
+      "label_ru": "Education"
+    },
+    {
+      "slug": "electricity",
+      "label_ru": "Electricity"
+    },
+    {
+      "slug": "encyclopedia",
+      "label_ru": "Encyclopedia"
+    },
+    {
+      "slug": "energy",
+      "label_ru": "Energy"
+    },
+    {
+      "slug": "entertainment",
+      "label_ru": "Entertainment"
+    },
+    {
+      "slug": "ev",
+      "label_ru": "Ev"
+    },
+    {
+      "slug": "facts",
+      "label_ru": "Facts"
+    },
+    {
+      "slug": "fairy_tales",
+      "label_ru": "Fairy tales"
+    },
+    {
+      "slug": "fan",
+      "label_ru": "Fan"
+    },
+    {
+      "slug": "fan_speed",
+      "label_ru": "Fan speed"
+    },
+    {
+      "slug": "faq",
+      "label_ru": "Faq"
+    },
+    {
+      "slug": "fast_answers",
+      "label_ru": "Fast answers"
+    },
+    {
+      "slug": "favorite",
+      "label_ru": "Favorite"
+    },
+    {
+      "slug": "finance",
+      "label_ru": "Finance"
+    },
+    {
+      "slug": "fireworks",
+      "label_ru": "Fireworks"
+    },
+    {
+      "slug": "fitness",
+      "label_ru": "Fitness"
+    },
+    {
+      "slug": "flight",
+      "label_ru": "Flight"
+    },
+    {
+      "slug": "floor_lamp",
+      "label_ru": "Floor lamp"
+    },
+    {
+      "slug": "food",
+      "label_ru": "Food"
+    },
+    {
+      "slug": "football",
+      "label_ru": "Football"
+    },
+    {
+      "slug": "forecast",
+      "label_ru": "Forecast"
+    },
+    {
+      "slug": "fridge",
+      "label_ru": "Fridge"
+    },
+    {
+      "slug": "fuel",
+      "label_ru": "Fuel"
+    },
+    {
+      "slug": "games",
+      "label_ru": "Games"
+    },
+    {
+      "slug": "garage",
+      "label_ru": "Garage"
+    },
+    {
+      "slug": "garage_door",
+      "label_ru": "Garage door"
+    },
+    {
+      "slug": "garden",
+      "label_ru": "Garden"
+    },
+    {
+      "slug": "gate",
+      "label_ru": "Gate"
+    },
+    {
+      "slug": "genre",
+      "label_ru": "Genre"
+    },
+    {
+      "slug": "geography",
+      "label_ru": "Geography"
+    },
+    {
+      "slug": "geolocation",
+      "label_ru": "Geolocation"
+    },
+    {
+      "slug": "gift",
+      "label_ru": "Gift"
+    },
+    {
+      "slug": "grammar",
+      "label_ru": "Grammar"
+    },
+    {
+      "slug": "grill",
+      "label_ru": "Grill"
+    },
+    {
+      "slug": "grocery",
+      "label_ru": "Grocery"
+    },
+    {
+      "slug": "guest",
+      "label_ru": "Guest"
+    },
+    {
+      "slug": "hdmi",
+      "label_ru": "Hdmi"
+    },
+    {
+      "slug": "headlines",
+      "label_ru": "Headlines"
+    },
+    {
+      "slug": "headphones",
+      "label_ru": "Headphones"
+    },
+    {
+      "slug": "health",
+      "label_ru": "Health"
+    },
+    {
+      "slug": "heart",
+      "label_ru": "Heart"
+    },
+    {
+      "slug": "heart_rate",
+      "label_ru": "Heart rate"
+    },
+    {
+      "slug": "heater",
+      "label_ru": "Heater"
+    },
+    {
+      "slug": "help",
+      "label_ru": "Help"
+    },
+    {
+      "slug": "hidden_tips",
+      "label_ru": "Hidden tips"
+    },
+    {
+      "slug": "history",
+      "label_ru": "History"
+    },
+    {
+      "slug": "hockey",
+      "label_ru": "Hockey"
+    },
+    {
+      "slug": "holidays",
+      "label_ru": "Holidays"
+    },
+    {
+      "slug": "home",
+      "label_ru": "Home"
+    },
+    {
+      "slug": "home_iot",
+      "label_ru": "Умный дом"
+    },
+    {
+      "slug": "home_mode",
+      "label_ru": "Home mode"
+    },
+    {
+      "slug": "hub",
+      "label_ru": "Hub"
+    },
+    {
+      "slug": "humid",
+      "label_ru": "Humid"
+    },
+    {
+      "slug": "humidifier",
+      "label_ru": "Humidifier"
+    },
+    {
+      "slug": "humidity",
+      "label_ru": "Humidity"
+    },
+    {
+      "slug": "intercom",
+      "label_ru": "Intercom"
+    },
+    {
+      "slug": "intercom_alt",
+      "label_ru": "Intercom alt"
+    },
+    {
+      "slug": "iot",
+      "label_ru": "Iot"
+    },
+    {
+      "slug": "jokes",
+      "label_ru": "Jokes"
+    },
+    {
+      "slug": "kids",
+      "label_ru": "Kids"
+    },
+    {
+      "slug": "kitchen",
+      "label_ru": "Kitchen"
+    },
+    {
+      "slug": "laundry",
+      "label_ru": "Laundry"
+    },
+    {
+      "slug": "leak",
+      "label_ru": "Leak"
+    },
+    {
+      "slug": "library",
+      "label_ru": "Library"
+    },
+    {
+      "slug": "light",
+      "label_ru": "Light"
+    },
+    {
+      "slug": "lightbulb",
+      "label_ru": "Свет"
+    },
+    {
+      "slug": "link",
+      "label_ru": "Link"
+    },
+    {
+      "slug": "lock",
+      "label_ru": "Lock"
+    },
+    {
+      "slug": "lottery",
+      "label_ru": "Lottery"
+    },
+    {
+      "slug": "lullaby",
+      "label_ru": "Lullaby"
+    },
+    {
+      "slug": "lyrics",
+      "label_ru": "Lyrics"
+    },
+    {
+      "slug": "mail",
+      "label_ru": "Mail"
+    },
+    {
+      "slug": "maps",
+      "label_ru": "Maps"
+    },
+    {
+      "slug": "math",
+      "label_ru": "Math"
+    },
+    {
+      "slug": "matter",
+      "label_ru": "Matter"
+    },
+    {
+      "slug": "medicine",
+      "label_ru": "Medicine"
+    },
+    {
+      "slug": "meditation",
+      "label_ru": "Meditation"
+    },
+    {
+      "slug": "meeting",
+      "label_ru": "Meeting"
+    },
+    {
+      "slug": "message",
+      "label_ru": "Message"
+    },
+    {
+      "slug": "metro",
+      "label_ru": "Metro"
+    },
+    {
+      "slug": "microphone",
+      "label_ru": "Microphone"
+    },
+    {
+      "slug": "moon",
+      "label_ru": "Moon"
+    },
+    {
+      "slug": "morning",
+      "label_ru": "Morning"
+    },
+    {
+      "slug": "motion",
+      "label_ru": "Motion"
+    },
+    {
+      "slug": "movie_night",
+      "label_ru": "Movie night"
+    },
+    {
+      "slug": "movies",
+      "label_ru": "Movies"
+    },
+    {
+      "slug": "movies_tv",
+      "label_ru": "Movies tv"
+    },
+    {
+      "slug": "museum",
+      "label_ru": "Museum"
+    },
+    {
+      "slug": "music",
+      "label_ru": "Music"
+    },
+    {
+      "slug": "music_note",
+      "label_ru": "Музыка"
+    },
+    {
+      "slug": "mute",
+      "label_ru": "Mute"
+    },
+    {
+      "slug": "nanny",
+      "label_ru": "Nanny"
+    },
+    {
+      "slug": "nature",
+      "label_ru": "Nature"
+    },
+    {
+      "slug": "navigation",
+      "label_ru": "Navigation"
+    },
+    {
+      "slug": "navigator",
+      "label_ru": "Navigator"
+    },
+    {
+      "slug": "news",
+      "label_ru": "News"
+    },
+    {
+      "slug": "news_feed",
+      "label_ru": "News feed"
+    },
+    {
+      "slug": "night",
+      "label_ru": "Night"
+    },
+    {
+      "slug": "nightlight",
+      "label_ru": "Nightlight"
+    },
+    {
+      "slug": "note",
+      "label_ru": "Note"
+    },
+    {
+      "slug": "order",
+      "label_ru": "Order"
+    },
+    {
+      "slug": "outlet",
+      "label_ru": "Outlet"
+    },
+    {
+      "slug": "oven",
+      "label_ru": "Oven"
+    },
+    {
+      "slug": "parenting",
+      "label_ru": "Parenting"
+    },
+    {
+      "slug": "parking",
+      "label_ru": "Parking"
+    },
+    {
+      "slug": "party",
+      "label_ru": "Party"
+    },
+    {
+      "slug": "password",
+      "label_ru": "Password"
+    },
+    {
+      "slug": "pause",
+      "label_ru": "Pause"
+    },
+    {
+      "slug": "pay",
+      "label_ru": "Pay"
+    },
+    {
+      "slug": "people",
+      "label_ru": "People"
+    },
+    {
+      "slug": "pet_feeder",
+      "label_ru": "Pet feeder"
+    },
+    {
+      "slug": "pets",
+      "label_ru": "Pets"
+    },
+    {
+      "slug": "phone",
+      "label_ru": "Phone"
+    },
+    {
+      "slug": "phone_call",
+      "label_ru": "Звонки"
+    },
+    {
+      "slug": "photo",
+      "label_ru": "Photo"
+    },
+    {
+      "slug": "physics",
+      "label_ru": "Physics"
+    },
+    {
+      "slug": "pin",
+      "label_ru": "Pin"
+    },
+    {
+      "slug": "places",
+      "label_ru": "Places"
+    },
+    {
+      "slug": "plants",
+      "label_ru": "Plants"
+    },
+    {
+      "slug": "play",
+      "label_ru": "Play"
+    },
+    {
+      "slug": "playlist",
+      "label_ru": "Playlist"
+    },
+    {
+      "slug": "plug",
+      "label_ru": "Plug"
+    },
+    {
+      "slug": "plus",
+      "label_ru": "Plus"
+    },
+    {
+      "slug": "podcast",
+      "label_ru": "Podcast"
+    },
+    {
+      "slug": "pool",
+      "label_ru": "Pool"
+    },
+    {
+      "slug": "power",
+      "label_ru": "Power"
+    },
+    {
+      "slug": "pregnancy",
+      "label_ru": "Pregnancy"
+    },
+    {
+      "slug": "privacy",
+      "label_ru": "Privacy"
+    },
+    {
+      "slug": "qr",
+      "label_ru": "Qr"
+    },
+    {
+      "slug": "quick_answers",
+      "label_ru": "Быстрые ответы"
+    },
+    {
+      "slug": "quick_facts",
+      "label_ru": "Quick facts"
+    },
+    {
+      "slug": "radio",
+      "label_ru": "Radio"
+    },
+    {
+      "slug": "rain",
+      "label_ru": "Rain"
+    },
+    {
+      "slug": "reading",
+      "label_ru": "Reading"
+    },
+    {
+      "slug": "recipes",
+      "label_ru": "Recipes"
+    },
+    {
+      "slug": "reminder",
+      "label_ru": "Reminder"
+    },
+    {
+      "slug": "reminders",
+      "label_ru": "Reminders"
+    },
+    {
+      "slug": "remote",
+      "label_ru": "Remote"
+    },
+    {
+      "slug": "repeat",
+      "label_ru": "Repeat"
+    },
+    {
+      "slug": "rewind",
+      "label_ru": "Rewind"
+    },
+    {
+      "slug": "riddle",
+      "label_ru": "Riddle"
+    },
+    {
+      "slug": "route",
+      "label_ru": "Route"
+    },
+    {
+      "slug": "router",
+      "label_ru": "Router"
+    },
+    {
+      "slug": "routine",
+      "label_ru": "Routine"
+    },
+    {
+      "slug": "scan",
+      "label_ru": "Scan"
+    },
+    {
+      "slug": "scenario",
+      "label_ru": "Scenario"
+    },
+    {
+      "slug": "scene",
+      "label_ru": "Scene"
+    },
+    {
+      "slug": "schedule",
+      "label_ru": "Schedule"
+    },
+    {
+      "slug": "screenshot",
+      "label_ru": "Screenshot"
+    },
+    {
+      "slug": "search",
+      "label_ru": "Search"
+    },
+    {
+      "slug": "security",
+      "label_ru": "Security"
+    },
+    {
+      "slug": "security_cam",
+      "label_ru": "Security cam"
+    },
+    {
+      "slug": "sensor",
+      "label_ru": "Sensor"
+    },
+    {
+      "slug": "series",
+      "label_ru": "Series"
+    },
+    {
+      "slug": "services",
+      "label_ru": "Services"
+    },
+    {
+      "slug": "settings",
+      "label_ru": "Settings"
+    },
+    {
+      "slug": "shade",
+      "label_ru": "Shade"
+    },
+    {
+      "slug": "share",
+      "label_ru": "Share"
+    },
+    {
+      "slug": "shopping",
+      "label_ru": "Shopping"
+    },
+    {
+      "slug": "shuffle",
+      "label_ru": "Shuffle"
+    },
+    {
+      "slug": "skills",
+      "label_ru": "Skills"
+    },
+    {
+      "slug": "skip_next",
+      "label_ru": "Skip next"
+    },
+    {
+      "slug": "skip_prev",
+      "label_ru": "Skip prev"
+    },
+    {
+      "slug": "sleep",
+      "label_ru": "Sleep"
+    },
+    {
+      "slug": "smart_home_alt",
+      "label_ru": "Smart home alt"
+    },
+    {
+      "slug": "smart_speaker",
+      "label_ru": "Smart speaker"
+    },
+    {
+      "slug": "smoke",
+      "label_ru": "Smoke"
+    },
+    {
+      "slug": "snooze",
+      "label_ru": "Snooze"
+    },
+    {
+      "slug": "snow",
+      "label_ru": "Snow"
+    },
+    {
+      "slug": "socket",
+      "label_ru": "Socket"
+    },
+    {
+      "slug": "solar",
+      "label_ru": "Solar"
+    },
+    {
+      "slug": "sounds",
+      "label_ru": "Sounds"
+    },
+    {
+      "slug": "space",
+      "label_ru": "Space"
+    },
+    {
+      "slug": "sparkles",
+      "label_ru": "Sparkles"
+    },
+    {
+      "slug": "speaker",
+      "label_ru": "Speaker"
+    },
+    {
+      "slug": "spellcheck",
+      "label_ru": "Spellcheck"
+    },
+    {
+      "slug": "sport",
+      "label_ru": "Sport"
+    },
+    {
+      "slug": "sprinkler",
+      "label_ru": "Sprinkler"
+    },
+    {
+      "slug": "star",
+      "label_ru": "Star"
+    },
+    {
+      "slug": "station",
+      "label_ru": "Station"
+    },
+    {
+      "slug": "steps",
+      "label_ru": "Steps"
+    },
+    {
+      "slug": "stock",
+      "label_ru": "Stock"
+    },
+    {
+      "slug": "stop",
+      "label_ru": "Stop"
+    },
+    {
+      "slug": "stopwatch",
+      "label_ru": "Stopwatch"
+    },
+    {
+      "slug": "stream",
+      "label_ru": "Stream"
+    },
+    {
+      "slug": "strip_light",
+      "label_ru": "Strip light"
+    },
+    {
+      "slug": "study",
+      "label_ru": "Study"
+    },
+    {
+      "slug": "subscription",
+      "label_ru": "Subscription"
+    },
+    {
+      "slug": "subtitles",
+      "label_ru": "Subtitles"
+    },
+    {
+      "slug": "sun",
+      "label_ru": "Sun"
+    },
+    {
+      "slug": "switch",
+      "label_ru": "Switch"
+    },
+    {
+      "slug": "synonyms",
+      "label_ru": "Synonyms"
+    },
+    {
+      "slug": "task",
+      "label_ru": "Task"
+    },
+    {
+      "slug": "taxi",
+      "label_ru": "Taxi"
+    },
+    {
+      "slug": "tea",
+      "label_ru": "Tea"
+    },
+    {
+      "slug": "temperature",
+      "label_ru": "Temperature"
+    },
+    {
+      "slug": "theater",
+      "label_ru": "Theater"
+    },
+    {
+      "slug": "thermostat",
+      "label_ru": "Thermostat"
+    },
+    {
+      "slug": "timer",
+      "label_ru": "Timer"
+    },
+    {
+      "slug": "timer_kitchen",
+      "label_ru": "Timer kitchen"
+    },
+    {
+      "slug": "timers",
+      "label_ru": "Timers"
+    },
+    {
+      "slug": "tips",
+      "label_ru": "Tips"
+    },
+    {
+      "slug": "toys",
+      "label_ru": "Toys"
+    },
+    {
+      "slug": "traffic",
+      "label_ru": "Traffic"
+    },
+    {
+      "slug": "traffic_jam",
+      "label_ru": "Traffic jam"
+    },
+    {
+      "slug": "train",
+      "label_ru": "Train"
+    },
+    {
+      "slug": "translate",
+      "label_ru": "Translate"
+    },
+    {
+      "slug": "translate_alt",
+      "label_ru": "Translate alt"
+    },
+    {
+      "slug": "trivia",
+      "label_ru": "Trivia"
+    },
+    {
+      "slug": "tv",
+      "label_ru": "Tv"
+    },
+    {
+      "slug": "umbrella",
+      "label_ru": "Umbrella"
+    },
+    {
+      "slug": "vacation",
+      "label_ru": "Vacation"
+    },
+    {
+      "slug": "vacuum",
+      "label_ru": "Vacuum"
+    },
+    {
+      "slug": "video",
+      "label_ru": "Video"
+    },
+    {
+      "slug": "video_call",
+      "label_ru": "Video call"
+    },
+    {
+      "slug": "voice",
+      "label_ru": "Voice"
+    },
+    {
+      "slug": "voicemail",
+      "label_ru": "Voicemail"
+    },
+    {
+      "slug": "volume",
+      "label_ru": "Volume"
+    },
+    {
+      "slug": "volume_down",
+      "label_ru": "Volume down"
+    },
+    {
+      "slug": "volume_mute",
+      "label_ru": "Volume mute"
+    },
+    {
+      "slug": "volume_up",
+      "label_ru": "Volume up"
+    },
+    {
+      "slug": "walk",
+      "label_ru": "Walk"
+    },
+    {
+      "slug": "warm",
+      "label_ru": "Warm"
+    },
+    {
+      "slug": "washer",
+      "label_ru": "Washer"
+    },
+    {
+      "slug": "watch",
+      "label_ru": "Watch"
+    },
+    {
+      "slug": "water",
+      "label_ru": "Water"
+    },
+    {
+      "slug": "water_bottle",
+      "label_ru": "Water bottle"
+    },
+    {
+      "slug": "weather",
+      "label_ru": "Weather"
+    },
+    {
+      "slug": "white_noise",
+      "label_ru": "White noise"
+    },
+    {
+      "slug": "widget",
+      "label_ru": "Widget"
+    },
+    {
+      "slug": "wifi",
+      "label_ru": "Wifi"
+    },
+    {
+      "slug": "wind",
+      "label_ru": "Wind"
+    },
+    {
+      "slug": "window",
+      "label_ru": "Window"
+    },
+    {
+      "slug": "windows",
+      "label_ru": "Windows"
+    },
+    {
+      "slug": "work",
+      "label_ru": "Work"
+    },
+    {
+      "slug": "yandex_station",
+      "label_ru": "Yandex station"
+    },
+    {
+      "slug": "yoga",
+      "label_ru": "Yoga"
+    },
+    {
+      "slug": "zigbee",
+      "label_ru": "Zigbee"
+    }
+  ],
+  "accent_presets": [
+    {
+      "name": "teal",
+      "light": "#1B6B5A",
+      "dark": "#4DB6A0"
+    },
+    {
+      "name": "violet",
+      "light": "#7B4BB7",
+      "dark": "#C9A8F0"
+    },
+    {
+      "name": "amber",
+      "light": "#E8A317",
+      "dark": "#F5C842"
+    },
+    {
+      "name": "coral",
+      "light": "#E85D4A",
+      "dark": "#F5A99E"
+    },
+    {
+      "name": "blue",
+      "light": "#2563EB",
+      "dark": "#93C5FD"
+    },
+    {
+      "name": "pink",
+      "light": "#DB2777",
+      "dark": "#F9A8D4"
+    }
+  ]
+}
