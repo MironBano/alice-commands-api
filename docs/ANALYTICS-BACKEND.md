@@ -272,8 +272,8 @@ Alpine.js, один пункт сайдбара **«Аналитика»**.
 3. **Вкладки:**
    - **Обзор** — Открывали приложение, В среднем за день, События, Новые установки; top events с фильтром «Действия / Все» и русскими подписями
    - **Тренд** — CSS bar chart по `daily[]` (нули без высоты; прореживание подписей при &gt;31 дне)
-   - **Воронка** — пресеты (поиск, picks, Pro, TTS) + editable `steps`; шаги **независимые**, не sequential cohort
-   - **Разбивка** — top values `params[param]` или `user_properties[param]` (`field_source`); пресеты command/category/picks/Pro
+   - **Воронка** — пресеты (CoD, Поиск, Сценарии, Виджет, First value, Pro, picks, TTS) + editable `steps`; шаги **независимые**, не sequential cohort
+   - **Разбивка** — top values `params[param]` или `user_properties[param]` (`field_source`); пресеты source/category/УД/picks/Pro
    - **События** — raw explorer
    - **Справка** — метрики, ingest, FAQ (`pro_restore` и др.), глоссарий
 
@@ -295,15 +295,20 @@ Alpine.js, один пункт сайдбара **«Аналитика»**.
 
 | Группа | Примеры `event_name` |
 |--------|----------------------|
-| Navigation | `screen_view`, `tab_select`, `ui_click` |
+| Navigation | `screen_view`, `tab_select`, `ui_click`, `smarthome_tab_select`, `filter_change`, `category_click` |
 | Lifecycle | `session_start`, `session_end`, `daily_active`, `app_foreground` |
-| Commands | `command_view`, `command_tts`, `command_copy`, `favorite_add` |
-| Search | `search` (только `query_length`, не текст) |
+| Commands | `command_view` (+`source`), `command_tts`, `command_copy`, `command_share`, `favorite_add`, `favorite_remove` |
+| Favorites lists | `favorite_list_create`, `favorite_list_delete` |
+| Search | `search` (`query_length`, `results_count`, optional `category_id`), `search_result_click` |
+| CoD / scenarios | `cod_impression`, `cod_open`, `scenario_open` |
+| Widget / deeplink | `widget_shown`, `widget_open`, `deeplink_open` (`source=external\|widget`) |
 | Monetization | `paywall_view`, `pro_gate_shown`, `pro_purchase_start`, `pro_activated`, `pro_restore` |
 | Rating | `rating_prompt_shown`, `rating_star_selected` |
 | Content | `content_sync` (+ `trigger`, `phase`, `success`) |
-| Affiliate | `contextual_pick_impression`, `affiliate_click` |
-| Errors | `app_error_non_fatal`, `billing_error`, `bootstrap_error` |
+| Affiliate / picks | `contextual_pick_section_shown`, `contextual_pick_impression`, `contextual_pick_click` (не `affiliate_click`) |
+| Errors | `app_error_non_fatal`, `billing_error`, `bootstrap_error`, `ads_error` |
+
+**Итерация 2 (покрытие):** канон имён и params — [ANALYTICS-GLOSSARY.md](ANALYTICS-GLOSSARY.md); emit в app `AnalyticsEvents.kt`. Zero-results через `search.results_count=0`. Воронки в admin — независимые counts, не sequential cohort.
 
 **User properties:** `persona`, `is_pro`, `app_language`, `theme_mode`, `content_version`, `install_id` — см. `AnalyticsUserProperties.kt`.
 

@@ -3,7 +3,7 @@
 Пояснения для вкладки **«Как читать»** в админке.  
 Константы в приложении: `AliceCommands/.../AnalyticsEvents.kt`.
 
-Связанные: [ANALYTICS-BACKEND.md](ANALYTICS-BACKEND.md), [ADMIN-UX.md](ADMIN-UX.md).
+Связанные: [ANALYTICS-BACKEND.md](ANALYTICS-BACKEND.md), [ANALYTICS-COVERAGE-ITER2.md](ANALYTICS-COVERAGE-ITER2.md) (чек-лист emit app), [ADMIN-UX.md](ADMIN-UX.md).
 
 ---
 
@@ -52,11 +52,22 @@
 | `app_foreground` | Вернулся в приложение | Часто при каждом возврате |
 | `time_in_app_tick` | Тик «время в приложении» | Служебный счётчик |
 | `ui_click` | Нажал элемент | В «Что нажимали» можно разобрать кнопки |
-| `search` | Поиск | Текст запроса **не** сохраняется — только `query_length`, `results_count`, опционально `device_type`. Канон: **`search`** (alias `search_query` с app ≥ следующего релиза после ит.1 **не** шлётся). |
-| `screen_view` / `route` | Экран | `route` — **конкретный** путь (`category/music`, `command/abc`), не шаблон NavHost (`category/{categoryId}`). |
-| `command_tts` / `command_copy` | Озвучил / скопировал | Параметр `source`: откуда действие (`command_detail`, `quick`, `catalog_cod`, `search`, …). |
+| `search` | Поиск | Текст запроса **не** сохраняется — только `query_length`, `results_count`, опционально `device_type` / `category_id`. Zero-results = `results_count=0` (отдельного event нет). Канон: **`search`** (без alias `search_query`). |
+| `search_result_click` | Клик результата | `command_id`, `position`; не путать с `command_view`. |
+| `screen_view` / `route` | Экран | `route` — **конкретный** путь (`category/music`, `onboarding/welcome`), не шаблон NavHost. |
+| `command_view` / `source` | Открыл команду | `source`: `catalog_cod` \| `quick` \| `search` \| `history` \| `related` \| `favorites` \| … |
+| `command_tts` / `command_copy` | Озвучил / скопировал | Параметр `source` (как у `command_view`). |
+| `command_share` | Поделился | First-class; **не** дублировать через `ui_click command_share`. |
+| `cod_impression` / `cod_open` | Команда дня | Impression карточки → открытие; TTS CoD — `command_tts` + `source=catalog_cod`. |
+| `scenario_open` | Открыл сценарий | `template_id`; TTS шагов — `command_tts` + `scenario_id` (без фейкового `command_id`). |
+| `category_click` | Клик категории с каталога | `category_id`, `featured=true\|false`. |
+| `filter_change` | Чипы фильтра | `screen=category`, `group_id` и/или `device_type`. |
+| `smarthome_tab_select` | Внутренний таб УД | `tab=commands\|templates\|devices`. |
+| `favorite_remove` | Снял из избранного | Пара к `favorite_add`. |
+| `favorite_list_create` / `favorite_list_delete` | CRUD списков | `list_id` без названия списка. |
+| `widget_shown` / `widget_open` | Виджет | Open также через `deeplink_open` с `source=widget` (warm+cold). |
 | `contextual_pick_click` | Клик по pick | Воронка рефералки; не путать с устаревшим `affiliate_click`. |
-| `app_error_non_fatal` | Ошибка (не краш) | После ит.1 app — через backend outbox, не только AppMetrica. |
+| `app_error_non_fatal` | Ошибка (не краш) | Через backend outbox, не только AppMetrica. |
 
 ### Разбивка по сегментам
 
@@ -64,6 +75,10 @@ Breakdown по умолчанию читает **`params`**. Для Pro/persona/
 
 ### Топ событий: «Действия» vs «Все»
 
-По умолчанию на обзоре скрыты служебные: `pro_restore`, `content_sync`, `app_foreground`, `session_*`, `time_in_app_tick`, `*_impression`. Переключатель «Все события» показывает полный топ.
+По умолчанию на обзоре скрыты служебные: `pro_restore`, `content_sync`, `app_foreground`, `session_*`, `time_in_app_tick`, `*_impression` (в т.ч. `cod_impression`, `widget_shown`). Переключатель «Все события» показывает полный топ.
 
-Остальные имена в UI читаются напрямую («Открыл команду», «Скопировал команду»…) — полный словарь в `admin-web/js/admin.js` (`ANALYTICS_EVENT_LABELS`).
+### Воронки (независимые шаги)
+
+Каждый шаг воронки — `COUNT(DISTINCT install_id)`, **не** sequential cohort. Пресеты: CoD (`cod_impression→cod_open→command_tts`), Поиск (`search→search_result_click→command_tts`), Сценарии, Виджет, First value, Pro, Подборки.
+
+Остальные имена в UI — полный словарь в `admin-web/js/admin.js` (`ANALYTICS_EVENT_LABELS`).
