@@ -1,10 +1,8 @@
 # Analytics coverage — iteration 2 (Android emit checklist)
 
-**Статус:** admin labels + funnel presets + glossary готовы в этом репо.  
-**Emit:** требуется репозиторий [AliceCommands](https://github.com/MironBano/AliceCommands) (в текущем Cloud environment отсутствует).
-
-Канон констант после emit: `AliceCommands/.../AnalyticsEvents.kt` + `AnalyticsCommandSource.kt`.  
-Админ-подписи уже ждут эти имена: `admin-web/js/admin.js`.
+**Статус:** admin labels + funnel presets + glossary готовы; **emit в AliceCommands реализован** (ит.2).  
+**Канон констант:** `AliceCommands/.../AnalyticsEvents.kt` + `AnalyticsCommandSource.kt`.  
+Админ-подписи: `admin-web/js/admin.js`.
 
 ## Контракт (не менять без sync glossary)
 
