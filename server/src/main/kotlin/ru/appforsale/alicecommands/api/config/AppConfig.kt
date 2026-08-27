@@ -17,7 +17,17 @@ data class AppConfig(
     val bundleRetentionCount: Int,
     val sessionSecret: String,
     val adminLoginRateLimit: Int,
+    val publicSubmissionRateLimit: Int,
     val contentSeedPath: Path?,
+    val iconStoragePath: Path,
+    val iconPublicBaseUrl: String,
+    val iconUrlAllowedHosts: Set<String>,
+    val iconCatalogPath: Path,
+    val deviceImageStoragePath: Path,
+    val analyticsRateLimitPerIp: Int,
+    val analyticsEventsPerIpPerDay: Int,
+    val analyticsMaxBodyBytes: Int,
+    val analyticsRawRetentionDays: Int,
 ) {
     val isProduction: Boolean get() = env == "prod" || env == "staging"
 
@@ -35,10 +45,17 @@ data class AppConfig(
                 error("ADMIN_PASSWORD must be changed in production")
             }
 
+            val publicBaseUrl = env("PUBLIC_BASE_URL", "http://localhost:8080").trimEnd('/')
+            val iconPublicBaseUrl = env("ICON_PUBLIC_BASE_URL", publicBaseUrl).trimEnd('/')
+            val iconUrlAllowedHosts = parseHostAllowlist(
+                env("ICON_URL_ALLOWED_HOSTS", "cdn.alicecommands.ru,staging-api.alicecommands.ru,api.alicecommands.ru,localhost,127.0.0.1"),
+                iconPublicBaseUrl,
+            )
+
             return AppConfig(
                 env = appEnv,
                 port = env("APP_PORT", "8080").toInt(),
-                publicBaseUrl = env("PUBLIC_BASE_URL", "http://localhost:8080").trimEnd('/'),
+                publicBaseUrl = publicBaseUrl,
                 adminUsername = env("ADMIN_USERNAME").ifBlank { error("ADMIN_USERNAME is required") },
                 adminPassword = adminPassword,
                 databaseUrl = env("DATABASE_URL").ifBlank { error("DATABASE_URL is required") },
@@ -51,9 +68,38 @@ data class AppConfig(
                     require(it.length >= 32) { "SESSION_SECRET must be at least 32 characters" }
                 },
                 adminLoginRateLimit = env("ADMIN_LOGIN_RATE_LIMIT", "5").toInt(),
+                publicSubmissionRateLimit = env("PUBLIC_SUBMISSION_RATE_LIMIT", "20").toInt(),
                 contentSeedPath = env("CONTENT_SEED_PATH").takeIf { it.isNotBlank() }?.let { resolvePath(it) }
-                    ?: resolvePath("./seed/full-catalog.json").takeIf { appEnv == "local" && it.toFile().exists() },
+                    ?: resolvePath("./seed/catalog-audit-fixed.json").takeIf { appEnv == "local" && it.toFile().exists() },
+                iconStoragePath = resolvePath(env("ICON_STORAGE_PATH", "./storage/icons")),
+                iconPublicBaseUrl = iconPublicBaseUrl,
+                iconUrlAllowedHosts = iconUrlAllowedHosts,
+                iconCatalogPath = resolveCatalogPath(),
+                deviceImageStoragePath = resolvePath(env("DEVICE_IMAGE_STORAGE_PATH", "./storage/devices")),
+                analyticsRateLimitPerIp = env("ANALYTICS_RATE_LIMIT_PER_IP", "120").toInt(),
+                analyticsEventsPerIpPerDay = env("ANALYTICS_EVENTS_PER_IP_PER_DAY", "10000").toInt(),
+                analyticsMaxBodyBytes = env("ANALYTICS_MAX_BODY_BYTES", "262144").toInt(),
+                analyticsRawRetentionDays = env("ANALYTICS_RAW_RETENTION_DAYS", "90").toInt(),
             )
+        }
+
+        private fun parseHostAllowlist(raw: String, iconPublicBaseUrl: String): Set<String> {
+            val hosts = raw.split(',').map { it.trim().lowercase() }.filter { it.isNotBlank() }.toMutableSet()
+            try {
+                val uri = java.net.URI(iconPublicBaseUrl)
+                uri.host?.lowercase()?.let { hosts += it }
+            } catch (_: Exception) {
+                // ignore
+            }
+            return hosts
+        }
+
+        private fun resolveCatalogPath(): Path {
+            val candidates = listOf(
+                Path("content/icon_catalog.json"),
+                Path("../content/icon_catalog.json"),
+            )
+            return candidates.firstOrNull { it.toFile().exists() } ?: Path("content/icon_catalog.json")
         }
 
         private fun loadEnvVars(): Map<String, String> {

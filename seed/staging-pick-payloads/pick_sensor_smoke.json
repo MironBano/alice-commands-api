@@ -1,0 +1,24 @@
+﻿{
+    "id":  "pick_sensor_smoke",
+    "title_ru":  "Датчик дыма",
+    "description_ru":  "Предупреждает о дыме в помещении — база домашней безопасности.",
+    "image_url":  "https://staging-api.alicecommands.ru/devices/v1/sensor_smoke.png",
+    "action_url":  "https://market.yandex.ru/cc/A9uuXz",
+    "sort_order":  120,
+    "guide_ids":  [
+                      "sensor_smoke"
+                  ],
+    "category_ids":  [
+                         "smart_home"
+                     ],
+    "device_types":  [
+                         "station"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "search_empty"
+                   ],
+    "priority":  64,
+    "cta_ru":  "Смотреть цену"
+}

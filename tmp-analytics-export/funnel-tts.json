@@ -1,0 +1,22 @@
+﻿{
+    "from":  "2026-05-29",
+    "to":  "2026-08-26",
+    "steps":  [
+                  {
+                      "event_name":  "daily_active",
+                      "installs":  937
+                  },
+                  {
+                      "event_name":  "command_tts",
+                      "installs":  384,
+                      "conversion_from_previous":  40.9,
+                      "conversion_from_first":  40.9
+                  },
+                  {
+                      "event_name":  "command_copy",
+                      "installs":  90,
+                      "conversion_from_previous":  23.4,
+                      "conversion_from_first":  9.6
+                  }
+              ]
+}

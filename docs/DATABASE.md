@@ -1,13 +1,26 @@
 # Database — alice-commands-api
 
-**DBMS:** PostgreSQL 16 · **Migrations:** Flyway (`server/src/main/resources/db/migration/V1__init.sql`)
+**DBMS:** PostgreSQL 16 · **Migrations:** Flyway (`V1__init.sql` … `V10__contextual_device_picks.sql`)
+
+| Migration | Таблицы |
+| --------- | ------- |
+| V1 | Draft content, manifest, publish_history, admin_sessions |
+| V2 | `inventory_items`, `editorial_records`, `content_queue` — content pipeline |
+| V3 | `user_feedback`, `command_reports`, `public_submission_attempts` — app feedback |
+| V4 | `command_groups` + group fields on `commands` |
+| V5 | `icon_url`, `accent_color`, `accent_color_dark` on `categories` + `command_groups` |
+| V6 | `command_of_day_settings` — editorial singleton (manual/auto, FK → commands/categories) |
+| V7 | `device_guides`, `device_picks` — smarthome; migrate affiliate products → picks |
+| V8 | `product_content_seed` — 8 picks + guide `image_url` |
+| V9 | `analytics_events`, `analytics_request_attempts` — analytics ingest |
+| V10 | Contextual fields on `device_picks` (placements, tags, FK arrays, priority, scheduling) |
 
 ---
 
 ## 1. Принцип
 
 - **Draft** таблицы (`categories`, `commands`, …) — mutable, редактируются admin
-- **Published** state — files (`content_vN.json.gz`) + row `current_manifest` + affiliate snapshot на диске
+- **Published** state — files (`content_vN.json.gz`) + row `current_manifest` + smarthome snapshot + affiliate snapshot (legacy) на диске
 - Publish читает draft → валидирует schema → пишет bundle
 
 ---
@@ -16,7 +29,9 @@
 
 ```mermaid
 erDiagram
+  categories ||--o{ command_groups : contains
   categories ||--o{ commands : contains
+  command_groups ||--o{ commands : groups
   commands ||--o{ checklist_items : referenced_by
   publish_history ||--|| current_manifest : tracks
 
@@ -27,15 +42,38 @@ erDiagram
     int sort_order
     bool featured
     text icon_key
+    text icon_url
+    varchar accent_color
+    varchar accent_color_dark
     text description_ru
     text source_url
     text[] device_types
     timestamptz updated_at
   }
 
+  command_groups {
+    text id PK
+    text category_id FK
+    text title_ru
+    text description_ru
+    int sort_order
+    text icon_key
+    text icon_url
+    varchar accent_color
+    varchar accent_color_dark
+    bool featured
+    text[] preview_command_ids
+    timestamptz updated_at
+  }
+
   commands {
     text id PK
     text category_id FK
+    text group_id FK
+    int sort_order
+    text variant_label_ru
+    bool is_primary_in_group
+    text[] search_aliases
     text title_ru
     jsonb phrases
     text effect_description_ru
@@ -105,6 +143,89 @@ erDiagram
     text ip_address
     timestamptz attempted_at
   }
+
+  inventory_items {
+    text command_id PK
+    text category_id
+    jsonb phrases
+    text source_url
+    bool deprecated
+  }
+
+  editorial_records {
+    text command_id PK
+    text title_ru
+    text status
+  }
+
+  content_queue {
+    text id PK
+    text event_type
+    text command_id
+    text status
+  }
+
+  user_feedback {
+    text id PK
+    text message
+    int rating
+    text status
+  }
+
+  command_reports {
+    text id PK
+    text command_id
+    text issue_type
+    text status
+  }
+
+  command_of_day_settings {
+    text mode
+    text command_id FK
+    text auto_category_id FK
+    int auto_seed
+  }
+
+  device_guides {
+    text id PK
+    text title_ru
+    text summary_ru
+    text capabilities_ru
+    text setup_ru
+    text[] setup_steps_ru
+    text image_url
+    text action_url
+    int sort_order
+  }
+
+  device_picks {
+    text id PK
+    text title_ru
+    text action_url
+    text erid
+    text cta_ru
+    text[] placements
+    text[] tags
+    text[] device_types
+    text[] category_ids
+    text[] command_group_ids
+    text[] command_ids
+    text[] scenario_template_ids
+    text[] guide_ids
+    int priority
+    timestamptz starts_at
+    timestamptz ends_at
+    int max_impressions_per_session
+  }
+
+  analytics_events {
+    text event_id PK
+    text install_id
+    text session_id
+    text event_name
+    timestamptz occurred_at
+    jsonb params
+  }
 ```
 
 ---
@@ -112,11 +233,21 @@ erDiagram
 ## 3. Indexes
 
 ```sql
+CREATE INDEX idx_command_groups_category_sort ON command_groups(category_id, sort_order);
+CREATE INDEX idx_commands_group_sort ON commands(group_id, sort_order);
 CREATE INDEX idx_commands_category ON commands(category_id);
 CREATE INDEX idx_commands_tags ON commands USING GIN(tags);
 CREATE INDEX idx_categories_sort ON categories(sort_order);
 CREATE INDEX idx_login_attempts_ip ON login_attempts(ip_address, attempted_at);
 CREATE INDEX idx_checklist_order ON checklist_items(item_order);
+CREATE INDEX idx_editorial_status ON editorial_records(status);
+CREATE INDEX idx_content_queue_status ON content_queue(status);
+CREATE INDEX idx_user_feedback_status ON user_feedback(status);
+CREATE INDEX idx_command_reports_status ON command_reports(status);
+CREATE INDEX idx_analytics_events_occurred_at ON analytics_events (occurred_at DESC);
+CREATE INDEX idx_analytics_events_event_name_occurred ON analytics_events (event_name, occurred_at DESC);
+CREATE INDEX idx_analytics_events_install_id ON analytics_events (install_id);
+CREATE INDEX idx_analytics_request_attempts_ip_time ON analytics_request_attempts (ip_address, attempted_at DESC);
 ```
 
 ---
@@ -128,7 +259,8 @@ CREATE INDEX idx_checklist_order ON checklist_items(item_order);
 | `current_manifest` | Pointer to live bundle (single active row) |
 | `publish_history` | Audit + rollback source (last 5 on disk) |
 | `storage/bundles/` | `content_v{N}.json.gz` files |
-| `storage/manifest/` | Affiliate snapshot для public endpoint |
+| `storage/manifest/smarthome_devices.json` | Smarthome guides + picks для `GET /v1/smarthome/devices` |
+| `storage/manifest/` | Affiliate snapshot (legacy) для deprecated `/v1/affiliate/blocks` |
 
 Rollback: update `current_manifest` to previous `content_version` where bundle file still exists.
 
@@ -138,8 +270,8 @@ Rollback: update `current_manifest` to previous `content_version` where bundle f
 
 | Файл | Назначение |
 | ---- | ---------- |
-| `seed/import-smart-home.json` | Pilot Умный дом (первый dev publish) |
-| `seed/full-catalog.json` | Output `tools/content/build_bundle.py` |
+| `seed/smart-home-groups-v2.json` | Pilot Умный дом + command_groups (первый dev/staging publish) |
+| `seed/full-catalog.json` | Output `tools/content/build_bundle.py` (schema v2) |
 
 Import через admin UI или `POST /admin/api/import/json?mode=merge|replace`.
 

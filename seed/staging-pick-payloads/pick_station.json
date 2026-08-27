@@ -1,0 +1,56 @@
+﻿{
+    "id":  "pick_station",
+    "title_ru":  "Колонка с Алисой",
+    "description_ru":  "Голосовой центр дома: музыка, ответы и управление умным домом одной фразой.",
+    "image_url":  "https://staging-api.alicecommands.ru/icons/v1/yandex_station.svg",
+    "action_url":  "https://market.yandex.ru/cc/A9rcv3",
+    "sort_order":  10,
+    "guide_ids":  [
+                      "station"
+                  ],
+    "command_ids":  [
+                        "music_nazyvai_menia_novoe_imia",
+                        "music_zabud_moi_golos",
+                        "station_lava_lampa",
+                        "station_settings_bolshe_basov",
+                        "station_settings_govori_po_russki",
+                        "station_settings_gromkost_50_protsentov",
+                        "station_settings_kak_tebia_zovut",
+                        "station_settings_ne_bespokoi_do_utra",
+                        "station_settings_otkliuchi_mikrofon",
+                        "station_settings_perekliuchis_na_aux",
+                        "station_settings_prover_internet",
+                        "station_settings_prover_obnovleniia",
+                        "station_settings_rezhim_dlia_vokala",
+                        "station_settings_rezhim_svecha",
+                        "station_settings_sbros_nastroiki_zvuka",
+                        "station_settings_sdelai_podsvetku_krasnoi",
+                        "station_settings_smeni_golos",
+                        "station_settings_sozdai_stereoparu",
+                        "station_settings_vkliuchi_bluetooth_kolonku",
+                        "station_settings_vkliuchi_ekvalaizer",
+                        "station_settings_vkliuchi_nochnoi_rezhim",
+                        "station_settings_vkliuchi_podsvetku",
+                        "station_settings_vykliuchi_ekran",
+                        "station_sygraj_svoyu_melodiyu",
+                        "timers_chto_novogo",
+                        "timers_nastroi_kolonku",
+                        "timers_podpisatsia_na_novinki_ot_muzyki"
+                    ],
+    "category_ids":  [
+                         "station_settings"
+                     ],
+    "device_types":  [
+                         "station"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "catalog_persona",
+                       "checklist_complete",
+                       "search_empty",
+                       "command_detail"
+                   ],
+    "priority":  100,
+    "cta_ru":  "Смотреть цену"
+}

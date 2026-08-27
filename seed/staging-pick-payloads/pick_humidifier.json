@@ -1,0 +1,30 @@
+﻿{
+    "id":  "pick_humidifier",
+    "title_ru":  "Увлажнитель воздуха",
+    "description_ru":  "Поддерживает влажность в комнате — удобно с датчиком климата.",
+    "image_url":  "https://staging-api.alicecommands.ru/devices/v1/humidifier.png",
+    "action_url":  "https://market.yandex.ru/cc/A9wbrW",
+    "sort_order":  190,
+    "guide_ids":  [
+                      "humidifier"
+                  ],
+    "command_ids":  [
+                        "smart_home_vkliuchi_uvlazhnitel_vozdukha",
+                        "smart_home_vkliuchi_uvlazhnitel",
+                        "smart_home_vykliuchi_uvlazhnitel_cherez_30_minut"
+                    ],
+    "category_ids":  [
+                         "smart_home"
+                     ],
+    "device_types":  [
+                         "station"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "search_empty",
+                       "command_detail"
+                   ],
+    "priority":  68,
+    "cta_ru":  "Смотреть цену"
+}

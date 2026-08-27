@@ -34,9 +34,9 @@ object BundleCodec {
         return digest.digest(bytes).joinToString("") { "%02x".format(it) }
     }
 
-    /** Fingerprint of catalog content ignoring publish metadata. */
+    /** Fingerprint of catalog content ignoring publish metadata and command_of_day policy. */
     fun contentFingerprint(bundle: ContentBundle): String {
-        val normalized = bundle.copy(content_version = 0, published_at = "")
-        return sha256(gzip(toJson(normalized)))
+        val normalized = bundle.copy(content_version = 0, published_at = "", command_of_day = null)
+        return sha256(toJson(normalized).toByteArray(Charsets.UTF_8))
     }
 }

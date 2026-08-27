@@ -3,6 +3,7 @@ package ru.appforsale.alicecommands.api.infrastructure.storage
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import ru.appforsale.alicecommands.api.domain.AffiliateBlocksResponse
+import ru.appforsale.alicecommands.api.domain.SmartHomeDevicesResponse
 import ru.appforsale.alicecommands.api.domain.ports.BundleStorage
 import java.nio.file.Files
 import java.nio.file.Path
@@ -50,10 +51,10 @@ class FilesystemBundleStorage(
 
     override fun pruneOldBundles(retention: Int) {
         val bundles = bundlePath.listDirectoryEntries("content_v*.json.gz")
-            .sortedByDescending { it.name }
+            .sortedByDescending { contentVersion(it.name) ?: 0 }
         bundles.drop(retention).forEach { file ->
             Files.deleteIfExists(file)
-            val version = VERSION_IN_FILENAME.find(file.name)?.groupValues?.get(1)
+            val version = contentVersion(file.name)?.toString()
             if (version != null) {
                 Files.deleteIfExists(manifestPath.resolve("affiliate_v$version.json"))
             }
@@ -64,24 +65,26 @@ class FilesystemBundleStorage(
         manifestPath.resolve("affiliate_blocks.json").writeBytes(jsonBytes)
     }
 
-    override fun writeAffiliateVersion(contentVersion: Int, jsonBytes: ByteArray) {
-        manifestPath.resolve("affiliate_v$contentVersion.json").writeBytes(jsonBytes)
-    }
-
-    override fun restoreAffiliateFromVersion(contentVersion: Int): Boolean {
-        val versioned = manifestPath.resolve("affiliate_v$contentVersion.json")
-        if (!versioned.exists()) return false
-        manifestPath.resolve("affiliate_blocks.json").writeBytes(versioned.readBytes())
-        return true
-    }
-
     override fun readAffiliate(): AffiliateBlocksResponse? {
         val file = manifestPath.resolve("affiliate_blocks.json")
         if (!file.exists()) return null
         return json.decodeFromString(file.readBytes().decodeToString())
     }
 
+    override fun writeSmartHomeDevices(jsonBytes: ByteArray) {
+        manifestPath.resolve("smarthome_devices.json").writeBytes(jsonBytes)
+    }
+
+    override fun readSmartHomeDevices(): SmartHomeDevicesResponse? {
+        val file = manifestPath.resolve("smarthome_devices.json")
+        if (!file.exists()) return null
+        return json.decodeFromString(file.readBytes().decodeToString())
+    }
+
     companion object {
         private val VERSION_IN_FILENAME = Regex("content_v(\\d+)\\.json\\.gz")
+
+        private fun contentVersion(filename: String): Int? =
+            VERSION_IN_FILENAME.find(filename)?.groupValues?.get(1)?.toIntOrNull()
     }
 }

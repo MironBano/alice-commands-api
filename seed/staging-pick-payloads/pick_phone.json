@@ -1,0 +1,24 @@
+﻿{
+    "id":  "pick_phone",
+    "title_ru":  "Алиса на смартфоне",
+    "description_ru":  "Пульт умного дома в кармане: голос, сценарии и настройка устройств без колонки рядом.",
+    "image_url":  "https://staging-api.alicecommands.ru/icons/v1/phone.svg",
+    "action_url":  "https://market.yandex.ru/search?text=приложение%20дом%20с%20алисой",
+    "sort_order":  30,
+    "guide_ids":  [
+                      "phone"
+                  ],
+    "category_ids":  [
+                         "smart_home"
+                     ],
+    "device_types":  [
+                         "phone"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "search_empty"
+                   ],
+    "priority":  75,
+    "cta_ru":  "Смотреть цену"
+}

@@ -1,0 +1,37 @@
+﻿[
+    {
+        "day":  1,
+        "cohort_installs":  930,
+        "retained":  63,
+        "rate":  6.8,
+        "matured_cohort_days":  43
+    },
+    {
+        "day":  3,
+        "cohort_installs":  881,
+        "retained":  20,
+        "rate":  2.3,
+        "matured_cohort_days":  41
+    },
+    {
+        "day":  7,
+        "cohort_installs":  765,
+        "retained":  13,
+        "rate":  1.7,
+        "matured_cohort_days":  37
+    },
+    {
+        "day":  14,
+        "cohort_installs":  516,
+        "retained":  2,
+        "rate":  0.4,
+        "matured_cohort_days":  30
+    },
+    {
+        "day":  30,
+        "cohort_installs":  193,
+        "retained":  0,
+        "rate":  0,
+        "matured_cohort_days":  14
+    }
+]

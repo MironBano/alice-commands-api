@@ -1,0 +1,940 @@
+﻿{
+    "generated_at":  "2026-08-26T12:45:22.5675141+03:00",
+    "source":  "prod admin API https://api.alicecommands.ru",
+    "tz":  "Europe/Moscow calendar days",
+    "data_first_day":  "2026-07-13",
+    "data_last_day":  "2026-08-26",
+    "days_with_activity":  45,
+    "summary_90":  {
+                       "raw_unique":  1112,
+                       "events":  69097,
+                       "period_actives":  937,
+                       "days":  90,
+                       "avg_dau":  12.9,
+                       "unique":  972
+                   },
+    "summary_30":  {
+                       "unique":  822,
+                       "events":  56627,
+                       "period_actives":  765,
+                       "avg_dau":  31.4
+                   },
+    "summary_7":  {
+                      "unique":  358,
+                      "events":  15147,
+                      "period_actives":  218,
+                      "avg_dau":  35.4
+                  },
+    "dau_stats":  {
+                      "n":  45,
+                      "avg":  26,
+                      "median":  23,
+                      "min":  0,
+                      "max":  54,
+                      "sum":  1169
+                  },
+    "events_per_day_stats":  {
+                                 "n":  45,
+                                 "avg":  1535.5,
+                                 "median":  1315,
+                                 "min":  1,
+                                 "max":  3230,
+                                 "sum":  69097
+                             },
+    "trend_wow":  {
+                      "events_prev7":  2538,
+                      "dau_last7":  35.4,
+                      "dau_delta_pct":  -16.8,
+                      "events_last7":  2164,
+                      "dau_prev7":  42.6,
+                      "events_delta_pct":  -14.7
+                  },
+    "sticky_dau_mau_pct":  3.8,
+    "events_per_active_user_day":  59.1,
+    "session_starts_90":  2760,
+    "avg_sessions_per_unique_install":  2.84,
+    "retention_classic":  [
+                              {
+                                  "day":  1,
+                                  "cohort_installs":  930,
+                                  "retained":  63,
+                                  "rate":  6.8,
+                                  "matured_cohort_days":  43
+                              },
+                              {
+                                  "day":  3,
+                                  "cohort_installs":  881,
+                                  "retained":  20,
+                                  "rate":  2.3,
+                                  "matured_cohort_days":  41
+                              },
+                              {
+                                  "day":  7,
+                                  "cohort_installs":  765,
+                                  "retained":  13,
+                                  "rate":  1.7,
+                                  "matured_cohort_days":  37
+                              },
+                              {
+                                  "day":  14,
+                                  "cohort_installs":  516,
+                                  "retained":  2,
+                                  "rate":  0.4,
+                                  "matured_cohort_days":  30
+                              },
+                              {
+                                  "day":  30,
+                                  "cohort_installs":  193,
+                                  "retained":  0,
+                                  "rate":  0,
+                                  "matured_cohort_days":  14
+                              }
+                          ],
+    "retention_by_week":  [
+                              {
+                                  "week_start":  "2026-07-13",
+                                  "size":  80,
+                                  "d1":  8.8,
+                                  "d1_n":  80,
+                                  "d7":  2.5,
+                                  "d7_n":  80,
+                                  "d14":  1.2,
+                                  "d14_n":  80,
+                                  "d30":  0,
+                                  "d30_n":  80
+                              },
+                              {
+                                  "week_start":  "2026-07-20",
+                                  "size":  97,
+                                  "d1":  5.2,
+                                  "d1_n":  97,
+                                  "d7":  1,
+                                  "d7_n":  97,
+                                  "d14":  0,
+                                  "d14_n":  97,
+                                  "d30":  0,
+                                  "d30_n":  97
+                              },
+                              {
+                                  "week_start":  "2026-07-27",
+                                  "size":  131,
+                                  "d1":  6.9,
+                                  "d1_n":  131,
+                                  "d7":  1.5,
+                                  "d7_n":  131,
+                                  "d14":  0,
+                                  "d14_n":  131,
+                                  "d30":  0,
+                                  "d30_n":  16
+                              },
+                              {
+                                  "week_start":  "2026-08-03",
+                                  "size":  133,
+                                  "d1":  8.3,
+                                  "d1_n":  133,
+                                  "d7":  2.3,
+                                  "d7_n":  133,
+                                  "d14":  0,
+                                  "d14_n":  133,
+                                  "d30":  null,
+                                  "d30_n":  0
+                              },
+                              {
+                                  "week_start":  "2026-08-10",
+                                  "size":  217,
+                                  "d1":  6.5,
+                                  "d1_n":  217,
+                                  "d7":  0.5,
+                                  "d7_n":  217,
+                                  "d14":  1.3,
+                                  "d14_n":  75,
+                                  "d30":  null,
+                                  "d30_n":  0
+                              },
+                              {
+                                  "week_start":  "2026-08-17",
+                                  "size":  223,
+                                  "d1":  5.8,
+                                  "d1_n":  223,
+                                  "d7":  3.7,
+                                  "d7_n":  107,
+                                  "d14":  null,
+                                  "d14_n":  0,
+                                  "d30":  null,
+                                  "d30_n":  0
+                              },
+                              {
+                                  "week_start":  "2026-08-24",
+                                  "size":  56,
+                                  "d1":  8.2,
+                                  "d1_n":  49,
+                                  "d7":  null,
+                                  "d7_n":  0,
+                                  "d14":  null,
+                                  "d14_n":  0,
+                                  "d30":  null,
+                                  "d30_n":  0
+                              }
+                          ],
+    "returning_2plus_days_pct":  16.8,
+    "returning_count":  157,
+    "installs_with_daily_active":  937,
+    "active_days_distribution":  {
+                                     "1":  780,
+                                     "2-3":  141,
+                                     "4-7":  14,
+                                     "8-14":  2,
+                                     "15+":  0
+                                 },
+    "app_versions":  [
+                         {
+                             "app_version":  "1.0",
+                             "installs":  82
+                         },
+                         {
+                             "app_version":  "1.0.1",
+                             "installs":  859
+                         }
+                     ],
+    "top_events_90":  [
+                          {
+                              "event_name":  "contextual_pick_impression",
+                              "count":  13680
+                          },
+                          {
+                              "event_name":  "pro_restore",
+                              "count":  11832
+                          },
+                          {
+                              "event_name":  "screen_view",
+                              "count":  8621
+                          },
+                          {
+                              "event_name":  "content_sync",
+                              "count":  5539
+                          },
+                          {
+                              "event_name":  "ui_click",
+                              "count":  5492
+                          },
+                          {
+                              "event_name":  "command_tts",
+                              "count":  3493
+                          },
+                          {
+                              "event_name":  "app_foreground",
+                              "count":  2760
+                          },
+                          {
+                              "event_name":  "session_start",
+                              "count":  2760
+                          },
+                          {
+                              "event_name":  "session_end",
+                              "count":  2506
+                          },
+                          {
+                              "event_name":  "app_background",
+                              "count":  2505
+                          }
+                      ],
+    "weekly":  [
+                   {
+                       "week_start":  "2026-07-13",
+                       "avg_dau":  12.7,
+                       "events":  4870,
+                       "days":  7,
+                       "max_dau":  22
+                   },
+                   {
+                       "week_start":  "2026-07-20",
+                       "avg_dau":  16.4,
+                       "events":  6432,
+                       "days":  7,
+                       "max_dau":  22
+                   },
+                   {
+                       "week_start":  "2026-07-27",
+                       "avg_dau":  22.3,
+                       "events":  8294,
+                       "days":  7,
+                       "max_dau":  26
+                   },
+                   {
+                       "week_start":  "2026-08-03",
+                       "avg_dau":  24.9,
+                       "events":  10742,
+                       "days":  7,
+                       "max_dau":  33
+                   },
+                   {
+                       "week_start":  "2026-08-10",
+                       "avg_dau":  37.1,
+                       "events":  15415,
+                       "days":  7,
+                       "max_dau":  54
+                   },
+                   {
+                       "week_start":  "2026-08-17",
+                       "avg_dau":  41.6,
+                       "events":  18126,
+                       "days":  7,
+                       "max_dau":  46
+                   },
+                   {
+                       "week_start":  "2026-08-24",
+                       "avg_dau":  28,
+                       "events":  5218,
+                       "days":  3,
+                       "max_dau":  38
+                   }
+               ],
+    "funnels":  {
+                    "funnel-engagement":  {
+                                              "from":  "2026-05-29",
+                                              "to":  "2026-08-26",
+                                              "steps":  [
+                                                            {
+                                                                "event_name":  "daily_active",
+                                                                "installs":  937
+                                                            },
+                                                            {
+                                                                "event_name":  "command_view",
+                                                                "installs":  289,
+                                                                "conversion_from_previous":  30.8,
+                                                                "conversion_from_first":  30.8
+                                                            },
+                                                            {
+                                                                "event_name":  "command_copy",
+                                                                "installs":  90,
+                                                                "conversion_from_previous":  31.1,
+                                                                "conversion_from_first":  9.6
+                                                            },
+                                                            {
+                                                                "event_name":  "favorite_add",
+                                                                "installs":  12,
+                                                                "conversion_from_previous":  13.3,
+                                                                "conversion_from_first":  1.2
+                                                            }
+                                                        ]
+                                          },
+                    "funnel-rating":  {
+                                          "from":  "2026-05-29",
+                                          "to":  "2026-08-26",
+                                          "steps":  [
+                                                        {
+                                                            "event_name":  "daily_active",
+                                                            "installs":  937
+                                                        },
+                                                        {
+                                                            "event_name":  "rating_prompt_shown",
+                                                            "installs":  25,
+                                                            "conversion_from_previous":  2.6,
+                                                            "conversion_from_first":  2.6
+                                                        },
+                                                        {
+                                                            "event_name":  "rating_star_selected",
+                                                            "installs":  6,
+                                                            "conversion_from_previous":  24.0,
+                                                            "conversion_from_first":  0.6
+                                                        }
+                                                    ]
+                                      },
+                    "funnel-tts":  {
+                                       "from":  "2026-05-29",
+                                       "to":  "2026-08-26",
+                                       "steps":  [
+                                                     {
+                                                         "event_name":  "daily_active",
+                                                         "installs":  937
+                                                     },
+                                                     {
+                                                         "event_name":  "command_tts",
+                                                         "installs":  384,
+                                                         "conversion_from_previous":  40.9,
+                                                         "conversion_from_first":  40.9
+                                                     },
+                                                     {
+                                                         "event_name":  "command_copy",
+                                                         "installs":  90,
+                                                         "conversion_from_previous":  23.4,
+                                                         "conversion_from_first":  9.6
+                                                     }
+                                                 ]
+                                   },
+                    "funnel-affiliate":  {
+                                             "from":  "2026-05-29",
+                                             "to":  "2026-08-26",
+                                             "steps":  [
+                                                           {
+                                                               "event_name":  "contextual_pick_impression",
+                                                               "installs":  515
+                                                           },
+                                                           {
+                                                               "event_name":  "affiliate_click",
+                                                               "installs":  6,
+                                                               "conversion_from_previous":  1.1,
+                                                               "conversion_from_first":  1.1
+                                                           }
+                                                       ]
+                                         },
+                    "funnel-pro":  {
+                                       "from":  "2026-05-29",
+                                       "to":  "2026-08-26",
+                                       "steps":  [
+                                                     {
+                                                         "event_name":  "paywall_view",
+                                                         "installs":  47
+                                                     },
+                                                     {
+                                                         "event_name":  "pro_purchase_start",
+                                                         "installs":  7,
+                                                         "conversion_from_previous":  14.8,
+                                                         "conversion_from_first":  14.8
+                                                     },
+                                                     {
+                                                         "event_name":  "pro_activated",
+                                                         "installs":  2,
+                                                         "conversion_from_previous":  28.5,
+                                                         "conversion_from_first":  4.2
+                                                     }
+                                                 ]
+                                   },
+                    "funnel-search":  {
+                                          "from":  "2026-05-29",
+                                          "to":  "2026-08-26",
+                                          "steps":  [
+                                                        {
+                                                            "event_name":  "daily_active",
+                                                            "installs":  937
+                                                        },
+                                                        {
+                                                            "event_name":  "search",
+                                                            "installs":  0,
+                                                            "conversion_from_previous":  0.0,
+                                                            "conversion_from_first":  0.0
+                                                        },
+                                                        {
+                                                            "event_name":  "command_view",
+                                                            "installs":  289,
+                                                            "conversion_from_previous":  0.0,
+                                                            "conversion_from_first":  30.8
+                                                        }
+                                                    ]
+                                      },
+                    "funnel-errors":  {
+                                          "from":  "2026-05-29",
+                                          "to":  "2026-08-26",
+                                          "steps":  [
+                                                        {
+                                                            "event_name":  "daily_active",
+                                                            "installs":  937
+                                                        },
+                                                        {
+                                                            "event_name":  "app_error_non_fatal",
+                                                            "installs":  0,
+                                                            "conversion_from_previous":  0.0,
+                                                            "conversion_from_first":  0.0
+                                                        },
+                                                        {
+                                                            "event_name":  "billing_error",
+                                                            "installs":  0,
+                                                            "conversion_from_previous":  0.0,
+                                                            "conversion_from_first":  0.0
+                                                        }
+                                                    ]
+                                      }
+                },
+    "breakdowns":  {
+                       "breakdown-affiliate":  {
+                                                   "from":  "2026-05-29",
+                                                   "to":  "2026-08-26",
+                                                   "event_name":  "affiliate_click",
+                                                   "param":  "device_type",
+                                                   "items":  [
+
+                                                             ]
+                                               },
+                       "breakdown-ui_click":  {
+                                                  "from":  "2026-05-29",
+                                                  "to":  "2026-08-26",
+                                                  "event_name":  "ui_click",
+                                                  "param":  "element_id",
+                                                  "items":  [
+                                                                {
+                                                                    "value":  "checklist_step",
+                                                                    "count":  2105
+                                                                },
+                                                                {
+                                                                    "value":  "onboarding_continue",
+                                                                    "count":  746
+                                                                },
+                                                                {
+                                                                    "value":  "command_tts",
+                                                                    "count":  448
+                                                                },
+                                                                {
+                                                                    "value":  "tab_more",
+                                                                    "count":  368
+                                                                },
+                                                                {
+                                                                    "value":  "tab_quick",
+                                                                    "count":  356
+                                                                },
+                                                                {
+                                                                    "value":  "tab_smarthome",
+                                                                    "count":  356
+                                                                },
+                                                                {
+                                                                    "value":  "tab_catalog",
+                                                                    "count":  241
+                                                                },
+                                                                {
+                                                                    "value":  "tab_favorites",
+                                                                    "count":  209
+                                                                },
+                                                                {
+                                                                    "value":  "checklist_finish",
+                                                                    "count":  181
+                                                                },
+                                                                {
+                                                                    "value":  "contextual_pick",
+                                                                    "count":  110
+                                                                },
+                                                                {
+                                                                    "value":  "pro_gate_dismiss",
+                                                                    "count":  101
+                                                                },
+                                                                {
+                                                                    "value":  "command_copy",
+                                                                    "count":  77
+                                                                },
+                                                                {
+                                                                    "value":  "command_favorite",
+                                                                    "count":  32
+                                                                },
+                                                                {
+                                                                    "value":  "paywall_dismiss",
+                                                                    "count":  32
+                                                                },
+                                                                {
+                                                                    "value":  "more_language",
+                                                                    "count":  27
+                                                                },
+                                                                {
+                                                                    "value":  "device_guide_link",
+                                                                    "count":  22
+                                                                },
+                                                                {
+                                                                    "value":  "rating_dismiss",
+                                                                    "count":  21
+                                                                },
+                                                                {
+                                                                    "value":  "command_share",
+                                                                    "count":  19
+                                                                },
+                                                                {
+                                                                    "value":  "paywall_purchase",
+                                                                    "count":  12
+                                                                },
+                                                                {
+                                                                    "value":  "rating_star",
+                                                                    "count":  10
+                                                                },
+                                                                {
+                                                                    "value":  "pro_gate_upgrade",
+                                                                    "count":  9
+                                                                },
+                                                                {
+                                                                    "value":  "more_support",
+                                                                    "count":  8
+                                                                },
+                                                                {
+                                                                    "value":  "paywall_restore",
+                                                                    "count":  2
+                                                                }
+                                                            ]
+                                              },
+                       "breakdown-pick":  {
+                                              "from":  "2026-05-29",
+                                              "to":  "2026-08-26",
+                                              "event_name":  "contextual_pick_impression",
+                                              "param":  "device_type",
+                                              "items":  [
+
+                                                        ]
+                                          },
+                       "breakdown-screen_view":  {
+                                                     "from":  "2026-05-29",
+                                                     "to":  "2026-08-26",
+                                                     "event_name":  "screen_view",
+                                                     "param":  "route",
+                                                     "items":  [
+                                                                   {
+                                                                       "value":  "home/catalog",
+                                                                       "count":  2829
+                                                                   },
+                                                                   {
+                                                                       "value":  "category/{categoryId}",
+                                                                       "count":  1698
+                                                                   },
+                                                                   {
+                                                                       "value":  "more/checklist",
+                                                                       "count":  890
+                                                                   },
+                                                                   {
+                                                                       "value":  "command/{commandId}",
+                                                                       "count":  881
+                                                                   },
+                                                                   {
+                                                                       "value":  "home/smarthome",
+                                                                       "count":  759
+                                                                   },
+                                                                   {
+                                                                       "value":  "home/more",
+                                                                       "count":  495
+                                                                   },
+                                                                   {
+                                                                       "value":  "home/quick",
+                                                                       "count":  398
+                                                                   },
+                                                                   {
+                                                                       "value":  "home/favorites",
+                                                                       "count":  214
+                                                                   },
+                                                                   {
+                                                                       "value":  "search",
+                                                                       "count":  182
+                                                                   },
+                                                                   {
+                                                                       "value":  "paywall",
+                                                                       "count":  89
+                                                                   },
+                                                                   {
+                                                                       "value":  "device-guide/{guideId}",
+                                                                       "count":  50
+                                                                   },
+                                                                   {
+                                                                       "value":  "more/history",
+                                                                       "count":  44
+                                                                   },
+                                                                   {
+                                                                       "value":  "template/{templateId}",
+                                                                       "count":  41
+                                                                   },
+                                                                   {
+                                                                       "value":  "more/support",
+                                                                       "count":  19
+                                                                   },
+                                                                   {
+                                                                       "value":  "more/repeat-persona",
+                                                                       "count":  13
+                                                                   },
+                                                                   {
+                                                                       "value":  "more/privacy",
+                                                                       "count":  9
+                                                                   },
+                                                                   {
+                                                                       "value":  "more/disclaimer",
+                                                                       "count":  5
+                                                                   },
+                                                                   {
+                                                                       "value":  "more/faq",
+                                                                       "count":  5
+                                                                   }
+                                                               ]
+                                                 },
+                       "breakdown-content_sync":  {
+                                                      "from":  "2026-05-29",
+                                                      "to":  "2026-08-26",
+                                                      "event_name":  "content_sync",
+                                                      "param":  "trigger",
+                                                      "items":  [
+                                                                    {
+                                                                        "value":  "worker",
+                                                                        "count":  3894
+                                                                    },
+                                                                    {
+                                                                        "value":  "startup",
+                                                                        "count":  1549
+                                                                    },
+                                                                    {
+                                                                        "value":  "catalog",
+                                                                        "count":  96
+                                                                    }
+                                                                ]
+                                                  }
+                   },
+    "daily":  [
+                  {
+                      "date":  "2026-07-13",
+                      "dau":  0,
+                      "events":  1,
+                      "unique":  1
+                  },
+                  {
+                      "date":  "2026-07-14",
+                      "dau":  6,
+                      "events":  747,
+                      "unique":  23
+                  },
+                  {
+                      "date":  "2026-07-15",
+                      "dau":  16,
+                      "events":  758,
+                      "unique":  50
+                  },
+                  {
+                      "date":  "2026-07-16",
+                      "dau":  15,
+                      "events":  1009,
+                      "unique":  46
+                  },
+                  {
+                      "date":  "2026-07-17",
+                      "dau":  22,
+                      "events":  985,
+                      "unique":  68
+                  },
+                  {
+                      "date":  "2026-07-18",
+                      "dau":  18,
+                      "events":  689,
+                      "unique":  69
+                  },
+                  {
+                      "date":  "2026-07-19",
+                      "dau":  12,
+                      "events":  681,
+                      "unique":  51
+                  },
+                  {
+                      "date":  "2026-07-20",
+                      "dau":  15,
+                      "events":  941,
+                      "unique":  44
+                  },
+                  {
+                      "date":  "2026-07-21",
+                      "dau":  18,
+                      "events":  1092,
+                      "unique":  43
+                  },
+                  {
+                      "date":  "2026-07-22",
+                      "dau":  13,
+                      "events":  1315,
+                      "unique":  41
+                  },
+                  {
+                      "date":  "2026-07-23",
+                      "dau":  15,
+                      "events":  619,
+                      "unique":  45
+                  },
+                  {
+                      "date":  "2026-07-24",
+                      "dau":  11,
+                      "events":  435,
+                      "unique":  43
+                  },
+                  {
+                      "date":  "2026-07-25",
+                      "dau":  22,
+                      "events":  715,
+                      "unique":  58
+                  },
+                  {
+                      "date":  "2026-07-26",
+                      "dau":  21,
+                      "events":  1315,
+                      "unique":  56
+                  },
+                  {
+                      "date":  "2026-07-27",
+                      "dau":  22,
+                      "events":  1168,
+                      "unique":  63
+                  },
+                  {
+                      "date":  "2026-07-28",
+                      "dau":  24,
+                      "events":  1609,
+                      "unique":  70
+                  },
+                  {
+                      "date":  "2026-07-29",
+                      "dau":  21,
+                      "events":  1124,
+                      "unique":  68
+                  },
+                  {
+                      "date":  "2026-07-30",
+                      "dau":  19,
+                      "events":  691,
+                      "unique":  68
+                  },
+                  {
+                      "date":  "2026-07-31",
+                      "dau":  21,
+                      "events":  915,
+                      "unique":  76
+                  },
+                  {
+                      "date":  "2026-08-01",
+                      "dau":  26,
+                      "events":  1689,
+                      "unique":  87
+                  },
+                  {
+                      "date":  "2026-08-02",
+                      "dau":  23,
+                      "events":  1098,
+                      "unique":  87
+                  },
+                  {
+                      "date":  "2026-08-03",
+                      "dau":  25,
+                      "events":  1238,
+                      "unique":  90
+                  },
+                  {
+                      "date":  "2026-08-04",
+                      "dau":  11,
+                      "events":  994,
+                      "unique":  84
+                  },
+                  {
+                      "date":  "2026-08-05",
+                      "dau":  28,
+                      "events":  1872,
+                      "unique":  100
+                  },
+                  {
+                      "date":  "2026-08-06",
+                      "dau":  21,
+                      "events":  1216,
+                      "unique":  92
+                  },
+                  {
+                      "date":  "2026-08-07",
+                      "dau":  33,
+                      "events":  1899,
+                      "unique":  113
+                  },
+                  {
+                      "date":  "2026-08-08",
+                      "dau":  23,
+                      "events":  1623,
+                      "unique":  102
+                  },
+                  {
+                      "date":  "2026-08-09",
+                      "dau":  33,
+                      "events":  1900,
+                      "unique":  108
+                  },
+                  {
+                      "date":  "2026-08-10",
+                      "dau":  22,
+                      "events":  1219,
+                      "unique":  106
+                  },
+                  {
+                      "date":  "2026-08-11",
+                      "dau":  28,
+                      "events":  1705,
+                      "unique":  115
+                  },
+                  {
+                      "date":  "2026-08-12",
+                      "dau":  39,
+                      "events":  2922,
+                      "unique":  128
+                  },
+                  {
+                      "date":  "2026-08-13",
+                      "dau":  54,
+                      "events":  2613,
+                      "unique":  149
+                  },
+                  {
+                      "date":  "2026-08-14",
+                      "dau":  38,
+                      "events":  2065,
+                      "unique":  145
+                  },
+                  {
+                      "date":  "2026-08-15",
+                      "dau":  30,
+                      "events":  2108,
+                      "unique":  145
+                  },
+                  {
+                      "date":  "2026-08-16",
+                      "dau":  49,
+                      "events":  2783,
+                      "unique":  160
+                  },
+                  {
+                      "date":  "2026-08-17",
+                      "dau":  45,
+                      "events":  2423,
+                      "unique":  173
+                  },
+                  {
+                      "date":  "2026-08-18",
+                      "dau":  36,
+                      "events":  2544,
+                      "unique":  171
+                  },
+                  {
+                      "date":  "2026-08-19",
+                      "dau":  46,
+                      "events":  3230,
+                      "unique":  170
+                  },
+                  {
+                      "date":  "2026-08-20",
+                      "dau":  36,
+                      "events":  2202,
+                      "unique":  171
+                  },
+                  {
+                      "date":  "2026-08-21",
+                      "dau":  46,
+                      "events":  2946,
+                      "unique":  182
+                  },
+                  {
+                      "date":  "2026-08-22",
+                      "dau":  43,
+                      "events":  2777,
+                      "unique":  191
+                  },
+                  {
+                      "date":  "2026-08-23",
+                      "dau":  39,
+                      "events":  2004,
+                      "unique":  194
+                  },
+                  {
+                      "date":  "2026-08-24",
+                      "dau":  35,
+                      "events":  2130,
+                      "unique":  186
+                  },
+                  {
+                      "date":  "2026-08-25",
+                      "dau":  38,
+                      "events":  2457,
+                      "unique":  188
+                  },
+                  {
+                      "date":  "2026-08-26",
+                      "dau":  11,
+                      "events":  631,
+                      "unique":  105
+                  }
+              ]
+}

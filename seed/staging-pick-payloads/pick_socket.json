@@ -1,0 +1,38 @@
+﻿{
+    "id":  "pick_socket",
+    "title_ru":  "Умная розетка",
+    "description_ru":  "Включает и выключает обычные приборы через Алису — без замены самой техники.",
+    "image_url":  "https://staging-api.alicecommands.ru/devices/v1/socket.png",
+    "action_url":  "https://market.yandex.ru/cc/A9swy9",
+    "sort_order":  60,
+    "guide_ids":  [
+                      "socket"
+                  ],
+    "command_ids":  [
+                        "sh_socket_off",
+                        "sh_socket_on",
+                        "smart_home_vkliuchi_rozetki_dlia_uvlazhnitelei",
+                        "smart_home_vkliuchi_rozetki_na_kukhne",
+                        "smart_home_vkliuchi_rozetki",
+                        "smart_home_vkliuchi_rozetku",
+                        "smart_home_vkliuchi_vykliuchi_rozetki_vezde",
+                        "smart_home_vykliuchi_kompiuternye_rozetki",
+                        "smart_home_vykliuchi_rozetki_v_koridore",
+                        "smart_home_vykliuchi_rozetku"
+                    ],
+    "category_ids":  [
+                         "smart_home"
+                     ],
+    "device_types":  [
+                         "station"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "scenario_detail",
+                       "search_empty",
+                       "command_detail"
+                   ],
+    "priority":  85,
+    "cta_ru":  "Смотреть цену"
+}

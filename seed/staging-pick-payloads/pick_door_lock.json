@@ -1,0 +1,30 @@
+﻿{
+    "id":  "pick_door_lock",
+    "title_ru":  "Умный замок",
+    "description_ru":  "Электронные замки в экосистеме Алисы (режим с ограничениями — см. справку Яндекса).",
+    "image_url":  "https://staging-api.alicecommands.ru/devices/v1/door_lock.png",
+    "action_url":  "https://market.yandex.ru/cc/A9xjiW",
+    "sort_order":  230,
+    "guide_ids":  [
+                      "door_lock"
+                  ],
+    "command_ids":  [
+                        "smart_home_vkliuchi_okhranu",
+                        "smart_home_zakroi_zamok"
+                    ],
+    "category_ids":  [
+                         "smart_home"
+                     ],
+    "device_types":  [
+                         "station",
+                         "phone"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "search_empty",
+                       "command_detail"
+                   ],
+    "priority":  72,
+    "cta_ru":  "Смотреть цену"
+}

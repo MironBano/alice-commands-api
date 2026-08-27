@@ -1,0 +1,35 @@
+﻿{
+    "id":  "pick_baby_monitor",
+    "title_ru":  "Радионяня",
+    "description_ru":  "Слушать ребёнка через колонку с Алисой",
+    "image_url":  "https://staging-api.alicecommands.ru/icons/v1/baby_monitor.svg",
+    "action_url":  "https://market.yandex.ru/search?text=радионяня%20яндекс",
+    "sort_order":  265,
+    "guide_ids":  [
+                      "camera",
+                      "station"
+                  ],
+    "command_ids":  [
+                        "calls_vkliuchi_radioniania",
+                        "calls_vklyuchi_radionyanyu_v_detskoy",
+                        "calls_vykliuchi_radioniania"
+                    ],
+    "category_ids":  [
+                         "calls"
+                     ],
+    "device_types":  [
+                         "station"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "scenario_detail",
+                       "command_detail",
+                       "checklist_complete"
+                   ],
+    "priority":  82,
+    "cta_ru":  "Смотреть цену",
+    "tags":  [
+                 "starter_kit"
+             ]
+}

@@ -1,0 +1,46 @@
+﻿{
+    "id":  "pick_thermostat_ac",
+    "title_ru":  "Кондиционер",
+    "description_ru":  "Охлаждение и обогрев комнаты голосом: режим, температура, вкл/выкл.",
+    "image_url":  "https://staging-api.alicecommands.ru/devices/v1/thermostat_ac.png",
+    "action_url":  "https://market.yandex.ru/cc/A9wM6B",
+    "sort_order":  180,
+    "guide_ids":  [
+                      "thermostat_ac"
+                  ],
+    "command_ids":  [
+                        "smart_home_kakaia_skorost_obduva_vkliuchena_u_klima",
+                        "smart_home_kakaia_skorost_obduva_vkliuchena_u_kondi",
+                        "smart_home_kakaia_skorost_obduva_vkliuchena_u_mobil",
+                        "smart_home_konditsioner",
+                        "smart_home_vkliuchi_klimat_kontrol_na_20_gradusov",
+                        "smart_home_vkliuchi_konditsioner_na_20_gradusov",
+                        "smart_home_vkliuchi_konditsioner_v_gostinoi_na_20_g",
+                        "smart_home_vkliuchi_konditsioner_zavtra_v_8_utra",
+                        "smart_home_vkliuchi_konditsioner",
+                        "smart_home_vkliuchi_konditsionery_na_20_gradusov",
+                        "smart_home_vkliuchi_konditsionery",
+                        "smart_home_vkliuchi_okhlazhdenie",
+                        "smart_home_vkliuchi_pokholodnee_konditsioner_na_kuk",
+                        "smart_home_vkliuchi_pokholodnee_konditsionery_na_ku",
+                        "smart_home_vkliuchi_pokholodnee_split_sistemu",
+                        "smart_home_vkliuchi_poteplee_okhlazhdenie",
+                        "smart_home_vykliuchi_glavnyi_konditsioner",
+                        "smart_home_vykliuchi_konditsioner_v_detskoi",
+                        "smart_home_vykliuchi_konditsioner"
+                    ],
+    "category_ids":  [
+                         "smart_home"
+                     ],
+    "device_types":  [
+                         "station"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "search_empty",
+                       "command_detail"
+                   ],
+    "priority":  86,
+    "cta_ru":  "Смотреть цену"
+}

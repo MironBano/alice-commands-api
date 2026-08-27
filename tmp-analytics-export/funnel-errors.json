@@ -1,0 +1,22 @@
+﻿{
+    "from":  "2026-05-29",
+    "to":  "2026-08-26",
+    "steps":  [
+                  {
+                      "event_name":  "daily_active",
+                      "installs":  937
+                  },
+                  {
+                      "event_name":  "app_error_non_fatal",
+                      "installs":  0,
+                      "conversion_from_previous":  0.0,
+                      "conversion_from_first":  0.0
+                  },
+                  {
+                      "event_name":  "billing_error",
+                      "installs":  0,
+                      "conversion_from_previous":  0.0,
+                      "conversion_from_first":  0.0
+                  }
+              ]
+}

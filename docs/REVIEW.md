@@ -1,6 +1,6 @@
 # REVIEW — закрытие открытых пунктов ТЗ backend
 
-**Дата:** 2026-06-26 · **Статус:** зафиксировано для v1.0
+**Дата:** 2026-06-26 · **Обновлено:** 2026-06-29 (schema v2) · **Статус:** v1.0 + schema v2 зафиксировано
 
 ---
 
@@ -9,12 +9,25 @@
 | # | Вопрос | Решение |
 | - | ------ | ------- |
 | 1 | Имя репозитория | **`alice-commands-api`** — GitHub `MironBano/alice-commands-api` |
-| 2 | Домен | **TBD перед prod**; рекомендация: `api.<domain>.ru` + `staging-api.<domain>.ru` — см. [DEPLOYMENT.md](DEPLOYMENT.md) |
+| 2 | Домен | **`api.alicecommands.ru`** (prod), **`staging-api.alicecommands.ru`** — см. [INFRASTRUCTURE.md](INFRASTRUCTURE.md) |
 | 3 | Admin UI стек | **Ktor + static HTML + Alpine.js** (не Compose Web) |
 | 4 | Import pilot JSON | **Да в v1.0** — B08, экран Import в [ADMIN-UX.md](ADMIN-UX.md) |
 | 5 | Rollback publish | **Да** — хранить **5** последних bundle ([BACKEND-REQUIREMENTS.md](BACKEND-REQUIREMENTS.md) B06) |
 | 6 | Bulk CSV import | **v1.0.1** (не v1.0) |
 | 7 | Parser assist UI | **v1.1** |
+| 8 | Command groups schema v2 | **Реализовано** — см. [BACKEND-COMMAND-GROUPS.md](BACKEND-COMMAND-GROUPS.md) |
+| 9 | Delta sync endpoint | **Реализовано** в v1.0+ (ранее планировался v1.0.1) |
+
+---
+
+## Schema v2 (2026-06-29)
+
+| Тема | Решение |
+| ---- | ------- |
+| Pilot category | `smart_home` — `seed/smart-home-groups-v2.json` |
+| Publish gate | `CommandGroupValidationUseCase` перед JSON Schema |
+| Admin reorder | ▲/▼, не DnD |
+| `full-catalog.json` | `schema_version: 2`; editorial groups — post-pilot |
 
 ---
 
@@ -43,15 +56,16 @@
 - [x] Ссылка из AliceCommands `RESEARCH-INDEX.md`
 - [x] `GAP-ANALYSIS.md`, `SECURITY.md`, `ARCHITECTURE.md`
 - [ ] **Ревью walkthrough с владельцем** — async (этот документ + комментарии в issue)
-- [ ] **GitHub repo live** — требует `gh auth login` + push
+- [x] **GitHub repo live** — https://github.com/MironBano/alice-commands-api
 
 ---
 
-## Следующий этап (реализация)
+## Следующий этап (ops + app)
 
-1. BL-015 — Ktor public API + publish (MVP)
-2. BL-016 — Admin UI + полный каталог
-3. Android BL-004 — sync на staging URL
+1. Staging: import `smart-home-groups-v2.json` (sync) → Publish → `verify-staging.ps1` (schema=2)
+2. Android: grouped UI QA на staging ([RUNBOOK-PUBLISH.md](RUNBOOK-PUBLISH.md) §10)
+3. Editorial groups для остальных категорий в `full-catalog.json`
+4. Prod publish — после app gate в RuStore
 
 ---
 

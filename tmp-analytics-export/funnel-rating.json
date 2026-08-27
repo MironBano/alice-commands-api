@@ -1,0 +1,22 @@
+﻿{
+    "from":  "2026-05-29",
+    "to":  "2026-08-26",
+    "steps":  [
+                  {
+                      "event_name":  "daily_active",
+                      "installs":  937
+                  },
+                  {
+                      "event_name":  "rating_prompt_shown",
+                      "installs":  25,
+                      "conversion_from_previous":  2.6,
+                      "conversion_from_first":  2.6
+                  },
+                  {
+                      "event_name":  "rating_star_selected",
+                      "installs":  6,
+                      "conversion_from_previous":  24.0,
+                      "conversion_from_first":  0.6
+                  }
+              ]
+}

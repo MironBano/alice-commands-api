@@ -1,0 +1,11 @@
+{
+  "folderName": "Alice Commands",
+  "shortcuts": [
+    { "name": "Alice 1 - Push catalog", "target": "1-Push-catalog.bat", "icon": "shell32.dll,167" },
+    { "name": "Alice 2 - Validate catalog", "target": "2-Validate-catalog.bat", "icon": "shell32.dll,165" },
+    { "name": "Alice 3 - Pull catalog", "target": "3-Pull-catalog.bat", "icon": "shell32.dll,238" },
+    { "name": "Alice 4 - Admin staging", "target": "4-Otkryt-admin.bat", "icon": "shell32.dll,14" },
+    { "name": "Alice 5 - Proverit staging", "target": "5-Proverit-staging.bat", "icon": "shell32.dll,220" },
+    { "name": "Alice 6 - Deploy backend", "target": "6-Deploy-staging.bat", "icon": "shell32.dll,21" }
+  ]
+}

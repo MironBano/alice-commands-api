@@ -1,0 +1,96 @@
+﻿{
+    "from":  "2026-08-20",
+    "to":  "2026-08-26",
+    "daily_active_installs":  218,
+    "total_events":  15147,
+    "unique_installs":  358,
+    "top_events":  [
+                       {
+                           "event_name":  "pro_restore",
+                           "count":  3230
+                       },
+                       {
+                           "event_name":  "contextual_pick_impression",
+                           "count":  2681
+                       },
+                       {
+                           "event_name":  "screen_view",
+                           "count":  1803
+                       },
+                       {
+                           "event_name":  "content_sync",
+                           "count":  1380
+                       },
+                       {
+                           "event_name":  "ui_click",
+                           "count":  1053
+                       },
+                       {
+                           "event_name":  "command_tts",
+                           "count":  880
+                       },
+                       {
+                           "event_name":  "app_foreground",
+                           "count":  559
+                       },
+                       {
+                           "event_name":  "session_start",
+                           "count":  559
+                       },
+                       {
+                           "event_name":  "app_background",
+                           "count":  499
+                       },
+                       {
+                           "event_name":  "session_end",
+                           "count":  498
+                       }
+                   ],
+    "raw_unique_installs":  358,
+    "daily":  [
+                  {
+                      "date":  "2026-08-20",
+                      "events":  2202,
+                      "dau":  36,
+                      "unique_installs":  171
+                  },
+                  {
+                      "date":  "2026-08-21",
+                      "events":  2946,
+                      "dau":  46,
+                      "unique_installs":  182
+                  },
+                  {
+                      "date":  "2026-08-22",
+                      "events":  2777,
+                      "dau":  43,
+                      "unique_installs":  191
+                  },
+                  {
+                      "date":  "2026-08-23",
+                      "events":  2004,
+                      "dau":  39,
+                      "unique_installs":  194
+                  },
+                  {
+                      "date":  "2026-08-24",
+                      "events":  2130,
+                      "dau":  35,
+                      "unique_installs":  186
+                  },
+                  {
+                      "date":  "2026-08-25",
+                      "events":  2457,
+                      "dau":  38,
+                      "unique_installs":  188
+                  },
+                  {
+                      "date":  "2026-08-26",
+                      "events":  631,
+                      "dau":  11,
+                      "unique_installs":  105
+                  }
+              ],
+    "avg_dau":  35.4,
+    "days_in_range":  7
+}

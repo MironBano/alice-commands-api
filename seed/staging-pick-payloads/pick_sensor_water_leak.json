@@ -1,0 +1,24 @@
+﻿{
+    "id":  "pick_sensor_water_leak",
+    "title_ru":  "Датчик протечки",
+    "description_ru":  "Ловит воду на полу — уведомление и сценарий перекрытия крана.",
+    "image_url":  "https://staging-api.alicecommands.ru/devices/v1/sensor_water_leak.png",
+    "action_url":  "https://market.yandex.ru/cc/A9unGB",
+    "sort_order":  110,
+    "guide_ids":  [
+                      "sensor_water_leak"
+                  ],
+    "category_ids":  [
+                         "smart_home"
+                     ],
+    "device_types":  [
+                         "station"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "search_empty"
+                   ],
+    "priority":  65,
+    "cta_ru":  "Смотреть цену"
+}

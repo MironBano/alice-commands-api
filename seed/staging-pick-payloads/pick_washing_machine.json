@@ -1,0 +1,24 @@
+﻿{
+    "id":  "pick_washing_machine",
+    "title_ru":  "Стиральная машина",
+    "description_ru":  "Запуск стирки и статус — для моделей в экосистеме Алисы.",
+    "image_url":  "https://staging-api.alicecommands.ru/devices/v1/washing_machine.png",
+    "action_url":  "https://market.yandex.ru/cc/AA2jWZ",
+    "sort_order":  310,
+    "guide_ids":  [
+                      "washing_machine"
+                  ],
+    "category_ids":  [
+                         "smart_home"
+                     ],
+    "device_types":  [
+                         "station"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "search_empty"
+                   ],
+    "priority":  55,
+    "cta_ru":  "Смотреть цену"
+}

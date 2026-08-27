@@ -1,0 +1,100 @@
+﻿{
+    "from":  "2026-05-29",
+    "to":  "2026-08-26",
+    "event_name":  "ui_click",
+    "param":  "element_id",
+    "items":  [
+                  {
+                      "value":  "checklist_step",
+                      "count":  2105
+                  },
+                  {
+                      "value":  "onboarding_continue",
+                      "count":  746
+                  },
+                  {
+                      "value":  "command_tts",
+                      "count":  448
+                  },
+                  {
+                      "value":  "tab_more",
+                      "count":  368
+                  },
+                  {
+                      "value":  "tab_quick",
+                      "count":  356
+                  },
+                  {
+                      "value":  "tab_smarthome",
+                      "count":  356
+                  },
+                  {
+                      "value":  "tab_catalog",
+                      "count":  241
+                  },
+                  {
+                      "value":  "tab_favorites",
+                      "count":  209
+                  },
+                  {
+                      "value":  "checklist_finish",
+                      "count":  181
+                  },
+                  {
+                      "value":  "contextual_pick",
+                      "count":  110
+                  },
+                  {
+                      "value":  "pro_gate_dismiss",
+                      "count":  101
+                  },
+                  {
+                      "value":  "command_copy",
+                      "count":  77
+                  },
+                  {
+                      "value":  "command_favorite",
+                      "count":  32
+                  },
+                  {
+                      "value":  "paywall_dismiss",
+                      "count":  32
+                  },
+                  {
+                      "value":  "more_language",
+                      "count":  27
+                  },
+                  {
+                      "value":  "device_guide_link",
+                      "count":  22
+                  },
+                  {
+                      "value":  "rating_dismiss",
+                      "count":  21
+                  },
+                  {
+                      "value":  "command_share",
+                      "count":  19
+                  },
+                  {
+                      "value":  "paywall_purchase",
+                      "count":  12
+                  },
+                  {
+                      "value":  "rating_star",
+                      "count":  10
+                  },
+                  {
+                      "value":  "pro_gate_upgrade",
+                      "count":  9
+                  },
+                  {
+                      "value":  "more_support",
+                      "count":  8
+                  },
+                  {
+                      "value":  "paywall_restore",
+                      "count":  2
+                  }
+              ]
+}

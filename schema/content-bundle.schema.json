@@ -22,6 +22,10 @@
       "type": "array",
       "items": { "$ref": "#/$defs/category" }
     },
+    "command_groups": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/commandGroup" }
+    },
     "commands": {
       "type": "array",
       "items": { "$ref": "#/$defs/command" }
@@ -33,7 +37,8 @@
     "checklist_items": {
       "type": "array",
       "items": { "$ref": "#/$defs/checklistItem" }
-    }
+    },
+    "command_of_day": { "$ref": "#/$defs/commandOfDay" }
   },
   "$defs": {
     "category": {
@@ -46,11 +51,34 @@
         "sort_order": { "type": "integer" },
         "featured": { "type": "boolean" },
         "icon_key": { "type": "string" },
+        "icon_url": { "type": "string", "format": "uri" },
+        "accent_color": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "accent_color_dark": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
         "description_ru": { "type": "string" },
         "source_url": { "type": "string", "format": "uri" },
         "device_types": {
           "type": "array",
           "items": { "enum": ["station", "tv", "phone"] }
+        }
+      }
+    },
+    "commandGroup": {
+      "type": "object",
+      "required": ["id", "category_id", "title_ru", "sort_order"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+        "category_id": { "type": "string" },
+        "title_ru": { "type": "string", "minLength": 1 },
+        "description_ru": { "type": "string" },
+        "sort_order": { "type": "integer" },
+        "icon_key": { "type": "string" },
+        "icon_url": { "type": "string", "format": "uri" },
+        "accent_color": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "accent_color_dark": { "type": "string", "pattern": "^#[0-9A-Fa-f]{6}$" },
+        "featured": { "type": "boolean" },
+        "preview_command_ids": {
+          "type": "array",
+          "items": { "type": "string" }
         }
       }
     },
@@ -69,6 +97,10 @@
       "properties": {
         "id": { "type": "string", "minLength": 1 },
         "category_id": { "type": "string" },
+        "group_id": { "type": "string" },
+        "sort_order": { "type": "integer" },
+        "variant_label_ru": { "type": "string" },
+        "is_primary_in_group": { "type": "boolean" },
         "title_ru": { "type": "string", "minLength": 1 },
         "phrases": {
           "type": "array",
@@ -86,6 +118,10 @@
           "type": "array",
           "items": { "type": "string" }
         },
+        "search_aliases": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
         "source_url": { "type": "string", "format": "uri" },
         "published_at": { "type": "string", "format": "date-time" },
         "updated_at": { "type": "string", "format": "date-time" },
@@ -93,7 +129,8 @@
           "type": "array",
           "items": { "type": "string" }
         }
-      }
+      },
+      "additionalProperties": false
     },
     "scenarioTemplate": {
       "type": "object",
@@ -118,6 +155,20 @@
         "command_id": { "type": "string" },
         "hint_ru": { "type": "string" }
       }
+    },
+    "commandOfDay": {
+      "type": "object",
+      "required": ["mode", "command_id", "resolved_date", "updated_at"],
+      "properties": {
+        "mode": { "enum": ["manual", "auto"] },
+        "command_id": { "type": "string", "minLength": 1 },
+        "auto_category_id": { "type": ["string", "null"] },
+        "auto_seed": { "type": "integer", "minimum": 1, "default": 31 },
+        "resolved_date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "updated_at": { "type": "string", "format": "date-time" }
+      },
+      "if": { "properties": { "mode": { "const": "auto" } } },
+      "then": { "required": ["auto_category_id"] }
     }
   }
 }

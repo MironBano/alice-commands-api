@@ -1,0 +1,19 @@
+{
+  "id": "kettle",
+  "title_ru": "Умный чайник",
+  "summary_ru": "Кипячение и поддержание температуры — «Алиса, включи чайник».",
+  "capabilities_ru": "Тип cooking.kettle: кипячение, иногда выбор температуры и поддержание тепла. Примеры: «Алиса, включи чайник», «Алиса, чайник на 80 градусов».",
+  "setup_ru": "Поставьте чайник на базу, подключите к Wi‑Fi и добавьте в «Дом с Алисой».",
+  "setup_steps_ru": [
+    "Установите базу и налейте воду",
+    "Подключите чайник к сети Wi‑Fi по инструкции",
+    "Добавьте в «Дом с Алисой»",
+    "Проверьте кипячение голосом",
+    "Добавьте в сценарий «утро»"
+  ],
+  "related_devices_ru": "Кофемашина, кухонная техника, колонка на кухне",
+  "related_device_ids": ["coffee_maker", "cooking", "station"],
+  "image_url": "https://staging-api.alicecommands.ru/icons/v1/tea.svg",
+  "action_url": "https://yandex.ru/dev/dialogs/smart-home/doc/ru/concepts/device-type-cooking-kettle",
+  "sort_order": 280
+}

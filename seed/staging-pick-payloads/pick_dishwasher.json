@@ -1,0 +1,24 @@
+﻿{
+    "id":  "pick_dishwasher",
+    "title_ru":  "Посудомоечная машина",
+    "description_ru":  "Старт и контроль мойки голосом для совместимых моделей.",
+    "image_url":  "https://staging-api.alicecommands.ru/devices/v1/dishwasher.png",
+    "action_url":  "https://market.yandex.ru/cc/AA2aWR",
+    "sort_order":  300,
+    "guide_ids":  [
+                      "dishwasher"
+                  ],
+    "category_ids":  [
+                         "smart_home"
+                     ],
+    "device_types":  [
+                         "station"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "search_empty"
+                   ],
+    "priority":  55,
+    "cta_ru":  "Смотреть цену"
+}

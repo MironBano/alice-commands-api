@@ -1,0 +1,208 @@
+﻿{
+    "from":  "2026-05-29",
+    "to":  "2026-08-26",
+    "event_name":  "command_tts",
+    "param":  "command_id",
+    "items":  [
+                  {
+                      "value":  "music_luchshie_kompozitsii",
+                      "count":  147
+                  },
+                  {
+                      "value":  "music_muzyka",
+                      "count":  142
+                  },
+                  {
+                      "value":  "music_vkliuchi_muzyku",
+                      "count":  92
+                  },
+                  {
+                      "value":  "smart_home_vkliuchi_girliandu",
+                      "count":  76
+                  },
+                  {
+                      "value":  "general_gromche",
+                      "count":  70
+                  },
+                  {
+                      "value":  "quick_commands_dalshe",
+                      "count":  64
+                  },
+                  {
+                      "value":  "sh_light_off",
+                      "count":  61
+                  },
+                  {
+                      "value":  "sh_light_dim",
+                      "count":  60
+                  },
+                  {
+                      "value":  "calls_pozvoni",
+                      "count":  49
+                  },
+                  {
+                      "value":  "timers_postav_taimer_na_5_minut",
+                      "count":  48
+                  },
+                  {
+                      "value":  "music_muzyku_gromche",
+                      "count":  42
+                  },
+                  {
+                      "value":  "quick_commands_budi_v_7_utra",
+                      "count":  42
+                  },
+                  {
+                      "value":  "smart_home_vkliuchi_svet_v_balkone",
+                      "count":  39
+                  },
+                  {
+                      "value":  "music_bitlz",
+                      "count":  38
+                  },
+                  {
+                      "value":  "station_settings_gromkost_50_protsentov",
+                      "count":  35
+                  },
+                  {
+                      "value":  "quick_commands_bystrye",
+                      "count":  33
+                  },
+                  {
+                      "value":  "music_avtoradio",
+                      "count":  32
+                  },
+                  {
+                      "value":  "station_settings_kak_tebia_zovut",
+                      "count":  32
+                  },
+                  {
+                      "value":  "kids_vo_chto_poigrat",
+                      "count":  31
+                  },
+                  {
+                      "value":  "quick_commands_alisa",
+                      "count":  30
+                  },
+                  {
+                      "value":  "calls_otvet_na_zvonok",
+                      "count":  29
+                  },
+                  {
+                      "value":  "music_na_10_sekund_vpered",
+                      "count":  29
+                  },
+                  {
+                      "value":  "sh_socket_off",
+                      "count":  29
+                  },
+                  {
+                      "value":  "sh_socket_on",
+                      "count":  29
+                  },
+                  {
+                      "value":  "general_na_minimum_gromkosti",
+                      "count":  27
+                  },
+                  {
+                      "value":  "general_davai_prigotovim_lazaniu",
+                      "count":  26
+                  },
+                  {
+                      "value":  "quick_commands_vykliuchi_muzyku",
+                      "count":  26
+                  },
+                  {
+                      "value":  "smart_home_vkliuchi_svet_v_detskoi",
+                      "count":  26
+                  },
+                  {
+                      "value":  "music_davai_poslushaem_diskoteku_80_kh",
+                      "count":  25
+                  },
+                  {
+                      "value":  "quick_commands_kakaia_pogoda",
+                      "count":  25
+                  },
+                  {
+                      "value":  "station_settings_bolshe_basov",
+                      "count":  25
+                  },
+                  {
+                      "value":  "quick_answers_kakaia_pogoda",
+                      "count":  24
+                  },
+                  {
+                      "value":  "kids_rasskazhi_skazku",
+                      "count":  22
+                  },
+                  {
+                      "value":  "audiobooks_vkliuchi_audioknigu",
+                      "count":  21
+                  },
+                  {
+                      "value":  "quick_commands_kotoryi_chas",
+                      "count":  21
+                  },
+                  {
+                      "value":  "sh_light_on",
+                      "count":  21
+                  },
+                  {
+                      "value":  "general_kakoi_u_menia_wi_fi",
+                      "count":  20
+                  },
+                  {
+                      "value":  "quick_commands_nazad",
+                      "count":  20
+                  },
+                  {
+                      "value":  "quick_commands_vkliuchi_radio",
+                      "count":  20
+                  },
+                  {
+                      "value":  "sh_scenario_morning",
+                      "count":  20
+                  },
+                  {
+                      "value":  "station_settings_vkliuchi_podsvetku",
+                      "count":  20
+                  },
+                  {
+                      "value":  "general_na_polnuiu_gromkost",
+                      "count":  19
+                  },
+                  {
+                      "value":  "quick_commands_zavtrak",
+                      "count":  19
+                  },
+                  {
+                      "value":  "smart_home_otkroi_shtory",
+                      "count":  19
+                  },
+                  {
+                      "value":  "station_settings_smeni_golos",
+                      "count":  19
+                  },
+                  {
+                      "value":  "music_davai_dalshe",
+                      "count":  18
+                  },
+                  {
+                      "value":  "sh_camera_view",
+                      "count":  17
+                  },
+                  {
+                      "value":  "tv_video_igrai",
+                      "count":  17
+                  },
+                  {
+                      "value":  "music_belye_rozy",
+                      "count":  16
+                  },
+                  {
+                      "value":  "obscure_mertsaiushchaia_podsvetka",
+                      "count":  16
+                  }
+              ]
+}

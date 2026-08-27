@@ -29,6 +29,12 @@ fun Application.configureStatusPages() {
         exception<SecurityException> { call, cause ->
             call.respond(HttpStatusCode.Unauthorized, ApiError("unauthorized", cause.message ?: "Unauthorized"))
         }
+        exception<io.ktor.server.plugins.BadRequestException> { call, cause ->
+            call.respond(
+                HttpStatusCode.BadRequest,
+                ApiError("validation_failed", cause.message ?: "Invalid request body"),
+            )
+        }
         exception<Throwable> { call, cause ->
             call.application.environment.log.error("Unhandled error", cause)
             call.respond(HttpStatusCode.InternalServerError, ApiError("internal_error", "Internal server error"))

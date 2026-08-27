@@ -1,0 +1,31 @@
+﻿{
+    "id":  "pick_camera",
+    "title_ru":  "Камера",
+    "description_ru":  "Видео с камеры, домофона или глазка — на телефон, колонку с экраном или ТВ.",
+    "image_url":  "https://staging-api.alicecommands.ru/devices/v1/camera.png",
+    "action_url":  "https://market.yandex.ru/cc/A9yaNc",
+    "sort_order":  260,
+    "guide_ids":  [
+                      "camera"
+                  ],
+    "command_ids":  [
+                        "sh_camera_view",
+                        "smart_home_pokazhi_kameru_v_prikhozhei_na_televizor"
+                    ],
+    "category_ids":  [
+                         "smart_home"
+                     ],
+    "device_types":  [
+                         "station",
+                         "tv",
+                         "phone"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "search_empty",
+                       "command_detail"
+                   ],
+    "priority":  88,
+    "cta_ru":  "Смотреть цену"
+}

@@ -1,0 +1,156 @@
+{
+  "categories": {
+    "general": {
+      "icon_key": "star",
+      "accent_color": "#E8A317",
+      "accent_color_dark": "#F5C842"
+    },
+    "music": {
+      "icon_key": "music_note",
+      "accent_color": "#5B21B6",
+      "accent_color_dark": "#A78BFA"
+    },
+    "audiobooks": {
+      "icon_key": "book",
+      "accent_color": "#B45309",
+      "accent_color_dark": "#FCD34D"
+    },
+    "tv_video": {
+      "icon_key": "tv",
+      "accent_color": "#16A34A",
+      "accent_color_dark": "#86EFAC"
+    },
+    "quick_answers": {
+      "icon_key": "quick_answers",
+      "accent_color": "#0891B2",
+      "accent_color_dark": "#67E8F9"
+    },
+    "timers": {
+      "icon_key": "timer",
+      "accent_color": "#E85D4A",
+      "accent_color_dark": "#F5A99E"
+    },
+    "smart_home": {
+      "icon_key": "home_iot",
+      "accent_color": "#1B6B5A",
+      "accent_color_dark": "#4DB6A0"
+    },
+    "station_settings": {
+      "icon_key": "speaker",
+      "accent_color": "#64748B",
+      "accent_color_dark": "#94A3B8"
+    },
+    "calls": {
+      "icon_key": "phone_call",
+      "accent_color": "#1D4ED8",
+      "accent_color_dark": "#93C5FD"
+    },
+    "kids": {
+      "icon_key": "child",
+      "accent_color": "#DB2777",
+      "accent_color_dark": "#F9A8D4"
+    },
+    "alice_plus": {
+      "icon_key": "plus",
+      "accent_color": "#9333EA",
+      "accent_color_dark": "#C084FC"
+    },
+    "quick_commands": {
+      "icon_key": "bolt",
+      "accent_color": "#F97316",
+      "accent_color_dark": "#FDBA74"
+    },
+    "obscure": {
+      "icon_key": "sparkles",
+      "accent_color": "#DC2626",
+      "accent_color_dark": "#FCA5A5"
+    }
+  },
+  "groups": {
+    "alice_plus_subscription": "plus",
+    "alice_plus_content": "play",
+    "alice_plus_education": "study",
+    "alice_plus_kids_routine": "child",
+    "ab_playback": "play",
+    "ab_navigation": "skip_next",
+    "ab_play": "play",
+    "ab_nav": "skip_next",
+    "ab_search": "search",
+    "ab_info": "book",
+    "calls_outgoing": "phone_call",
+    "calls_contacts": "contacts",
+    "calls_intercom": "intercom",
+    "calls_babymonitor": "nanny",
+    "calls_messages": "message",
+    "general_playback": "volume_up",
+    "general_timers": "timer",
+    "general_shopping": "shopping",
+    "general_cooking": "cooking",
+    "general_info": "quick_answers",
+    "general_social": "message",
+    "general_fun": "jokes",
+    "general_nav": "navigation",
+    "general_calc": "calculator",
+    "general_translate": "translate",
+    "general_device": "phone",
+    "general_services": "services",
+    "general_music_migrated": "music_note",
+    "general_overflow_kids": "child",
+    "general_overflow_smart_home": "home_iot",
+    "general_overflow_tv": "tv",
+    "general_overflow_timers": "timer",
+    "general_overflow_alice_plus": "plus",
+    "general_overflow_audiobooks": "book",
+    "general_overflow_obscure": "sparkles",
+    "general_overflow_quick": "bolt",
+    "general_overflow_calls": "phone_call",
+    "kids_games": "games",
+    "kids_fairy_tales": "fairy_tales",
+    "kids_education": "alphabet",
+    "kids_activities": "toys",
+    "music_playback": "play",
+    "music_radio": "radio",
+    "music_search": "search",
+    "music_genre_mood": "genre",
+    "music_favorites": "favorite",
+    "music_info": "music_note",
+    "music_podcasts": "podcast",
+    "music_services": "services",
+    "obscure_light": "brightness",
+    "obscure_ambient": "night",
+    "obscure_device_modes": "settings",
+    "obscure_hidden": "hidden_tips",
+    "obscure_easter_eggs": "jokes",
+    "qa_weather_city": "weather",
+    "qa_facts": "quick_answers",
+    "qa_sun": "sun",
+    "qa_news": "news",
+    "qc_playback": "play",
+    "qc_media": "music_note",
+    "qc_smart_home": "home_iot",
+    "qc_time": "timer",
+    "qc_weather": "weather",
+    "qc_calls": "phone_call",
+    "qc_meals": "food",
+    "qc_nav": "navigation",
+    "smart_home_light": "lightbulb",
+    "smart_home_climate": "climate",
+    "smart_home_security": "security",
+    "smart_home_devices": "iot",
+    "station_sound": "volume_up",
+    "station_light_display": "brightness",
+    "station_system": "settings",
+    "station_personality": "voice",
+    "timers_alarm": "alarm",
+    "timers_timer": "timer",
+    "timers_reminder": "reminders",
+    "timers_clock": "clock",
+    "tv_playback": "play",
+    "tv_search": "search",
+    "tv_control": "remote",
+    "tv_kinopoisk": "movies",
+    "tv_services": "stream",
+    "timers_shutdown": "timer"
+  },
+  "cdn_base": "https://cdn.alicecommands.ru"
+}

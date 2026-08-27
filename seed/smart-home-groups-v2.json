@@ -1,0 +1,686 @@
+{
+  "schema_version": 2,
+  "content_version": 0,
+  "published_at": "2026-06-29T12:00:00Z",
+  "min_app_version": "1.0",
+  "categories": [
+    {
+      "id": "smart_home",
+      "title_ru": "Умный дом",
+      "sort_order": 7,
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "description_ru": "Свет, розетки, сценарии и камеры",
+      "icon_key": "home_iot",
+      "featured": true,
+      "device_types": [
+        "station",
+        "phone"
+      ]
+    }
+  ],
+  "command_groups": [
+    {
+      "id": "smart_home_light",
+      "category_id": "smart_home",
+      "title_ru": "Свет",
+      "description_ru": "Свет",
+      "sort_order": 10,
+      "featured": true,
+      "preview_command_ids": [
+        "smart_home_vkliuchi_girliandu",
+        "smart_home_vkliuchi_svet_v_balkone",
+        "smart_home_vkliuchi_svet_v_detskoi"
+      ]
+    },
+    {
+      "id": "smart_home_climate",
+      "category_id": "smart_home",
+      "title_ru": "Климат",
+      "description_ru": "Климат",
+      "sort_order": 20,
+      "featured": false,
+      "preview_command_ids": [
+        "smart_home_otkroi_shtory",
+        "smart_home_ustanovi_temperaturu_22_gradusa",
+        "smart_home_vkliuchi_konditsioner"
+      ]
+    },
+    {
+      "id": "smart_home_security",
+      "category_id": "smart_home",
+      "title_ru": "Охрана",
+      "description_ru": "Охрана",
+      "sort_order": 30,
+      "featured": false,
+      "preview_command_ids": [
+        "smart_home_chto_vkliucheno_doma",
+        "smart_home_vkliuchi_okhranu",
+        "smart_home_zakroi_zamok"
+      ]
+    }
+  ],
+  "commands": [
+    {
+      "id": "smart_home_vkliuchi_girliandu",
+      "category_id": "smart_home",
+      "title_ru": "Включи гирлянду",
+      "phrases": [
+        "Алиса, включи гирлянду"
+      ],
+      "effect_description_ru": "Включает умную гирлянду.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone",
+        "tv"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "updated_at": "2026-06-28T13:26:01Z",
+      "tags": [
+        "smart_home"
+      ],
+      "group_id": "smart_home_light",
+      "sort_order": 10,
+      "variant_label_ru": "Включи гирлянду",
+      "is_primary_in_group": true,
+      "search_aliases": []
+    },
+    {
+      "id": "smart_home_vkliuchi_svet_v_balkone",
+      "category_id": "smart_home",
+      "title_ru": "Включи свет в балконе",
+      "phrases": [
+        "Алиса, включи свет в балконе",
+        "Алиса, выключи свет в балконе"
+      ],
+      "effect_description_ru": "Управление светом в балконе.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "updated_at": "2026-06-28T13:26:01Z",
+      "tags": [
+        "smart_home"
+      ],
+      "group_id": "smart_home_light",
+      "sort_order": 20,
+      "variant_label_ru": "Включи свет в балконе",
+      "is_primary_in_group": false,
+      "search_aliases": [
+        "освещение",
+        "лампа"
+      ]
+    },
+    {
+      "id": "smart_home_vkliuchi_svet_v_detskoi",
+      "category_id": "smart_home",
+      "title_ru": "Включи свет в детской",
+      "phrases": [
+        "Алиса, включи свет в детской",
+        "Алиса, выключи свет в детской"
+      ],
+      "effect_description_ru": "Управление светом в детской.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "updated_at": "2026-06-28T13:26:01Z",
+      "tags": [
+        "smart_home"
+      ],
+      "group_id": "smart_home_light",
+      "sort_order": 30,
+      "variant_label_ru": "Включи свет в детской",
+      "is_primary_in_group": false,
+      "search_aliases": [
+        "освещение",
+        "лампа"
+      ]
+    },
+    {
+      "id": "smart_home_vkliuchi_svet_v_gostinoi",
+      "category_id": "smart_home",
+      "title_ru": "Включи свет в гостиной",
+      "phrases": [
+        "Алиса, включи свет в гостиной",
+        "Алиса, выключи свет в гостиной"
+      ],
+      "effect_description_ru": "Управление светом в гостиной.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "updated_at": "2026-06-28T13:26:01Z",
+      "tags": [
+        "smart_home"
+      ],
+      "group_id": "smart_home_light",
+      "sort_order": 40,
+      "variant_label_ru": "Включи свет в гостиной",
+      "is_primary_in_group": false,
+      "search_aliases": [
+        "освещение",
+        "лампа"
+      ]
+    },
+    {
+      "id": "smart_home_vkliuchi_svet_v_koridore",
+      "category_id": "smart_home",
+      "title_ru": "Включи свет в коридоре",
+      "phrases": [
+        "Алиса, включи свет в коридоре",
+        "Алиса, выключи свет в коридоре"
+      ],
+      "effect_description_ru": "Управление светом в коридоре.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "updated_at": "2026-06-28T13:26:01Z",
+      "tags": [
+        "smart_home"
+      ],
+      "group_id": "smart_home_light",
+      "sort_order": 50,
+      "variant_label_ru": "Включи свет в коридоре",
+      "is_primary_in_group": false,
+      "search_aliases": [
+        "освещение",
+        "лампа"
+      ]
+    },
+    {
+      "id": "smart_home_vkliuchi_svet_v_kukhne",
+      "category_id": "smart_home",
+      "title_ru": "Включи свет в кухне",
+      "phrases": [
+        "Алиса, включи свет в кухне",
+        "Алиса, выключи свет в кухне"
+      ],
+      "effect_description_ru": "Управление светом в кухне.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "updated_at": "2026-06-28T13:26:01Z",
+      "tags": [
+        "smart_home"
+      ],
+      "group_id": "smart_home_light",
+      "sort_order": 60,
+      "variant_label_ru": "Включи свет в кухне",
+      "is_primary_in_group": false,
+      "search_aliases": [
+        "освещение",
+        "лампа"
+      ]
+    },
+    {
+      "id": "smart_home_vkliuchi_svet_v_spalne",
+      "category_id": "smart_home",
+      "title_ru": "Включи свет в спальне",
+      "phrases": [
+        "Алиса, включи свет в спальне",
+        "Алиса, выключи свет в спальне"
+      ],
+      "effect_description_ru": "Управление светом в спальне.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "updated_at": "2026-06-28T13:26:01Z",
+      "tags": [
+        "smart_home"
+      ],
+      "group_id": "smart_home_light",
+      "sort_order": 70,
+      "variant_label_ru": "Включи свет в спальне",
+      "is_primary_in_group": false,
+      "search_aliases": [
+        "освещение",
+        "лампа"
+      ]
+    },
+    {
+      "id": "smart_home_vkliuchi_svet_v_vannoi",
+      "category_id": "smart_home",
+      "title_ru": "Включи свет в ванной",
+      "phrases": [
+        "Алиса, включи свет в ванной",
+        "Алиса, выключи свет в ванной"
+      ],
+      "effect_description_ru": "Управление светом в ванной.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "updated_at": "2026-06-28T13:26:01Z",
+      "tags": [
+        "smart_home"
+      ],
+      "group_id": "smart_home_light",
+      "sort_order": 80,
+      "variant_label_ru": "Включи свет в ванной",
+      "is_primary_in_group": false,
+      "search_aliases": [
+        "освещение",
+        "лампа"
+      ]
+    },
+    {
+      "id": "smart_home_vkliuchi_vechernii_svet",
+      "category_id": "smart_home",
+      "title_ru": "Включи вечерний свет",
+      "phrases": [
+        "Алиса, включи вечерний свет"
+      ],
+      "effect_description_ru": "Сценарий приглушённого света.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone",
+        "tv"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "updated_at": "2026-06-28T13:26:01Z",
+      "tags": [
+        "smart_home"
+      ],
+      "group_id": "smart_home_light",
+      "sort_order": 90,
+      "variant_label_ru": "Включи вечерний свет",
+      "is_primary_in_group": false,
+      "search_aliases": []
+    },
+    {
+      "id": "smart_home_vykliuchi_ves_svet",
+      "category_id": "smart_home",
+      "title_ru": "Выключи весь свет",
+      "phrases": [
+        "Алиса, выключи весь свет",
+        "Алиса, я ушёл"
+      ],
+      "effect_description_ru": "Выключает группу устройств.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone",
+        "tv"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "updated_at": "2026-06-28T13:26:01Z",
+      "tags": [
+        "smart_home"
+      ],
+      "group_id": "smart_home_light",
+      "sort_order": 100,
+      "variant_label_ru": "Выключи весь свет",
+      "is_primary_in_group": false,
+      "search_aliases": []
+    },
+    {
+      "id": "smart_home_otkroi_shtory",
+      "category_id": "smart_home",
+      "title_ru": "Открой шторы",
+      "phrases": [
+        "Алиса, открой шторы",
+        "Алиса, открой шторы в спальне"
+      ],
+      "effect_description_ru": "Открывает умные шторы.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone",
+        "tv"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "updated_at": "2026-06-28T13:26:01Z",
+      "tags": [
+        "smart_home"
+      ],
+      "group_id": "smart_home_climate",
+      "sort_order": 10,
+      "variant_label_ru": "Открой шторы",
+      "is_primary_in_group": true,
+      "search_aliases": []
+    },
+    {
+      "id": "smart_home_ustanovi_temperaturu_22_gradusa",
+      "category_id": "smart_home",
+      "title_ru": "Установи температуру 22 градуса",
+      "phrases": [
+        "Алиса, установи температуру 22 градуса"
+      ],
+      "effect_description_ru": "Задаёт целевую температуру.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone",
+        "tv"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "updated_at": "2026-06-28T13:26:01Z",
+      "tags": [
+        "smart_home"
+      ],
+      "group_id": "smart_home_climate",
+      "sort_order": 20,
+      "variant_label_ru": "Установи температуру 22 градуса",
+      "is_primary_in_group": false,
+      "search_aliases": []
+    },
+    {
+      "id": "smart_home_vkliuchi_konditsioner",
+      "category_id": "smart_home",
+      "title_ru": "Включи кондиционер",
+      "phrases": [
+        "Алиса, включи кондиционер"
+      ],
+      "effect_description_ru": "Включает кондиционер в «Дом с Алисой».",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone",
+        "tv"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "updated_at": "2026-06-28T13:26:01Z",
+      "tags": [
+        "smart_home"
+      ],
+      "group_id": "smart_home_climate",
+      "sort_order": 30,
+      "variant_label_ru": "Включи кондиционер",
+      "is_primary_in_group": false,
+      "search_aliases": []
+    },
+    {
+      "id": "smart_home_vkliuchi_obogrevatel",
+      "category_id": "smart_home",
+      "title_ru": "Включи обогреватель",
+      "phrases": [
+        "Алиса, включи обогреватель"
+      ],
+      "effect_description_ru": "Включает обогреватель.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone",
+        "tv"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "updated_at": "2026-06-28T13:26:01Z",
+      "tags": [
+        "smart_home"
+      ],
+      "group_id": "smart_home_climate",
+      "sort_order": 40,
+      "variant_label_ru": "Включи обогреватель",
+      "is_primary_in_group": false,
+      "search_aliases": []
+    },
+    {
+      "id": "smart_home_vkliuchi_poliv",
+      "category_id": "smart_home",
+      "title_ru": "Включи полив",
+      "phrases": [
+        "Алиса, включи полив"
+      ],
+      "effect_description_ru": "Запускает систему полива.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone",
+        "tv"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "updated_at": "2026-06-28T13:26:01Z",
+      "tags": [
+        "smart_home"
+      ],
+      "group_id": "smart_home_climate",
+      "sort_order": 50,
+      "variant_label_ru": "Включи полив",
+      "is_primary_in_group": false,
+      "search_aliases": []
+    },
+    {
+      "id": "smart_home_vkliuchi_uvlazhnitel",
+      "category_id": "smart_home",
+      "title_ru": "Включи увлажнитель",
+      "phrases": [
+        "Алиса, включи увлажнитель"
+      ],
+      "effect_description_ru": "Включает увлажнитель воздуха.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone",
+        "tv"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "updated_at": "2026-06-28T13:26:01Z",
+      "tags": [
+        "smart_home"
+      ],
+      "group_id": "smart_home_climate",
+      "sort_order": 60,
+      "variant_label_ru": "Включи увлажнитель",
+      "is_primary_in_group": false,
+      "search_aliases": []
+    },
+    {
+      "id": "smart_home_vkliuchi_ventiliator",
+      "category_id": "smart_home",
+      "title_ru": "Включи вентилятор",
+      "phrases": [
+        "Алиса, включи вентилятор"
+      ],
+      "effect_description_ru": "Включает умный вентилятор.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone",
+        "tv"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "updated_at": "2026-06-28T13:26:01Z",
+      "tags": [
+        "smart_home"
+      ],
+      "group_id": "smart_home_climate",
+      "sort_order": 70,
+      "variant_label_ru": "Включи вентилятор",
+      "is_primary_in_group": false,
+      "search_aliases": []
+    },
+    {
+      "id": "smart_home_vykliuchi_konditsioner",
+      "category_id": "smart_home",
+      "title_ru": "Выключи кондиционер",
+      "phrases": [
+        "Алиса, выключи кондиционер"
+      ],
+      "effect_description_ru": "Выключает кондиционер.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone",
+        "tv"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "updated_at": "2026-06-28T13:26:01Z",
+      "tags": [
+        "smart_home"
+      ],
+      "group_id": "smart_home_climate",
+      "sort_order": 80,
+      "variant_label_ru": "Выключи кондиционер",
+      "is_primary_in_group": false,
+      "search_aliases": []
+    },
+    {
+      "id": "smart_home_zakroi_shtory",
+      "category_id": "smart_home",
+      "title_ru": "Закрой шторы",
+      "phrases": [
+        "Алиса, закрой шторы"
+      ],
+      "effect_description_ru": "Закрывает умные шторы.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone",
+        "tv"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "updated_at": "2026-06-28T13:26:01Z",
+      "tags": [
+        "smart_home"
+      ],
+      "group_id": "smart_home_climate",
+      "sort_order": 90,
+      "variant_label_ru": "Закрой шторы",
+      "is_primary_in_group": false,
+      "search_aliases": []
+    },
+    {
+      "id": "smart_home_chto_vkliucheno_doma",
+      "category_id": "smart_home",
+      "title_ru": "Что включено дома?",
+      "phrases": [
+        "Алиса, что включено дома?",
+        "Алиса, статус умного дома"
+      ],
+      "effect_description_ru": "Сообщит состояние устройств.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone",
+        "tv"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "updated_at": "2026-06-28T13:26:01Z",
+      "tags": [
+        "smart_home"
+      ],
+      "group_id": "smart_home_security",
+      "sort_order": 10,
+      "variant_label_ru": "Что включено дома?",
+      "is_primary_in_group": true,
+      "search_aliases": []
+    },
+    {
+      "id": "smart_home_vkliuchi_okhranu",
+      "category_id": "smart_home",
+      "title_ru": "Включи охрану",
+      "phrases": [
+        "Алиса, включи охрану",
+        "Алиса, сними с охраны"
+      ],
+      "effect_description_ru": "Режим охраны умного дома.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone",
+        "tv"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "updated_at": "2026-06-28T13:26:01Z",
+      "tags": [
+        "smart_home"
+      ],
+      "group_id": "smart_home_security",
+      "sort_order": 20,
+      "variant_label_ru": "Включи охрану",
+      "is_primary_in_group": false,
+      "search_aliases": []
+    },
+    {
+      "id": "smart_home_zakroi_zamok",
+      "category_id": "smart_home",
+      "title_ru": "Закрой замок",
+      "phrases": [
+        "Алиса, закрой замок",
+        "Алиса, открой замок"
+      ],
+      "effect_description_ru": "Управление умным замком.",
+      "requires_alice_word": true,
+      "requires_plus": false,
+      "device_types": [
+        "station",
+        "phone",
+        "tv"
+      ],
+      "related_command_ids": [],
+      "source_url": "https://alice.yandex.ru/support/smart-home/",
+      "updated_at": "2026-06-28T13:26:01Z",
+      "tags": [
+        "smart_home"
+      ],
+      "group_id": "smart_home_security",
+      "sort_order": 30,
+      "variant_label_ru": "Закрой замок",
+      "is_primary_in_group": false,
+      "search_aliases": []
+    }
+  ],
+  "scenario_templates": [],
+  "checklist_items": []
+}

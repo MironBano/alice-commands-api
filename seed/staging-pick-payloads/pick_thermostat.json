@@ -1,0 +1,30 @@
+﻿{
+    "id":  "pick_thermostat",
+    "title_ru":  "Термостат и обогрев",
+    "description_ru":  "Тёплый пол, обогреватель, бойлер — температура голосом и по расписанию.",
+    "image_url":  "https://staging-api.alicecommands.ru/devices/v1/thermostat.png",
+    "action_url":  "https://market.yandex.ru/cc/A9vpZT",
+    "sort_order":  170,
+    "guide_ids":  [
+                      "thermostat"
+                  ],
+    "command_ids":  [
+                        "smart_home_kakaia_temperatura_v_detskoi",
+                        "smart_home_ustanovi_temperaturu_22_gradusa",
+                        "smart_home_vkliuchi_obogrevatel"
+                    ],
+    "category_ids":  [
+                         "smart_home"
+                     ],
+    "device_types":  [
+                         "station"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "search_empty",
+                       "command_detail"
+                   ],
+    "priority":  70,
+    "cta_ru":  "Смотреть цену"
+}

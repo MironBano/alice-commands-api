@@ -1,0 +1,30 @@
+﻿{
+    "id":  "pick_curtain",
+    "title_ru":  "Шторы и жалюзи",
+    "description_ru":  "Мотор для штор и жалюзи — открыть, закрыть и сценарии «утро/ночь».",
+    "image_url":  "https://staging-api.alicecommands.ru/devices/v1/curtain.png",
+    "action_url":  "https://market.yandex.ru/cc/A9xTMA",
+    "sort_order":  220,
+    "guide_ids":  [
+                      "curtain"
+                  ],
+    "command_ids":  [
+                        "smart_home_otkroi_shtory",
+                        "smart_home_zakroi_shtory"
+                    ],
+    "category_ids":  [
+                         "smart_home"
+                     ],
+    "device_types":  [
+                         "station"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "scenario_detail",
+                       "search_empty",
+                       "command_detail"
+                   ],
+    "priority":  84,
+    "cta_ru":  "Смотреть цену"
+}

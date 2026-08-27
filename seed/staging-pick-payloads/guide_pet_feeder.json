@@ -1,0 +1,19 @@
+{
+  "id": "pet_feeder",
+  "title_ru": "Кормушка",
+  "summary_ru": "Автоматическое кормление питомца по расписанию и голосом.",
+  "capabilities_ru": "Выдача корма, порции, расписание. Примеры: «Алиса, покорми кота», «Алиса, включи кормушку». Удобно в сценарии «я ушёл».",
+  "setup_ru": "Установите кормушку, засыпьте корм, подключите к Wi‑Fi и «Дом с Алисой».",
+  "setup_steps_ru": [
+    "Соберите кормушку и засыпьте корм",
+    "Подключите к приложению / «Дом с Алисой»",
+    "Задайте размер порции",
+    "Настройте расписание",
+    "Проверьте выдачу голосом"
+  ],
+  "related_devices_ru": "Поилка, камера, колонка",
+  "related_device_ids": ["pet_drinking_fountain", "camera", "station"],
+  "image_url": "https://staging-api.alicecommands.ru/icons/v1/pet_feeder.svg",
+  "action_url": "https://yandex.ru/dev/dialogs/smart-home/doc/ru/concepts/device-type-pet-feeder",
+  "sort_order": 340
+}

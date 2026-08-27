@@ -2,6 +2,8 @@ package ru.appforsale.alicecommands.api.application.publish
 
 import kotlinx.serialization.encodeToString
 import ru.appforsale.alicecommands.api.domain.AffiliateBlocksResponse
+import ru.appforsale.alicecommands.api.domain.DevicePick
+import ru.appforsale.alicecommands.api.domain.SmartHomeDevicesResponse
 import ru.appforsale.alicecommands.api.domain.ContentBundle
 import ru.appforsale.alicecommands.api.domain.CurrentManifest
 import ru.appforsale.alicecommands.api.domain.PublishHistoryEntry
@@ -19,6 +21,9 @@ class PublishContentUseCase(
     private val manifestRepository: ManifestRepository,
     private val bundleStorage: BundleStorage,
     private val schemaValidator: SchemaValidator,
+    private val commandGroupValidationUseCase: CommandGroupValidationUseCase,
+    private val categoryVisualValidationUseCase: CategoryVisualValidationUseCase,
+    private val commandOfDayValidationUseCase: CommandOfDayValidationUseCase,
     private val bundleRetentionCount: Int,
 ) {
     fun execute(adminUser: String, minAppVersion: String = "1.0", notes: String? = null): PublishResult {
@@ -27,6 +32,9 @@ class PublishContentUseCase(
         val draft = draftRepository.loadFull(contentVersion = version, minAppVersion = minAppVersion)
             .copy(published_at = publishedAt)
 
+        commandGroupValidationUseCase.validateForPublish(draft)
+        categoryVisualValidationUseCase.validateForPublish(draft)
+        commandOfDayValidationUseCase.validateForPublish(draft)
         schemaValidator.validate(draft)
 
         val json = BundleCodec.toJson(draft)
@@ -58,22 +66,114 @@ class PublishContentUseCase(
             ),
         )
         bundleStorage.pruneOldBundles(bundleRetentionCount)
-        publishAffiliate(draftRepository, bundleStorage, publishedAt, version)
 
         return PublishResult(contentVersion = version, bundleSha256 = sha, publishedAt = publishedAt)
     }
+}
 
-    private fun publishAffiliate(
-        draftRepository: DraftRepository,
-        bundleStorage: BundleStorage,
-        publishedAt: String,
-        version: Int,
-    ) {
-        val blocks = draftRepository.listAffiliateBlocks()
-        val response = AffiliateBlocksResponse(updated_at = publishedAt, blocks = blocks)
+class PublishCommandOfDayUseCase(
+    private val draftRepository: DraftRepository,
+    private val manifestRepository: ManifestRepository,
+    private val bundleStorage: BundleStorage,
+    private val schemaValidator: SchemaValidator,
+    private val commandOfDayValidationUseCase: CommandOfDayValidationUseCase,
+    private val draftPublishStatusService: ru.appforsale.alicecommands.api.application.read.DraftPublishStatusService,
+    private val bundleRetentionCount: Int,
+) {
+    fun execute(adminUser: String, notes: String? = null): PublishResult {
+        if (!draftPublishStatusService.hasUnpublishedCommandOfDayChanges()) {
+            throw ValidationException(listOf("command_of_day: no unpublished changes"))
+        }
+        val current = manifestRepository.getCurrent()
+            ?: throw ValidationException(listOf("No published bundle yet — publish catalog first"))
+        val publishedBytes = bundleStorage.read(current.bundlePath)
+            ?: throw IllegalStateException("Published bundle file missing: ${current.bundlePath}")
+        val published = BundleCodec.json.decodeFromString<ContentBundle>(BundleCodec.gunzip(publishedBytes))
+        val settings = draftRepository.getCommandOfDaySettings()
+            ?: throw ValidationException(listOf("command_of_day settings not configured"))
+
+        val commandOfDay = CommandOfDayBundleBuilder.build(settings, published.commands)
+        val version = manifestRepository.nextVersion()
+        val publishedAt = Instant.now().toString()
+        val patched = published.copy(
+            content_version = version,
+            published_at = publishedAt,
+            min_app_version = current.minAppVersion,
+            command_of_day = commandOfDay,
+        )
+
+        commandOfDayValidationUseCase.validateForPublish(patched)
+        schemaValidator.validate(patched)
+
+        val json = BundleCodec.toJson(patched)
+        val gzip = BundleCodec.gzip(json)
+        require(gzip.size <= 2 * 1024 * 1024) { "Bundle exceeds 2 MB gzip limit" }
+
+        val sha = BundleCodec.sha256(gzip)
+        val filename = "content_v$version.json.gz"
+        bundleStorage.write(filename, gzip)
+
+        val manifest = CurrentManifest(
+            contentVersion = version,
+            bundlePath = filename,
+            bundleSha256 = sha,
+            publishedAt = publishedAt,
+            minAppVersion = current.minAppVersion,
+            schemaVersion = patched.schema_version,
+            bundleSizeBytes = gzip.size.toLong(),
+        )
+        manifestRepository.update(manifest)
+        manifestRepository.insertHistory(
+            PublishHistoryEntry(
+                id = 0,
+                contentVersion = version,
+                bundleSha256 = sha,
+                adminUsername = adminUser,
+                publishedAt = publishedAt,
+                notes = notes ?: "command_of_day publish",
+            ),
+        )
+        bundleStorage.pruneOldBundles(bundleRetentionCount)
+
+        return PublishResult(contentVersion = version, bundleSha256 = sha, publishedAt = publishedAt)
+    }
+}
+
+class PublishAffiliateUseCase(
+    private val draftRepository: DraftRepository,
+    private val bundleStorage: BundleStorage,
+) {
+    fun execute(updatedAt: String = Instant.now().toString()): AffiliateBlocksResponse {
+        val response = AffiliateBlocksResponse(updated_at = updatedAt, blocks = draftRepository.listAffiliateBlocks())
         val bytes = BundleCodec.json.encodeToString(response).toByteArray(Charsets.UTF_8)
-        bundleStorage.writeAffiliateVersion(version, bytes)
         bundleStorage.writeAffiliate(bytes)
+        return response
+    }
+}
+
+class PublishSmartHomeDevicesUseCase(
+    private val draftRepository: DraftRepository,
+    private val bundleStorage: BundleStorage,
+    private val validationUseCase: SmartHomeDevicesValidationUseCase,
+    private val schemaValidator: ru.appforsale.alicecommands.api.domain.ports.SmartHomeDevicesSchemaValidator,
+) {
+    fun execute(updatedAt: String = Instant.now().toString()): SmartHomeDevicesResponse {
+        val picks = draftRepository.listDevicePicks()
+            .sortedWith(compareByDescending<DevicePick> { it.priority }.thenBy { it.sort_order })
+        val guides = enrichGuidesWithDetailReferralPickIds(
+            guides = draftRepository.listDeviceGuides().sortedBy { it.sort_order },
+            picks = picks,
+        )
+        val response = SmartHomeDevicesResponse(
+            updated_at = updatedAt,
+            guides = guides,
+            picks = picks,
+        )
+        validationUseCase.validateForPublish(response)
+        schemaValidator.validate(response)
+        val bytes = BundleCodec.json.encodeToString(response).toByteArray(Charsets.UTF_8)
+        bundleStorage.writeSmartHomeDevices(bytes)
+        return response
     }
 }
 
@@ -107,29 +207,11 @@ class RollbackPublishUseCase(
                 notes = "rollback to v$contentVersion",
             ),
         )
-        bundleStorage.restoreAffiliateFromVersion(contentVersion)
-            || throw IllegalArgumentException("Affiliate snapshot for version $contentVersion not found")
         return PublishResult(
             contentVersion = contentVersion,
             bundleSha256 = history.bundleSha256,
             publishedAt = manifest.publishedAt,
         )
-    }
-}
-
-class ImportJsonUseCase(
-    private val draftRepository: DraftRepository,
-    private val schemaValidator: SchemaValidator,
-) {
-    enum class Mode { REPLACE, MERGE }
-
-    fun execute(jsonText: String, mode: Mode) {
-        schemaValidator.validateJson(jsonText)
-        val bundle = BundleCodec.json.decodeFromString<ContentBundle>(jsonText)
-        when (mode) {
-            Mode.REPLACE -> draftRepository.replaceAll(bundle)
-            Mode.MERGE -> draftRepository.merge(bundle)
-        }
     }
 }
 

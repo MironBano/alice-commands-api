@@ -1,6 +1,7 @@
 # Deployment — alice-commands-api
 
-**Бюджет:** ~625 ₽/мес · **Staging live:** Selectel VPS + `staging-api.alicecommands.ru`
+**Prod:** **LIVE** (2026-07-13) — `api.alicecommands.ru` · ops: [PRODUCTION.md](PRODUCTION.md)  
+**Бюджет:** ~625 ₽/мес · **Staging + prod:** Selectel VPS
 
 ---
 
@@ -15,11 +16,14 @@ Android / Admin browser
         ▼
   Selectel VPS (161.104.46.92)
     nginx :443 (Let's Encrypt)
+        ├── staging-api → proxy :8080 + static /icons/
+        └── cdn → static /icons/v1/ only (после DNS + cert)
         │
         ▼
     Ktor :8080
         ├── PostgreSQL (localhost)
-        └── /opt/alice-api/storage/bundles/
+        ├── /opt/alice-api/storage/bundles/
+        └── /opt/alice-api/storage/icons/v1/
 ```
 
 **Важно для РФ:** subdomain `staging-api` / `api` — **DNS only** (серое облако CF). Orange cloud ломает доступ без VPN. См. [INFRASTRUCTURE.md](INFRASTRUCTURE.md) §2.
@@ -47,7 +51,12 @@ Local dev: Ktor на хосте + PostgreSQL в Docker (`docker compose up -d`).
 | ---- | ---------- |
 | `deploy/.env.staging.example` | Шаблон `/opt/alice-api/.env` |
 | `deploy/alice-api.service` | systemd unit |
-| `deploy/nginx-staging.conf` | HTTPS + reverse proxy → `:8080`, keepalive, 64m body |
+| `deploy/nginx-staging.conf` | HTTPS + proxy → `:8080`, static `/icons/`, 64m body |
+| `deploy/nginx-prod.conf` | HTTPS + proxy → `:8081` (`alice-api-prod`), prod API |
+| `deploy/alice-api-prod.service` | systemd unit prod (`EnvironmentFile=.env.prod`) |
+| `deploy/.env.prod.example` | Шаблон `/opt/alice-api/.env.prod` |
+| `deploy/nginx-cdn.conf` | HTTPS vhost `cdn.alicecommands.ru` → static icons |
+| `deploy/nginx-cdn-bootstrap.conf` | HTTP-only bootstrap до certbot |
 | `deploy/remote-setup.sh` | Bootstrap VPS (Java 21, PG, nginx, certbot, ufw) |
 
 ---
@@ -56,9 +65,19 @@ Local dev: Ktor на хосте + PostgreSQL в Docker (`docker compose up -d`).
 
 ```powershell
 Copy-Item scripts\.env.example scripts\.env
-# SSH_KEY_PATH, SSH_HOST=root@161.104.46.92
+# SSH_KEY_PATH, SSH_HOST=root@161.104.46.92, CF_API_TOKEN
 .\scripts\deploy-staging.ps1
 ```
+
+**Production (отдельный сервис :8081, staging не трогаем):**
+
+```powershell
+.\scripts\deploy-prod.ps1
+.\scripts\copy-staging-to-prod.ps1
+.\scripts\verify-prod.ps1
+```
+
+См. [PROD-CUTOVER.md](PROD-CUTOVER.md).
 
 Вручную: `gradlew :server:installDist` → scp → `systemctl restart alice-api`.
 
@@ -79,7 +98,9 @@ sudo bash /opt/alice-api/deploy/remote-setup.sh staging-api.alicecommands.ru
 | CDN / cache | **Не использовать** для API (throttle в РФ) |
 | Предупреждения CF | www/root/email — игнорировать для API-only setup |
 
-Скрипт: `scripts/cloudflare-dns-direct.ps1` (нужен `CF_API_TOKEN` в `scripts/.env`).
+Скрипты: `scripts/cloudflare-dns-direct.ps1`, `scripts/setup-cdn.ps1` (нужен `CF_API_TOKEN` в `scripts/.env`).
+
+**Иконки:** отдельный subdomain `cdn` — тот же VPS, **DNS only** (не CF proxy). На staging иконки доступны и через `staging-api.../icons/v1/` (зеркало).
 
 ---
 
@@ -90,7 +111,9 @@ sudo bash /opt/alice-api/deploy/remote-setup.sh staging-api.alicecommands.ru
 | `APP_ENV` | `staging` | `prod` |
 | DB | `alice_commands_staging` | `alice_commands` |
 | URL | `https://staging-api.alicecommands.ru` | `https://api.alicecommands.ru` |
-| DNS | A → VPS, DNS only | A → VPS, DNS only |
+| Icons URL | `https://staging-api.../icons/v1/` | `https://cdn.alicecommands.ru/icons/v1/` |
+| `ICON_PUBLIC_BASE_URL` | `https://staging-api.alicecommands.ru` | `https://cdn.alicecommands.ru` |
+| DNS | A → VPS, DNS only | A → VPS, DNS only (+ `cdn` A) |
 | Admin | `/admin` | `/admin` |
 
 ---
@@ -127,4 +150,4 @@ UptimeRobot: мониторить `/health` на **прямом URL** (не че
 
 ---
 
-*См. [INFRASTRUCTURE.md](INFRASTRUCTURE.md), [SECURITY.md](SECURITY.md), [RUNBOOK-PUBLISH.md](RUNBOOK-PUBLISH.md)*
+*См. [INFRASTRUCTURE.md](INFRASTRUCTURE.md), [SECURITY.md](SECURITY.md), [RUNBOOK-PUBLISH.md](RUNBOOK-PUBLISH.md), [PROD-CUTOVER.md](PROD-CUTOVER.md)*

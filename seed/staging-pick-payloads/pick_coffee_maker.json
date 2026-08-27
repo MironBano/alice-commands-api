@@ -1,0 +1,24 @@
+﻿{
+    "id":  "pick_coffee_maker",
+    "title_ru":  "Кофеварка",
+    "description_ru":  "Запуск приготовления кофе голосом — если модель связана с Алисой.",
+    "image_url":  "https://staging-api.alicecommands.ru/devices/v1/coffee_maker.png",
+    "action_url":  "https://market.yandex.ru/cc/AA2Ph8",
+    "sort_order":  290,
+    "guide_ids":  [
+                      "coffee_maker"
+                  ],
+    "category_ids":  [
+                         "smart_home"
+                     ],
+    "device_types":  [
+                         "station"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "search_empty"
+                   ],
+    "priority":  58,
+    "cta_ru":  "Смотреть цену"
+}

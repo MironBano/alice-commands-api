@@ -10,35 +10,39 @@ Single-page admin для alice-commands-api.
 - Vanilla fetch + session cookie
 - Health polling `/health` + `/ready` (5 min)
 
-## Views
+## Views (навигация)
 
-Dashboard · Categories · Commands · Scenarios · Checklist · Affiliate · Publish · Import · **Контент** · **API**
+| View | Раздел | Назначение |
+| ---- | ------ | ---------- |
+| `dashboard` | Обзор | Live / draft / сервер |
+| `categories` | Категории | CRUD + reorder |
+| `category-visuals` | Оформление | Цвета и icon_url |
+| `command-groups` | Группы команд | CRUD groups, reorder |
+| `commands` | Команды | CRUD, форма + **JSON (все поля)**, поиск, pull-draft hint |
+| `content` | **Контент** | validate → push-draft → diff → публикация |
+| `import` | Импорт bundle | replace-only import JSON |
+| `publish` | Публикация | Publish draft → live, rollback |
+| `api` | Справка API | In-app reference |
 
-## Features (v1)
+Полный список — см. sidebar в `index.html`.
 
-- Status bar: server OK / degraded / offline
-- CRUD с обработкой сетевых ошибок и loading states
-- Import diff vs published bundle
-- Content pipeline panel + import seed
-- In-app API reference (`GET /admin/api/docs`)
+## Модель состояний
+
+1. **Опубликовано (live)** — bundle/manifest на диске, видит app.
+2. **Draft** — PostgreSQL, правки до publish.
+
+Канон seed: `seed/catalog-audit-fixed.json` → `push-draft.ps1` (replace).
 
 ## Files
 
 | File | Purpose |
 | ---- | ------- |
-| `index.html` | Layout, modals, diff UI |
-| `js/admin.js` | API client, health, forms |
-| `css/admin.css` | Status bar, API docs, diff badges |
-
-## Dev vs prod
-
-| Env | Static source |
-| --- | ------------- |
-| `APP_ENV=local` | `admin-web/` directly (hot reload) |
-| staging/prod | Gradle `copyAdminWeb` → JAR classpath `/admin` |
+| `index.html` | Layout, wizard, diff UI |
+| `js/admin.js` | API client, health, refresh |
+| `css/admin.css` | Status bar, wizard |
 
 ## Docs
 
-- [ADMIN-UX.md](../docs/ADMIN-UX.md) — UX spec
-- [API.md](../docs/API.md) §2 — Admin API
-- [INFRASTRUCTURE.md](../docs/INFRASTRUCTURE.md) — staging access
+- [ADMIN-CONTENT-GUIDE.md](../docs/ADMIN-CONTENT-GUIDE.md)
+- [CONTENT-UPDATE.md](../docs/CONTENT-UPDATE.md)
+- [API.md](../docs/API.md)

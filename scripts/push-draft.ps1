@@ -1,43 +1,57 @@
 #Requires -Version 5.1
 param(
-    [string]$BundleFile = "seed/full-catalog.json",
-    [ValidateSet("merge", "replace")]
-    [string]$Mode = "merge"
+    [string]$BundleFile = "seed/catalog-audit-fixed.json",
+    [ValidateSet("replace")]
+    [string]$Mode = "replace",
+    [switch]$Force
 )
 
 $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $PSScriptRoot
 Set-Location $Root
-
-function Load-ScriptEnv {
-    $envFile = Join-Path $PSScriptRoot ".env"
-    if (-not (Test-Path $envFile)) {
-        throw "Missing scripts/.env — copy from scripts/.env.example"
-    }
-    Get-Content $envFile | ForEach-Object {
-        if ($_ -match '^\s*#' -or $_ -match '^\s*$') { return }
-        $name, $value = $_ -split '=', 2
-        Set-Item -Path "Env:$name" -Value $value.Trim()
-    }
-}
-
+. (Join-Path $PSScriptRoot "_env.ps1")
+. (Join-Path $PSScriptRoot "_staging-http.ps1")
 Load-ScriptEnv
-$baseUrl = $env:STAGING_API_URL.TrimEnd('/')
-$user = $env:ADMIN_USERNAME
-$pass = $env:ADMIN_PASSWORD
-$bundlePath = Join-Path $Root $BundleFile
 
+$bundlePath = Join-Path $Root $BundleFile
 if (-not (Test-Path $bundlePath)) {
     throw "Bundle not found: $bundlePath"
 }
 
-$session = New-Object Microsoft.PowerShell.Commands.WebRequestSession
-$loginBody = @{ username = $user; password = $pass } | ConvertTo-Json
-Invoke-RestMethod -Uri "$baseUrl/admin/api/login" -Method Post -Body $loginBody -ContentType "application/json" -WebSession $session | Out-Null
+$cookieJar = Join-Path $env:TEMP "alice-push-cookies.txt"
+Remove-Item $cookieJar -Force -ErrorAction SilentlyContinue
+try {
+    try {
+        New-StagingSession -CookieJar $cookieJar
+    } catch {
+        throw @"
+Login failed for user '$($env:ADMIN_USERNAME)' at $($env:STAGING_API_URL)
+Check ADMIN_USERNAME / ADMIN_PASSWORD in repo .env (root) or scripts/.env
+Admin UI password must match staging server /opt/alice-api/.env
+$_
+"@
+    }
 
-$json = Get-Content -Raw -Encoding UTF8 $bundlePath
-$importUrl = "$baseUrl/admin/api/import/json?mode=$Mode"
-Invoke-RestMethod -Uri $importUrl -Method Post -Body $json -ContentType "application/json; charset=utf-8" -WebSession $session | Out-Null
+    $status = Invoke-StagingJsonGet -Path '/admin/api/content/pipeline' -CookieJar $cookieJar
+    if ($status.hasUnpublishedChanges -and -not $Force) {
+        throw @"
+Staging draft отличается от live (есть неопубликованные изменения).
+push-draft REPLACE перезапишет draft файлом $BundleFile.
 
-Write-Host "Draft import OK ($Mode): $BundleFile -> $baseUrl"
-Write-Host "Next: open $baseUrl/admin -> Import review diff -> Publish manually"
+Безопасные варианты:
+  1) Если правили в админке и хотите сохранить их в файл:
+       .\scripts\pull-draft.ps1
+     затем Publish в админке (app увидит правки). Push не обязателен.
+  2) Если файл уже актуален и вы сознательно затираете draft:
+       .\scripts\push-draft.ps1 -Force
+  3) Если сначала опубликовали draft → live, hasUnpublished исчезнет — обычный push без -Force снова работает.
+"@
+    }
+
+    Invoke-StagingJsonPost -Path "/admin/api/import/json?mode=$Mode" -CookieJar $cookieJar -BodyPath $bundlePath | Out-Null
+
+    Write-Host "Draft import OK ($Mode): $BundleFile -> $($env:STAGING_API_URL)"
+    Write-Host "Next: open $($env:STAGING_API_URL.TrimEnd('/'))/admin -> Content -> diff -> Publish"
+} finally {
+    Remove-Item $cookieJar -Force -ErrorAction SilentlyContinue
+}

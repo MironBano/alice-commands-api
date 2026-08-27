@@ -1,0 +1,62 @@
+﻿{
+    "id":  "pick_light",
+    "title_ru":  "Свет",
+    "description_ru":  "Лампы, ленты, люстры и светильники — включение, яркость и цвет голосом.",
+    "image_url":  "https://staging-api.alicecommands.ru/devices/v1/light.png",
+    "action_url":  "https://market.yandex.ru/cc/A9sgYL",
+    "sort_order":  50,
+    "guide_ids":  [
+                      "light"
+                  ],
+    "command_ids":  [
+                        "sh_light_dim",
+                        "sh_light_off",
+                        "sh_light_on",
+                        "smart_home_kakaia_iarkost_u_liustry",
+                        "smart_home_kakaia_iarkost_v_koridore",
+                        "smart_home_kakoi_svet_u_svetilnika_v_detskoi",
+                        "smart_home_kakoi_tsvet_u_bra",
+                        "smart_home_postav_rezhim_vecherinka_na_svetilnike",
+                        "smart_home_svet",
+                        "smart_home_torsher",
+                        "smart_home_vkliuchi_bra",
+                        "smart_home_vkliuchi_girliandu",
+                        "smart_home_vkliuchi_kholodnyi_tsvet_vezde",
+                        "smart_home_vkliuchi_na_liustre_vechernii_rezhim",
+                        "smart_home_vkliuchi_rezhim_rassvet_na_lampochke_v_8",
+                        "smart_home_vkliuchi_rezhim_romantiki_v_gostinoi",
+                        "smart_home_vkliuchi_svet_na_kukhne_zavtra_v_8_utra",
+                        "smart_home_vkliuchi_svet_v_balkone",
+                        "smart_home_vkliuchi_svet_v_detskoi",
+                        "smart_home_vkliuchi_svet_v_gostinoi",
+                        "smart_home_vkliuchi_svet_v_koridore",
+                        "smart_home_vkliuchi_svet_v_kukhne",
+                        "smart_home_vkliuchi_svet_v_spalne",
+                        "smart_home_vkliuchi_svet_v_vannoi",
+                        "smart_home_vkliuchi_teplyi_tsvet_na_svetilnike_v_de",
+                        "smart_home_vkliuchi_teplyi_tsvet",
+                        "smart_home_vkliuchi_torsher_v_rezhim_chteniia",
+                        "smart_home_vkliuchi_vechernii_svet",
+                        "smart_home_vkliuchi_vykliuchi_svet",
+                        "smart_home_vykliuchi_bra_v_gostinoi",
+                        "smart_home_vykliuchi_podsvetku_na_svetodiodnykh_sto",
+                        "smart_home_vykliuchi_podsvetku",
+                        "smart_home_vykliuchi_verkhnii_svet_v_detskoi_cherez",
+                        "smart_home_vykliuchi_ves_svet"
+                    ],
+    "category_ids":  [
+                         "smart_home"
+                     ],
+    "device_types":  [
+                         "station"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "scenario_detail",
+                       "search_empty",
+                       "command_detail"
+                   ],
+    "priority":  90,
+    "cta_ru":  "Смотреть цену"
+}

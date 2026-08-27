@@ -12,6 +12,7 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.route
 import ru.appforsale.alicecommands.api.deps
 import ru.appforsale.alicecommands.api.domain.ApiError
+import ru.appforsale.alicecommands.api.application.read.DeltaUnavailableException
 
 fun Route.publicRoutes() {
     route("/v1/content") {
@@ -61,15 +62,53 @@ fun Route.publicRoutes() {
                 call.respondBytes(bytes, ContentType.Application.Json)
             }
         }
+
+        get("/delta") {
+            val fromParam = call.request.queryParameters["from"]
+                ?: return@get call.respond(
+                    HttpStatusCode.BadRequest,
+                    ApiError("validation_failed", "from query parameter required"),
+                )
+            val fromVersion = fromParam.toIntOrNull()
+                ?: return@get call.respond(
+                    HttpStatusCode.BadRequest,
+                    ApiError("validation_failed", "from must be an integer"),
+                )
+            try {
+                val delta = call.application.deps.contentDeltaService.getDelta(fromVersion)
+                call.response.header(HttpHeaders.CacheControl, "public, max-age=60")
+                call.respond(delta)
+            } catch (e: DeltaUnavailableException) {
+                call.respond(
+                    HttpStatusCode.Conflict,
+                    ApiError("delta_unavailable", e.message ?: "Use full bundle"),
+                )
+            }
+        }
     }
 
     route("/v1/affiliate") {
         get("/blocks") {
+            call.response.header("Deprecation", "true")
+            call.response.header("Sunset", "Sat, 06 Dec 2026 00:00:00 GMT")
+            call.response.header("Link", "</v1/smarthome/devices>; rel=\"successor-version\"")
             val blocks = call.application.deps.affiliateService.getPublishedBlocks()
             if (blocks == null) {
                 call.respond(HttpStatusCode.NotFound, ApiError("not_found", "No published affiliate blocks"))
             } else {
                 call.respond(blocks)
+            }
+        }
+    }
+
+    route("/v1/smarthome") {
+        get("/devices") {
+            val devices = call.application.deps.smartHomeDevicesService.getPublishedDevices()
+            if (devices == null) {
+                call.respond(HttpStatusCode.NotFound, ApiError("not_found", "No published smart home devices"))
+            } else {
+                call.response.header(HttpHeaders.CacheControl, "public, max-age=300")
+                call.respond(devices)
             }
         }
     }
