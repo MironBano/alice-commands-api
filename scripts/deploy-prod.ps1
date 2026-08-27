@@ -81,11 +81,13 @@ scp -i $sshKey -r (Join-Path $Root "admin-web\*") "${sshHost}:/opt/alice-api/adm
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 Write-Host "== 5/8 Bootstrap prod DB + .env.prod =="
-ssh -i $sshKey $sshHost "chmod +x ${remoteDeploy}/bootstrap-prod.sh && bash ${remoteDeploy}/bootstrap-prod.sh ${remoteDeploy}"
+# Strip CRLF from Windows-uploaded shell scripts before bash.
+ssh -i $sshKey $sshHost "find ${remoteDeploy} -name '*.sh' -exec sed -i 's/\r`$//' {} \; ; chmod +x ${remoteDeploy}/bootstrap-prod.sh && bash ${remoteDeploy}/bootstrap-prod.sh ${remoteDeploy}"
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 Write-Host "== 6/8 nginx + systemd unit refresh =="
 $remoteNginx = @'
+#!/bin/bash
 set -e
 cp REMOTE_DEPLOY/alice-api-prod.service /etc/systemd/system/alice-api-prod.service
 systemctl daemon-reload
@@ -123,7 +125,10 @@ echo "feedback:$code"
 test "$code" = "201"
 grep -q '"id"' /tmp/alice-prod-feedback.json
 '@ -replace 'REMOTE_DEPLOY', $remoteDeploy
-ssh -i $sshKey $sshHost $remoteNginx
+$step6Local = Join-Path $env:TEMP "alice-deploy-prod-step6.sh"
+[System.IO.File]::WriteAllText($step6Local, ($remoteNginx -replace "`r`n", "`n" -replace "`r", "`n"))
+scp -i $sshKey $step6Local "${sshHost}:/tmp/alice-deploy-prod-step6.sh"
+ssh -i $sshKey $sshHost "bash /tmp/alice-deploy-prod-step6.sh"
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 Write-Host "== 7/8 External smoke =="

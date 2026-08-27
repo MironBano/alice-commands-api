@@ -61,33 +61,35 @@ scp -i $sshKey (Join-Path $Root "deploy\smoke-after-deploy.sh") "${sshHost}:${re
 scp -i $sshKey -r (Join-Path $Root "admin-web\*") "${sshHost}:/opt/alice-api/admin-web/"
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
+# Windows checkouts may upload CRLF .sh; strip CR before bash. Also avoid PowerShell here-string mangling `set -e`.
 Write-Host "== 4/5 CDN + icon env + restart with smoke =="
-ssh -i $sshKey $sshHost @"
+$step4 = @'
+#!/bin/bash
 set -e
 ENV_FILE=/opt/alice-api/.env
-touch `$ENV_FILE
-grep -q '^ICON_STORAGE_PATH=' `$ENV_FILE || printf '\nICON_STORAGE_PATH=/opt/alice-api/storage/icons\n' >> `$ENV_FILE
-grep -q '^ICON_PUBLIC_BASE_URL=' `$ENV_FILE || printf 'ICON_PUBLIC_BASE_URL=https://staging-api.alicecommands.ru\n' >> `$ENV_FILE
-grep -q '^ICON_URL_ALLOWED_HOSTS=' `$ENV_FILE || printf 'ICON_URL_ALLOWED_HOSTS=staging-api.alicecommands.ru,cdn.alicecommands.ru,api.alicecommands.ru,localhost,127.0.0.1\n' >> `$ENV_FILE
-grep -q '^DEVICE_IMAGE_STORAGE_PATH=' `$ENV_FILE || printf 'DEVICE_IMAGE_STORAGE_PATH=/opt/alice-api/storage/devices\n' >> `$ENV_FILE
-grep -q '^CONTENT_SEED_PATH=' `$ENV_FILE || printf 'CONTENT_SEED_PATH=/opt/alice-api/seed/catalog-audit-fixed.json\n' >> `$ENV_FILE
-grep -q '^ANALYTICS_RATE_LIMIT_PER_IP=' `$ENV_FILE || printf 'ANALYTICS_RATE_LIMIT_PER_IP=120\n' >> `$ENV_FILE
-grep -q '^ANALYTICS_EVENTS_PER_IP_PER_DAY=' `$ENV_FILE || printf 'ANALYTICS_EVENTS_PER_IP_PER_DAY=10000\n' >> `$ENV_FILE
-grep -q '^ANALYTICS_MAX_BODY_BYTES=' `$ENV_FILE || printf 'ANALYTICS_MAX_BODY_BYTES=262144\n' >> `$ENV_FILE
-grep -q '^ANALYTICS_RAW_RETENTION_DAYS=' `$ENV_FILE || printf 'ANALYTICS_RAW_RETENTION_DAYS=90\n' >> `$ENV_FILE
+touch "$ENV_FILE"
+grep -q '^ICON_STORAGE_PATH=' "$ENV_FILE" || printf '\nICON_STORAGE_PATH=/opt/alice-api/storage/icons\n' >> "$ENV_FILE"
+grep -q '^ICON_PUBLIC_BASE_URL=' "$ENV_FILE" || printf 'ICON_PUBLIC_BASE_URL=https://staging-api.alicecommands.ru\n' >> "$ENV_FILE"
+grep -q '^ICON_URL_ALLOWED_HOSTS=' "$ENV_FILE" || printf 'ICON_URL_ALLOWED_HOSTS=staging-api.alicecommands.ru,cdn.alicecommands.ru,api.alicecommands.ru,localhost,127.0.0.1\n' >> "$ENV_FILE"
+grep -q '^DEVICE_IMAGE_STORAGE_PATH=' "$ENV_FILE" || printf 'DEVICE_IMAGE_STORAGE_PATH=/opt/alice-api/storage/devices\n' >> "$ENV_FILE"
+grep -q '^CONTENT_SEED_PATH=' "$ENV_FILE" || printf 'CONTENT_SEED_PATH=/opt/alice-api/seed/catalog-audit-fixed.json\n' >> "$ENV_FILE"
+grep -q '^ANALYTICS_RATE_LIMIT_PER_IP=' "$ENV_FILE" || printf 'ANALYTICS_RATE_LIMIT_PER_IP=120\n' >> "$ENV_FILE"
+grep -q '^ANALYTICS_EVENTS_PER_IP_PER_DAY=' "$ENV_FILE" || printf 'ANALYTICS_EVENTS_PER_IP_PER_DAY=10000\n' >> "$ENV_FILE"
+grep -q '^ANALYTICS_MAX_BODY_BYTES=' "$ENV_FILE" || printf 'ANALYTICS_MAX_BODY_BYTES=262144\n' >> "$ENV_FILE"
+grep -q '^ANALYTICS_RAW_RETENTION_DAYS=' "$ENV_FILE" || printf 'ANALYTICS_RAW_RETENTION_DAYS=90\n' >> "$ENV_FILE"
 mkdir -p /opt/alice-api/storage/icons/v1 /opt/alice-api/storage/devices/v1
 cp -f /opt/alice-api/content/icons/v1/*.svg /opt/alice-api/storage/icons/v1/ 2>/dev/null || true
-cp ${remoteDeploy}/nginx-staging.conf /etc/nginx/sites-available/alice-api
+cp /opt/alice-api/deploy/nginx-staging.conf /etc/nginx/sites-available/alice-api
 if [ -f /etc/letsencrypt/live/cdn.alicecommands.ru/fullchain.pem ]; then
-  cp ${remoteDeploy}/nginx-cdn.conf /etc/nginx/sites-available/alice-cdn
+  cp /opt/alice-api/deploy/nginx-cdn.conf /etc/nginx/sites-available/alice-cdn
 else
-  cp ${remoteDeploy}/nginx-cdn-bootstrap.conf /etc/nginx/sites-available/alice-cdn
+  cp /opt/alice-api/deploy/nginx-cdn-bootstrap.conf /etc/nginx/sites-available/alice-cdn
 fi
 ln -sf /etc/nginx/sites-available/alice-cdn /etc/nginx/sites-enabled/alice-cdn
 if [ ! -f /etc/letsencrypt/live/cdn.alicecommands.ru/fullchain.pem ]; then
   nginx -t && systemctl reload nginx
   certbot certonly --webroot -w /var/www/html -d cdn.alicecommands.ru --non-interactive --agree-tos --register-unsafely-without-email && \
-    cp ${remoteDeploy}/nginx-cdn.conf /etc/nginx/sites-available/alice-cdn || true
+    cp /opt/alice-api/deploy/nginx-cdn.conf /etc/nginx/sites-available/alice-cdn || true
 fi
 nginx -t
 systemctl reload nginx
@@ -96,9 +98,14 @@ systemctl restart alice-api-prod 2>/dev/null || true
 sleep 10
 systemctl is-active alice-api
 systemctl is-active alice-api-prod 2>/dev/null || true
-chmod +x ${remoteDeploy}/smoke-after-deploy.sh
-bash ${remoteDeploy}/smoke-after-deploy.sh
-"@
+sed -i 's/\r$//' /opt/alice-api/deploy/smoke-after-deploy.sh
+chmod +x /opt/alice-api/deploy/smoke-after-deploy.sh
+bash /opt/alice-api/deploy/smoke-after-deploy.sh
+'@
+$step4Local = Join-Path $env:TEMP "alice-deploy-staging-step4.sh"
+[System.IO.File]::WriteAllText($step4Local, ($step4 -replace "`r`n", "`n" -replace "`r", "`n"))
+scp -i $sshKey $step4Local "${sshHost}:/tmp/alice-deploy-staging-step4.sh"
+ssh -i $sshKey $sshHost "bash /tmp/alice-deploy-staging-step4.sh"
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 Write-Host "== 5/5 Done =="
