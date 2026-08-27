@@ -1,8 +1,8 @@
 # BACKEND-REQUIREMENTS — alice-commands-api v1.0
 
 **mob_id:** MOB-20260626-001  
-**Дата:** 2026-06-26 · **Обновлено:** 2026-07-01 (schema v2 groups + category visuals)  
-**Статус:** ТЗ v1.0 — **реализовано**; **schema v2** + **category visuals** — **реализовано**  
+**Дата:** 2026-06-26 · **Обновлено:** 2026-07-10 (smarthome, analytics, prod)  
+**Статус:** ТЗ v1.0 — **реализовано**; **schema v2** + **category visuals** + **command of day** + **smarthome** + **analytics P0** — **реализовано**  
 **Связанный app:** AliceCommands (`ru.appforsale.alicecommands`)
 
 ---
@@ -21,16 +21,19 @@ Backend — **источник истины** для структуры конт
 
 | Область | v1.0 |
 | ------- | ---- |
-| Public API (manifest, bundle, affiliate) | ✅ |
+| Public API (manifest, bundle, affiliate, smarthome, analytics) | ✅ |
 | Admin auth (один пользователь) | ✅ |
 | CRUD каталога в админке | ✅ |
 | Publish + rollback (5 версий) | ✅ |
 | Preview draft bundle | ✅ |
 | Import pilot JSON | ✅ |
-| PostgreSQL + Flyway | ✅ |
+| PostgreSQL + Flyway (V1–V10) | ✅ |
 | Docker-compose local | ✅ |
 | **Schema v2 command groups** | ✅ |
 | **Delta sync** `GET /v1/content/delta` | ✅ |
+| **Command of day** | ✅ |
+| **Smart home devices** `GET /v1/smarthome/devices` | ✅ |
+| **Analytics batch ingest** | ✅ |
 
 ### 1.3 Out of scope / отложено
 
@@ -239,11 +242,11 @@ Workflow: правки в admin (или import) → ревью владельц�
 
 ## 6. Environments
 
-| Env | URL (TBD) | Назначение |
-| --- | --------- | ---------- |
+| Env | URL | Назначение |
+| --- | --- | ---------- |
 | local | `http://localhost:8080` | docker-compose + Gradle |
 | staging | `https://staging-api.alicecommands.ru` | Android debug/staging flavor |
-| prod | `https://api.<domain>` | Release app |
+| prod | `https://api.alicecommands.ru` | Release app |
 
 См. [DEPLOYMENT.md](DEPLOYMENT.md).
 
@@ -251,14 +254,16 @@ Workflow: правки в admin (или import) → ревью владельц�
 
 ## 7. Definition of Done — backend готов к Android
 
-- [ ] `GET /v1/content/manifest` — HTTPS staging
-- [ ] `GET /v1/content/bundle` — gzip, sha256 match
-- [ ] Bundle проходит JSON Schema
-- [ ] ≥13 категорий на staging (prod: 300–500)
-- [ ] Admin: login, edit command, publish, rollback
-- [ ] Import seed/smart-home.json работает
-- [ ] curl-чеклист из [RUNBOOK-PUBLISH.md](RUNBOOK-PUBLISH.md) пройден
-- [ ] AliceCommands `CONTENT_API_BASE_URL` указывает на staging
+- [x] `GET /v1/content/manifest` — HTTPS staging
+- [x] `GET /v1/content/bundle` — gzip, sha256 match
+- [x] Bundle проходит JSON Schema
+- [x] ≥13 категорий на staging (prod: 300–500)
+- [x] Admin: login, edit command, publish, rollback
+- [x] Import seed/smart-home.json работает
+- [x] curl-чеклист из [RUNBOOK-PUBLISH.md](RUNBOOK-PUBLISH.md) пройден
+- [x] AliceCommands `CONTENT_API_BASE_URL` указывает на staging
+- [ ] Prod cutover завершён — см. [PROD-CUTOVER.md](PROD-CUTOVER.md)
+- [ ] Android analytics flush → backend ingest в prod
 
 ---
 
@@ -290,7 +295,7 @@ Workflow: правки в admin (или import) → ревью владельц�
 
 | # | Вопрос | Решение |
 | - | ------ | ------- |
-| 1 | Домен | TBD перед prod — см. [DEPLOYMENT.md](DEPLOYMENT.md) |
+| 1 | Домен | `api.alicecommands.ru` (prod), `staging-api.alicecommands.ru` — см. [INFRASTRUCTURE.md](INFRASTRUCTURE.md) |
 | 2 | GitHub repo | `alice-commands-api` |
 | 3 | Admin UI | Ktor + static HTML + Alpine.js |
 | 4 | Import pilot JSON | Да в v1.0 (B08) |

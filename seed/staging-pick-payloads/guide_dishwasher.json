@@ -1,0 +1,19 @@
+{
+  "id": "dishwasher",
+  "title_ru": "Посудомоечная машина",
+  "summary_ru": "Старт и контроль мойки голосом для совместимых моделей.",
+  "capabilities_ru": "Запуск, пауза, статус программы. Примеры: «Алиса, включи посудомойку», «Алиса, что с посудомойкой?». Зависит от интеграции производителя.",
+  "setup_ru": "Подключите к Wi‑Fi и «Дом с Алисой» по инструкции бренда.",
+  "setup_steps_ru": [
+    "Завершите установку и подключение воды",
+    "Подключите к Wi‑Fi производителя",
+    "Добавьте в «Дом с Алисой»",
+    "Проверьте запуск короткой программы",
+    "Включите уведомление об окончании мойки"
+  ],
+  "related_devices_ru": "Датчик протечки, кухонная техника",
+  "related_device_ids": ["sensor_water_leak", "cooking"],
+  "image_url": "https://staging-api.alicecommands.ru/icons/v1/dishwasher.svg",
+  "action_url": "https://yandex.ru/dev/dialogs/smart-home/doc/ru/concepts/device-type-dishwasher",
+  "sort_order": 300
+}

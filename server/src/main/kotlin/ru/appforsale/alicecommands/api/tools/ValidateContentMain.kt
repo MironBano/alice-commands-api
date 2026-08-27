@@ -14,7 +14,7 @@ import kotlin.system.exitProcess
 fun main(args: Array<String>) {
     val contentFile = args.firstOrNull()
         ?: System.getProperty("contentFile")
-        ?: "seed/full-catalog.json"
+        ?: "seed/catalog-audit-fixed.json"
 
     val path = Path(contentFile)
     if (!path.exists()) {

@@ -34,7 +34,10 @@
 | **Группы команд** | `command-groups` | CRUD groups, reorder (↑/↓), visual override / inherit |
 | Шаблоны | `scenarios` | Scenario templates CRUD |
 | Чеклист | `checklist` | Checklist items reorder |
-| Партнёрские блоки | `affiliate` | Affiliate blocks CRUD |
+| Партнёрские блоки | `affiliate` | Affiliate blocks CRUD (**legacy** — prefer Устройства) |
+| **Команда дня** | `command-of-day` | Manual/auto pin, preview, publish COD only |
+| **Устройства** | `smarthome-devices` | Guides + picks CRUD, upload image, contextual fields |
+| **Аналитика** | `analytics` | Dashboard: Обзор / Тренд / Воронка / Breakdown / События |
 | **Отзывы** | `feedback` | Inbox отзывов из app |
 | **Ошибки команд** | `command-reports` | Inbox reports по command_id |
 | **Контент** | `content` | Мастер pipeline → editorial → diff → публикация |
@@ -142,6 +145,80 @@ Publish блокируется при нарушении правил групп
 
 ---
 
+## 5d. Command of day (Команда дня)
+
+| Field | Widget |
+| ----- | ------ |
+| mode | `manual` / `auto` |
+| command_id | select (manual) |
+| auto_category_id | select (auto) |
+| auto_seed | number (optional, для детерминизма auto) |
+
+- **Save draft** — только PostgreSQL settings (без live bundle)
+- **Publish command of day** — `POST /admin/api/command-of-day/publish` (обновляет `command_of_day` в live bundle без полного publish)
+- Preview «сегодня» на основе Europe/Moscow resolver
+
+См. [BACKEND-COMMAND-OF-DAY.md](BACKEND-COMMAND-OF-DAY.md).
+
+---
+
+## 5e. Smart home (Устройства)
+
+View **Устройства** (`smarthome-devices`) — две вкладки:
+
+| Tab | CRUD | Поля |
+| --- | ---- | ---- |
+| Guides | device-guides | title, summary, capabilities, setup, setup_steps, related_device_ids, image, action_url, sort |
+| Picks | device-picks | title, description, price, image, action_url, ERID, **placements**, **tags**, FK arrays, **priority**, scheduling |
+
+- Upload image: slug + file → `POST /smarthome/upload-image`
+- Каждый save **автоматически** публикует `smarthome_devices.json`
+- Массовый import: `import-smarthome-payload.ps1`
+
+См. [BACKEND-SMARTHOME-DEVICES.md](BACKEND-SMARTHOME-DEVICES.md), [ADMIN-CONTENT-GUIDE.md](ADMIN-CONTENT-GUIDE.md).
+
+---
+
+## 5f. Analytics (Аналитика)
+
+Один пункт сайдбара **Аналитика** (`view=analytics`):
+
+- **Date bar (общий):** пресеты 7 / 30 / 90 = последние N inclusive дней + custom `from`/`to` (≤ retention, default 90)
+- **Сутки:** Europe/Moscow
+- **Вкладки:**
+  - **Обзор** — Открывали приложение, В среднем за день, События, Новые установки; топ действий с RU-подписями
+  - **По дням** — график по дням
+  - **Воронка** — сколько установок на каждом шаге (по отдельности)
+  - **Что нажимали** — разбор значений поля события (default `ui_click` / `element_id`)
+  - **Журнал** — сырые события
+  - **Как читать** — простые пояснения + FAQ (`pro_restore`)
+
+См. [ANALYTICS-BACKEND.md](ANALYTICS-BACKEND.md), [ANALYTICS-GLOSSARY.md](ANALYTICS-GLOSSARY.md).
+
+---
+
+## 5c. Рекомендуемые иконки категорий
+
+| category_id | icon_key | accent (light) |
+| ----------- | -------- | ---------------- |
+| general | star | `#E8A317` amber |
+| music | music_note | `#7B4BB7` violet |
+| audiobooks | book | `#4F46E5` indigo |
+| tv_video | tv | `#2563EB` blue |
+| quick_answers | quick_answers | `#0EA5E9` sky |
+| timers | timer | `#E85D4A` coral |
+| smart_home | home_iot | `#1B6B5A` teal |
+| station_settings | speaker | `#64748B` slate |
+| calls | phone_call | `#059669` emerald |
+| kids | child | `#DB2777` pink |
+| alice_plus | plus | `#9333EA` purple |
+| quick_commands | bolt | `#F97316` orange |
+| obscure | sparkles | `#6366F1` indigo |
+
+Канон: [`content/visuals_map.json`](../content/visuals_map.json), пресеты в **Библиотека иконок**.
+
+---
+
 ## 6. Publish (Публикация)
 
 - Текущая live-версия + **Опубликовать draft → live** (confirm)
@@ -153,7 +230,7 @@ Publish блокируется при нарушении правил групп
 ## 7. Import bundle
 
 - **Не editorial JSON** — только content bundle (`categories`, `command_groups`, `commands`, …)
-- Merge / Replace all (режим `sync` — только через `push-draft.ps1` на ПК)
+- Merge / Replace all (default **replace** через `push-draft.ps1` на ПК)
 - Diff **файла vs опубликованное** (`POST /import/preview`)
 - Disabled при offline сервера
 
@@ -174,7 +251,9 @@ Publish блокируется при нарушении правил групп
 
 Deploy backend после изменений кода: `deploy-staging.ps1` или ярлык «6».
 
-API: `POST /content/pipeline-sync`, `POST /content/rebuild-draft` (из скриптов; в UI нет отдельных кнопок).
+API: `POST /content/pipeline-sync` (replace inventory+editorial), `POST /content/rebuild-draft` (legacy, opt-in в скриптах).
+
+**Validation warnings** (шапка «Контент»): `orphan_commands` — команды без `group_id` в категории с группами; `empty_groups` — группы без команд. Для fixed catalog после `push-draft.ps1` оба списка должны быть пустыми.
 
 ---
 

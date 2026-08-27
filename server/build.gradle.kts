@@ -79,7 +79,18 @@ tasks.register<JavaExec>("validateContent") {
     classpath = sourceSets.main.get().runtimeClasspath
     mainClass.set("ru.appforsale.alicecommands.api.tools.ValidateContentMainKt")
     workingDir = rootProject.layout.projectDirectory.asFile
-    val contentFile = project.findProperty("contentFile")?.toString() ?: "seed/full-catalog.json"
+    val contentFile = project.findProperty("contentFile")?.toString() ?: "seed/catalog-audit-fixed.json"
+    args(contentFile)
+    systemProperty("contentFile", contentFile)
+}
+
+tasks.register<JavaExec>("validateSmartHomeDevices") {
+    group = "verification"
+    description = "Validate smart home devices JSON against schema"
+    classpath = sourceSets.main.get().runtimeClasspath
+    mainClass.set("ru.appforsale.alicecommands.api.tools.ValidateSmartHomeDevicesMainKt")
+    workingDir = rootProject.layout.projectDirectory.asFile
+    val contentFile = project.findProperty("contentFile")?.toString() ?: "seed/smarthome-devices-example.json"
     args(contentFile)
     systemProperty("contentFile", contentFile)
 }

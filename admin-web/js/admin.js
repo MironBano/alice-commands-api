@@ -2,6 +2,98 @@ function adminApp() {
   const HEALTH_INTERVAL_MS = 5 * 60 * 1000;
   const REQUEST_TIMEOUT_MS = 30_000;
 
+  /** Russian labels for analytics event_name. tip — только если название само себя не объясняет. */
+  const ANALYTICS_EVENT_LABELS = {
+    daily_active: { label: 'Открыл приложение сегодня', tip: 'Считается один раз в день на установку. По этим событиям строится «активность».' },
+    session_start: { label: 'Начал сессию' },
+    session_end: { label: 'Закончил сессию' },
+    app_foreground: { label: 'Вернулся в приложение', tip: 'Часто при каждом возврате из фона — в топе это нормально.' },
+    app_background: { label: 'Ушёл в фон' },
+    time_in_app_tick: { label: 'Тик «время в приложении»', tip: 'Служебный счётчик, не действие пользователя.' },
+    screen_view: { label: 'Открыл экран' },
+    ui_click: { label: 'Нажал элемент', tip: 'В «Что нажимали» можно посмотреть, по каким кнопкам кликали.' },
+    tab_select: { label: 'Выбрал вкладку' },
+    content_sync: { label: 'Скачал каталог', tip: 'Обычно при запуске приложения — в топе это нормально.' },
+    command_view: { label: 'Открыл команду' },
+    command_tts: { label: 'Озвучил команду' },
+    first_value_tts: { label: 'Первое озвучивание', tip: 'Первый TTS после установки — ключевая ценность.' },
+    command_copy: { label: 'Скопировал команду' },
+    favorite_add: { label: 'Добавил в избранное' },
+    search: { label: 'Поиск', tip: 'Текст запроса не сохраняется — только длина и число результатов.' },
+    paywall_view: { label: 'Увидел экран покупки' },
+    paywall_dismiss: { label: 'Закрыл экран покупки' },
+    pro_gate_shown: { label: 'Увидел ограничение Pro' },
+    pro_gate_to_paywall: { label: 'Перешёл с ограничения к покупке' },
+    pro_purchase_start: { label: 'Начал покупку Pro' },
+    pro_purchase: { label: 'Оплата Pro прошла' },
+    pro_activated: { label: 'Pro включился', tip: 'Может быть после покупки или после восстановления покупок.' },
+    pro_restore: { label: 'Проверка покупок', tip: 'Приложение само проверяет покупки при каждом запуске. Это не «пользователь нажал Восстановить».' },
+    rating_prompt_shown: { label: 'Попросили оценить приложение' },
+    rating_prompt_ignored: { label: 'Игнорировал оценку' },
+    rating_evaluate_skipped: { label: 'Оценка пропущена (guard)' },
+    rating_dismiss: { label: 'Закрыл оценку' },
+    rating_star_selected: { label: 'Выбрал оценку' },
+    rating_low_feedback_submit: { label: 'Отправил отзыв (низкая оценка)' },
+    rating_low_feedback_fail: { label: 'Ошибка отправки отзыва' },
+    rating_high_rustore_request: { label: 'Запрос оценки в RuStore' },
+    rating_high_rustore_result: { label: 'Результат RuStore-оценки' },
+    onboarding_complete: { label: 'Прошёл онбординг' },
+    persona_selected: { label: 'Выбрал персону (онбординг)' },
+    persona_changed: { label: 'Сменил персону' },
+    settings_language_change: { label: 'Сменил язык приложения' },
+    settings_tts_language_change: { label: 'Сменил язык озвучки' },
+    settings_hide_picks_toggle: { label: 'Переключил «скрыть подборки»' },
+    theme_change: { label: 'Сменил тему' },
+    font_scale_change: { label: 'Сменил масштаб шрифта' },
+    contextual_pick_impression: { label: 'Увидел товар в подборке', tip: 'Impression одного pick за сессию.' },
+    contextual_pick_section_shown: { label: 'Увидел блок подборки' },
+    contextual_pick_click: { label: 'Кликнул товарную подборку', tip: 'Основной клик по pick (не legacy affiliate_click).' },
+    device_pick_click: { label: 'Кликнул pick устройства' },
+    affiliate_click: { label: 'Клик legacy affiliate', tip: 'Старые блоки affiliate; picks → contextual_pick_click.' },
+    affiliate_no_match: { label: 'Подборка не нашлась' },
+    device_guide_detail_open: { label: 'Открыл гайд устройства' },
+    device_guide_external_click: { label: 'Клик ссылку из гайда' },
+    deeplink_open: { label: 'Открыл deeplink' },
+    app_error_non_fatal: { label: 'Ошибка (некритичная)' },
+    billing_error: { label: 'Ошибка оплаты' },
+    bootstrap_error: { label: 'Ошибка при запуске' },
+    review_error: { label: 'Ошибка RuStore Review' },
+    ads_error: { label: 'Ошибка рекламы' },
+  };
+
+  /** Служебные события — скрываются в топе «Действия пользователей». */
+  const ANALYTICS_SYSTEM_EVENT_NAMES = new Set([
+    'pro_restore',
+    'content_sync',
+    'app_foreground',
+    'app_background',
+    'session_start',
+    'session_end',
+    'time_in_app_tick',
+    'contextual_pick_impression',
+    'contextual_pick_section_shown',
+    'affiliate_no_match',
+    'rating_evaluate_skipped',
+  ]);
+
+  const ANALYTICS_FUNNEL_PRESETS = [
+    { label: 'Pro', steps: 'paywall_view,pro_purchase_start,pro_activated' },
+    { label: 'Поиск', steps: 'daily_active,search,command_view' },
+    { label: 'TTS', steps: 'daily_active,command_tts,command_copy' },
+    { label: 'Подборки', steps: 'contextual_pick_impression,contextual_pick_click' },
+    { label: 'First value', steps: 'daily_active,first_value_tts,command_copy' },
+    { label: 'Engagement', steps: 'daily_active,command_view,command_copy,favorite_add' },
+  ];
+
+  const ANALYTICS_BREAKDOWN_PRESETS = [
+    { label: 'Кнопки', event: 'ui_click', param: 'element_id', fieldSource: 'params' },
+    { label: 'Экраны', event: 'screen_view', param: 'route', fieldSource: 'params' },
+    { label: 'Категории команд', event: 'command_view', param: 'category_id', fieldSource: 'params' },
+    { label: 'Placement picks', event: 'contextual_pick_impression', param: 'placement', fieldSource: 'params' },
+    { label: 'Pro / free', event: 'daily_active', param: 'is_pro', fieldSource: 'user_properties' },
+    { label: 'Персона', event: 'daily_active', param: 'persona', fieldSource: 'user_properties' },
+  ];
+
   return {
     authenticated: false,
     loading: false,
@@ -20,11 +112,21 @@ function adminApp() {
     scenarios: [],
     checklist: [],
     affiliate: [],
+    deviceGuides: [],
+    devicePicks: [],
+    smarthomeTab: 'guides',
+    deviceGuideForm: null,
+    deviceGuideEditing: false,
+    devicePickForm: null,
+    devicePickEditing: false,
     history: [],
     categoryForm: null,
     categoryEditing: false,
     commandForm: null,
     commandEditing: false,
+    commandEditorTab: 'form',
+    commandJsonText: '',
+    commandSearch: '',
     commandFilter: '',
     groupFilter: 'smart_home',
     groupForm: null,
@@ -38,7 +140,7 @@ function adminApp() {
     scenarioEditing: false,
     affiliateForm: null,
     affiliateEditing: false,
-    importMode: 'merge',
+    importMode: 'replace',
     importDraft: null,
     importParseError: '',
     importLoading: false,
@@ -63,14 +165,6 @@ function adminApp() {
     pipelineLoading: false,
     pipelineDiff: null,
     pipelineDiffLoading: false,
-    contentQueue: [],
-    contentQueueLoading: false,
-    editorialReview: null,
-    editorialReviewLoading: false,
-    editorialReviewSaving: false,
-    editorialReviewFilter: 'review',
-    editorialReviewSearch: '',
-    editorialImportLoading: false,
     seedImportLoading: false,
     apiDocs: null,
     apiDocsLoading: false,
@@ -85,6 +179,38 @@ function adminApp() {
     commandOfDay: null,
     commandOfDayForm: null,
     commandOfDayLoading: false,
+    analyticsMaxRangeDays: 90,
+    analyticsPreset: 7,
+    analyticsFrom: '',
+    analyticsTo: '',
+    analyticsTab: 'overview',
+    analyticsEventLabels: ANALYTICS_EVENT_LABELS,
+    analyticsFunnelPresets: ANALYTICS_FUNNEL_PRESETS,
+    analyticsBreakdownPresets: ANALYTICS_BREAKDOWN_PRESETS,
+    analyticsTopEventsMode: 'actions',
+    analyticsBreakdownFieldSource: 'params',
+    analyticsSummary: null,
+    analyticsSummaryLoading: false,
+    analyticsSummaryError: '',
+    analyticsFunnel: null,
+    analyticsFunnelLoading: false,
+    analyticsFunnelError: '',
+    analyticsFunnelSteps: 'paywall_view,pro_purchase_start,pro_activated',
+    analyticsBreakdown: null,
+    analyticsBreakdownLoading: false,
+    analyticsBreakdownError: '',
+    analyticsBreakdownEventName: 'ui_click',
+    analyticsBreakdownParam: 'element_id',
+    analyticsTrendSeries: 'events',
+    analyticsEvents: [],
+    analyticsEventsLoading: false,
+    analyticsEventsError: '',
+    analyticsEventsTotal: 0,
+    analyticsEventName: '',
+    analyticsInstallId: '',
+    analyticsOffset: 0,
+    analyticsLimit: 100,
+    analyticsRangeError: '',
 
     async init() {
       this.startHealthPolling();
@@ -330,6 +456,10 @@ function adminApp() {
     async loadAffiliate() {
       this.affiliate = await this.api('/admin/api/affiliate-blocks') || [];
     },
+    async loadSmartHomeDevices() {
+      this.deviceGuides = await this.api('/admin/api/smarthome/device-guides') || [];
+      this.devicePicks = await this.api('/admin/api/smarthome/device-picks') || [];
+    },
     async loadHistory() {
       this.history = await this.api('/admin/api/publish/history') || [];
     },
@@ -368,8 +498,6 @@ function adminApp() {
       try {
         this.pipeline = await this.api('/admin/api/content/pipeline');
         await this.loadDashboard();
-        await this.loadContentQueue(true);
-        await this.loadEditorialReview(true);
         if (reloadDiff && this.pipeline?.hasUnpublishedChanges) {
           await this.loadDraftDiff(true);
         } else if (!this.pipeline?.hasUnpublishedChanges) {
@@ -379,54 +507,6 @@ function adminApp() {
         this.error = this.networkErrorMessage(e);
       } finally {
         this.pipelineLoading = false;
-      }
-    },
-
-    async loadContentQueue(silent = false) {
-      if (!this.authenticated) return;
-      this.contentQueueLoading = true;
-      try {
-        this.contentQueue = await this.api('/admin/api/content/queue?status=open') || [];
-      } catch (e) {
-        if (!silent) this.error = this.networkErrorMessage(e);
-      } finally {
-        this.contentQueueLoading = false;
-      }
-    },
-
-    async approveQueueItem(item) {
-      const effect = prompt('Effect (описание для app):', item.suggested_effect || '');
-      if (effect === null) return;
-      const title = prompt('Заголовок:', item.title_ru || item.phrase || item.command_id);
-      if (title === null) return;
-      this.saving = true;
-      try {
-        await this.api(`/admin/api/content/queue/${encodeURIComponent(item.id)}/approve`, {
-          method: 'POST',
-          body: { title_ru: title, effect_description_ru: effect },
-        });
-        this.showToast('Команда одобрена и добавлена в draft');
-        await this.refreshAfterDraftMutation({ reloadDiff: true });
-      } catch (e) {
-        this.error = this.networkErrorMessage(e);
-      } finally {
-        this.saving = false;
-      }
-    },
-
-    async dismissQueueItem(item) {
-      if (!confirm(`Скрыть из очереди: ${item.command_id}?`)) return;
-      this.saving = true;
-      try {
-        await this.api(`/admin/api/content/queue/${encodeURIComponent(item.id)}/dismiss`, {
-          method: 'POST',
-          body: {},
-        });
-        await this.refreshAfterDraftMutation({ reloadDiff: true });
-      } catch (e) {
-        this.error = this.networkErrorMessage(e);
-      } finally {
-        this.saving = false;
       }
     },
 
@@ -476,6 +556,301 @@ function adminApp() {
         this.error = this.networkErrorMessage(e);
       } finally {
         this.saving = false;
+      }
+    },
+
+    formatAnalyticsLocalDate(date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, '0');
+      const d = String(date.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    },
+
+    ensureAnalyticsDates() {
+      if (!this.analyticsFrom || !this.analyticsTo) {
+        this.applyAnalyticsPreset(this.analyticsPreset === 'custom' ? 7 : this.analyticsPreset);
+      }
+    },
+
+    applyAnalyticsPreset(days) {
+      this.analyticsPreset = days;
+      const to = new Date();
+      // Inclusive last N calendar days: today − (N−1) … today → N points.
+      const from = new Date(to.getFullYear(), to.getMonth(), to.getDate() - (days - 1));
+      this.analyticsTo = this.formatAnalyticsLocalDate(to);
+      this.analyticsFrom = this.formatAnalyticsLocalDate(from);
+      this.analyticsRangeError = '';
+    },
+
+    onAnalyticsCustomDateChange() {
+      this.analyticsPreset = 'custom';
+      this.analyticsRangeError = '';
+    },
+
+    analyticsDateRange() {
+      this.ensureAnalyticsDates();
+      return { from: this.analyticsFrom, to: this.analyticsTo };
+    },
+
+    /** ChronoUnit.DAYS between from and to (exclusive of inclusive count). */
+    analyticsSpanDays() {
+      const range = this.analyticsDateRange();
+      const from = new Date(`${range.from}T00:00:00Z`);
+      const to = new Date(`${range.to}T00:00:00Z`);
+      return Math.round((to - from) / 86400000);
+    },
+
+    /** Inclusive calendar days (= number of daily points). */
+    analyticsInclusiveDays() {
+      return this.analyticsSpanDays() + 1;
+    },
+
+    validateAnalyticsRange() {
+      const range = this.analyticsDateRange();
+      if (!range.from || !range.to) {
+        this.analyticsRangeError = 'Укажите from и to';
+        return false;
+      }
+      if (range.from > range.to) {
+        this.analyticsRangeError = 'from должен быть ≤ to';
+        return false;
+      }
+      const inclusive = this.analyticsInclusiveDays();
+      if (inclusive > this.analyticsMaxRangeDays) {
+        this.analyticsRangeError = `Период не больше ${this.analyticsMaxRangeDays} календарных дней (сейчас ${inclusive})`;
+        return false;
+      }
+      this.analyticsRangeError = '';
+      return true;
+    },
+
+    openAnalytics(tab = 'overview') {
+      this.view = 'analytics';
+      this.analyticsTab = tab;
+      this.ensureAnalyticsDates();
+      this.loadAnalyticsForActiveTab();
+    },
+
+    setAnalyticsTab(tab) {
+      this.analyticsTab = tab;
+      this.loadAnalyticsForActiveTab();
+    },
+
+    applyAnalyticsRange() {
+      this.analyticsOffset = 0;
+      this.loadAnalyticsForActiveTab();
+    },
+
+    loadAnalyticsForActiveTab(silent = false) {
+      if (!this.validateAnalyticsRange()) return;
+      switch (this.analyticsTab) {
+        case 'overview':
+        case 'trend':
+          return this.loadAnalyticsSummary(silent);
+        case 'funnel':
+          return this.loadAnalyticsFunnel(silent);
+        case 'breakdown':
+          return this.loadAnalyticsBreakdown(silent);
+        case 'events':
+          return this.loadAnalyticsEvents(silent);
+        case 'help':
+          return undefined;
+        default:
+          return this.loadAnalyticsSummary(silent);
+      }
+    },
+
+    drillToAnalyticsEvents(eventName) {
+      this.analyticsEventName = eventName || '';
+      this.analyticsOffset = 0;
+      this.setAnalyticsTab('events');
+    },
+
+    async loadAnalyticsSummary(silent = false) {
+      if (!this.authenticated) return;
+      if (!this.validateAnalyticsRange()) return;
+      this.analyticsSummaryLoading = true;
+      this.analyticsSummaryError = '';
+      try {
+        const range = this.analyticsDateRange();
+        const params = new URLSearchParams({ from: range.from, to: range.to });
+        this.analyticsSummary = await this.api(`/admin/api/analytics/summary?${params}`);
+      } catch (e) {
+        this.analyticsSummary = null;
+        if (!silent) this.analyticsSummaryError = this.networkErrorMessage(e);
+      } finally {
+        this.analyticsSummaryLoading = false;
+      }
+    },
+
+    async loadAnalyticsFunnel(silent = false) {
+      if (!this.authenticated) return;
+      if (!this.validateAnalyticsRange()) return;
+      this.analyticsFunnelLoading = true;
+      this.analyticsFunnelError = '';
+      try {
+        const range = this.analyticsDateRange();
+        const params = new URLSearchParams({ from: range.from, to: range.to });
+        if (this.analyticsFunnelSteps.trim()) params.set('steps', this.analyticsFunnelSteps.trim());
+        this.analyticsFunnel = await this.api(`/admin/api/analytics/funnel?${params}`);
+      } catch (e) {
+        this.analyticsFunnel = null;
+        if (!silent) this.analyticsFunnelError = this.networkErrorMessage(e);
+      } finally {
+        this.analyticsFunnelLoading = false;
+      }
+    },
+
+    async loadAnalyticsBreakdown(silent = false) {
+      if (!this.authenticated) return;
+      if (!this.validateAnalyticsRange()) return;
+      this.analyticsBreakdownLoading = true;
+      this.analyticsBreakdownError = '';
+      try {
+        const range = this.analyticsDateRange();
+        const params = new URLSearchParams({
+          from: range.from,
+          to: range.to,
+          event_name: this.analyticsBreakdownEventName.trim() || 'ui_click',
+          param: this.analyticsBreakdownParam.trim() || 'element_id',
+        });
+        if (this.analyticsBreakdownFieldSource === 'user_properties') {
+          params.set('field_source', 'user_properties');
+        }
+        this.analyticsBreakdown = await this.api(`/admin/api/analytics/breakdown?${params}`);
+      } catch (e) {
+        this.analyticsBreakdown = null;
+        if (!silent) this.analyticsBreakdownError = this.networkErrorMessage(e);
+      } finally {
+        this.analyticsBreakdownLoading = false;
+      }
+    },
+
+    async loadAnalyticsEvents(silent = false) {
+      if (!this.authenticated) return;
+      if (!this.validateAnalyticsRange()) return;
+      this.analyticsEventsLoading = true;
+      this.analyticsEventsError = '';
+      try {
+        const range = this.analyticsDateRange();
+        const params = new URLSearchParams({
+          from: range.from,
+          to: range.to,
+          limit: String(this.analyticsLimit),
+          offset: String(this.analyticsOffset),
+        });
+        if (this.analyticsEventName.trim()) params.set('event_name', this.analyticsEventName.trim());
+        if (this.analyticsInstallId.trim()) params.set('install_id', this.analyticsInstallId.trim());
+        const result = await this.api(`/admin/api/analytics/events?${params}`);
+        this.analyticsEvents = result?.items || [];
+        this.analyticsEventsTotal = result?.total || 0;
+      } catch (e) {
+        this.analyticsEvents = [];
+        this.analyticsEventsTotal = 0;
+        if (!silent) this.analyticsEventsError = this.networkErrorMessage(e);
+      } finally {
+        this.analyticsEventsLoading = false;
+      }
+    },
+
+    analyticsTrendMax() {
+      const daily = this.analyticsSummary?.daily || [];
+      const key = this.analyticsTrendSeriesKey();
+      return Math.max(1, ...daily.map((d) => Number(d[key]) || 0));
+    },
+
+    analyticsTrendSeriesKey() {
+      if (this.analyticsTrendSeries === 'dau') return 'dau';
+      if (this.analyticsTrendSeries === 'new_installs' || this.analyticsTrendSeries === 'unique_installs') {
+        return 'new_installs';
+      }
+      return 'events';
+    },
+
+    analyticsBarHeight(point) {
+      const value = this.analyticsBarValue(point);
+      if (value <= 0) return 0;
+      return Math.max(2, Math.round((value / this.analyticsTrendMax()) * 100));
+    },
+
+    analyticsBarValue(point) {
+      const key = this.analyticsTrendSeriesKey();
+      return Number(point?.[key]) || 0;
+    },
+
+    analyticsShowBarValues() {
+      return (this.analyticsSummary?.daily || []).length <= 31;
+    },
+
+    analyticsShowBarLabel(index) {
+      const daily = this.analyticsSummary?.daily || [];
+      const n = daily.length;
+      if (n <= 31) return true;
+      if (index === 0 || index === n - 1) return true;
+      return index % 7 === 0;
+    },
+
+    analyticsEventLabel(eventName) {
+      const entry = this.analyticsEventLabels[eventName];
+      return entry?.label || eventName;
+    },
+
+    analyticsEventTip(eventName) {
+      return this.analyticsEventLabels[eventName]?.tip || '';
+    },
+
+    analyticsFilteredTopEvents() {
+      const rows = this.analyticsSummary?.top_events || [];
+      if (this.analyticsTopEventsMode === 'all') return rows;
+      return rows.filter((row) => !ANALYTICS_SYSTEM_EVENT_NAMES.has(row.event_name));
+    },
+
+    applyAnalyticsFunnelPreset(preset) {
+      this.analyticsFunnelSteps = preset.steps;
+      this.loadAnalyticsFunnel();
+    },
+
+    applyAnalyticsBreakdownPreset(preset) {
+      this.analyticsBreakdownEventName = preset.event;
+      this.analyticsBreakdownParam = preset.param;
+      this.analyticsBreakdownFieldSource = preset.fieldSource || 'params';
+      this.loadAnalyticsBreakdown();
+    },
+
+    analyticsEventNames() {
+      return Object.keys(this.analyticsEventLabels || {});
+    },
+
+    /** Only events that need a tip — for the help glossary. */
+    analyticsExplainedEventNames() {
+      return Object.keys(this.analyticsEventLabels || {}).filter((name) => {
+        const tip = this.analyticsEventLabels[name]?.tip;
+        return tip && tip.length > 0;
+      });
+    },
+
+    analyticsPrevPage() {
+      if (this.analyticsOffset <= 0) return;
+      this.analyticsOffset = Math.max(0, this.analyticsOffset - this.analyticsLimit);
+      this.loadAnalyticsEvents();
+    },
+
+    analyticsNextPage() {
+      if (this.analyticsOffset + this.analyticsLimit >= this.analyticsEventsTotal) return;
+      this.analyticsOffset += this.analyticsLimit;
+      this.loadAnalyticsEvents();
+    },
+
+    shortUuid(value) {
+      if (!value || value.length < 12) return value || '';
+      return `${value.slice(0, 8)}…${value.slice(-4)}`;
+    },
+
+    formatJson(value) {
+      try {
+        return JSON.stringify(value || {}, null, 2);
+      } catch {
+        return String(value);
       }
     },
 
@@ -553,117 +928,9 @@ function adminApp() {
       }
     },
 
-    queueEventLabel(type) {
-      const map = {
-        new_command: 'Новая команда',
-        new_phrase: 'Новая фраза',
-        gone_phrase: 'Фраза исчезла',
-        gone_command: 'Команда исчезла',
-        needs_review: 'Нужно вычитать',
-      };
-      return map[type] || type;
-    },
-
     changeLabel(change) {
       const map = { added: 'добавлено', changed: 'изменено', removed: 'удалено' };
       return map[change] || change;
-    },
-
-    reasonLabel(reason) {
-      const map = {
-        changed: 'изменено',
-        pending: 'ожидает',
-        queue: 'очередь',
-        added: 'новое',
-        removed: 'удалено',
-      };
-      return map[reason] || reason;
-    },
-
-    isEditorialExport(parsed) {
-      return parsed && typeof parsed === 'object' && Array.isArray(parsed.records)
-        && parsed.records.some((r) => r?.edit?.title_ru != null || r?.edit?.effect_description_ru != null);
-    },
-
-    async loadEditorialReview(silent = false) {
-      if (!this.authenticated) return;
-      this.editorialReviewLoading = true;
-      try {
-        const params = new URLSearchParams({ filter: this.editorialReviewFilter });
-        if (this.editorialReviewSearch?.trim()) {
-          params.set('search', this.editorialReviewSearch.trim());
-        }
-        this.editorialReview = await this.api(`/admin/api/content/editorial-review?${params}`);
-      } catch (e) {
-        if (!silent) this.error = this.networkErrorMessage(e);
-      } finally {
-        this.editorialReviewLoading = false;
-      }
-    },
-
-    async saveEditorialReview() {
-      if (!this.editorialReview?.records?.length) return;
-      this.editorialReviewSaving = true;
-      try {
-        const records = this.editorialReview.records.map((row) => ({
-          command_id: row.command_id,
-          title_ru: row.edit.title_ru,
-          effect_description_ru: row.edit.effect_description_ru,
-          status: row.edit.status,
-        }));
-        const result = await this.api('/admin/api/content/editorial/batch', {
-          method: 'POST',
-          body: { records },
-        });
-        this.showToast(`Сохранено: ${result.updated} текстов; draft обновлён (${result.draft_rebuilt} команд, группы и метаданные сохранены)`);
-        await this.refreshAfterDraftMutation({ reloadDiff: true });
-      } catch (e) {
-        this.error = this.networkErrorMessage(e);
-      } finally {
-        this.editorialReviewSaving = false;
-      }
-    },
-
-    async exportEditorialReview() {
-      const params = new URLSearchParams({ filter: this.editorialReviewFilter });
-      if (this.editorialReviewSearch?.trim()) {
-        params.set('search', this.editorialReviewSearch.trim());
-      }
-      try {
-        const res = await fetch(`/admin/api/content/editorial-export?${params}`, { credentials: 'include' });
-        if (!res.ok) throw new Error(res.statusText);
-        const blob = await res.blob();
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `editorial-export-${this.editorialReviewFilter}.json`;
-        a.click();
-        URL.revokeObjectURL(url);
-        this.showToast('JSON скачан — отредактируйте в ИИ и загрузите обратно');
-      } catch (e) {
-        this.error = this.networkErrorMessage(e);
-      }
-    },
-
-    async importEditorialReviewFile(event) {
-      const file = event.target.files?.[0];
-      event.target.value = '';
-      if (!file) return;
-      this.editorialImportLoading = true;
-      try {
-        const text = await file.text();
-        const result = await this.api('/admin/api/content/editorial-import', {
-          method: 'POST',
-          body: text,
-          raw: true,
-        });
-        this.showToast(`Импорт: ${result.updated} записей, draft обновлён: ${result.draft_rebuilt}`);
-        await this.refreshAfterDraftMutation({ reloadDiff: true });
-      } catch (e) {
-        this.error = this.networkErrorMessage(e);
-      } finally {
-        this.editorialImportLoading = false;
-      }
     },
 
     async loadDraftDiff(forceReload = false, options = {}) {
@@ -705,7 +972,7 @@ function adminApp() {
       }
     },
 
-    async importSeedFromServer(mode = 'merge') {
+    async importSeedFromServer(mode = 'replace') {
       if (mode === 'replace' && !confirm('Replace all заменит весь каталог draft. Продолжить?')) return;
       this.seedImportLoading = true;
       this.error = '';
@@ -1000,59 +1267,191 @@ function adminApp() {
       }
     },
 
+    filteredCommands() {
+      const q = (this.commandSearch || '').trim().toLowerCase();
+      if (!q) return this.commands;
+      return this.commands.filter((c) => {
+        if (c.id.toLowerCase().includes(q)) return true;
+        if ((c.title_ru || '').toLowerCase().includes(q)) return true;
+        return (c.phrases || []).some((p) => String(p).toLowerCase().includes(q));
+      });
+    },
+
+    copyCommandJson() {
+      let text = this.commandJsonText;
+      if (this.commandEditorTab === 'form') {
+        text = this.formatCommandJson(this.buildCommandBodyFromForm());
+      }
+      this.copyText(text);
+      this.showToast('JSON команды скопирован — вставьте в seed/catalog-audit-fixed.json (commands[]) или сохраните в draft');
+    },
+
     showCommandForm() {
       this.formError = '';
       this.commandEditing = false;
+      this.commandEditorTab = 'form';
       const now = new Date().toISOString();
       this.commandForm = {
         id: '', category_id: this.categories[0]?.id || '', title_ru: '',
         phrasesText: '', effect_description_ru: '', source_url: 'https://alice.yandex.ru/support/ru/station/skills/',
         requires_alice_word: true, requires_plus: false, tagsText: '', updated_at: now,
         group_id: '', sort_order: null, variant_label_ru: '', is_primary_in_group: false, aliasesText: '',
+        deviceTypesText: 'station,phone', relatedIdsText: '',
+        device_types: ['station', 'phone'], related_command_ids: [], published_at: null,
       };
+      this.commandJsonText = this.formatCommandJson(this.buildCommandBodyFromForm());
     },
     editCommand(cmd) {
       this.formError = '';
       this.commandEditing = true;
+      this.commandEditorTab = 'form';
       this.commandForm = {
         ...cmd,
         group_id: cmd.group_id || '',
         phrasesText: (cmd.phrases || []).join('\n'),
         tagsText: (cmd.tags || []).join(', '),
         aliasesText: (cmd.search_aliases || []).join(', '),
+        deviceTypesText: (cmd.device_types || []).join(','),
+        relatedIdsText: (cmd.related_command_ids || []).join(', '),
       };
+      this.commandJsonText = this.formatCommandJson(this.normalizeCommandForJson(cmd));
+    },
+    closeCommandForm() {
+      this.commandForm = null;
+      this.commandJsonText = '';
+      this.formError = '';
+      this.commandEditorTab = 'form';
+    },
+    normalizeCommandForJson(cmd) {
+      return {
+        id: cmd.id,
+        category_id: cmd.category_id,
+        title_ru: cmd.title_ru,
+        phrases: cmd.phrases || [],
+        effect_description_ru: cmd.effect_description_ru,
+        requires_alice_word: !!cmd.requires_alice_word,
+        requires_plus: !!cmd.requires_plus,
+        device_types: cmd.device_types || [],
+        related_command_ids: cmd.related_command_ids || [],
+        source_url: cmd.source_url,
+        published_at: cmd.published_at ?? null,
+        updated_at: cmd.updated_at || new Date().toISOString(),
+        tags: cmd.tags || [],
+        group_id: cmd.group_id || null,
+        sort_order: (() => {
+          if (cmd.sort_order == null || cmd.sort_order === '') return null;
+          const n = Number(cmd.sort_order);
+          return Number.isFinite(n) ? n : null;
+        })(),
+        variant_label_ru: cmd.variant_label_ru || null,
+        is_primary_in_group: !!cmd.is_primary_in_group,
+        search_aliases: cmd.search_aliases || [],
+      };
+    },
+    formatCommandJson(cmd) {
+      return JSON.stringify(this.normalizeCommandForJson(cmd), null, 2);
+    },
+    buildCommandBodyFromForm() {
+      const f = this.commandForm;
+      return this.normalizeCommandForJson({
+        id: f.id,
+        category_id: f.category_id,
+        title_ru: f.title_ru,
+        phrases: String(f.phrasesText || '').split('\n').map((s) => s.trim()).filter(Boolean),
+        effect_description_ru: f.effect_description_ru,
+        requires_alice_word: f.requires_alice_word,
+        requires_plus: f.requires_plus,
+        device_types: this.parseCsvIds(f.deviceTypesText),
+        related_command_ids: this.parseCsvIds(f.relatedIdsText),
+        source_url: f.source_url,
+        published_at: f.published_at ?? null,
+        updated_at: new Date().toISOString(),
+        tags: this.parseCsvIds(f.tagsText),
+        group_id: f.group_id || null,
+        sort_order: f.sort_order == null || f.sort_order === '' ? null : Number(f.sort_order),
+        variant_label_ru: f.variant_label_ru || null,
+        is_primary_in_group: !!f.is_primary_in_group,
+        search_aliases: this.parseCsvIds(f.aliasesText),
+      });
+    },
+    applyCommandBodyToForm(body) {
+      this.commandForm = {
+        ...this.commandForm,
+        ...body,
+        group_id: body.group_id || '',
+        phrasesText: (body.phrases || []).join('\n'),
+        tagsText: (body.tags || []).join(', '),
+        aliasesText: (body.search_aliases || []).join(', '),
+        deviceTypesText: (body.device_types || []).join(','),
+        relatedIdsText: (body.related_command_ids || []).join(', '),
+      };
+    },
+    switchCommandEditorTab(tab) {
+      this.formError = '';
+      if (tab === 'json' && this.commandEditorTab === 'form') {
+        this.commandJsonText = this.formatCommandJson(this.buildCommandBodyFromForm());
+      } else if (tab === 'form' && this.commandEditorTab === 'json') {
+        try {
+          const parsed = JSON.parse(this.commandJsonText);
+          if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
+            throw new Error('Ожидается JSON-объект команды');
+          }
+          this.applyCommandBodyToForm(this.normalizeCommandForJson(parsed));
+        } catch (e) {
+          this.formError = `Некорректный JSON: ${e.message || e}`;
+          return;
+        }
+      }
+      this.commandEditorTab = tab;
+    },
+    validateCommandBody(body) {
+      if (!body.id || !/^[a-z0-9_]+$/.test(body.id)) return 'id: только a-z, 0-9, _';
+      if (!body.category_id) return 'category_id обязателен';
+      if (!body.title_ru?.trim()) return 'title_ru обязателен';
+      if (!Array.isArray(body.phrases) || body.phrases.length === 0) return 'phrases: нужен хотя бы один элемент';
+      if (!body.effect_description_ru?.trim()) return 'effect_description_ru обязателен';
+      if (!body.source_url?.trim()) return 'source_url обязателен';
+      const allowedDevices = new Set(['station', 'tv', 'phone']);
+      if ((body.device_types || []).some((d) => !allowedDevices.has(d))) {
+        return 'device_types: только station, tv, phone';
+      }
+      if (body.sort_order != null && !Number.isFinite(body.sort_order)) {
+        return 'sort_order: должно быть число или null';
+      }
+      return '';
     },
     async saveCommand() {
       await this.runSaving(async () => {
-        const f = this.commandForm;
-        const body = {
-          id: f.id,
-          category_id: f.category_id,
-          title_ru: f.title_ru,
-          phrases: f.phrasesText.split('\n').map(s => s.trim()).filter(Boolean),
-          effect_description_ru: f.effect_description_ru,
-          requires_alice_word: f.requires_alice_word,
-          requires_plus: f.requires_plus,
-          device_types: f.device_types || [],
-          related_command_ids: f.related_command_ids || [],
-          source_url: f.source_url,
-          updated_at: new Date().toISOString(),
-          tags: f.tagsText.split(',').map(s => s.trim()).filter(Boolean),
-          group_id: f.group_id || null,
-          sort_order: f.sort_order ?? null,
-          variant_label_ru: f.variant_label_ru || null,
-          is_primary_in_group: !!f.is_primary_in_group,
-          search_aliases: f.aliasesText.split(',').map(s => s.trim()).filter(Boolean),
-        };
+        let body;
+        if (this.commandEditorTab === 'json') {
+          try {
+            body = this.normalizeCommandForJson(JSON.parse(this.commandJsonText));
+          } catch (e) {
+            this.formError = `Некорректный JSON: ${e.message || e}`;
+            return;
+          }
+        } else {
+          body = this.buildCommandBodyFromForm();
+        }
+        body.updated_at = new Date().toISOString();
+        const err = this.validateCommandBody(body);
+        if (err) {
+          this.formError = err;
+          return;
+        }
+        if (this.commandEditing && body.id !== this.commandForm.id) {
+          this.formError = 'Нельзя менять id существующей команды';
+          return;
+        }
         if (this.commandEditing) {
           await this.api(`/admin/api/commands/${body.id}`, { method: 'PUT', body });
         } else {
           await this.api('/admin/api/commands', { method: 'POST', body });
         }
-        this.commandForm = null;
+        this.closeCommandForm();
         await Promise.all([this.loadCommands(), this.loadAllCommands()]);
         await this.refreshAfterDraftMutation();
-        this.showToast('Команда сохранена');
+        this.showToast('Команда сохранена в draft — затем Publish и/или pull-draft.ps1');
       });
     },
     async deleteCommand(id) {
@@ -1061,6 +1460,26 @@ function adminApp() {
         await this.api(`/admin/api/commands/${id}`, { method: 'DELETE' });
         await Promise.all([this.loadCommands(), this.loadAllCommands()]);
         await this.refreshAfterDraftMutation();
+      } catch (e) {
+        this.error = this.networkErrorMessage(e);
+      }
+    },
+
+    async downloadDraftCatalog() {
+      try {
+        const bundle = await this.api('/admin/api/preview/bundle');
+        const text = JSON.stringify(bundle, null, 2);
+        const blob = new Blob([text], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'catalog-audit-fixed.json';
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 5000);
+        this.showToast('Скачан catalog-audit-fixed.json — положите в seed/ вместо старого файла');
       } catch (e) {
         this.error = this.networkErrorMessage(e);
       }
@@ -1226,11 +1645,22 @@ function adminApp() {
         this.toast = 'Команда дня сохранена в draft';
       });
     },
+    async publishCommandOfDay() {
+      if (!confirm('Опубликовать команду дня в live bundle? App получит новую content_version с обновлённым command_of_day.')) return;
+      this.loading = true;
+      try {
+        const r = await this.api('/admin/api/command-of-day/publish', { method: 'POST', body: {} });
+        this.showToast(`Команда дня опубликована (v${r.contentVersion})`);
+        await Promise.all([this.loadCommandOfDay(), this.loadDashboard()]);
+      } catch (e) {
+        this.error = this.networkErrorMessage(e);
+      } finally {
+        this.loading = false;
+      }
+    },
     async saveAffiliate() {
       await this.runSaving(async () => {
         const f = this.affiliateForm;
-        if (!this.trimOrNull(f.erid)) throw new Error('Укажите ERID');
-        if (!this.trimOrNull(f.advertiser_name)) throw new Error('Укажите advertiser_name');
         const body = {
           id: (f.id || '').trim(),
           title_ru: (f.title_ru || '').trim(),
@@ -1259,6 +1689,169 @@ function adminApp() {
       } catch (e) {
         this.error = this.networkErrorMessage(e);
       }
+    },
+
+    showDeviceGuideForm() {
+      this.formError = '';
+      this.deviceGuideEditing = false;
+      this.deviceGuideForm = {
+        id: '', title_ru: '', summary_ru: '', capabilities_ru: '', setup_ru: '',
+        setup_steps_text: '', related_devices_ru: '', related_device_ids_text: '',
+        command_device_filter_id: '', image_url: '', action_url: '', sort_order: 10,
+      };
+    },
+    editDeviceGuide(g) {
+      this.formError = '';
+      this.deviceGuideEditing = true;
+      this.deviceGuideForm = {
+        ...g,
+        setup_steps_text: (g.setup_steps_ru || []).join('\n'),
+        related_device_ids_text: (g.related_device_ids || []).join(','),
+        command_device_filter_id: g.command_device_filter_id || '',
+      };
+    },
+    showDevicePickForm() {
+      this.formError = '';
+      this.devicePickEditing = false;
+      this.devicePickForm = {
+        id: '', title_ru: '', description_ru: '',
+        image_url: '', action_url: '', cta_ru: 'Смотреть цену', sort_order: 10, priority: 0,
+        placements_text: 'smart_home_devices', tags_text: '', device_types_text: '',
+        category_ids_text: 'smart_home', guide_ids_text: '', scenario_template_ids_text: '',
+        command_ids_text: '', command_group_ids_text: '',
+        erid: '', advertiser_name: '', disclosure_ru: '', max_impressions_per_session: null,
+      };
+    },
+    editDevicePick(p) {
+      this.formError = '';
+      this.devicePickEditing = true;
+      this.devicePickForm = {
+        ...p,
+        cta_ru: p.cta_ru || '',
+        priority: p.priority || 0,
+        placements_text: (p.placements || []).join(','),
+        tags_text: (p.tags || []).join(','),
+        device_types_text: (p.device_types || []).join(','),
+        category_ids_text: (p.category_ids || []).join(','),
+        guide_ids_text: (p.guide_ids || []).join(','),
+        scenario_template_ids_text: (p.scenario_template_ids || []).join(','),
+        command_ids_text: (p.command_ids || []).join(','),
+        command_group_ids_text: (p.command_group_ids || []).join(','),
+        erid: p.erid || '',
+        advertiser_name: p.advertiser_name || '',
+        disclosure_ru: p.disclosure_ru || '',
+        max_impressions_per_session: p.max_impressions_per_session ?? null,
+      };
+    },
+    parseLines(text) {
+      return (text || '').split('\n').map(s => s.trim()).filter(Boolean);
+    },
+    parseCsvIds(text) {
+      return String(text || '').split(/[,\n]/).map((s) => s.trim()).filter(Boolean);
+    },
+    async uploadDeviceImage(event, formKey) {
+      const file = event.target.files?.[0];
+      if (!file || !this[formKey]) return;
+      const slugField = this[formKey].id?.trim();
+      if (!slugField) {
+        this.formError = 'Сначала укажите ID (slug для файла)';
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = async () => {
+        try {
+          const dataUrl = reader.result;
+          const res = await this.api('/admin/api/smarthome/upload-image', {
+            method: 'POST',
+            body: {
+              slug: slugField,
+              image_base64: dataUrl,
+            },
+          });
+          if (res?.image_url) {
+            this[formKey].image_url = res.image_url;
+            this.showToast('Картинка загружена');
+          }
+        } catch (e) {
+          this.formError = this.networkErrorMessage(e);
+        }
+      };
+      reader.readAsDataURL(file);
+    },
+    async saveDeviceGuide() {
+      await this.runSaving(async () => {
+        const f = this.deviceGuideForm;
+        const body = {
+          id: f.id.trim(),
+          title_ru: f.title_ru.trim(),
+          summary_ru: f.summary_ru.trim(),
+          capabilities_ru: f.capabilities_ru.trim(),
+          setup_ru: f.setup_ru.trim(),
+          setup_steps_ru: this.parseLines(f.setup_steps_text),
+          related_devices_ru: this.trimOrNull(f.related_devices_ru),
+          related_device_ids: this.parseCsvIds(f.related_device_ids_text),
+          command_device_filter_id: this.trimOrNull(f.command_device_filter_id),
+          image_url: this.trimOrNull(f.image_url),
+          action_url: f.action_url.trim(),
+          sort_order: Number(f.sort_order) || 0,
+        };
+        if (this.deviceGuideEditing) {
+          await this.api(`/admin/api/smarthome/device-guides/${body.id}`, { method: 'PUT', body });
+        } else {
+          await this.api('/admin/api/smarthome/device-guides', { method: 'POST', body });
+        }
+        this.deviceGuideForm = null;
+        await this.loadSmartHomeDevices();
+        this.showToast('Guide сохранён');
+      });
+    },
+    async deleteDeviceGuide(id) {
+      if (!confirm(`Удалить guide ${id}?`)) return;
+      await this.api(`/admin/api/smarthome/device-guides/${id}`, { method: 'DELETE' });
+      await this.loadSmartHomeDevices();
+    },
+    async saveDevicePick() {
+      await this.runSaving(async () => {
+        const f = this.devicePickForm;
+        const body = {
+          id: f.id.trim(),
+          title_ru: f.title_ru.trim(),
+          description_ru: this.trimOrNull(f.description_ru),
+          price_hint_ru: null,
+          image_url: this.trimOrNull(f.image_url),
+          action_url: f.action_url.trim(),
+          cta_ru: this.trimOrNull(f.cta_ru),
+          sort_order: Number(f.sort_order) || 0,
+          priority: Number(f.priority) || 0,
+          placements: this.parseCsvIds(f.placements_text),
+          tags: this.parseCsvIds(f.tags_text),
+          device_types: this.parseCsvIds(f.device_types_text),
+          category_ids: this.parseCsvIds(f.category_ids_text),
+          guide_ids: this.parseCsvIds(f.guide_ids_text),
+          scenario_template_ids: this.parseCsvIds(f.scenario_template_ids_text),
+          command_ids: this.parseCsvIds(f.command_ids_text),
+          command_group_ids: this.parseCsvIds(f.command_group_ids_text),
+          erid: this.trimOrNull(f.erid),
+          advertiser_name: this.trimOrNull(f.advertiser_name),
+          disclosure_ru: this.trimOrNull(f.disclosure_ru),
+          starts_at: this.trimOrNull(f.starts_at),
+          ends_at: this.trimOrNull(f.ends_at),
+          max_impressions_per_session: f.max_impressions_per_session ? Number(f.max_impressions_per_session) : null,
+        };
+        if (this.devicePickEditing) {
+          await this.api(`/admin/api/smarthome/device-picks/${body.id}`, { method: 'PUT', body });
+        } else {
+          await this.api('/admin/api/smarthome/device-picks', { method: 'POST', body });
+        }
+        this.devicePickForm = null;
+        await this.loadSmartHomeDevices();
+        this.showToast('Pick сохранён');
+      });
+    },
+    async deleteDevicePick(id) {
+      if (!confirm(`Удалить pick ${id}?`)) return;
+      await this.api(`/admin/api/smarthome/device-picks/${id}`, { method: 'DELETE' });
+      await this.loadSmartHomeDevices();
     },
 
     async previewBundle() {
@@ -1501,9 +2094,9 @@ function adminApp() {
         this.importParseError = 'Ожидается JSON-объект формата content bundle';
         return;
       }
-      if (this.isEditorialExport(parsed)) {
+      if (parsed.records && Array.isArray(parsed.records) && parsed.records.some((r) => r?.edit?.title_ru != null)) {
         this.importDraft = { name: file.name, sizeBytes: file.size, text: null, parsed: null, preview: null };
-        this.importParseError = 'Это editorial JSON (records/edit.*). Загружайте его в разделе «Контент» → шаг 3 «Редактор текстов», а не здесь.';
+        this.importParseError = 'Это устаревший editorial JSON. Используйте content bundle или правьте команды во вкладке «Команды».';
         return;
       }
       const hasContent = ['categories', 'commands', 'scenario_templates', 'checklist_items']

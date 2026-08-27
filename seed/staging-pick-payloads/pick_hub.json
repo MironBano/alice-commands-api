@@ -1,0 +1,38 @@
+﻿{
+    "id":  "pick_hub",
+    "title_ru":  "Хаб умного дома",
+    "description_ru":  "Связывает Zigbee‑ и Matter‑устройства в одну систему с Алисой.",
+    "image_url":  "https://staging-api.alicecommands.ru/icons/v1/hub.svg",
+    "action_url":  "https://market.yandex.ru/cc/A9sAdM",
+    "sort_order":  40,
+    "guide_ids":  [
+                      "hub"
+                  ],
+    "command_ids":  [
+                        "sh_scenario_morning",
+                        "smart_home_chto_vkliucheno_doma",
+                        "smart_home_nash_dom",
+                        "smart_home_vkliuchi_poliv",
+                        "smart_home_vkliuchit_sportivnye_novosti_v_liuboe_vr",
+                        "smart_home_vremia_futbola",
+                        "timers_umnyi_dom",
+                        "tv_video_vkliuchi_futbol"
+                    ],
+    "category_ids":  [
+                         "smart_home"
+                     ],
+    "device_types":  [
+                         "station",
+                         "tv",
+                         "phone"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "catalog_persona",
+                       "search_empty",
+                       "command_detail"
+                   ],
+    "priority":  80,
+    "cta_ru":  "Смотреть цену"
+}

@@ -20,7 +20,7 @@ $catalog = Join-Path $Root "content\icon_catalog.json"
 $visuals = Join-Path $Root "content\visuals_map.json"
 
 if (-not (Test-Path $sshKey)) { throw "SSH key not found: $sshKey" }
-if (-not (Test-Path $iconDir)) { throw "Missing $iconDir. Run: py tools/content/icon_sync.py" }
+if (-not (Test-Path $iconDir)) { throw "Missing $iconDir — icons should be in content/icons/v1/" }
 
 $count = (Get-ChildItem "$iconDir\*.svg").Count
 Write-Host "Uploading $count SVGs to staging..."

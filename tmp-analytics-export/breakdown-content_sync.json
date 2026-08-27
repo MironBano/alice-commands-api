@@ -1,0 +1,20 @@
+﻿{
+    "from":  "2026-05-29",
+    "to":  "2026-08-26",
+    "event_name":  "content_sync",
+    "param":  "trigger",
+    "items":  [
+                  {
+                      "value":  "worker",
+                      "count":  3894
+                  },
+                  {
+                      "value":  "startup",
+                      "count":  1549
+                  },
+                  {
+                      "value":  "catalog",
+                      "count":  96
+                  }
+              ]
+}

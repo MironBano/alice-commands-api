@@ -2,507 +2,507 @@
   "icons": [
     {
       "slug": "ac",
-      "label_ru": "Ac"
+      "label_ru": "Кондиционер"
     },
     {
       "slug": "air_purifier",
-      "label_ru": "Air purifier"
+      "label_ru": "Очиститель воздуха"
     },
     {
       "slug": "alarm",
-      "label_ru": "Alarm"
+      "label_ru": "Будильник"
     },
     {
       "slug": "album",
-      "label_ru": "Album"
+      "label_ru": "Альбом"
     },
     {
       "slug": "alphabet",
-      "label_ru": "Alphabet"
+      "label_ru": "Алфавит"
     },
     {
       "slug": "animals",
-      "label_ru": "Animals"
+      "label_ru": "Животные"
     },
     {
       "slug": "apps",
-      "label_ru": "Apps"
+      "label_ru": "Приложения"
     },
     {
       "slug": "aquarium",
-      "label_ru": "Aquarium"
+      "label_ru": "Аквариум"
     },
     {
       "slug": "art",
-      "label_ru": "Art"
+      "label_ru": "Искусство"
     },
     {
       "slug": "artist",
-      "label_ru": "Artist"
+      "label_ru": "Исполнитель"
     },
     {
       "slug": "assistant",
-      "label_ru": "Assistant"
+      "label_ru": "Ассистент"
     },
     {
       "slug": "atom",
-      "label_ru": "Atom"
+      "label_ru": "Атом"
     },
     {
       "slug": "audiobooks",
-      "label_ru": "Audiobooks"
+      "label_ru": "Аудиокниги"
     },
     {
       "slug": "automation",
-      "label_ru": "Automation"
+      "label_ru": "Автоматизация"
     },
     {
       "slug": "away",
-      "label_ru": "Away"
+      "label_ru": "Отсутствие"
     },
     {
       "slug": "baby_monitor",
-      "label_ru": "Baby monitor"
+      "label_ru": "Радионяня"
     },
     {
       "slug": "baking",
-      "label_ru": "Baking"
+      "label_ru": "Выпечка"
     },
     {
       "slug": "bank",
-      "label_ru": "Bank"
+      "label_ru": "Банк"
     },
     {
       "slug": "battery",
-      "label_ru": "Battery"
+      "label_ru": "Батарея"
     },
     {
       "slug": "bike",
-      "label_ru": "Bike"
+      "label_ru": "Велосипед"
     },
     {
       "slug": "biology",
-      "label_ru": "Biology"
+      "label_ru": "Биология"
     },
     {
       "slug": "birthday",
-      "label_ru": "Birthday"
+      "label_ru": "День рождения"
     },
     {
       "slug": "blinds",
-      "label_ru": "Blinds"
+      "label_ru": "Жалюзи"
     },
     {
       "slug": "bluetooth",
-      "label_ru": "Bluetooth"
+      "label_ru": "Блютуз"
     },
     {
       "slug": "bolt",
-      "label_ru": "Bolt"
+      "label_ru": "Молния"
     },
     {
       "slug": "book",
-      "label_ru": "Book"
+      "label_ru": "Книга"
     },
     {
       "slug": "bridge",
-      "label_ru": "Bridge"
+      "label_ru": "Мост"
     },
     {
       "slug": "brightness",
-      "label_ru": "Brightness"
+      "label_ru": "Яркость"
     },
     {
       "slug": "browser",
-      "label_ru": "Browser"
+      "label_ru": "Браузер"
     },
     {
       "slug": "bus",
-      "label_ru": "Bus"
+      "label_ru": "Автобус"
     },
     {
       "slug": "button",
-      "label_ru": "Button"
+      "label_ru": "Кнопка"
     },
     {
       "slug": "calculator",
-      "label_ru": "Calculator"
+      "label_ru": "Калькулятор"
     },
     {
       "slug": "calendar",
-      "label_ru": "Calendar"
+      "label_ru": "Календарь"
     },
     {
       "slug": "calls",
-      "label_ru": "Calls"
+      "label_ru": "Звонки"
     },
     {
       "slug": "camera",
-      "label_ru": "Camera"
+      "label_ru": "Камера"
     },
     {
       "slug": "capital",
-      "label_ru": "Capital"
+      "label_ru": "Столица"
     },
     {
       "slug": "capital_city",
-      "label_ru": "Capital city"
+      "label_ru": "Столица"
     },
     {
       "slug": "card",
-      "label_ru": "Card"
+      "label_ru": "Карта"
     },
     {
       "slug": "cast",
-      "label_ru": "Cast"
+      "label_ru": "Трансляция"
     },
     {
       "slug": "category",
-      "label_ru": "Category"
+      "label_ru": "Категория"
     },
     {
       "slug": "ceiling_light",
-      "label_ru": "Ceiling light"
+      "label_ru": "Потолочный свет"
     },
     {
       "slug": "chandelier",
-      "label_ru": "Chandelier"
+      "label_ru": "Люстра"
     },
     {
       "slug": "channel",
-      "label_ru": "Channel"
+      "label_ru": "Канал"
     },
     {
       "slug": "channels",
-      "label_ru": "Channels"
+      "label_ru": "Каналы"
     },
     {
       "slug": "checklist",
-      "label_ru": "Checklist"
+      "label_ru": "Чеклист"
     },
     {
       "slug": "chemistry",
-      "label_ru": "Chemistry"
+      "label_ru": "Химия"
     },
     {
       "slug": "child",
-      "label_ru": "Дети"
+      "label_ru": "Ребёнок"
     },
     {
       "slug": "cleaning",
-      "label_ru": "Cleaning"
+      "label_ru": "Уборка"
     },
     {
       "slug": "climate",
-      "label_ru": "Climate"
+      "label_ru": "Климат"
     },
     {
       "slug": "clock",
-      "label_ru": "Clock"
+      "label_ru": "Часы"
     },
     {
       "slug": "cloud",
-      "label_ru": "Cloud"
+      "label_ru": "Облако"
     },
     {
       "slug": "coffee",
-      "label_ru": "Coffee"
+      "label_ru": "Кофе"
     },
     {
       "slug": "coffee_maker",
-      "label_ru": "Coffee maker"
+      "label_ru": "Кофеварка"
     },
     {
       "slug": "color_light",
-      "label_ru": "Color light"
+      "label_ru": "Цветной свет"
     },
     {
       "slug": "colored_bulb",
-      "label_ru": "Colored bulb"
+      "label_ru": "Цветная лампа"
     },
     {
       "slug": "commute",
-      "label_ru": "Commute"
+      "label_ru": "Дорога на работу"
     },
     {
       "slug": "compass",
-      "label_ru": "Compass"
+      "label_ru": "Компас"
     },
     {
       "slug": "concert",
-      "label_ru": "Concert"
+      "label_ru": "Концерт"
     },
     {
       "slug": "contacts",
-      "label_ru": "Contacts"
+      "label_ru": "Контакты"
     },
     {
       "slug": "cooking",
-      "label_ru": "Cooking"
+      "label_ru": "Готовка"
     },
     {
       "slug": "cool",
-      "label_ru": "Cool"
+      "label_ru": "Охлаждение"
     },
     {
       "slug": "copy",
-      "label_ru": "Copy"
+      "label_ru": "Копия"
     },
     {
       "slug": "countdown",
-      "label_ru": "Countdown"
+      "label_ru": "Обратный отсчёт"
     },
     {
       "slug": "currency",
-      "label_ru": "Currency"
+      "label_ru": "Валюта"
     },
     {
       "slug": "curtain",
-      "label_ru": "Curtain"
+      "label_ru": "Штора"
     },
     {
       "slug": "dehumidifier",
-      "label_ru": "Dehumidifier"
+      "label_ru": "Осушитель"
     },
     {
       "slug": "delivery",
-      "label_ru": "Delivery"
+      "label_ru": "Доставка"
     },
     {
       "slug": "desk_lamp",
-      "label_ru": "Desk lamp"
+      "label_ru": "Настольная лампа"
     },
     {
       "slug": "dictionary",
-      "label_ru": "Dictionary"
+      "label_ru": "Словарь"
     },
     {
       "slug": "diet",
-      "label_ru": "Diet"
+      "label_ru": "Диета"
     },
     {
       "slug": "dimmer",
-      "label_ru": "Dimmer"
+      "label_ru": "Диммер"
     },
     {
       "slug": "discount",
-      "label_ru": "Discount"
+      "label_ru": "Скидка"
     },
     {
       "slug": "dishwasher",
-      "label_ru": "Dishwasher"
+      "label_ru": "Посудомойка"
     },
     {
       "slug": "door",
-      "label_ru": "Door"
+      "label_ru": "Дверь"
     },
     {
       "slug": "doorbell",
-      "label_ru": "Doorbell"
+      "label_ru": "Домофон"
     },
     {
       "slug": "dry",
-      "label_ru": "Dry"
+      "label_ru": "Сушка"
     },
     {
       "slug": "eco",
-      "label_ru": "Eco"
+      "label_ru": "Эко"
     },
     {
       "slug": "education",
-      "label_ru": "Education"
+      "label_ru": "Обучение"
     },
     {
       "slug": "electricity",
-      "label_ru": "Electricity"
+      "label_ru": "Электричество"
     },
     {
       "slug": "encyclopedia",
-      "label_ru": "Encyclopedia"
+      "label_ru": "Энциклопедия"
     },
     {
       "slug": "energy",
-      "label_ru": "Energy"
+      "label_ru": "Энергия"
     },
     {
       "slug": "entertainment",
-      "label_ru": "Entertainment"
+      "label_ru": "Развлечения"
     },
     {
       "slug": "ev",
-      "label_ru": "Ev"
+      "label_ru": "Электромобиль"
     },
     {
       "slug": "facts",
-      "label_ru": "Facts"
+      "label_ru": "Факты"
     },
     {
       "slug": "fairy_tales",
-      "label_ru": "Fairy tales"
+      "label_ru": "Сказки"
     },
     {
       "slug": "fan",
-      "label_ru": "Fan"
+      "label_ru": "Вентилятор"
     },
     {
       "slug": "fan_speed",
-      "label_ru": "Fan speed"
+      "label_ru": "Скорость вентилятора"
     },
     {
       "slug": "faq",
-      "label_ru": "Faq"
+      "label_ru": "Вопросы"
     },
     {
       "slug": "fast_answers",
-      "label_ru": "Fast answers"
+      "label_ru": "Быстрые ответы"
     },
     {
       "slug": "favorite",
-      "label_ru": "Favorite"
+      "label_ru": "Избранное"
     },
     {
       "slug": "finance",
-      "label_ru": "Finance"
+      "label_ru": "Финансы"
     },
     {
       "slug": "fireworks",
-      "label_ru": "Fireworks"
+      "label_ru": "Фейерверк"
     },
     {
       "slug": "fitness",
-      "label_ru": "Fitness"
+      "label_ru": "Фитнес"
     },
     {
       "slug": "flight",
-      "label_ru": "Flight"
+      "label_ru": "Рейс"
     },
     {
       "slug": "floor_lamp",
-      "label_ru": "Floor lamp"
+      "label_ru": "Торшер"
     },
     {
       "slug": "food",
-      "label_ru": "Food"
+      "label_ru": "Еда"
     },
     {
       "slug": "football",
-      "label_ru": "Football"
+      "label_ru": "Футбол"
     },
     {
       "slug": "forecast",
-      "label_ru": "Forecast"
+      "label_ru": "Прогноз"
     },
     {
       "slug": "fridge",
-      "label_ru": "Fridge"
+      "label_ru": "Холодильник"
     },
     {
       "slug": "fuel",
-      "label_ru": "Fuel"
+      "label_ru": "Топливо"
     },
     {
       "slug": "games",
-      "label_ru": "Games"
+      "label_ru": "Игры"
     },
     {
       "slug": "garage",
-      "label_ru": "Garage"
+      "label_ru": "Гараж"
     },
     {
       "slug": "garage_door",
-      "label_ru": "Garage door"
+      "label_ru": "Гараж Дверь"
     },
     {
       "slug": "garden",
-      "label_ru": "Garden"
+      "label_ru": "Сад"
     },
     {
       "slug": "gate",
-      "label_ru": "Gate"
+      "label_ru": "Ворота"
     },
     {
       "slug": "genre",
-      "label_ru": "Genre"
+      "label_ru": "Жанр"
     },
     {
       "slug": "geography",
-      "label_ru": "Geography"
+      "label_ru": "География"
     },
     {
       "slug": "geolocation",
-      "label_ru": "Geolocation"
+      "label_ru": "Геолокация"
     },
     {
       "slug": "gift",
-      "label_ru": "Gift"
+      "label_ru": "Подарок"
     },
     {
       "slug": "grammar",
-      "label_ru": "Grammar"
+      "label_ru": "Грамматика"
     },
     {
       "slug": "grill",
-      "label_ru": "Grill"
+      "label_ru": "Гриль"
     },
     {
       "slug": "grocery",
-      "label_ru": "Grocery"
+      "label_ru": "Продукты"
     },
     {
       "slug": "guest",
-      "label_ru": "Guest"
+      "label_ru": "Гости"
     },
     {
       "slug": "hdmi",
-      "label_ru": "Hdmi"
+      "label_ru": "HDMI"
     },
     {
       "slug": "headlines",
-      "label_ru": "Headlines"
+      "label_ru": "Заголовки"
     },
     {
       "slug": "headphones",
-      "label_ru": "Headphones"
+      "label_ru": "Наушники"
     },
     {
       "slug": "health",
-      "label_ru": "Health"
+      "label_ru": "Здоровье"
     },
     {
       "slug": "heart",
-      "label_ru": "Heart"
+      "label_ru": "Сердце"
     },
     {
       "slug": "heart_rate",
-      "label_ru": "Heart rate"
+      "label_ru": "Пульс"
     },
     {
       "slug": "heater",
-      "label_ru": "Heater"
+      "label_ru": "Обогреватель"
     },
     {
       "slug": "help",
-      "label_ru": "Help"
+      "label_ru": "Помощь"
     },
     {
       "slug": "hidden_tips",
-      "label_ru": "Hidden tips"
+      "label_ru": "Скрытые подсказки"
     },
     {
       "slug": "history",
-      "label_ru": "History"
+      "label_ru": "История"
     },
     {
       "slug": "hockey",
-      "label_ru": "Hockey"
+      "label_ru": "Хоккей"
     },
     {
       "slug": "holidays",
-      "label_ru": "Holidays"
+      "label_ru": "Праздники"
     },
     {
       "slug": "home",
-      "label_ru": "Home"
+      "label_ru": "Дом"
     },
     {
       "slug": "home_iot",
@@ -510,159 +510,159 @@
     },
     {
       "slug": "home_mode",
-      "label_ru": "Home mode"
+      "label_ru": "Дом Режим"
     },
     {
       "slug": "hub",
-      "label_ru": "Hub"
+      "label_ru": "Хаб"
     },
     {
       "slug": "humid",
-      "label_ru": "Humid"
+      "label_ru": "Увлажнение"
     },
     {
       "slug": "humidifier",
-      "label_ru": "Humidifier"
+      "label_ru": "Увлажнитель"
     },
     {
       "slug": "humidity",
-      "label_ru": "Humidity"
+      "label_ru": "Влажность"
     },
     {
       "slug": "intercom",
-      "label_ru": "Intercom"
+      "label_ru": "Домофон"
     },
     {
       "slug": "intercom_alt",
-      "label_ru": "Intercom alt"
+      "label_ru": "Домофон Альт"
     },
     {
       "slug": "iot",
-      "label_ru": "Iot"
+      "label_ru": "Умный дом"
     },
     {
       "slug": "jokes",
-      "label_ru": "Jokes"
+      "label_ru": "Шутки"
     },
     {
       "slug": "kids",
-      "label_ru": "Kids"
+      "label_ru": "Дети"
     },
     {
       "slug": "kitchen",
-      "label_ru": "Kitchen"
+      "label_ru": "Кухня"
     },
     {
       "slug": "laundry",
-      "label_ru": "Laundry"
+      "label_ru": "Стирка"
     },
     {
       "slug": "leak",
-      "label_ru": "Leak"
+      "label_ru": "Протечка"
     },
     {
       "slug": "library",
-      "label_ru": "Library"
+      "label_ru": "Библиотека"
     },
     {
       "slug": "light",
-      "label_ru": "Light"
-    },
-    {
-      "slug": "lightbulb",
       "label_ru": "Свет"
     },
     {
+      "slug": "lightbulb",
+      "label_ru": "Лампочка"
+    },
+    {
       "slug": "link",
-      "label_ru": "Link"
+      "label_ru": "Ссылка"
     },
     {
       "slug": "lock",
-      "label_ru": "Lock"
+      "label_ru": "Замок"
     },
     {
       "slug": "lottery",
-      "label_ru": "Lottery"
+      "label_ru": "Лотерея"
     },
     {
       "slug": "lullaby",
-      "label_ru": "Lullaby"
+      "label_ru": "Колыбельная"
     },
     {
       "slug": "lyrics",
-      "label_ru": "Lyrics"
+      "label_ru": "Текст песни"
     },
     {
       "slug": "mail",
-      "label_ru": "Mail"
+      "label_ru": "Почта"
     },
     {
       "slug": "maps",
-      "label_ru": "Maps"
+      "label_ru": "Карты"
     },
     {
       "slug": "math",
-      "label_ru": "Math"
+      "label_ru": "Математика"
     },
     {
       "slug": "matter",
-      "label_ru": "Matter"
+      "label_ru": "Протокол Matter"
     },
     {
       "slug": "medicine",
-      "label_ru": "Medicine"
+      "label_ru": "Медицина"
     },
     {
       "slug": "meditation",
-      "label_ru": "Meditation"
+      "label_ru": "Медитация"
     },
     {
       "slug": "meeting",
-      "label_ru": "Meeting"
+      "label_ru": "Встреча"
     },
     {
       "slug": "message",
-      "label_ru": "Message"
+      "label_ru": "Сообщение"
     },
     {
       "slug": "metro",
-      "label_ru": "Metro"
+      "label_ru": "Метро"
     },
     {
       "slug": "microphone",
-      "label_ru": "Microphone"
+      "label_ru": "Микрофон"
     },
     {
       "slug": "moon",
-      "label_ru": "Moon"
+      "label_ru": "Луна"
     },
     {
       "slug": "morning",
-      "label_ru": "Morning"
+      "label_ru": "Утро"
     },
     {
       "slug": "motion",
-      "label_ru": "Motion"
+      "label_ru": "Движение"
     },
     {
       "slug": "movie_night",
-      "label_ru": "Movie night"
+      "label_ru": "Кино вечер"
     },
     {
       "slug": "movies",
-      "label_ru": "Movies"
+      "label_ru": "Кино"
     },
     {
       "slug": "movies_tv",
-      "label_ru": "Movies tv"
+      "label_ru": "Кино и ТВ"
     },
     {
       "slug": "museum",
-      "label_ru": "Museum"
+      "label_ru": "Музей"
     },
     {
       "slug": "music",
-      "label_ru": "Music"
+      "label_ru": "Музыка"
     },
     {
       "slug": "music_note",
@@ -670,159 +670,159 @@
     },
     {
       "slug": "mute",
-      "label_ru": "Mute"
+      "label_ru": "Без звука"
     },
     {
       "slug": "nanny",
-      "label_ru": "Nanny"
+      "label_ru": "Няня"
     },
     {
       "slug": "nature",
-      "label_ru": "Nature"
+      "label_ru": "Природа"
     },
     {
       "slug": "navigation",
-      "label_ru": "Navigation"
+      "label_ru": "Навигация"
     },
     {
       "slug": "navigator",
-      "label_ru": "Navigator"
+      "label_ru": "Навигатор"
     },
     {
       "slug": "news",
-      "label_ru": "News"
+      "label_ru": "Новости"
     },
     {
       "slug": "news_feed",
-      "label_ru": "News feed"
+      "label_ru": "Лента новостей"
     },
     {
       "slug": "night",
-      "label_ru": "Night"
+      "label_ru": "Ночь"
     },
     {
       "slug": "nightlight",
-      "label_ru": "Nightlight"
+      "label_ru": "Ночник"
     },
     {
       "slug": "note",
-      "label_ru": "Note"
+      "label_ru": "Нота"
     },
     {
       "slug": "order",
-      "label_ru": "Order"
+      "label_ru": "Заказ"
     },
     {
       "slug": "outlet",
-      "label_ru": "Outlet"
+      "label_ru": "Розетка"
     },
     {
       "slug": "oven",
-      "label_ru": "Oven"
+      "label_ru": "Духовка"
     },
     {
       "slug": "parenting",
-      "label_ru": "Parenting"
+      "label_ru": "Родители"
     },
     {
       "slug": "parking",
-      "label_ru": "Parking"
+      "label_ru": "Парковка"
     },
     {
       "slug": "party",
-      "label_ru": "Party"
+      "label_ru": "Вечеринка"
     },
     {
       "slug": "password",
-      "label_ru": "Password"
+      "label_ru": "Пароль"
     },
     {
       "slug": "pause",
-      "label_ru": "Pause"
+      "label_ru": "Пауза"
     },
     {
       "slug": "pay",
-      "label_ru": "Pay"
+      "label_ru": "Оплата"
     },
     {
       "slug": "people",
-      "label_ru": "People"
+      "label_ru": "Люди"
     },
     {
       "slug": "pet_feeder",
-      "label_ru": "Pet feeder"
+      "label_ru": "Кормушка"
     },
     {
       "slug": "pets",
-      "label_ru": "Pets"
+      "label_ru": "Питомцы"
     },
     {
       "slug": "phone",
-      "label_ru": "Phone"
+      "label_ru": "Телефон"
     },
     {
       "slug": "phone_call",
-      "label_ru": "Звонки"
+      "label_ru": "Звонок"
     },
     {
       "slug": "photo",
-      "label_ru": "Photo"
+      "label_ru": "Фото"
     },
     {
       "slug": "physics",
-      "label_ru": "Physics"
+      "label_ru": "Физика"
     },
     {
       "slug": "pin",
-      "label_ru": "Pin"
+      "label_ru": "Метка"
     },
     {
       "slug": "places",
-      "label_ru": "Places"
+      "label_ru": "Места"
     },
     {
       "slug": "plants",
-      "label_ru": "Plants"
+      "label_ru": "Растения"
     },
     {
       "slug": "play",
-      "label_ru": "Play"
+      "label_ru": "Воспроизведение"
     },
     {
       "slug": "playlist",
-      "label_ru": "Playlist"
+      "label_ru": "Плейлист"
     },
     {
       "slug": "plug",
-      "label_ru": "Plug"
+      "label_ru": "Вилка"
     },
     {
       "slug": "plus",
-      "label_ru": "Plus"
+      "label_ru": "Плюс"
     },
     {
       "slug": "podcast",
-      "label_ru": "Podcast"
+      "label_ru": "Подкаст"
     },
     {
       "slug": "pool",
-      "label_ru": "Pool"
+      "label_ru": "Бассейн"
     },
     {
       "slug": "power",
-      "label_ru": "Power"
+      "label_ru": "Питание"
     },
     {
       "slug": "pregnancy",
-      "label_ru": "Pregnancy"
+      "label_ru": "Беременность"
     },
     {
       "slug": "privacy",
-      "label_ru": "Privacy"
+      "label_ru": "Приватность"
     },
     {
       "slug": "qr",
-      "label_ru": "Qr"
+      "label_ru": "QR-код"
     },
     {
       "slug": "quick_answers",
@@ -830,435 +830,435 @@
     },
     {
       "slug": "quick_facts",
-      "label_ru": "Quick facts"
+      "label_ru": "Быстрые Факты"
     },
     {
       "slug": "radio",
-      "label_ru": "Radio"
+      "label_ru": "Радио"
     },
     {
       "slug": "rain",
-      "label_ru": "Rain"
+      "label_ru": "Дождь"
     },
     {
       "slug": "reading",
-      "label_ru": "Reading"
+      "label_ru": "Чтение"
     },
     {
       "slug": "recipes",
-      "label_ru": "Recipes"
+      "label_ru": "Рецепты"
     },
     {
       "slug": "reminder",
-      "label_ru": "Reminder"
+      "label_ru": "Напоминание"
     },
     {
       "slug": "reminders",
-      "label_ru": "Reminders"
+      "label_ru": "Напоминания"
     },
     {
       "slug": "remote",
-      "label_ru": "Remote"
+      "label_ru": "Пульт"
     },
     {
       "slug": "repeat",
-      "label_ru": "Repeat"
+      "label_ru": "Повтор"
     },
     {
       "slug": "rewind",
-      "label_ru": "Rewind"
+      "label_ru": "Перемотка"
     },
     {
       "slug": "riddle",
-      "label_ru": "Riddle"
+      "label_ru": "Загадка"
     },
     {
       "slug": "route",
-      "label_ru": "Route"
+      "label_ru": "Маршрут"
     },
     {
       "slug": "router",
-      "label_ru": "Router"
+      "label_ru": "Роутер"
     },
     {
       "slug": "routine",
-      "label_ru": "Routine"
+      "label_ru": "Рутина"
     },
     {
       "slug": "scan",
-      "label_ru": "Scan"
+      "label_ru": "Сканирование"
     },
     {
       "slug": "scenario",
-      "label_ru": "Scenario"
+      "label_ru": "Сценарий"
     },
     {
       "slug": "scene",
-      "label_ru": "Scene"
+      "label_ru": "Сцена"
     },
     {
       "slug": "schedule",
-      "label_ru": "Schedule"
+      "label_ru": "Расписание"
     },
     {
       "slug": "screenshot",
-      "label_ru": "Screenshot"
+      "label_ru": "Скриншот"
     },
     {
       "slug": "search",
-      "label_ru": "Search"
+      "label_ru": "Поиск"
     },
     {
       "slug": "security",
-      "label_ru": "Security"
+      "label_ru": "Безопасность"
     },
     {
       "slug": "security_cam",
-      "label_ru": "Security cam"
+      "label_ru": "Безопасность Камера"
     },
     {
       "slug": "sensor",
-      "label_ru": "Sensor"
+      "label_ru": "Датчик"
     },
     {
       "slug": "series",
-      "label_ru": "Series"
+      "label_ru": "Сериалы"
     },
     {
       "slug": "services",
-      "label_ru": "Services"
+      "label_ru": "Сервисы"
     },
     {
       "slug": "settings",
-      "label_ru": "Settings"
+      "label_ru": "Настройки"
     },
     {
       "slug": "shade",
-      "label_ru": "Shade"
+      "label_ru": "Затемнение"
     },
     {
       "slug": "share",
-      "label_ru": "Share"
+      "label_ru": "Поделиться"
     },
     {
       "slug": "shopping",
-      "label_ru": "Shopping"
+      "label_ru": "Покупки"
     },
     {
       "slug": "shuffle",
-      "label_ru": "Shuffle"
+      "label_ru": "Перемешивание"
     },
     {
       "slug": "skills",
-      "label_ru": "Skills"
+      "label_ru": "Навыки"
     },
     {
       "slug": "skip_next",
-      "label_ru": "Skip next"
+      "label_ru": "Следующий"
     },
     {
       "slug": "skip_prev",
-      "label_ru": "Skip prev"
+      "label_ru": "Предыдущий"
     },
     {
       "slug": "sleep",
-      "label_ru": "Sleep"
+      "label_ru": "Сон"
     },
     {
       "slug": "smart_home_alt",
-      "label_ru": "Smart home alt"
+      "label_ru": "Умный дом"
     },
     {
       "slug": "smart_speaker",
-      "label_ru": "Smart speaker"
+      "label_ru": "Колонка"
     },
     {
       "slug": "smoke",
-      "label_ru": "Smoke"
+      "label_ru": "Дым"
     },
     {
       "slug": "snooze",
-      "label_ru": "Snooze"
+      "label_ru": "Отложить"
     },
     {
       "slug": "snow",
-      "label_ru": "Snow"
+      "label_ru": "Снег"
     },
     {
       "slug": "socket",
-      "label_ru": "Socket"
+      "label_ru": "Розетка"
     },
     {
       "slug": "solar",
-      "label_ru": "Solar"
+      "label_ru": "Солнце"
     },
     {
       "slug": "sounds",
-      "label_ru": "Sounds"
+      "label_ru": "Звуки"
     },
     {
       "slug": "space",
-      "label_ru": "Space"
+      "label_ru": "Космос"
     },
     {
       "slug": "sparkles",
-      "label_ru": "Sparkles"
+      "label_ru": "Блеск"
     },
     {
       "slug": "speaker",
-      "label_ru": "Speaker"
+      "label_ru": "Колонка"
     },
     {
       "slug": "spellcheck",
-      "label_ru": "Spellcheck"
+      "label_ru": "Проверка"
     },
     {
       "slug": "sport",
-      "label_ru": "Sport"
+      "label_ru": "Спорт"
     },
     {
       "slug": "sprinkler",
-      "label_ru": "Sprinkler"
+      "label_ru": "Полив"
     },
     {
       "slug": "star",
-      "label_ru": "Star"
+      "label_ru": "Звезда"
     },
     {
       "slug": "station",
-      "label_ru": "Station"
+      "label_ru": "Станция"
     },
     {
       "slug": "steps",
-      "label_ru": "Steps"
+      "label_ru": "Шаги"
     },
     {
       "slug": "stock",
-      "label_ru": "Stock"
+      "label_ru": "Склад"
     },
     {
       "slug": "stop",
-      "label_ru": "Stop"
+      "label_ru": "Стоп"
     },
     {
       "slug": "stopwatch",
-      "label_ru": "Stopwatch"
+      "label_ru": "Секундомер"
     },
     {
       "slug": "stream",
-      "label_ru": "Stream"
+      "label_ru": "Стрим"
     },
     {
       "slug": "strip_light",
-      "label_ru": "Strip light"
+      "label_ru": "Световая лента"
     },
     {
       "slug": "study",
-      "label_ru": "Study"
+      "label_ru": "Учёба"
     },
     {
       "slug": "subscription",
-      "label_ru": "Subscription"
+      "label_ru": "Подписка"
     },
     {
       "slug": "subtitles",
-      "label_ru": "Subtitles"
+      "label_ru": "Субтитры"
     },
     {
       "slug": "sun",
-      "label_ru": "Sun"
+      "label_ru": "Солнце"
     },
     {
       "slug": "switch",
-      "label_ru": "Switch"
+      "label_ru": "Переключатель"
     },
     {
       "slug": "synonyms",
-      "label_ru": "Synonyms"
+      "label_ru": "Синонимы"
     },
     {
       "slug": "task",
-      "label_ru": "Task"
+      "label_ru": "Задача"
     },
     {
       "slug": "taxi",
-      "label_ru": "Taxi"
+      "label_ru": "Такси"
     },
     {
       "slug": "tea",
-      "label_ru": "Tea"
+      "label_ru": "Чай"
     },
     {
       "slug": "temperature",
-      "label_ru": "Temperature"
+      "label_ru": "Температура"
     },
     {
       "slug": "theater",
-      "label_ru": "Theater"
+      "label_ru": "Театр"
     },
     {
       "slug": "thermostat",
-      "label_ru": "Thermostat"
+      "label_ru": "Термостат"
     },
     {
       "slug": "timer",
-      "label_ru": "Timer"
+      "label_ru": "Таймер"
     },
     {
       "slug": "timer_kitchen",
-      "label_ru": "Timer kitchen"
+      "label_ru": "Кухонный таймер"
     },
     {
       "slug": "timers",
-      "label_ru": "Timers"
+      "label_ru": "Таймеры"
     },
     {
       "slug": "tips",
-      "label_ru": "Tips"
+      "label_ru": "Подсказки"
     },
     {
       "slug": "toys",
-      "label_ru": "Toys"
+      "label_ru": "Игрушки"
     },
     {
       "slug": "traffic",
-      "label_ru": "Traffic"
+      "label_ru": "Пробки"
     },
     {
       "slug": "traffic_jam",
-      "label_ru": "Traffic jam"
+      "label_ru": "Пробки"
     },
     {
       "slug": "train",
-      "label_ru": "Train"
+      "label_ru": "Поезд"
     },
     {
       "slug": "translate",
-      "label_ru": "Translate"
+      "label_ru": "Перевод"
     },
     {
       "slug": "translate_alt",
-      "label_ru": "Translate alt"
+      "label_ru": "Перевод Альт"
     },
     {
       "slug": "trivia",
-      "label_ru": "Trivia"
+      "label_ru": "Викторина"
     },
     {
       "slug": "tv",
-      "label_ru": "Tv"
+      "label_ru": "ТВ"
     },
     {
       "slug": "umbrella",
-      "label_ru": "Umbrella"
+      "label_ru": "Зонт"
     },
     {
       "slug": "vacation",
-      "label_ru": "Vacation"
+      "label_ru": "Отпуск"
     },
     {
       "slug": "vacuum",
-      "label_ru": "Vacuum"
+      "label_ru": "Пылесос"
     },
     {
       "slug": "video",
-      "label_ru": "Video"
+      "label_ru": "Видео"
     },
     {
       "slug": "video_call",
-      "label_ru": "Video call"
+      "label_ru": "Видео Звонок"
     },
     {
       "slug": "voice",
-      "label_ru": "Voice"
+      "label_ru": "Голос"
     },
     {
       "slug": "voicemail",
-      "label_ru": "Voicemail"
+      "label_ru": "Голосовая почта"
     },
     {
       "slug": "volume",
-      "label_ru": "Volume"
+      "label_ru": "Громкость"
     },
     {
       "slug": "volume_down",
-      "label_ru": "Volume down"
+      "label_ru": "Громкость Тише"
     },
     {
       "slug": "volume_mute",
-      "label_ru": "Volume mute"
+      "label_ru": "Без звука"
     },
     {
       "slug": "volume_up",
-      "label_ru": "Volume up"
+      "label_ru": "Громче"
     },
     {
       "slug": "walk",
-      "label_ru": "Walk"
+      "label_ru": "Прогулка"
     },
     {
       "slug": "warm",
-      "label_ru": "Warm"
+      "label_ru": "Тепло"
     },
     {
       "slug": "washer",
-      "label_ru": "Washer"
+      "label_ru": "Стиралка"
     },
     {
       "slug": "watch",
-      "label_ru": "Watch"
+      "label_ru": "Часы"
     },
     {
       "slug": "water",
-      "label_ru": "Water"
+      "label_ru": "Вода"
     },
     {
       "slug": "water_bottle",
-      "label_ru": "Water bottle"
+      "label_ru": "Бутылка воды"
     },
     {
       "slug": "weather",
-      "label_ru": "Weather"
+      "label_ru": "Погода"
     },
     {
       "slug": "white_noise",
-      "label_ru": "White noise"
+      "label_ru": "Белый Шум"
     },
     {
       "slug": "widget",
-      "label_ru": "Widget"
+      "label_ru": "Виджет"
     },
     {
       "slug": "wifi",
-      "label_ru": "Wifi"
+      "label_ru": "Вай‑фай"
     },
     {
       "slug": "wind",
-      "label_ru": "Wind"
+      "label_ru": "Ветер"
     },
     {
       "slug": "window",
-      "label_ru": "Window"
+      "label_ru": "Окно"
     },
     {
       "slug": "windows",
-      "label_ru": "Windows"
+      "label_ru": "Окна"
     },
     {
       "slug": "work",
-      "label_ru": "Work"
+      "label_ru": "Работа"
     },
     {
       "slug": "yandex_station",
-      "label_ru": "Yandex station"
+      "label_ru": "Колонка Яндекса"
     },
     {
       "slug": "yoga",
-      "label_ru": "Yoga"
+      "label_ru": "Йога"
     },
     {
       "slug": "zigbee",
-      "label_ru": "Zigbee"
+      "label_ru": "Протокол Zigbee"
     }
   ],
   "accent_presets": [
@@ -1291,6 +1291,41 @@
       "name": "pink",
       "light": "#DB2777",
       "dark": "#F9A8D4"
+    },
+    {
+      "name": "orange",
+      "light": "#F97316",
+      "dark": "#FDBA74"
+    },
+    {
+      "name": "deep_violet",
+      "light": "#5B21B6",
+      "dark": "#A78BFA"
+    },
+    {
+      "name": "copper",
+      "light": "#B45309",
+      "dark": "#FCD34D"
+    },
+    {
+      "name": "green",
+      "light": "#16A34A",
+      "dark": "#86EFAC"
+    },
+    {
+      "name": "red",
+      "light": "#DC2626",
+      "dark": "#FCA5A5"
+    },
+    {
+      "name": "cyan",
+      "light": "#0891B2",
+      "dark": "#67E8F9"
+    },
+    {
+      "name": "phone_blue",
+      "light": "#1D4ED8",
+      "dark": "#93C5FD"
     }
   ]
 }

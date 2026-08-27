@@ -9,7 +9,7 @@
 | # | Вопрос | Решение |
 | - | ------ | ------- |
 | 1 | Имя репозитория | **`alice-commands-api`** — GitHub `MironBano/alice-commands-api` |
-| 2 | Домен | **TBD перед prod**; рекомендация: `api.<domain>.ru` + `staging-api.<domain>.ru` — см. [DEPLOYMENT.md](DEPLOYMENT.md) |
+| 2 | Домен | **`api.alicecommands.ru`** (prod), **`staging-api.alicecommands.ru`** — см. [INFRASTRUCTURE.md](INFRASTRUCTURE.md) |
 | 3 | Admin UI стек | **Ktor + static HTML + Alpine.js** (не Compose Web) |
 | 4 | Import pilot JSON | **Да в v1.0** — B08, экран Import в [ADMIN-UX.md](ADMIN-UX.md) |
 | 5 | Rollback publish | **Да** — хранить **5** последних bundle ([BACKEND-REQUIREMENTS.md](BACKEND-REQUIREMENTS.md) B06) |

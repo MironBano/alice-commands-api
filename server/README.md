@@ -2,7 +2,10 @@
 
 Модуль `:server` — HTTP API, publish pipeline, admin backend.
 
-**Staging:** https://staging-api.alicecommands.ru
+| Среда | URL |
+| ----- | --- |
+| Staging | https://staging-api.alicecommands.ru |
+| Prod | https://api.alicecommands.ru |
 
 ## Запуск (local)
 
@@ -27,13 +30,16 @@ Testcontainers (PostgreSQL) — нужен Docker; без Docker integration ski
 ```powershell
 .\gradlew.bat :server:validateContent
 .\gradlew.bat :server:validateContent -PcontentFile=../seed/smart-home-groups-v2.json
-.\gradlew.bat :server:validateContent -PcontentFile=../seed/full-catalog.json
+.\gradlew.bat :server:validateContent -PcontentFile=../seed/catalog-audit-fixed.json
+.\gradlew.bat :server:validateSmartHomeDevices
+.\gradlew.bat :server:validateSmartHomeDevices -PcontentFile=../seed/smarthome-devices-example.json
 ```
 
-## Deploy staging
+## Deploy
 
 ```powershell
-.\scripts\deploy-staging.ps1
+.\scripts\deploy-staging.ps1   # staging :8080
+.\scripts\deploy-prod.ps1      # prod :8081
 ```
 
 Сборка: `.\gradlew.bat :server:installDist` → `server/build/install/server/`
@@ -46,9 +52,12 @@ Testcontainers (PostgreSQL) — нужен Docker; без Docker integration ski
 | `GET /v1/content/bundle` | gzip JSON bundle (schema v2) |
 | `GET /v1/content/delta?from={version}` | Incremental diff vs current published |
 | `GET /icons/v1/{slug}.svg` | Category/group SVG (public static) |
-| `GET /v1/affiliate/blocks` | Affiliate blocks snapshot |
+| `GET /devices/v1/{slug}.webp` | Smarthome device images |
+| `GET /v1/smarthome/devices` | Guides + picks snapshot |
+| `GET /v1/affiliate/blocks` | Affiliate blocks (**deprecated**) |
 | `POST /v1/feedback` | In-app feedback (rate limited) |
-| `POST /v1/commands/report` | Command issue report (rate limited) |
+| `POST /v1/analytics/events/batch` | Analytics batch ingest (rate limited, dedup by eventId) |
+| `POST /v1/commands/{command_id}/report` | Command issue report (rate limited) |
 | `GET /health`, `GET /ready` | Ops |
 
 ## Admin API (основное)
@@ -58,6 +67,11 @@ Testcontainers (PostgreSQL) — нужен Docker; без Docker integration ski
 | `GET/POST/PUT/DELETE /admin/api/command-groups` | CRUD групп |
 | `PUT /admin/api/command-groups/reorder` | Порядок групп |
 | `POST /admin/api/commands/bulk-assign-group` | Массовое назначение group_id |
+| `GET/PUT /admin/api/command-of-day` | Command of day settings |
+| `POST /admin/api/command-of-day/publish` | Publish COD only |
+| `GET/POST/PUT/DELETE /admin/api/smarthome/device-guides` | Device guides CRUD |
+| `GET/POST/PUT/DELETE /admin/api/smarthome/device-picks` | Device picks CRUD |
+| `POST /admin/api/smarthome/upload-image` | Upload WebP |
 | `GET /admin/api/content/validation-warnings` | Orphan commands, empty groups, visual warnings |
 | `GET /admin/api/icons/catalog` | Icon slugs + accent presets + `public_base_url` |
 | `POST /admin/api/icons/upload` | Upload validated SVG |
@@ -66,14 +80,31 @@ Testcontainers (PostgreSQL) — нужен Docker; без Docker integration ski
 | `POST /admin/api/content/import-seed` | Import from `CONTENT_SEED_PATH` |
 | `POST /admin/api/publish` | Publish draft → live |
 | `GET /admin/api/docs` | API reference JSON |
+| `GET /admin/api/analytics/summary` | Analytics dashboard KPI + daily series |
+| `GET /admin/api/analytics/events` | Analytics raw events list |
+| `GET /admin/api/analytics/funnel` | Funnel by distinct install_id |
+| `GET /admin/api/analytics/breakdown` | Top values of event params |
 
 Полный контракт: [API.md](../docs/API.md).
 
 ## Config
 
-`.env` в корне repo — см. `.env.example`. На VPS: `/opt/alice-api/.env`.
+`.env` в корне repo — см. `.env.example`. На VPS: `/opt/alice-api/.env` (staging), `/opt/alice-api/.env.prod` (prod).
 
 Optional: `CONTENT_SEED_PATH` — seed JSON на сервере для admin import-seed.
+
+Analytics ingest (см. [ANALYTICS-BACKEND.md](../docs/ANALYTICS-BACKEND.md)):
+
+| Env | Default | Назначение |
+| --- | ------- | ---------- |
+| `ANALYTICS_RATE_LIMIT_PER_IP` | 120 | Запросов batch / IP / 15 мин |
+| `ANALYTICS_EVENTS_PER_IP_PER_DAY` | 10000 | Soft cap событий / IP / сутки |
+| `ANALYTICS_MAX_BODY_BYTES` | 262144 | Макс. размер тела batch |
+| `ANALYTICS_RAW_RETENTION_DAYS` | 90 | Retention raw events (P1 job) |
+
+Icons: `ICON_STORAGE_PATH`, `ICON_PUBLIC_BASE_URL`, `ICON_URL_ALLOWED_HOSTS` — [BACKEND-CATEGORY-VISUALS.md](../docs/BACKEND-CATEGORY-VISUALS.md).
+
+Device images: `DEVICE_IMAGE_STORAGE_PATH` — [BACKEND-SMARTHOME-DEVICES.md](../docs/BACKEND-SMARTHOME-DEVICES.md).
 
 ## Structure
 
@@ -82,18 +113,19 @@ Optional: `CONTENT_SEED_PATH` — seed JSON на сервере для admin imp
 | Package | Role |
 | ------- | ---- |
 | `routes/` | Ktor endpoints |
-| `application/publish/` | Publish, rollback, import, **CommandGroupValidationUseCase** |
-| `application/read/` | Manifest, bundle, diff, **ContentDeltaService** |
+| `application/publish/` | Publish, rollback, import, validation use cases |
+| `application/read/` | Manifest, bundle, diff, ContentDeltaService |
+| `application/analytics/` | Analytics batch ingest + admin queries |
 | `infrastructure/security/` | Session, rate limit, ClientIpResolver |
 
-Migrations: Flyway **V1–V5** (command_groups — V4, category visuals — V5). См. [DATABASE.md](../docs/DATABASE.md).
-
-Env (icons): `ICON_STORAGE_PATH`, `ICON_PUBLIC_BASE_URL`, `ICON_URL_ALLOWED_HOSTS` — см. [BACKEND-CATEGORY-VISUALS.md](../docs/BACKEND-CATEGORY-VISUALS.md).
+Migrations: Flyway **V1–V10**. См. [DATABASE.md](../docs/DATABASE.md).
 
 ## Docs
 
 - [API.md](../docs/API.md)
 - [BACKEND-COMMAND-GROUPS.md](../docs/BACKEND-COMMAND-GROUPS.md)
 - [BACKEND-CATEGORY-VISUALS.md](../docs/BACKEND-CATEGORY-VISUALS.md)
+- [BACKEND-SMARTHOME-DEVICES.md](../docs/BACKEND-SMARTHOME-DEVICES.md)
+- [ANALYTICS-BACKEND.md](../docs/ANALYTICS-BACKEND.md)
 - [INFRASTRUCTURE.md](../docs/INFRASTRUCTURE.md)
 - [DEPLOYMENT.md](../docs/DEPLOYMENT.md)

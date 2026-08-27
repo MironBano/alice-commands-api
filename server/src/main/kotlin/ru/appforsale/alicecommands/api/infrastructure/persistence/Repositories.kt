@@ -16,6 +16,8 @@ import org.jetbrains.exposed.sql.update
 import org.flywaydb.core.Flyway
 import ru.appforsale.alicecommands.api.config.AppConfig
 import ru.appforsale.alicecommands.api.domain.AffiliateBlock
+import ru.appforsale.alicecommands.api.domain.DeviceGuide
+import ru.appforsale.alicecommands.api.domain.DevicePick
 import ru.appforsale.alicecommands.api.domain.AffiliateProduct
 import ru.appforsale.alicecommands.api.domain.Category
 import ru.appforsale.alicecommands.api.domain.ChecklistItem
@@ -91,6 +93,8 @@ class ExposedDraftRepository(private val database: Database) : DraftRepository {
             scenarioTemplatesCount = ScenarioTemplatesTable.selectAll().count().toInt(),
             checklistItemsCount = ChecklistItemsTable.selectAll().count().toInt(),
             affiliateBlocksCount = AffiliateBlocksTable.selectAll().count().toInt(),
+            deviceGuidesCount = DeviceGuidesTable.selectAll().count().toInt(),
+            devicePicksCount = DevicePicksTable.selectAll().count().toInt(),
         )
     }
 
@@ -349,6 +353,60 @@ class ExposedDraftRepository(private val database: Database) : DraftRepository {
 
     override fun deleteAffiliateBlock(id: String) {
         unitTx { AffiliateBlocksTable.deleteWhere { AffiliateBlocksTable.id eq id } }
+    }
+
+    override fun listDeviceGuides(): List<DeviceGuide> = transaction(database) {
+        DeviceGuidesTable.selectAll()
+            .orderBy(DeviceGuidesTable.sortOrder to SortOrder.ASC)
+            .map { it.toDeviceGuide() }
+    }
+
+    override fun getDeviceGuide(id: String): DeviceGuide? = transaction(database) {
+        DeviceGuidesTable.selectAll().where { DeviceGuidesTable.id eq id }
+            .map { it.toDeviceGuide() }.singleOrNull()
+    }
+
+    override fun createDeviceGuide(guide: DeviceGuide) {
+        unitTx { DeviceGuidesTable.insert { it.fromDeviceGuide(guide) } }
+    }
+
+    override fun updateDeviceGuide(guide: DeviceGuide) {
+        unitTx {
+            DeviceGuidesTable.update({ DeviceGuidesTable.id eq guide.id }) {
+                it.fromDeviceGuide(guide)
+            }
+        }
+    }
+
+    override fun deleteDeviceGuide(id: String) {
+        unitTx { DeviceGuidesTable.deleteWhere { DeviceGuidesTable.id eq id } }
+    }
+
+    override fun listDevicePicks(): List<DevicePick> = transaction(database) {
+        DevicePicksTable.selectAll()
+            .orderBy(DevicePicksTable.sortOrder to SortOrder.ASC)
+            .map { it.toDevicePick() }
+    }
+
+    override fun getDevicePick(id: String): DevicePick? = transaction(database) {
+        DevicePicksTable.selectAll().where { DevicePicksTable.id eq id }
+            .map { it.toDevicePick() }.singleOrNull()
+    }
+
+    override fun createDevicePick(pick: DevicePick) {
+        unitTx { DevicePicksTable.insert { it.fromDevicePick(pick) } }
+    }
+
+    override fun updateDevicePick(pick: DevicePick) {
+        unitTx {
+            DevicePicksTable.update({ DevicePicksTable.id eq pick.id }) {
+                it.fromDevicePick(pick)
+            }
+        }
+    }
+
+    override fun deleteDevicePick(id: String) {
+        unitTx { DevicePicksTable.deleteWhere { DevicePicksTable.id eq id } }
     }
 
     override fun getCommandOfDaySettings(): CommandOfDaySettings? =
@@ -726,6 +784,90 @@ private fun org.jetbrains.exposed.sql.statements.UpdateBuilder<*>.fromAffiliateB
     this[AffiliateBlocksTable.advertiserName] = block.advertiser_name
     this[AffiliateBlocksTable.products] = block.products
     this[AffiliateBlocksTable.updatedAt] = OffsetDateTime.now(ZoneOffset.UTC)
+}
+
+private fun org.jetbrains.exposed.sql.ResultRow.toDeviceGuide(): DeviceGuide = DeviceGuide(
+    id = this[DeviceGuidesTable.id],
+    title_ru = this[DeviceGuidesTable.titleRu],
+    summary_ru = this[DeviceGuidesTable.summaryRu],
+    capabilities_ru = this[DeviceGuidesTable.capabilitiesRu],
+    setup_ru = this[DeviceGuidesTable.setupRu],
+    setup_steps_ru = this[DeviceGuidesTable.setupStepsRu].toList(),
+    related_devices_ru = this[DeviceGuidesTable.relatedDevicesRu],
+    related_device_ids = this[DeviceGuidesTable.relatedDeviceIds].toList(),
+    command_device_filter_id = this[DeviceGuidesTable.commandDeviceFilterId],
+    image_url = this[DeviceGuidesTable.imageUrl],
+    action_url = this[DeviceGuidesTable.actionUrl],
+    sort_order = this[DeviceGuidesTable.sortOrder],
+)
+
+private fun org.jetbrains.exposed.sql.statements.UpdateBuilder<*>.fromDeviceGuide(guide: DeviceGuide) {
+    this[DeviceGuidesTable.id] = guide.id
+    this[DeviceGuidesTable.titleRu] = guide.title_ru
+    this[DeviceGuidesTable.summaryRu] = guide.summary_ru
+    this[DeviceGuidesTable.capabilitiesRu] = guide.capabilities_ru
+    this[DeviceGuidesTable.setupRu] = guide.setup_ru
+    this[DeviceGuidesTable.setupStepsRu] = guide.setup_steps_ru
+    this[DeviceGuidesTable.relatedDevicesRu] = guide.related_devices_ru
+    this[DeviceGuidesTable.relatedDeviceIds] = guide.related_device_ids
+    this[DeviceGuidesTable.commandDeviceFilterId] = guide.command_device_filter_id
+    this[DeviceGuidesTable.imageUrl] = guide.image_url
+    this[DeviceGuidesTable.actionUrl] = guide.action_url
+    this[DeviceGuidesTable.sortOrder] = guide.sort_order
+    this[DeviceGuidesTable.updatedAt] = OffsetDateTime.now(ZoneOffset.UTC)
+}
+
+private fun org.jetbrains.exposed.sql.ResultRow.toDevicePick(): DevicePick = DevicePick(
+    id = this[DevicePicksTable.id],
+    title_ru = this[DevicePicksTable.titleRu],
+    description_ru = this[DevicePicksTable.descriptionRu],
+    price_hint_ru = this[DevicePicksTable.priceHintRu],
+    image_url = this[DevicePicksTable.imageUrl],
+    action_url = this[DevicePicksTable.actionUrl],
+    sort_order = this[DevicePicksTable.sortOrder],
+    erid = this[DevicePicksTable.erid],
+    advertiser_name = this[DevicePicksTable.advertiserName],
+    disclosure_ru = this[DevicePicksTable.disclosureRu],
+    cta_ru = this[DevicePicksTable.ctaRu],
+    tags = this[DevicePicksTable.tags].toList(),
+    device_types = this[DevicePicksTable.deviceTypes].toList(),
+    category_ids = this[DevicePicksTable.categoryIds].toList(),
+    command_group_ids = this[DevicePicksTable.commandGroupIds].toList(),
+    command_ids = this[DevicePicksTable.commandIds].toList(),
+    scenario_template_ids = this[DevicePicksTable.scenarioTemplateIds].toList(),
+    guide_ids = this[DevicePicksTable.guideIds].toList(),
+    placements = this[DevicePicksTable.placements].toList(),
+    priority = this[DevicePicksTable.priority],
+    starts_at = this[DevicePicksTable.startsAt]?.toIsoString(),
+    ends_at = this[DevicePicksTable.endsAt]?.toIsoString(),
+    max_impressions_per_session = this[DevicePicksTable.maxImpressionsPerSession],
+)
+
+private fun org.jetbrains.exposed.sql.statements.UpdateBuilder<*>.fromDevicePick(pick: DevicePick) {
+    this[DevicePicksTable.id] = pick.id
+    this[DevicePicksTable.titleRu] = pick.title_ru
+    this[DevicePicksTable.descriptionRu] = pick.description_ru
+    this[DevicePicksTable.priceHintRu] = pick.price_hint_ru
+    this[DevicePicksTable.imageUrl] = pick.image_url
+    this[DevicePicksTable.actionUrl] = pick.action_url
+    this[DevicePicksTable.sortOrder] = pick.sort_order
+    this[DevicePicksTable.erid] = pick.erid
+    this[DevicePicksTable.advertiserName] = pick.advertiser_name
+    this[DevicePicksTable.disclosureRu] = pick.disclosure_ru
+    this[DevicePicksTable.ctaRu] = pick.cta_ru
+    this[DevicePicksTable.tags] = pick.tags
+    this[DevicePicksTable.deviceTypes] = pick.device_types
+    this[DevicePicksTable.categoryIds] = pick.category_ids
+    this[DevicePicksTable.commandGroupIds] = pick.command_group_ids
+    this[DevicePicksTable.commandIds] = pick.command_ids
+    this[DevicePicksTable.scenarioTemplateIds] = pick.scenario_template_ids
+    this[DevicePicksTable.guideIds] = pick.guide_ids
+    this[DevicePicksTable.placements] = pick.placements
+    this[DevicePicksTable.priority] = pick.priority
+    this[DevicePicksTable.startsAt] = pick.starts_at?.let { OffsetDateTime.parse(it) }
+    this[DevicePicksTable.endsAt] = pick.ends_at?.let { OffsetDateTime.parse(it) }
+    this[DevicePicksTable.maxImpressionsPerSession] = pick.max_impressions_per_session
+    this[DevicePicksTable.updatedAt] = OffsetDateTime.now(ZoneOffset.UTC)
 }
 
 private fun org.jetbrains.exposed.sql.ResultRow.toCommandOfDaySettings(): CommandOfDaySettings =

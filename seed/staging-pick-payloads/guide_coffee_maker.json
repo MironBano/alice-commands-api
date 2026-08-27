@@ -1,0 +1,19 @@
+{
+  "id": "coffee_maker",
+  "title_ru": "Кофеварка",
+  "summary_ru": "Запуск приготовления кофе голосом — если модель связана с Алисой.",
+  "capabilities_ru": "Тип cooking.coffee_maker: старт/стоп приготовления, иногда рецепты и крепость. Примеры: «Алиса, включи кофеварку», «Алиса, приготовь эспрессо».",
+  "setup_ru": "Подключите к Wi‑Fi и аккаунту производителя, свяжите с «Дом с Алисой».",
+  "setup_steps_ru": [
+    "Установите и заправьте кофеварку",
+    "Подключите к приложению бренда",
+    "Добавьте в «Дом с Алисой»",
+    "Проверьте запуск голосом",
+    "Добавьте в сценарий «доброе утро»"
+  ],
+  "related_devices_ru": "Чайник, колонка на кухне",
+  "related_device_ids": ["kettle", "station"],
+  "image_url": "https://staging-api.alicecommands.ru/icons/v1/coffee_maker.svg",
+  "action_url": "https://yandex.ru/dev/dialogs/smart-home/doc/ru/concepts/device-type-cooking-coffee-maker",
+  "sort_order": 290
+}

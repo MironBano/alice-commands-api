@@ -1,0 +1,28 @@
+﻿{
+    "id":  "pick_sensor_climate",
+    "title_ru":  "Датчик климата",
+    "description_ru":  "Температура и влажность в комнате — для комфорта и сценариев отопления.",
+    "image_url":  "https://staging-api.alicecommands.ru/devices/v1/sensor_climate.png",
+    "action_url":  "https://market.yandex.ru/cc/A9u68P",
+    "sort_order":  100,
+    "guide_ids":  [
+                      "sensor_climate"
+                  ],
+    "command_ids":  [
+                        "sh_temp_query"
+                    ],
+    "category_ids":  [
+                         "smart_home"
+                     ],
+    "device_types":  [
+                         "station"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "search_empty",
+                       "command_detail"
+                   ],
+    "priority":  62,
+    "cta_ru":  "Смотреть цену"
+}

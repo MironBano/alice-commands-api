@@ -111,6 +111,22 @@ class CommandOfDayValidationUseCase {
     }
 }
 
+object CommandOfDayPolicy {
+    fun matches(settings: ru.appforsale.alicecommands.api.domain.CommandOfDaySettings, published: CommandOfDay?): Boolean {
+        if (published == null) return false
+        return policyKey(settings.mode, settings.auto_category_id, settings.auto_seed, settings.command_id) ==
+            policyKey(published.mode, published.auto_category_id, published.auto_seed, published.command_id)
+    }
+
+    private fun policyKey(mode: String, autoCategoryId: String?, autoSeed: Int, commandId: String): String =
+        listOf(
+            mode,
+            autoCategoryId.orEmpty(),
+            autoSeed.toString(),
+            if (mode == CommandOfDayValidationUseCase.MODE_MANUAL) commandId else "",
+        ).joinToString("|")
+}
+
 object CommandOfDayBundleBuilder {
 
     fun build(

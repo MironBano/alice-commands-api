@@ -1,0 +1,16 @@
+﻿{
+    "from":  "2026-05-29",
+    "to":  "2026-08-26",
+    "steps":  [
+                  {
+                      "event_name":  "contextual_pick_impression",
+                      "installs":  515
+                  },
+                  {
+                      "event_name":  "affiliate_click",
+                      "installs":  6,
+                      "conversion_from_previous":  1.1,
+                      "conversion_from_first":  1.1
+                  }
+              ]
+}

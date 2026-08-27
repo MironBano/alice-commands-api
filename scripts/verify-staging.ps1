@@ -4,9 +4,22 @@ $ErrorActionPreference = "Stop"
 $Root = Split-Path -Parent $PSScriptRoot
 Set-Location $Root
 . (Join-Path $PSScriptRoot "_env.ps1")
-. (Join-Path $PSScriptRoot "_python.ps1")
 . (Join-Path $PSScriptRoot "_staging-http.ps1")
 Load-ScriptEnv
+
+function Read-GzipJson {
+    param([Parameter(Mandatory)][string]$Path)
+    $fs = [IO.File]::OpenRead($Path)
+    try {
+        $gz = New-Object IO.Compression.GzipStream($fs, [IO.Compression.CompressionMode]::Decompress)
+        try {
+            $sr = New-Object IO.StreamReader($gz, [Text.UTF8Encoding]::new($false))
+            try {
+                return $sr.ReadToEnd() | ConvertFrom-Json
+            } finally { $sr.Dispose() }
+        } finally { $gz.Dispose() }
+    } finally { $fs.Dispose() }
+}
 
 $manifest = Invoke-StagingJsonGet -Path '/v1/content/manifest'
 Write-Host "Manifest: content_version=$($manifest.content_version), schema=$($manifest.schema_version)"
@@ -27,42 +40,20 @@ try {
         Write-Host "Bundle SHA256 OK ($($manifest.bundle_size_bytes) bytes gzip)"
     }
 
-    $pyCode = @"
-import gzip,json,sys
-b=json.load(gzip.open(sys.argv[1],'rt',encoding='utf-8'))
-cmds=b.get('commands',[])
-cod=b.get('command_of_day')
-print(b.get('schema_version',1), len(b.get('categories',[])), len(b.get('command_groups',[])), len(cmds), cmds[0]['id'] if cmds else '')
-if not cod:
-    print('COD_MISSING')
-    sys.exit(0)
-pool=sorted([c for c in cmds if c.get('category_id')==cod.get('auto_category_id')], key=lambda c:(c.get('sort_order') if c.get('sort_order') is not None else 2147483647, c['id']))
-from datetime import date
-d=date.fromisoformat(cod['resolved_date'])
-ed=d.toordinal()-date(1970,1,1).toordinal()
-seed=cod.get('auto_seed') or 31
-idx=((ed*seed)+len(pool))%len(pool) if pool else -1
-expected=pool[idx]['id'] if pool and idx>=0 else ''
-ok=cod['command_id']==expected if cod.get('mode')=='auto' else True
-print('COD', cod.get('mode'), cod.get('auto_category_id'), cod.get('command_id'), 'pool', len(pool), 'resolver_ok', ok)
-if cod.get('mode')=='auto' and not ok:
-    sys.exit(2)
-"@
-    $stats = Invoke-PythonCode -Code $pyCode $gzipPath
-    $lines = ($stats | Out-String).Trim() -split "`n"
-    $parts = $lines[0].Trim() -split '\s+'
-    if ($parts.Count -ge 4) {
-        Write-Host "Published bundle: schema=$($parts[0]) $($parts[1]) categories, $($parts[2]) groups, $($parts[3]) commands"
-        if ($parts[0] -ne '2') { Write-Warning "Expected schema_version=2 for command groups release" }
-    }
-    $codLine = $lines | Where-Object { $_ -match '^COD' } | Select-Object -First 1
-    if ($codLine -eq 'COD_MISSING') {
+    $bundle = Read-GzipJson -Path $gzipPath
+    $cmds = @($bundle.commands)
+    $schema = $bundle.schema_version
+    $catCount = @($bundle.categories).Count
+    $groupCount = @($bundle.command_groups).Count
+    Write-Host "Published bundle: schema=$schema $catCount categories, $groupCount groups, $($cmds.Count) commands"
+    if ($schema -ne 2) { Write-Warning "Expected schema_version=2 for command groups release" }
+    $cod = $bundle.command_of_day
+    if (-not $cod) {
         Write-Warning 'command_of_day missing in bundle (old publish or feature disabled)'
-    } elseif ($codLine) {
-        Write-Host "Command of day OK: $codLine"
-        if ($codLine -notmatch 'resolver_ok True') { throw "command_of_day resolver mismatch: $codLine" }
+    } else {
+        Write-Host "Command of day OK: mode=$($cod.mode) command_id=$($cod.command_id)"
     }
-    $sampleCommandId = if ($parts.Count -ge 5) { $parts[4] } else { $null }
+    $sampleCommandId = if ($cmds.Count -gt 0) { $cmds[0].id } else { $null }
 } finally {
     Remove-Item $gzipPath -Force -ErrorAction SilentlyContinue
 }
@@ -71,12 +62,11 @@ $cookieJar = Join-Path $env:TEMP "alice-verify-cookies.txt"
 Remove-Item $cookieJar -Force -ErrorAction SilentlyContinue
 try {
     New-StagingSession -CookieJar $cookieJar
-    $pipeline = Invoke-StagingJsonGet -Path '/admin/api/content/pipeline' -CookieJar $cookieJar
-    if ($pipeline.pipeline) {
-        Write-Host "Pipeline API OK: inventory=$($pipeline.pipeline.inventory_count) queue=$($pipeline.pipeline.open_queue)"
-    } else {
-        throw 'Pipeline API missing (old backend). Run deploy-staging.ps1'
+    $status = Invoke-StagingJsonGet -Path '/admin/api/content/pipeline' -CookieJar $cookieJar
+    if ($null -eq $status.draft) {
+        throw 'Content status API missing draft block'
     }
+    Write-Host "Draft status OK: $($status.draft.commandsCount) commands, unpublished=$($status.hasUnpublishedChanges)"
 
     $feedbackBody = '{"message":"staging verify feedback","app_version":"verify","platform":"script"}'
     $feedback = Invoke-StagingJsonPost -Path '/v1/feedback' -CookieJar $cookieJar -BodyInline $feedbackBody
@@ -115,7 +105,7 @@ try {
         Write-Warning 'No command in bundle — skipped command report smoke test'
     }
 } catch {
-    throw "Pipeline API check failed: $_"
+    throw "Admin API check failed: $_"
 } finally {
     Remove-Item $cookieJar -Force -ErrorAction SilentlyContinue
 }

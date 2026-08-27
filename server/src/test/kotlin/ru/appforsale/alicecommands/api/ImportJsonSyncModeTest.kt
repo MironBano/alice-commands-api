@@ -31,7 +31,7 @@ class ImportJsonSyncModeTest {
         override fun loadFull(contentVersion: Int, minAppVersion: String): ContentBundle =
             error("not used")
 
-        override fun stats(): DraftStats = DraftStats(0, 0, 0, 0, 0, 0)
+        override fun stats(): DraftStats = DraftStats(0, 0, 0, 0, 0, 0, 0, 0)
 
         override fun listCategories(): List<Category> = categories.values.toList()
 

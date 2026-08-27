@@ -1,0 +1,19 @@
+{
+  "id": "washing_machine",
+  "title_ru": "Стиральная машина",
+  "summary_ru": "Запуск стирки и статус — для моделей в экосистеме Алисы.",
+  "capabilities_ru": "Старт/стоп, выбор программ (если отдаёт платформа), уведомление об окончании. Примеры: «Алиса, включи стиралку», «Алиса, стиралка закончила?».",
+  "setup_ru": "Подключите к Wi‑Fi бренда и добавьте в «Дом с Алисой»; поставьте датчик протечки рядом.",
+  "setup_steps_ru": [
+    "Подключите машину к воде и канализации",
+    "Настройте Wi‑Fi в приложении производителя",
+    "Добавьте в «Дом с Алисой»",
+    "Проверьте запуск голосом",
+    "Добавьте датчик протечки у машины"
+  ],
+  "related_devices_ru": "Датчик протечки, датчик вибрации, клапан",
+  "related_device_ids": ["sensor_water_leak", "sensor_vibration", "valve"],
+  "image_url": "https://staging-api.alicecommands.ru/icons/v1/washer.svg",
+  "action_url": "https://yandex.ru/dev/dialogs/smart-home/doc/ru/concepts/device-type-washing-machine",
+  "sort_order": 310
+}

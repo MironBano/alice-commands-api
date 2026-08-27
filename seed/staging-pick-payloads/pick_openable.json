@@ -1,0 +1,24 @@
+﻿{
+    "id":  "pick_openable",
+    "title_ru":  "Двери, ворота и окна",
+    "description_ru":  "Автоматические двери, ворота, ставни — открыть и закрыть голосом.",
+    "image_url":  "https://staging-api.alicecommands.ru/devices/v1/openable.png",
+    "action_url":  "https://market.yandex.ru/cc/A9yNHe",
+    "sort_order":  250,
+    "guide_ids":  [
+                      "openable"
+                  ],
+    "category_ids":  [
+                         "smart_home"
+                     ],
+    "device_types":  [
+                         "station"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "search_empty"
+                   ],
+    "priority":  56,
+    "cta_ru":  "Смотреть цену"
+}

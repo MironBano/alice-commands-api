@@ -31,6 +31,9 @@ import ru.appforsale.alicecommands.api.domain.EditorialBatchSaveRequest
 import ru.appforsale.alicecommands.api.domain.PipelineSyncPayload
 import ru.appforsale.alicecommands.api.domain.QueueActionRequest
 import ru.appforsale.alicecommands.api.domain.ScenarioTemplate
+import ru.appforsale.alicecommands.api.domain.DeviceGuide
+import ru.appforsale.alicecommands.api.domain.DevicePick
+import ru.appforsale.alicecommands.api.domain.UploadDeviceImageRequest
 import ru.appforsale.alicecommands.api.domain.UploadIconRequest
 import ru.appforsale.alicecommands.api.infrastructure.security.ClientIpResolver
 import ru.appforsale.alicecommands.api.plugins.PasswordHasher
@@ -344,6 +347,105 @@ fun Route.adminRoutes() {
             }
         }
 
+        route("/smarthome") {
+            post("/upload-image") {
+                call.withAdminAuth {
+                    val request = receive<UploadDeviceImageRequest>()
+                    respond(application.deps.uploadDeviceImageUseCase.execute(request))
+                }
+            }
+            route("/device-guides") {
+                get {
+                    call.withAdminAuth { respond(application.deps.draftRepository.listDeviceGuides()) }
+                }
+                post {
+                    call.withAdminAuth {
+                        val guide = normalizeDeviceGuide(receive())
+                        validateDeviceGuide(guide, application.deps)?.let { error ->
+                            return@withAdminAuth respond(HttpStatusCode.BadRequest, error)
+                        }
+                        application.deps.draftRepository.createDeviceGuide(guide)
+                        application.deps.publishSmartHomeDevicesUseCase.execute()
+                        respond(HttpStatusCode.Created, guide)
+                    }
+                }
+                put("/{id}") {
+                    call.withAdminAuth {
+                        val id = parameters["id"] ?: return@withAdminAuth respond(
+                            HttpStatusCode.BadRequest,
+                            ApiError("validation_failed", "id required"),
+                        )
+                        val guide = normalizeDeviceGuide(receive<DeviceGuide>().copy(id = id))
+                        validateDeviceGuide(guide, application.deps)?.let { error ->
+                            return@withAdminAuth respond(HttpStatusCode.BadRequest, error)
+                        }
+                        if (application.deps.draftRepository.getDeviceGuide(id) == null) {
+                            return@withAdminAuth respond(HttpStatusCode.NotFound, ApiError("not_found", "Guide not found"))
+                        }
+                        application.deps.draftRepository.updateDeviceGuide(guide)
+                        application.deps.publishSmartHomeDevicesUseCase.execute()
+                        respond(guide)
+                    }
+                }
+                delete("/{id}") {
+                    call.withAdminAuth {
+                        val id = parameters["id"] ?: return@withAdminAuth respond(
+                            HttpStatusCode.BadRequest,
+                            ApiError("validation_failed", "id required"),
+                        )
+                        application.deps.draftRepository.deleteDeviceGuide(id)
+                        application.deps.publishSmartHomeDevicesUseCase.execute()
+                        respond(mapOf("ok" to true))
+                    }
+                }
+            }
+            route("/device-picks") {
+                get {
+                    call.withAdminAuth { respond(application.deps.draftRepository.listDevicePicks()) }
+                }
+                post {
+                    call.withAdminAuth {
+                        val pick = normalizeDevicePick(receive())
+                        validateDevicePick(pick, application.deps)?.let { error ->
+                            return@withAdminAuth respond(HttpStatusCode.BadRequest, error)
+                        }
+                        application.deps.draftRepository.createDevicePick(pick)
+                        application.deps.publishSmartHomeDevicesUseCase.execute()
+                        respond(HttpStatusCode.Created, pick)
+                    }
+                }
+                put("/{id}") {
+                    call.withAdminAuth {
+                        val id = parameters["id"] ?: return@withAdminAuth respond(
+                            HttpStatusCode.BadRequest,
+                            ApiError("validation_failed", "id required"),
+                        )
+                        val pick = normalizeDevicePick(receive<DevicePick>().copy(id = id))
+                        validateDevicePick(pick, application.deps)?.let { error ->
+                            return@withAdminAuth respond(HttpStatusCode.BadRequest, error)
+                        }
+                        if (application.deps.draftRepository.getDevicePick(id) == null) {
+                            return@withAdminAuth respond(HttpStatusCode.NotFound, ApiError("not_found", "Pick not found"))
+                        }
+                        application.deps.draftRepository.updateDevicePick(pick)
+                        application.deps.publishSmartHomeDevicesUseCase.execute()
+                        respond(pick)
+                    }
+                }
+                delete("/{id}") {
+                    call.withAdminAuth {
+                        val id = parameters["id"] ?: return@withAdminAuth respond(
+                            HttpStatusCode.BadRequest,
+                            ApiError("validation_failed", "id required"),
+                        )
+                        application.deps.draftRepository.deleteDevicePick(id)
+                        application.deps.publishSmartHomeDevicesUseCase.execute()
+                        respond(mapOf("ok" to true))
+                    }
+                }
+            }
+        }
+
         get("/preview/bundle") {
             call.withAdminAuth {
                 respond(application.deps.previewBundleUseCase.execute())
@@ -378,11 +480,18 @@ fun Route.adminRoutes() {
 
         post("/import/json") {
             call.withAdminAuth {
-                val modeParam = request.queryParameters["mode"] ?: "sync"
+                val modeParam = request.queryParameters["mode"] ?: "replace"
                 val mode = when (modeParam.lowercase()) {
                     "replace" -> ImportJsonUseCase.Mode.REPLACE
                     "merge" -> ImportJsonUseCase.Mode.MERGE
-                    else -> ImportJsonUseCase.Mode.SYNC
+                    "sync" -> return@withAdminAuth respond(
+                        HttpStatusCode.BadRequest,
+                        ApiError("validation_failed", "Import mode 'sync' removed; use replace (canon) or merge"),
+                    )
+                    else -> return@withAdminAuth respond(
+                        HttpStatusCode.BadRequest,
+                        ApiError("validation_failed", "Unknown import mode: $modeParam"),
+                    )
                 }
                 application.deps.importJsonUseCase.execute(receiveText(), mode)
                 respond(ImportJsonResponse(mode = modeParam))
@@ -417,7 +526,6 @@ fun Route.adminRoutes() {
                 val draftStats = deps.draftRepository.stats()
                 val needsReviewCount = deps.draftRepository.listCommands()
                     .count { "needs_review" in it.tags }
-                val pipelineStats = deps.syncPipelineUseCase.status()
                 respond(
                     ContentPipelineResponse(
                         seed = seedInfo,
@@ -432,13 +540,13 @@ fun Route.adminRoutes() {
                             checklistItemsCount = draftStats.checklistItemsCount,
                             needsReviewCount = needsReviewCount,
                         ),
-                        pipeline = pipelineStats,
+                        pipeline = null,
                         hasUnpublishedChanges = deps.draftPublishStatusService.hasUnpublishedChanges(),
                         adminUrl = "${deps.config.publicBaseUrl}/admin",
-                        localScript = "scripts/update-content.ps1",
-                        pushScript = "scripts/push-draft.ps1 -Mode sync",
+                        localScript = "scripts/push-draft.ps1",
+                        pushScript = "scripts/push-draft.ps1",
                         verifyScript = "scripts/verify-staging.ps1",
-                        shortcutsScript = "scripts/desktop/1-Obnovit-katalog.bat",
+                        shortcutsScript = "scripts/desktop/3-Pull-catalog.bat",
                         guidePath = "docs/ADMIN-CONTENT-GUIDE.md",
                     ),
                 )
@@ -465,7 +573,7 @@ fun Route.adminRoutes() {
         route("/command-of-day") {
             get {
                 call.withAdminAuth {
-                    respond(application.deps.commandOfDayAdminUseCase.get())
+                    respond(application.deps.enrichCommandOfDayAdmin(application.deps.commandOfDayAdminUseCase.get()))
                 }
             }
             put {
@@ -474,6 +582,16 @@ fun Route.adminRoutes() {
                     val result = application.deps.commandOfDayAdminUseCase.update(
                         body,
                         application.deps.config.adminUsername,
+                    )
+                    respond(application.deps.enrichCommandOfDayAdmin(result))
+                }
+            }
+            post("/publish") {
+                call.withAdminAuth {
+                    val body = runCatching { receive<CommandOfDayPublishRequest>() }.getOrElse { CommandOfDayPublishRequest() }
+                    val result = application.deps.publishCommandOfDayUseCase.execute(
+                        application.deps.config.adminUsername,
+                        body.notes,
                     )
                     respond(result)
                 }
@@ -495,96 +613,21 @@ fun Route.adminRoutes() {
                         ApiError("not_found", "Seed file not found: ${path}"),
                     )
                 }
-                val modeParam = request.queryParameters["mode"] ?: "sync"
+                val modeParam = request.queryParameters["mode"] ?: "replace"
                 val mode = when (modeParam.lowercase()) {
                     "replace" -> ImportJsonUseCase.Mode.REPLACE
                     "merge" -> ImportJsonUseCase.Mode.MERGE
-                    else -> ImportJsonUseCase.Mode.SYNC
+                    "sync" -> return@withAdminAuth respond(
+                        HttpStatusCode.BadRequest,
+                        ApiError("validation_failed", "Import mode 'sync' removed; use replace (canon) or merge"),
+                    )
+                    else -> return@withAdminAuth respond(
+                        HttpStatusCode.BadRequest,
+                        ApiError("validation_failed", "Unknown import mode: $modeParam"),
+                    )
                 }
                 deps.importJsonUseCase.execute(file.readText(), mode)
                 respond(ImportSeedResponse(path = path.toString(), mode = modeParam))
-            }
-        }
-
-        post("/content/pipeline-sync") {
-            call.withAdminAuth {
-                val payload = receive<PipelineSyncPayload>()
-                application.deps.syncPipelineUseCase.execute(payload)
-                respond(mapOf("ok" to true))
-            }
-        }
-
-        get("/content/queue") {
-            call.withAdminAuth {
-                val status = request.queryParameters["status"] ?: "open"
-                respond(application.deps.contentPipelineRepository.listQueue(status))
-            }
-        }
-
-        post("/content/queue/{id}/approve") {
-            call.withAdminAuth {
-                val id = call.parameters["id"] ?: return@withAdminAuth respond(
-                    HttpStatusCode.BadRequest,
-                    ApiError("validation_failed", "Missing queue item id"),
-                )
-                val body = receive<QueueActionRequest>()
-                application.deps.approveQueueItemUseCase.execute(id, body)
-                respond(mapOf("ok" to true))
-            }
-        }
-
-        post("/content/queue/{id}/dismiss") {
-            call.withAdminAuth {
-                val id = call.parameters["id"] ?: return@withAdminAuth respond(
-                    HttpStatusCode.BadRequest,
-                    ApiError("validation_failed", "Missing queue item id"),
-                )
-                application.deps.dismissQueueItemUseCase.execute(id)
-                respond(mapOf("ok" to true))
-            }
-        }
-
-        post("/content/rebuild-draft") {
-            call.withAdminAuth {
-                val count = application.deps.rebuildDraftFromPipelineUseCase.execute()
-                respond(RebuildDraftResponse(commands_updated = count))
-            }
-        }
-
-        get("/content/editorial-review") {
-            call.withAdminAuth {
-                val filter = request.queryParameters["filter"] ?: "review"
-                val search = request.queryParameters["search"]
-                respond(application.deps.editorialReviewService.review(filter, search))
-            }
-        }
-
-        get("/content/editorial-export") {
-            call.withAdminAuth {
-                val filter = request.queryParameters["filter"] ?: "review"
-                val search = request.queryParameters["search"]
-                val doc = application.deps.editorialReviewService.exportDocument(filter, search)
-                val json = BundleCodec.json.encodeToString(doc)
-                call.response.headers.append(
-                    HttpHeaders.ContentDisposition,
-                    "attachment; filename=\"editorial-export.json\"",
-                )
-                call.respondText(json, ContentType.Application.Json)
-            }
-        }
-
-        post("/content/editorial-import") {
-            call.withAdminAuth {
-                val result = application.deps.importEditorialReviewUseCase.execute(receiveText())
-                respond(result)
-            }
-        }
-
-        post("/content/editorial/batch") {
-            call.withAdminAuth {
-                val body = receive<EditorialBatchSaveRequest>()
-                val result = application.deps.saveEditorialBatchUseCase.execute(body.records)
-                respond(result)
             }
         }
 
@@ -654,6 +697,96 @@ fun Route.adminRoutes() {
                 respond(mapOf("ok" to true))
             }
         }
+
+        route("/analytics") {
+            get("/summary") {
+                call.withAdminAuth {
+                    val from = request.queryParameters["from"]
+                    val to = request.queryParameters["to"]
+                    if (from.isNullOrBlank() || to.isNullOrBlank()) {
+                        respond(
+                            HttpStatusCode.BadRequest,
+                            ApiError("validation_failed", "from and to query parameters are required"),
+                        )
+                        return@withAdminAuth
+                    }
+                    respond(application.deps.analyticsDashboardUseCase.execute(from, to))
+                }
+            }
+
+            get("/events") {
+                call.withAdminAuth {
+                    val from = request.queryParameters["from"]
+                    val to = request.queryParameters["to"]
+                    if (from.isNullOrBlank() || to.isNullOrBlank()) {
+                        respond(
+                            HttpStatusCode.BadRequest,
+                            ApiError("validation_failed", "from and to query parameters are required"),
+                        )
+                        return@withAdminAuth
+                    }
+                    val eventName = request.queryParameters["event_name"]
+                    val installId = request.queryParameters["install_id"]
+                    val limit = request.queryParameters["limit"]?.toIntOrNull()
+                    val offset = request.queryParameters["offset"]?.toIntOrNull()
+                    respond(
+                        application.deps.listAnalyticsEventsUseCase.execute(
+                            from = from,
+                            to = to,
+                            eventName = eventName,
+                            installId = installId,
+                            limit = limit,
+                            offset = offset,
+                        ),
+                    )
+                }
+            }
+
+            get("/funnel") {
+                call.withAdminAuth {
+                    val from = request.queryParameters["from"]
+                    val to = request.queryParameters["to"]
+                    if (from.isNullOrBlank() || to.isNullOrBlank()) {
+                        respond(
+                            HttpStatusCode.BadRequest,
+                            ApiError("validation_failed", "from and to query parameters are required"),
+                        )
+                        return@withAdminAuth
+                    }
+                    respond(
+                        application.deps.analyticsFunnelUseCase.execute(
+                            from = from,
+                            to = to,
+                            stepsRaw = request.queryParameters["steps"],
+                        ),
+                    )
+                }
+            }
+
+            get("/breakdown") {
+                call.withAdminAuth {
+                    val from = request.queryParameters["from"]
+                    val to = request.queryParameters["to"]
+                    if (from.isNullOrBlank() || to.isNullOrBlank()) {
+                        respond(
+                            HttpStatusCode.BadRequest,
+                            ApiError("validation_failed", "from and to query parameters are required"),
+                        )
+                        return@withAdminAuth
+                    }
+                    respond(
+                        application.deps.analyticsBreakdownUseCase.execute(
+                            from = from,
+                            to = to,
+                            eventName = request.queryParameters["event_name"],
+                            param = request.queryParameters["param"],
+                            limit = request.queryParameters["limit"]?.toIntOrNull(),
+                            fieldSourceRaw = request.queryParameters["field_source"],
+                        ),
+                    )
+                }
+            }
+        }
     }
 }
 
@@ -677,6 +810,18 @@ data class RebuildDraftResponse(val ok: Boolean = true, val commands_updated: In
 
 @Serializable
 data class RollbackRequest(val content_version: Int)
+
+@Serializable
+data class CommandOfDayPublishRequest(val notes: String? = null)
+
+private fun ru.appforsale.alicecommands.api.AppDependencies.enrichCommandOfDayAdmin(
+    response: ru.appforsale.alicecommands.api.domain.CommandOfDayAdminResponse,
+): ru.appforsale.alicecommands.api.domain.CommandOfDayAdminResponse =
+    response.copy(
+        has_unpublished_changes = draftPublishStatusService.hasUnpublishedCommandOfDayChanges(),
+        live_content_version = manifestRepository.getCurrent()?.contentVersion,
+        live_command_of_day = publishedBundleLookup.loadCurrentBundle()?.command_of_day,
+    )
 
 @Serializable
 data class DashboardResponse(
@@ -766,8 +911,6 @@ private fun normalizeAffiliateBlock(block: AffiliateBlock): AffiliateBlock = blo
 private fun validateAffiliateBlock(block: AffiliateBlock): ApiError? {
     if (block.id.isBlank()) return ApiError("validation_failed", "id required")
     if (block.title_ru.isBlank()) return ApiError("validation_failed", "title_ru required")
-    if (block.erid.isNullOrBlank()) return ApiError("validation_failed", "erid required")
-    if (block.advertiser_name.isNullOrBlank()) return ApiError("validation_failed", "advertiser_name required")
     if (block.products.isEmpty()) return ApiError("validation_failed", "at least one product required")
 
     block.products.forEachIndexed { index, product ->
@@ -788,6 +931,65 @@ private fun validateAffiliateBlock(block: AffiliateBlock): ApiError? {
     return null
 }
 
+private fun normalizeDeviceGuide(guide: DeviceGuide): DeviceGuide = guide.copy(
+    id = guide.id.trim(),
+    title_ru = guide.title_ru.trim(),
+    summary_ru = guide.summary_ru.trim(),
+    capabilities_ru = guide.capabilities_ru.trim(),
+    setup_ru = guide.setup_ru.trim(),
+    setup_steps_ru = guide.setup_steps_ru.map { it.trim() }.filter { it.isNotEmpty() },
+    related_devices_ru = guide.related_devices_ru?.trim()?.ifBlank { null },
+    related_device_ids = guide.related_device_ids.map { it.trim() }.filter { it.isNotEmpty() },
+    command_device_filter_id = guide.command_device_filter_id?.trim()?.ifBlank { null },
+    image_url = guide.image_url?.trim()?.ifBlank { null },
+    action_url = guide.action_url.trim(),
+)
+
+private fun normalizeDevicePick(pick: DevicePick): DevicePick = pick.copy(
+    id = pick.id.trim(),
+    title_ru = pick.title_ru.trim(),
+    description_ru = pick.description_ru?.trim()?.ifBlank { null },
+    price_hint_ru = pick.price_hint_ru?.trim()?.ifBlank { null },
+    image_url = pick.image_url?.trim()?.ifBlank { null },
+    action_url = pick.action_url.trim(),
+    erid = pick.erid?.trim()?.ifBlank { null },
+    advertiser_name = pick.advertiser_name?.trim()?.ifBlank { null },
+    disclosure_ru = pick.disclosure_ru?.trim()?.ifBlank { null },
+    cta_ru = pick.cta_ru?.trim()?.ifBlank { null },
+    tags = pick.tags.map { it.trim() }.filter { it.isNotEmpty() },
+    device_types = pick.device_types.map { it.trim() }.filter { it.isNotEmpty() },
+    category_ids = pick.category_ids.map { it.trim() }.filter { it.isNotEmpty() },
+    command_group_ids = pick.command_group_ids.map { it.trim() }.filter { it.isNotEmpty() },
+    command_ids = pick.command_ids.map { it.trim() }.filter { it.isNotEmpty() },
+    scenario_template_ids = pick.scenario_template_ids.map { it.trim() }.filter { it.isNotEmpty() },
+    guide_ids = pick.guide_ids.map { it.trim() }.filter { it.isNotEmpty() },
+    placements = pick.placements.map { it.trim() }.filter { it.isNotEmpty() },
+    starts_at = pick.starts_at?.trim()?.ifBlank { null },
+    ends_at = pick.ends_at?.trim()?.ifBlank { null },
+)
+
+private fun validateDeviceGuide(guide: DeviceGuide, deps: ru.appforsale.alicecommands.api.AppDependencies): ApiError? {
+    val errors = deps.smartHomeDevicesValidationUseCase.validateGuide(guide)
+    if (errors.isNotEmpty()) {
+        return ApiError("validation_failed", errors.first(), errors)
+    }
+    guide.related_device_ids.forEach { relatedId ->
+        if (relatedId != guide.id && deps.draftRepository.getDeviceGuide(relatedId) == null) {
+            return ApiError("validation_failed", "related_device_ids: unknown guide '$relatedId'")
+        }
+    }
+    return null
+}
+
+private fun validateDevicePick(pick: DevicePick, deps: ru.appforsale.alicecommands.api.AppDependencies): ApiError? {
+    val errors = deps.smartHomeDevicesValidationUseCase.validatePick(pick)
+    return if (errors.isNotEmpty()) {
+        ApiError("validation_failed", errors.first(), errors)
+    } else {
+        null
+    }
+}
+
 private fun adminApiDocs(baseUrl: String): ApiDocsResponse = ApiDocsResponse(
     version = "v1",
     baseUrl = baseUrl,
@@ -801,9 +1003,11 @@ private fun adminApiDocs(baseUrl: String): ApiDocsResponse = ApiDocsResponse(
                 ApiDocEndpoint("GET", "/v1/content/manifest", "Манифест опубликованного bundle", auth = false),
                 ApiDocEndpoint("GET", "/v1/content/bundle", "Gzip bundle (published)", auth = false),
                 ApiDocEndpoint("GET", "/v1/content/delta?from={version}", "Delta sync между версиями", auth = false),
-                ApiDocEndpoint("GET", "/v1/affiliate/blocks", "Affiliate blocks", auth = false),
+                ApiDocEndpoint("GET", "/v1/affiliate/blocks", "Affiliate blocks (deprecated)", auth = false),
+                ApiDocEndpoint("GET", "/v1/smarthome/devices", "Smart home guides + picks", auth = false),
                 ApiDocEndpoint("POST", "/v1/feedback", "In-app feedback", auth = false, body = """{ "message", "rating"?, "app_version"?, "platform"?, "locale"?, "content_version"?, "device_model"? }"""),
                 ApiDocEndpoint("POST", "/v1/commands/{command_id}/report", "Report command issue", auth = false, body = """{ "issue_type", "message"?, "content_version"?, ... }"""),
+                ApiDocEndpoint("POST", "/v1/analytics/events/batch", "Analytics batch ingest", auth = false, body = """{ "events": [{ "installId", "sessionId", "eventId", "eventName", "occurredAt", ... }] }""", response = """202 { "accepted", "duplicates", "rejected", "rejectedEventIds" }"""),
             ),
         ),
         ApiDocSection(
@@ -847,10 +1051,20 @@ private fun adminApiDocs(baseUrl: String): ApiDocsResponse = ApiDocsResponse(
                 ApiDocEndpoint("PUT", "/admin/api/checklist-items", "Batch replace/reorder", body = "array of ChecklistItem"),
                 ApiDocEndpoint("GET", "/admin/api/command-of-day", "Команда дня: settings + preview"),
                 ApiDocEndpoint("PUT", "/admin/api/command-of-day", "Сохранить draft", body = """{ "mode", "command_id"?, "auto_category_id"?, "auto_seed"? }"""),
+                ApiDocEndpoint("POST", "/admin/api/command-of-day/publish", "Опубликовать только command_of_day в live bundle"),
                 ApiDocEndpoint("GET", "/admin/api/affiliate-blocks", "Affiliate blocks"),
-                ApiDocEndpoint("POST", "/admin/api/affiliate-blocks", "Создать блок", body = """{ "id", "title_ru", "erid", "advertiser_name", "products": [{ "title_ru", "market_url": "https://...", "price_hint"? }] }"""),
-                ApiDocEndpoint("PUT", "/admin/api/affiliate-blocks/{id}", "Обновить блок", body = """{ "title_ru", "erid", "advertiser_name", "products": [{ "title_ru", "market_url": "https://...", "price_hint"? }] }"""),
+                ApiDocEndpoint("POST", "/admin/api/affiliate-blocks", "Создать блок", body = """{ "id", "title_ru", "erid"?, "advertiser_name"?, "products": [{ "title_ru", "market_url": "https://...", "price_hint"? }] }"""),
+                ApiDocEndpoint("PUT", "/admin/api/affiliate-blocks/{id}", "Обновить блок", body = """{ "title_ru", "erid"?, "advertiser_name"?, "products": [{ "title_ru", "market_url": "https://...", "price_hint"? }] }"""),
                 ApiDocEndpoint("DELETE", "/admin/api/affiliate-blocks/{id}", "Удалить"),
+                ApiDocEndpoint("GET", "/admin/api/smarthome/device-guides", "Типы устройств (guides)"),
+                ApiDocEndpoint("POST", "/admin/api/smarthome/device-guides", "Создать guide"),
+                ApiDocEndpoint("PUT", "/admin/api/smarthome/device-guides/{id}", "Обновить guide"),
+                ApiDocEndpoint("DELETE", "/admin/api/smarthome/device-guides/{id}", "Удалить guide"),
+                ApiDocEndpoint("GET", "/admin/api/smarthome/device-picks", "Подборки (picks)"),
+                ApiDocEndpoint("POST", "/admin/api/smarthome/device-picks", "Создать pick"),
+                ApiDocEndpoint("PUT", "/admin/api/smarthome/device-picks/{id}", "Обновить pick"),
+                ApiDocEndpoint("DELETE", "/admin/api/smarthome/device-picks/{id}", "Удалить pick"),
+                ApiDocEndpoint("POST", "/admin/api/smarthome/upload-image", "Загрузить image на CDN", body = """{ "slug", "image_base64", "content_type"? }"""),
             ),
         ),
         ApiDocSection(
@@ -859,20 +1073,11 @@ private fun adminApiDocs(baseUrl: String): ApiDocsResponse = ApiDocsResponse(
                 ApiDocEndpoint("POST", "/admin/api/publish", "Publish draft", body = """{ "min_app_version"?, "notes"? }"""),
                 ApiDocEndpoint("POST", "/admin/api/publish/rollback", "Rollback", body = """{ "content_version": 41 }"""),
                 ApiDocEndpoint("GET", "/admin/api/publish/history", "Последние 5 публикаций"),
-                ApiDocEndpoint("POST", "/admin/api/import/json?mode=sync|merge|replace", "Raw JSON; sync = catalog + merge approved editorial"),
+                ApiDocEndpoint("POST", "/admin/api/import/json?mode=replace", "Import bundle JSON → draft (replace)"),
                 ApiDocEndpoint("POST", "/admin/api/import/preview", "Diff vs published"),
-                ApiDocEndpoint("GET", "/admin/api/content/pipeline", "Статус pipeline + draft/live"),
-                ApiDocEndpoint("POST", "/admin/api/content/pipeline-sync", "Inventory + editorial + queue с ПК"),
-                ApiDocEndpoint("GET", "/admin/api/content/queue?status=open", "Очередь editorial"),
-                ApiDocEndpoint("POST", "/admin/api/content/queue/{id}/approve", "Approve → editorial"),
-                ApiDocEndpoint("POST", "/admin/api/content/queue/{id}/dismiss", "Dismiss queue item"),
-                ApiDocEndpoint("POST", "/admin/api/content/rebuild-draft", "Draft из pipeline DB"),
-                ApiDocEndpoint("GET", "/admin/api/content/editorial-review?filter=review", "Редактор: все изменения для review"),
-                ApiDocEndpoint("GET", "/admin/api/content/editorial-export?filter=review", "Скачать JSON для правки в ИИ"),
-                ApiDocEndpoint("POST", "/admin/api/content/editorial-import", "Загрузить JSON после ИИ"),
-                ApiDocEndpoint("POST", "/admin/api/content/editorial/batch", "Сохранить правки из UI"),
+                ApiDocEndpoint("GET", "/admin/api/content/pipeline", "Статус draft vs live"),
                 ApiDocEndpoint("GET", "/admin/api/content/draft-diff", "Diff draft vs опубликованная версия"),
-                ApiDocEndpoint("POST", "/admin/api/content/import-seed?mode=sync|merge|replace", "Import seed с диска сервера"),
+                ApiDocEndpoint("POST", "/admin/api/content/import-seed?mode=replace", "Import seed с диска сервера"),
             ),
         ),
         ApiDocSection(
@@ -885,6 +1090,16 @@ private fun adminApiDocs(baseUrl: String): ApiDocsResponse = ApiDocsResponse(
                 ApiDocEndpoint("GET", "/admin/api/command-reports?status=open&command_id=&search=", "Сообщения об ошибках команд"),
                 ApiDocEndpoint("POST", "/admin/api/command-reports/{id}/resolve", "Закрыть report"),
                 ApiDocEndpoint("POST", "/admin/api/command-reports/{id}/dismiss", "Отклонить report"),
+            ),
+        ),
+        ApiDocSection(
+            title = "Analytics",
+            description = "Продуктовые события из Android. Без PII в params.",
+            endpoints = listOf(
+                ApiDocEndpoint("GET", "/admin/api/analytics/summary?from=YYYY-MM-DD&to=YYYY-MM-DD", "KPI: DAU, total events, top events, daily series"),
+                ApiDocEndpoint("GET", "/admin/api/analytics/events?from=&to=&event_name=&install_id=&limit=100&offset=0", "Список raw событий"),
+                ApiDocEndpoint("GET", "/admin/api/analytics/funnel?from=&to=&steps=paywall_view,pro_purchase_start,pro_activated", "Воронка по distinct install_id"),
+                ApiDocEndpoint("GET", "/admin/api/analytics/breakdown?from=&to=&event_name=ui_click&param=element_id", "Top values параметра события"),
             ),
         ),
     ),

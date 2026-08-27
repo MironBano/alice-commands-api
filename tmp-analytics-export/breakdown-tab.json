@@ -1,0 +1,28 @@
+﻿{
+    "from":  "2026-05-29",
+    "to":  "2026-08-26",
+    "event_name":  "tab_select",
+    "param":  "tab",
+    "items":  [
+                  {
+                      "value":  "home/more",
+                      "count":  371
+                  },
+                  {
+                      "value":  "home/quick",
+                      "count":  356
+                  },
+                  {
+                      "value":  "home/smarthome",
+                      "count":  356
+                  },
+                  {
+                      "value":  "home/catalog",
+                      "count":  242
+                  },
+                  {
+                      "value":  "home/favorites",
+                      "count":  209
+                  }
+              ]
+}

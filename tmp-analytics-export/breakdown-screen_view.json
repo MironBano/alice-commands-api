@@ -1,0 +1,80 @@
+﻿{
+    "from":  "2026-05-29",
+    "to":  "2026-08-26",
+    "event_name":  "screen_view",
+    "param":  "route",
+    "items":  [
+                  {
+                      "value":  "home/catalog",
+                      "count":  2829
+                  },
+                  {
+                      "value":  "category/{categoryId}",
+                      "count":  1698
+                  },
+                  {
+                      "value":  "more/checklist",
+                      "count":  890
+                  },
+                  {
+                      "value":  "command/{commandId}",
+                      "count":  881
+                  },
+                  {
+                      "value":  "home/smarthome",
+                      "count":  759
+                  },
+                  {
+                      "value":  "home/more",
+                      "count":  495
+                  },
+                  {
+                      "value":  "home/quick",
+                      "count":  398
+                  },
+                  {
+                      "value":  "home/favorites",
+                      "count":  214
+                  },
+                  {
+                      "value":  "search",
+                      "count":  182
+                  },
+                  {
+                      "value":  "paywall",
+                      "count":  89
+                  },
+                  {
+                      "value":  "device-guide/{guideId}",
+                      "count":  50
+                  },
+                  {
+                      "value":  "more/history",
+                      "count":  44
+                  },
+                  {
+                      "value":  "template/{templateId}",
+                      "count":  41
+                  },
+                  {
+                      "value":  "more/support",
+                      "count":  19
+                  },
+                  {
+                      "value":  "more/repeat-persona",
+                      "count":  13
+                  },
+                  {
+                      "value":  "more/privacy",
+                      "count":  9
+                  },
+                  {
+                      "value":  "more/disclaimer",
+                      "count":  5
+                  },
+                  {
+                      "value":  "more/faq",
+                      "count":  5
+                  }
+              ]
+}

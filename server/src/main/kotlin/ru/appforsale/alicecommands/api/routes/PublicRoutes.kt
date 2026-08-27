@@ -89,11 +89,26 @@ fun Route.publicRoutes() {
 
     route("/v1/affiliate") {
         get("/blocks") {
+            call.response.header("Deprecation", "true")
+            call.response.header("Sunset", "Sat, 06 Dec 2026 00:00:00 GMT")
+            call.response.header("Link", "</v1/smarthome/devices>; rel=\"successor-version\"")
             val blocks = call.application.deps.affiliateService.getPublishedBlocks()
             if (blocks == null) {
                 call.respond(HttpStatusCode.NotFound, ApiError("not_found", "No published affiliate blocks"))
             } else {
                 call.respond(blocks)
+            }
+        }
+    }
+
+    route("/v1/smarthome") {
+        get("/devices") {
+            val devices = call.application.deps.smartHomeDevicesService.getPublishedDevices()
+            if (devices == null) {
+                call.respond(HttpStatusCode.NotFound, ApiError("not_found", "No published smart home devices"))
+            } else {
+                call.response.header(HttpHeaders.CacheControl, "public, max-age=300")
+                call.respond(devices)
             }
         }
     }

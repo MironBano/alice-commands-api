@@ -1,0 +1,22 @@
+﻿{
+    "from":  "2026-05-29",
+    "to":  "2026-08-26",
+    "steps":  [
+                  {
+                      "event_name":  "paywall_view",
+                      "installs":  47
+                  },
+                  {
+                      "event_name":  "pro_purchase_start",
+                      "installs":  7,
+                      "conversion_from_previous":  14.8,
+                      "conversion_from_first":  14.8
+                  },
+                  {
+                      "event_name":  "pro_activated",
+                      "installs":  2,
+                      "conversion_from_previous":  28.5,
+                      "conversion_from_first":  4.2
+                  }
+              ]
+}

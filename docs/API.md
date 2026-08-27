@@ -127,7 +127,97 @@ Direct download archived bundle by filename. Only `content_v{N}.json.gz` allowed
 
 ---
 
+### GET /v1/smarthome/devices
+
+Единый источник для вкладки «Устройства» в app: **guides** (типы устройств) + **picks** (подборки). Schema: [schema/smarthome-devices.schema.json](../schema/smarthome-devices.schema.json).
+
+**Response 200:**
+
+```json
+{
+  "schema_version": 1,
+  "updated_at": "2026-07-06T12:00:00Z",
+  "guides": [
+    {
+      "id": "station",
+      "title_ru": "Колонка с Алисой",
+      "summary_ru": "Голосовой помощник и центр умного дома",
+      "capabilities_ru": "…полный текст для detail-screen…",
+      "setup_ru": "…полный текст…",
+      "setup_steps_ru": ["Шаг 1", "Шаг 2"],
+      "related_devices_ru": "Смартфон для настройки",
+      "related_device_ids": ["phone"],
+      "command_device_filter_id": "station",
+      "image_url": "https://staging-api.alicecommands.ru/devices/v1/station.webp",
+      "action_url": "https://alice.yandex.ru/support/ru/station/",
+      "sort_order": 10,
+      "detail_referral_pick_ids": ["pick_station", "pick_hub"]
+    }
+  ],
+  "picks": [
+    {
+      "id": "pick_smart_bulb",
+      "title_ru": "Умная лампочка",
+      "description_ru": "Для сценариев освещения",
+      "price_hint_ru": "от 990 ₽",
+      "image_url": "https://staging-api.alicecommands.ru/devices/v1/pick_smart_bulb.webp",
+      "action_url": "https://market.yandex.ru/...",
+      "sort_order": 10,
+      "cta_ru": "Смотреть цену",
+      "tags": ["smart_light"],
+      "device_types": ["station"],
+      "category_ids": ["smart_home"],
+      "command_ids": ["sh_light_on"],
+      "command_group_ids": ["sh_group_light"],
+      "scenario_template_ids": ["S1"],
+      "guide_ids": [],
+      "placements": ["smart_home_devices", "command_detail", "scenario_detail"],
+      "priority": 90
+    }
+  ]
+}
+```
+
+| Поле guides (обяз.) | `id`, `title_ru`, `summary_ru`, `capabilities_ru`, `setup_ru`, `action_url`, `sort_order` |
+| Guides (referral detail) | `detail_referral_pick_ids` — **computed at publish**: `pick_{guide.id}` + related picks с `device_guide_detail` |
+| Поле picks (обяз.) | `id`, `title_ru`, `action_url`, `sort_order` |
+| Picks (contextual, V10) | `placements`, `tags`, `device_types`, `category_ids`, `command_group_ids`, `command_ids`, `scenario_template_ids`, `guide_ids`, `priority`, `cta_ru`, `starts_at`, `ends_at`, `max_impressions_per_session` |
+| URL policy | `action_url`: только `https://` и `market://` |
+| Compliance | `erid`, `advertiser_name` — **опционально** (v1.0); если есть — app показывает строку маркировки |
+
+| Header | Значение |
+| ------ | -------- |
+| `Cache-Control` | `public, max-age=300` |
+
+**404** до первого publish guides/picks (admin CRUD auto-publishes snapshot).
+
+**Картинки:** `GET /devices/v1/{slug}.webp` — WebP static (Ktor `staticFiles`). Upload: `POST /admin/api/smarthome/upload-image`.
+
+Полный контракт: [BACKEND-SMARTHOME-DEVICES.md](BACKEND-SMARTHOME-DEVICES.md).
+
+---
+
+### GET /devices/v1/{slug}.webp
+
+Публичная отдача WebP для guides/picks. Аналог `/icons/v1/` для device images.
+
+| Среда | Base URL |
+| ----- | -------- |
+| Staging | `https://staging-api.alicecommands.ru/devices/v1/{slug}.webp` |
+| Prod | `https://api.alicecommands.ru/devices/v1/{slug}.webp` |
+
+| Header | Значение |
+| ------ | -------- |
+| `Content-Type` | `image/webp` |
+| `Cache-Control` | `public, max-age=86400, immutable` |
+
+**404:** файл не найден. Storage: `DEVICE_IMAGE_STORAGE_PATH/v1/`.
+
+---
+
 ### GET /v1/affiliate/blocks
+
+> **Deprecated** — используйте `/v1/smarthome/devices`. Ответ содержит заголовки `Deprecation: true`, `Sunset`, `Link: </v1/smarthome/devices>; rel="successor-version"`.
 
 **Response 200:**
 
@@ -190,6 +280,52 @@ In-app общий отзыв. **Без auth.** Не принимает email/т�
 ```
 
 **400** `validation_failed` · **429** `rate_limited` (см. `PUBLIC_SUBMISSION_RATE_LIMIT`).
+
+---
+
+### POST /v1/analytics/events/batch
+
+Батч продуктовых событий из Android. **Без auth.** CamelCase DTO (как в app).
+
+**Request:**
+
+```json
+{
+  "events": [
+    {
+      "installId": "uuid",
+      "sessionId": "uuid",
+      "eventId": "uuid",
+      "eventName": "screen_view",
+      "occurredAt": 1710000000123,
+      "appVersion": "1.2.0",
+      "androidVersion": "14",
+      "locale": "ru-RU",
+      "userProperties": { "is_pro": "false" },
+      "params": { "route": "home/catalog" }
+    }
+  ]
+}
+```
+
+| Rule | Value |
+| ---- | ----- |
+| `events` | 1…50 |
+| `eventId` | UUID, dedup globally |
+| `eventName` | `[a-z0-9_]{1,64}` |
+| `occurredAt` | Unix ms, не >5 мин в будущем, не старше 30 дней |
+| `params` / `userProperties` | ≤32 keys, key ≤64, value ≤512 |
+| Blocked param keys | **Exact** match (case-insensitive): `query`, `message`, `email`, `phone`, `text`, `search_query`. Разрешены метрики без текста: `query_length`, `message_length`, `results_count`. Substring-match не используется. |
+
+**Response 202:**
+
+```json
+{ "accepted": 48, "duplicates": 2, "rejected": 0, "rejectedEventIds": [] }
+```
+
+При частичном reject список `rejectedEventIds` содержит UUID отклонённых событий (PII/schema). Клиент удаляет accepted/duplicates из outbox и poison-drop'ает rejected (без бесконечного retry).
+
+**400** batch-level · **413** body > `ANALYTICS_MAX_BODY_BYTES` · **429** `rate_limited` (`ANALYTICS_RATE_LIMIT_PER_IP`, `ANALYTICS_EVENTS_PER_IP_PER_DAY`).
 
 ---
 
@@ -290,7 +426,17 @@ All require authenticated session unless noted.
 | PUT | `/admin/api/checklist-items` | Replace/reorder batch (array body) |
 | GET | `/admin/api/command-of-day` | Settings + preview «сегодня» |
 | PUT | `/admin/api/command-of-day` | `{ "mode", "command_id"?, "auto_category_id"?, "auto_seed"? }` → draft only |
-| GET | `/admin/api/affiliate-blocks` | List |
+| POST | `/admin/api/command-of-day/publish` | Publish только `command_of_day` в live bundle (без полного publish) |
+| GET | `/admin/api/smarthome/device-guides` | List device guides |
+| POST | `/admin/api/smarthome/device-guides` | Create guide → auto-publish smarthome snapshot |
+| PUT | `/admin/api/smarthome/device-guides/{id}` | Update guide |
+| DELETE | `/admin/api/smarthome/device-guides/{id}` | Delete guide |
+| GET | `/admin/api/smarthome/device-picks` | List device picks |
+| POST | `/admin/api/smarthome/device-picks` | Create pick |
+| PUT | `/admin/api/smarthome/device-picks/{id}` | Update pick (contextual fields V10) |
+| DELETE | `/admin/api/smarthome/device-picks/{id}` | Delete pick |
+| POST | `/admin/api/smarthome/upload-image` | `{ "slug", "image_base64", "content_type"? }` → WebP URL |
+| GET | `/admin/api/affiliate-blocks` | List (legacy) |
 | POST | `/admin/api/affiliate-blocks` | Create |
 | PUT | `/admin/api/affiliate-blocks/{id}` | Update |
 | DELETE | `/admin/api/affiliate-blocks/{id}` | Delete |
@@ -298,20 +444,12 @@ All require authenticated session unless noted.
 | POST | `/admin/api/publish` | `{ "min_app_version"?, "notes"? }` → publish result |
 | POST | `/admin/api/publish/rollback` | `{ "content_version": 41 }` |
 | GET | `/admin/api/publish/history` | Last 5 publishes |
-| POST | `/admin/api/import/json?mode=sync\|merge\|replace` | Upload seed JSON (raw body). **sync** (default в `push-draft.ps1`) — catalog + merge approved editorial |
+| POST | `/admin/api/import/json?mode=merge\|replace` | Upload seed JSON (raw body). **replace** — канон (`push-draft.ps1`); merge — точечное обновление id |
 | POST | `/admin/api/import/preview` | Diff incoming JSON vs **published** bundle |
-| GET | `/admin/api/content/pipeline` | Live/draft stats, inventory/queue counts, seed, script paths |
-| POST | `/admin/api/content/pipeline-sync` | Sync inventory + editorial + queue с локального `seed/data/*` |
-| GET | `/admin/api/content/queue?status=open` | Очередь editorial (NEW / GONE / needs_review) |
-| GET | `/admin/api/content/editorial-review?filter=review\|changed\|pending\|queue\|added\|removed\|all&search=` | Редактор: все изменения (published vs draft vs edit) |
-| GET | `/admin/api/content/editorial-export?filter=&search=` | Скачать JSON для правки в ИИ (attachment) |
-| POST | `/admin/api/content/editorial-import` | Загрузить JSON после ИИ (raw body, тот же формат что export) |
-| POST | `/admin/api/content/editorial/batch` | Сохранить правки из UI: `{ "records": [{ command_id, title_ru, effect_description_ru, status }] }` |
-| POST | `/admin/api/content/queue/{id}/approve` | Approve queue item → editorial approved |
-| POST | `/admin/api/content/queue/{id}/dismiss` | Dismiss queue item |
-| POST | `/admin/api/content/rebuild-draft` | Пересобрать draft из pipeline DB (после import sync) |
+| GET | `/admin/api/content/pipeline` | Live/draft stats, seed path, script hints (`pipeline` всегда `null`) |
+| GET | `/admin/api/content/validation-warnings` | Warnings draft: `orphan_commands`, `empty_groups`, duplicate aliases |
 | GET | `/admin/api/content/draft-diff` | Diff **текущего draft** vs опубликованный bundle |
-| POST | `/admin/api/content/import-seed?mode=sync\|merge\|replace` | Import из `CONTENT_SEED_PATH` на VPS |
+| POST | `/admin/api/content/import-seed?mode=replace` | Import из `CONTENT_SEED_PATH` на VPS (replace) |
 | GET | `/admin/api/docs` | JSON API reference для admin UI |
 | GET | `/admin/api/feedback?status=open&search=` | Inbox: отзывы из app |
 | POST | `/admin/api/feedback/{id}/resolve` | Закрыть отзыв |
@@ -319,6 +457,10 @@ All require authenticated session unless noted.
 | GET | `/admin/api/command-reports?status=open&command_id=&search=` | Inbox: ошибки в командах |
 | POST | `/admin/api/command-reports/{id}/resolve` | Закрыть report |
 | POST | `/admin/api/command-reports/{id}/dismiss` | Отклонить report |
+| GET | `/admin/api/analytics/summary?from=YYYY-MM-DD&to=YYYY-MM-DD` | KPI: `daily_active_installs`, `avg_dau`, `total_events`, `unique_installs` / `raw_unique_installs`, `new_installs` (=Σ daily), top events, `daily[]` (Europe/Moscow; ≤ retention) |
+| GET | `/admin/api/analytics/events?from=&to=&event_name=&install_id=&limit=100&offset=0` | Raw events explorer |
+| GET | `/admin/api/analytics/funnel?from=&to=&steps=paywall_view,pro_purchase_start,pro_activated` | Funnel by distinct `install_id` |
+| GET | `/admin/api/analytics/breakdown?from=&to=&event_name=ui_click&param=element_id&field_source=params` | Top values of `params[param]` or `user_properties[param]` when `field_source=user_properties` |
 
 **Login rate limit:** `ADMIN_LOGIN_RATE_LIMIT` failures per IP per 15 min → **429** `rate_limited`. IP берётся из `X-Forwarded-For` / `X-Real-IP` (nginx).
 
@@ -341,6 +483,8 @@ URL в `icons[]` всегда строятся сервером из `ICON_PUBLI
 **Publish validation:** `icon_url` host ∈ `ICON_URL_ALLOWED_HOSTS`; path `/icons/v1/{slug}.svg`; hex colors `#RRGGBB`.
 
 **Public submission rate limit:** `PUBLIC_SUBMISSION_RATE_LIMIT` submissions per IP per 15 min → **429** на `/v1/feedback` и `/v1/commands/*/report`.
+
+**Analytics rate limits:** `ANALYTICS_RATE_LIMIT_PER_IP` (default 120/15 min), `ANALYTICS_EVENTS_PER_IP_PER_DAY` (default 10000), `ANALYTICS_MAX_BODY_BYTES` (default 262144).
 
 **Staging base URL:** `https://staging-api.alicecommands.ru`
 
@@ -372,7 +516,8 @@ In-app API docs: view **API** в sidebar или `GET /admin/api/docs`.
 | 400 | validation_failed |
 | 401 | unauthorized |
 | 404 | not_found |
-| 409 | publish_conflict |
+| 409 | publish_conflict, delta_unavailable |
+| 413 | payload_too_large (analytics batch body) |
 | 429 | rate_limited |
 | 500 | internal_error |
 

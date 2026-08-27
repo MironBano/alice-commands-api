@@ -318,7 +318,7 @@ App analytics will validate UX outcomes; see [APP-GROUPED-COMMANDS-UI.md](https:
 - [x] Backend генерирует валидный bundle с `command_groups`
 - [x] Flyway V4, admin CRUD, publish validation, delta endpoint
 - [x] Pilot seed `smart-home-groups-v2.json`
-- [ ] Staging **published** bundle schema v2 (import + publish ops)
+- [x] Staging **published** bundle schema v2 (import + publish ops)
 - [ ] App grouped UI QA на staging (AliceCommands)
 
 ---

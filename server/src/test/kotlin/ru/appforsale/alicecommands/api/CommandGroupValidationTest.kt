@@ -106,7 +106,7 @@ class CommandGroupValidationTest {
     }
 
     @Test
-    fun `rejects duplicate aliases with title`() {
+    fun `duplicate aliases with title are warning only`() {
         val bundle = baseBundle(
             groups = listOf(
                 CommandGroup(
@@ -120,8 +120,8 @@ class CommandGroupValidationTest {
                 command("a", "smart_home_light", 10, primary = true, aliases = listOf("test a")),
             ),
         )
-        val ex = assertThrows(ValidationException::class.java) { validator.validateForPublish(bundle) }
-        assertTrue(ex.errors.any { it.contains("search_aliases") })
+        validator.validateForPublish(bundle)
+        assertTrue(validator.collectWarnings(bundle).duplicate_alias_commands.contains("a"))
     }
 
     @Test

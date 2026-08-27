@@ -1,0 +1,24 @@
+﻿{
+    "id":  "pick_switch",
+    "title_ru":  "Выключатель и реле",
+    "description_ru":  "Настенные выключатели и реле в щитке — свет и нагрузка без умных ламп в каждой точке.",
+    "image_url":  "https://staging-api.alicecommands.ru/devices/v1/switch.png",
+    "action_url":  "https://market.yandex.ru/cc/A9tJhW",
+    "sort_order":  70,
+    "guide_ids":  [
+                      "switch"
+                  ],
+    "category_ids":  [
+                         "smart_home"
+                     ],
+    "device_types":  [
+                         "station"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "search_empty"
+                   ],
+    "priority":  58,
+    "cta_ru":  "Смотреть цену"
+}

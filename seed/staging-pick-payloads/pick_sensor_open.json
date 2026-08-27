@@ -1,0 +1,24 @@
+﻿{
+    "id":  "pick_sensor_open",
+    "title_ru":  "Датчик открытия",
+    "description_ru":  "Следит за дверью или окном: открыто или закрыто — для охраны и автоматизаций.",
+    "image_url":  "https://staging-api.alicecommands.ru/devices/v1/sensor_open.png",
+    "action_url":  "https://market.yandex.ru/cc/A9tp5J",
+    "sort_order":  90,
+    "guide_ids":  [
+                      "sensor_open"
+                  ],
+    "category_ids":  [
+                         "smart_home"
+                     ],
+    "device_types":  [
+                         "station"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "search_empty"
+                   ],
+    "priority":  58,
+    "cta_ru":  "Смотреть цену"
+}

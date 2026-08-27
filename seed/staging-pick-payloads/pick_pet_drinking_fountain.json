@@ -1,0 +1,24 @@
+﻿{
+    "id":  "pick_pet_drinking_fountain",
+    "title_ru":  "Поилка",
+    "description_ru":  "Автонаполнение миски водой для питомца.",
+    "image_url":  "https://staging-api.alicecommands.ru/devices/v1/pet_drinking_fountain.png",
+    "action_url":  "https://market.yandex.ru/cc/AA4Tkp",
+    "sort_order":  350,
+    "guide_ids":  [
+                      "pet_drinking_fountain"
+                  ],
+    "category_ids":  [
+                         "smart_home"
+                     ],
+    "device_types":  [
+                         "station"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "search_empty"
+                   ],
+    "priority":  52,
+    "cta_ru":  "Смотреть цену"
+}

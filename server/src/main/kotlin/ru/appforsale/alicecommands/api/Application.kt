@@ -17,6 +17,7 @@ import io.ktor.server.cio.CIO
 import ru.appforsale.alicecommands.api.plugins.configureSerialization
 import ru.appforsale.alicecommands.api.plugins.configureStatusPages
 import ru.appforsale.alicecommands.api.routes.adminRoutes
+import ru.appforsale.alicecommands.api.routes.analyticsRoutes
 import ru.appforsale.alicecommands.api.routes.feedbackRoutes
 import ru.appforsale.alicecommands.api.routes.healthRoutes
 import ru.appforsale.alicecommands.api.routes.publicRoutes
@@ -42,9 +43,13 @@ fun Application.module(config: AppConfig = AppConfig.load()) {
     routing {
         publicRoutes()
         feedbackRoutes()
+        analyticsRoutes()
         healthRoutes()
         adminRoutes()
         staticFiles("/icons", config.iconStoragePath.toFile()) {
+            cacheControl { listOf(CacheControl.MaxAge(maxAgeSeconds = 86400)) }
+        }
+        staticFiles("/devices", config.deviceImageStoragePath.toFile()) {
             cacheControl { listOf(CacheControl.MaxAge(maxAgeSeconds = 86400)) }
         }
         val adminDir = when (config.env) {

@@ -58,6 +58,9 @@ data class CommandOfDayAdminResponse(
     val settings: CommandOfDaySettings,
     val preview_today: CommandOfDayPreview? = null,
     val pool_size: Int? = null,
+    val has_unpublished_changes: Boolean = false,
+    val live_content_version: Int? = null,
+    val live_command_of_day: CommandOfDay? = null,
 )
 
 @Serializable
@@ -158,6 +161,72 @@ data class AffiliateBlocksResponse(
 )
 
 @Serializable
+data class DeviceGuide(
+    val id: String,
+    val title_ru: String,
+    val summary_ru: String,
+    val capabilities_ru: String,
+    val setup_ru: String,
+    val setup_steps_ru: List<String> = emptyList(),
+    val related_devices_ru: String? = null,
+    val related_device_ids: List<String> = emptyList(),
+    val command_device_filter_id: String? = null,
+    val image_url: String? = null,
+    val action_url: String,
+    val sort_order: Int,
+    /** Primary `pick_{id}` + related picks for device guide detail; computed at publish. */
+    val detail_referral_pick_ids: List<String> = emptyList(),
+)
+
+@Serializable
+data class DevicePick(
+    val id: String,
+    val title_ru: String,
+    val description_ru: String? = null,
+    val price_hint_ru: String? = null,
+    val image_url: String? = null,
+    val action_url: String,
+    val sort_order: Int,
+    val erid: String? = null,
+    val advertiser_name: String? = null,
+    val disclosure_ru: String? = null,
+    val cta_ru: String? = null,
+    val tags: List<String> = emptyList(),
+    val device_types: List<String> = emptyList(),
+    val category_ids: List<String> = emptyList(),
+    val command_group_ids: List<String> = emptyList(),
+    val command_ids: List<String> = emptyList(),
+    val scenario_template_ids: List<String> = emptyList(),
+    val guide_ids: List<String> = emptyList(),
+    val placements: List<String> = emptyList(),
+    val priority: Int = 0,
+    val starts_at: String? = null,
+    val ends_at: String? = null,
+    val max_impressions_per_session: Int? = null,
+)
+
+@Serializable
+data class SmartHomeDevicesResponse(
+    val schema_version: Int = 1,
+    val updated_at: String,
+    val guides: List<DeviceGuide>,
+    val picks: List<DevicePick>,
+)
+
+@Serializable
+data class UploadDeviceImageRequest(
+    val slug: String,
+    val image_base64: String,
+    val content_type: String? = null,
+)
+
+@Serializable
+data class UploadDeviceImageResponse(
+    val slug: String,
+    val image_url: String,
+)
+
+@Serializable
 data class ManifestResponse(
     val schema_version: Int,
     val content_version: Int,
@@ -205,6 +274,8 @@ data class DraftStats(
     val scenarioTemplatesCount: Int,
     val checklistItemsCount: Int,
     val affiliateBlocksCount: Int,
+    val deviceGuidesCount: Int,
+    val devicePicksCount: Int,
 )
 
 @Serializable
@@ -510,4 +581,129 @@ data class CommandReportDto(
 data class FeedbackInboxCounts(
     val open_feedback: Int = 0,
     val open_command_reports: Int = 0,
+)
+
+@Serializable
+data class AnalyticsBatchRequest(
+    val events: List<AnalyticsEventDto>,
+)
+
+@Serializable
+data class AnalyticsEventDto(
+    val installId: String,
+    val sessionId: String,
+    val eventId: String,
+    val eventName: String,
+    val occurredAt: Long,
+    val appVersion: String? = null,
+    val androidVersion: String? = null,
+    val locale: String? = null,
+    val userProperties: Map<String, String> = emptyMap(),
+    val params: Map<String, String> = emptyMap(),
+)
+
+@Serializable
+data class AnalyticsBatchResponse(
+    val accepted: Int,
+    val duplicates: Int,
+    val rejected: Int,
+    /** Event IDs rejected by validation (PII / schema). Backward-compatible optional field. */
+    val rejectedEventIds: List<String> = emptyList(),
+)
+
+@Serializable
+data class AnalyticsEventAdminDto(
+    val event_id: String,
+    val install_id: String,
+    val session_id: String,
+    val event_name: String,
+    val occurred_at: String,
+    val app_version: String? = null,
+    val android_version: String? = null,
+    val locale: String? = null,
+    val user_properties: Map<String, String> = emptyMap(),
+    val params: Map<String, String> = emptyMap(),
+)
+
+@Serializable
+data class AnalyticsTopEventDto(
+    val event_name: String,
+    val count: Int,
+)
+
+@Serializable
+data class AnalyticsDailyPointDto(
+    val date: String,
+    val events: Int,
+    val dau: Int,
+    /** Raw COUNT(DISTINCT install_id) with any event that day (not new installs). */
+    val unique_installs: Int,
+    /**
+     * Installs whose first ever event (Europe/Moscow calendar day) falls on this date.
+     * Use this for the “new installs” trend — not [unique_installs].
+     */
+    val new_installs: Int = 0,
+)
+
+@Serializable
+data class AnalyticsSummaryResponse(
+    val from: String,
+    val to: String,
+    val daily_active_installs: Int,
+    val total_events: Int,
+    /** Distinct canonical install ids (dominant install per session_id). Dedups client race ghosts. */
+    val unique_installs: Int,
+    val top_events: List<AnalyticsTopEventDto>,
+    /** Raw COUNT(DISTINCT install_id) before session-canonical dedup. */
+    val raw_unique_installs: Int = unique_installs,
+    /** Sum of [AnalyticsDailyPointDto.new_installs] over the period (convenience aggregate). */
+    val new_installs: Int = 0,
+    /** Per-day series for trend chart (gaps filled with zeros). Calendar days in Europe/Moscow. */
+    val daily: List<AnalyticsDailyPointDto> = emptyList(),
+    /** Average of daily[].dau over days_in_range (0 if empty). */
+    val avg_dau: Double = 0.0,
+    /** Number of inclusive calendar days (= daily.size). */
+    val days_in_range: Int = daily.size,
+)
+
+@Serializable
+data class AnalyticsFunnelStepDto(
+    val event_name: String,
+    val installs: Int,
+    /** Percent vs previous step; null for the first step. */
+    val conversion_from_previous: Double? = null,
+    /** Percent vs first step; null for the first step. */
+    val conversion_from_first: Double? = null,
+)
+
+@Serializable
+data class AnalyticsFunnelResponse(
+    val from: String,
+    val to: String,
+    val steps: List<AnalyticsFunnelStepDto>,
+)
+
+@Serializable
+data class AnalyticsBreakdownItemDto(
+    val value: String,
+    val count: Int,
+)
+
+@Serializable
+data class AnalyticsBreakdownResponse(
+    val from: String,
+    val to: String,
+    val event_name: String,
+    val param: String,
+    /** `params` (default) or `user_properties`. */
+    val field_source: String = "params",
+    val items: List<AnalyticsBreakdownItemDto>,
+)
+
+@Serializable
+data class AnalyticsEventsListResponse(
+    val items: List<AnalyticsEventAdminDto>,
+    val total: Int,
+    val limit: Int,
+    val offset: Int,
 )

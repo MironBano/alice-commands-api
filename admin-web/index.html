@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Alice Commands Admin</title>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js"></script>
-  <link rel="stylesheet" href="/admin/css/admin.css?v=13">
+  <link rel="stylesheet" href="/admin/css/admin.css?v=14">
 </head>
 <body x-data="adminApp()" x-init="init()">
   <div class="status-bar" :class="serverStatusClass()">
@@ -44,9 +44,11 @@
         <a href="#" @click.prevent="view='scenarios'" :class="{'active': view==='scenarios'}">Шаблоны</a>
         <a href="#" @click.prevent="view='checklist'" :class="{'active': view==='checklist'}">Чеклист</a>
         <a href="#" @click.prevent="view='command-of-day'; loadCommandOfDay()" :class="{'active': view==='command-of-day'}">Команда дня</a>
-        <a href="#" @click.prevent="view='affiliate'" :class="{'active': view==='affiliate'}">Партнёрские блоки</a>
+        <a href="#" @click.prevent="view='smarthome-devices'; loadSmartHomeDevices()" :class="{'active': view==='smarthome-devices'}">Устройства</a>
+        <a href="#" @click.prevent="view='affiliate'" :class="{'active': view==='affiliate'}">Партнёрские блоки (legacy)</a>
         <a href="#" @click.prevent="view='feedback'; loadFeedback()" :class="{'active': view==='feedback'}">Отзывы</a>
         <a href="#" @click.prevent="view='command-reports'; loadCommandReports()" :class="{'active': view==='command-reports'}">Ошибки команд</a>
+        <a href="#" @click.prevent="openAnalytics()" :class="{'active': view==='analytics'}">Аналитика</a>
         <a href="#" @click.prevent="view='content'; loadPipeline()" :class="{'active': view==='content'}">Контент</a>
         <a href="#" @click.prevent="view='import'" :class="{'active': view==='import'}">Импорт bundle</a>
         <a href="#" @click.prevent="view='publish'; loadHistory()" :class="{'active': view==='publish'}">Публикация</a>
@@ -56,7 +58,11 @@
       <main class="content">
         <section x-show="view==='dashboard'">
           <h1>Обзор</h1>
-          <p class="muted section-note">Три слоя: <strong>опубликовано (live)</strong> — что видит app; <strong>draft</strong> — ваши правки; <strong>pipeline/editorial</strong> — тексты до попадания в draft.</p>
+          <p class="muted section-note">
+            <strong>Draft</strong> — черновик на сервере (правки в админке).
+            <strong>Live</strong> — то, что видит приложение после «Публикация».
+            <strong>Файл каталога</strong> в репозитории (<code>seed/catalog-audit-fixed.json</code>) — бэкап/эталон для push/pull; после правок в админке выгрузите draft в файл (<code>pull-draft.ps1</code>), иначе следующий push может затереть правки.
+          </p>
           <div class="cards" x-show="dashboard">
             <div class="card status-card" :class="serverStatusClass()">
               <h3>Сервер</h3>
@@ -95,7 +101,7 @@
           <div class="actions">
             <button @click="previewBundle()" :disabled="!serverStatus.online">Скачать preview draft</button>
             <button class="primary" @click="view='publish'; loadHistory()">Перейти к публикации</button>
-            <button @click="view='content'; loadPipeline()">Мастер обновления контента</button>
+            <button @click="view='content'; loadPipeline()">Обновление контента</button>
           </div>
           <p class="muted" x-show="previewJson">Preview также скачан как файл <code>preview-bundle.json</code>.</p>
         </section>
@@ -385,6 +391,11 @@
 
         <section x-show="view==='commands'">
           <h1>Команды</h1>
+          <p class="muted section-note">
+            Точечные правки пишутся в <strong>draft</strong> на сервере. App увидит их после «Публикация».
+            Чтобы не потерять правки при следующем <code>push-draft</code>, после серии правок выполните
+            <code>.\scripts\pull-draft.ps1</code> (файл каталога ← draft) или скачайте draft ниже.
+          </p>
           <label>Категория
             <select x-model="commandFilter" @change="loadCommands()">
               <option value="">Все</option>
@@ -393,7 +404,9 @@
               </template>
             </select>
           </label>
+          <input type="search" placeholder="Поиск id / title / фраза" x-model="commandSearch" class="editorial-search">
           <button @click="showCommandForm()">+ Команда</button>
+          <button type="button" @click="downloadDraftCatalog()" :disabled="!serverStatus.online">Скачать draft → catalog JSON</button>
           <template x-if="selectedCommandIds.length">
             <label>Назначить группу
               <select x-model="bulkGroupId">
@@ -408,7 +421,7 @@
           <table>
             <thead><tr><th></th><th>ID</th><th>Название</th><th>Группа</th><th>#</th><th></th></tr></thead>
             <tbody>
-              <template x-for="cmd in commands" :key="cmd.id">
+              <template x-for="cmd in filteredCommands()" :key="cmd.id">
                 <tr>
                   <td><input type="checkbox" :value="cmd.id" @change="toggleCommandSelect(cmd.id, $event.target.checked)"></td>
                   <td x-text="cmd.id"></td>
@@ -423,39 +436,62 @@
               </template>
             </tbody>
           </table>
-          <div class="modal" x-show="commandForm" @click.self="commandForm=null">
-            <form class="modal-card wide" @submit.prevent="saveCommand()">
+          <div class="modal" x-show="commandForm" @click.self="closeCommandForm()">
+            <form class="modal-card wide command-edit-modal" @submit.prevent="saveCommand()">
               <h3 x-text="commandEditing ? 'Редактировать команду' : 'Новая команда'"></h3>
-              <label>ID<input x-model="commandForm.id" :readonly="commandEditing" required></label>
-              <label>Категория
-                <select x-model="commandForm.category_id" required>
-                  <template x-for="c in categories" :key="c.id">
-                    <option :value="c.id" x-text="c.title_ru"></option>
-                  </template>
-                </select>
-              </label>
-              <label>Название<input x-model="commandForm.title_ru" required></label>
-              <label>Фразы (по одной на строку)<textarea x-model="commandForm.phrasesText" rows="4" required></textarea></label>
-              <label>Эффект<textarea x-model="commandForm.effect_description_ru" required></textarea></label>
-              <label>source_url<input x-model="commandForm.source_url" type="url" required></label>
-              <label><input type="checkbox" x-model="commandForm.requires_alice_word"> Требует «Алиса»</label>
-              <label><input type="checkbox" x-model="commandForm.requires_plus"> Требует Plus</label>
-              <label>tags (через запятую)<input x-model="commandForm.tagsText"></label>
-              <label>Группа
-                <select x-model="commandForm.group_id">
-                  <option value="">— без группы —</option>
-                  <template x-for="g in groupsForCategory(commandForm.category_id)" :key="g.id">
-                    <option :value="g.id" x-text="g.title_ru"></option>
-                  </template>
-                </select>
-              </label>
-              <label>sort_order в группе<input type="number" x-model.number="commandForm.sort_order"></label>
-              <label>variant_label_ru<input x-model="commandForm.variant_label_ru" placeholder="короткая подпись в списке"></label>
-              <label><input type="checkbox" x-model="commandForm.is_primary_in_group"> primary в группе</label>
-              <label>search_aliases (через запятую)<input x-model="commandForm.aliasesText"></label>
+              <div class="editor-tabs">
+                <button type="button" :class="{ active: commandEditorTab === 'form' }" @click="switchCommandEditorTab('form')">Форма</button>
+                <button type="button" :class="{ active: commandEditorTab === 'json' }" @click="switchCommandEditorTab('json')">JSON (все поля)</button>
+              </div>
+              <p class="muted section-note" x-show="commandEditorTab === 'json'">
+                Полный объект команды. Сохранение → draft. Не меняйте <code>id</code> у существующей команды.
+                Пропущенный ключ при сохранении станет значением по умолчанию (пустой массив / null) — лучше править полный JSON с вкладки.
+              </p>
+
+              <div x-show="commandEditorTab === 'form'">
+                <label>ID<input x-model="commandForm.id" :readonly="commandEditing" required></label>
+                <label>Категория
+                  <select x-model="commandForm.category_id" required>
+                    <template x-for="c in categories" :key="c.id">
+                      <option :value="c.id" x-text="c.title_ru"></option>
+                    </template>
+                  </select>
+                </label>
+                <label>Название<input x-model="commandForm.title_ru" required></label>
+                <label>Фразы (по одной на строку)<textarea x-model="commandForm.phrasesText" rows="4" required></textarea></label>
+                <label>Эффект<textarea x-model="commandForm.effect_description_ru" required></textarea></label>
+                <label>source_url<input x-model="commandForm.source_url" type="url" required></label>
+                <label><input type="checkbox" x-model="commandForm.requires_alice_word"> Требует «Алиса»</label>
+                <label><input type="checkbox" x-model="commandForm.requires_plus"> Требует Plus</label>
+                <label>device_types (station, tv, phone)<input x-model="commandForm.deviceTypesText" placeholder="station,phone"></label>
+                <label>related_command_ids (через запятую)<input x-model="commandForm.relatedIdsText"></label>
+                <label>tags (через запятую)<input x-model="commandForm.tagsText"></label>
+                <label>Группа
+                  <select x-model="commandForm.group_id">
+                    <option value="">— без группы —</option>
+                    <template x-for="g in groupsForCategory(commandForm.category_id)" :key="g.id">
+                      <option :value="g.id" x-text="g.title_ru"></option>
+                    </template>
+                  </select>
+                </label>
+                <label>sort_order в группе<input type="number" x-model.number="commandForm.sort_order"></label>
+                <label>variant_label_ru<input x-model="commandForm.variant_label_ru" placeholder="короткая подпись в списке"></label>
+                <label><input type="checkbox" x-model="commandForm.is_primary_in_group"> primary в группе</label>
+                <label>search_aliases (через запятую)<input x-model="commandForm.aliasesText"></label>
+              </div>
+
+              <div x-show="commandEditorTab === 'json'">
+                <label>JSON команды
+                  <textarea class="command-json-editor" x-model="commandJsonText" rows="22" spellcheck="false"></textarea>
+                </label>
+                <div class="actions">
+                  <button type="button" @click="copyCommandJson()">Копировать JSON</button>
+                </div>
+              </div>
+
               <p class="error" x-show="formError" x-text="formError"></p>
               <div class="modal-actions">
-                <button type="button" @click="commandForm=null">Отмена</button>
+                <button type="button" @click="closeCommandForm()">Отмена</button>
                 <button type="submit" class="primary" :disabled="saving || !serverStatus.online" x-text="saving ? 'Сохранение…' : 'Сохранить в draft'"></button>
               </div>
             </form>
@@ -520,7 +556,10 @@
 
         <section x-show="view==='command-of-day'">
           <h1>Команда дня</h1>
-          <p class="muted section-note">Настройка editorial-объекта в bundle. Save — только draft; publish — на вкладке «Публикация».</p>
+          <p class="muted section-note">Настройка editorial-объекта в bundle. «Сохранить draft» — только в БД; «Опубликовать» сразу обновляет live bundle (новая content_version, только поле command_of_day). Каталог команд публикуется отдельно на вкладке «Публикация».</p>
+          <p class="warning-inline" x-show="commandOfDay?.has_unpublished_changes">Есть неопубликованные изменения команды дня.</p>
+          <p class="muted" x-show="dashboard?.hasUnpublishedChanges">В каталоге тоже есть draft-правки: preview команды дня — по draft, publish команды дня — по live каталогу.</p>
+          <p class="muted" x-show="commandOfDay && !commandOfDay?.has_unpublished_changes && commandOfDay?.live_content_version">Live v<span x-text="commandOfDay.live_content_version"></span> совпадает с draft.</p>
           <template x-if="commandOfDayForm">
             <div class="card">
               <div class="form-row">
@@ -564,10 +603,120 @@
               </div>
               <div class="actions">
                 <button @click="saveCommandOfDay()" :disabled="saving || !serverStatus.online">Сохранить draft</button>
+                <button class="primary" @click="publishCommandOfDay()" :disabled="saving || !serverStatus.online || !commandOfDay?.has_unpublished_changes">Опубликовать команду дня</button>
               </div>
             </div>
           </template>
           <p class="muted" x-show="!commandOfDayForm && !commandOfDayLoading">Загрузите каталог — нужны категории и команды.</p>
+        </section>
+
+        <section x-show="view==='smarthome-devices'">
+          <h1>Устройства умного дома</h1>
+          <div class="actions">
+            <button type="button" :class="{'primary': smarthomeTab==='guides'}" @click="smarthomeTab='guides'">Типы устройств</button>
+            <button type="button" :class="{'primary': smarthomeTab==='picks'}" @click="smarthomeTab='picks'">Подборки</button>
+          </div>
+
+          <template x-if="smarthomeTab==='guides'">
+            <div>
+              <button @click="showDeviceGuideForm()">+ Guide</button>
+              <template x-for="g in deviceGuides" :key="g.id">
+                <div class="card affiliate-card">
+                  <div class="affiliate-card-head">
+                    <div>
+                      <strong x-text="g.title_ru"></strong>
+                      <p class="muted affiliate-meta" x-text="g.summary_ru"></p>
+                      <p class="muted affiliate-meta">filter: <span x-text="g.command_device_filter_id || '—'"></span> · sort: <span x-text="g.sort_order"></span></p>
+                    </div>
+                    <div class="actions affiliate-card-actions">
+                      <button @click="editDeviceGuide(g)">Изменить</button>
+                      <button class="danger" @click="deleteDeviceGuide(g.id)">Удалить</button>
+                    </div>
+                  </div>
+                </div>
+              </template>
+              <p class="muted" x-show="!deviceGuides.length">Нет guides</p>
+            </div>
+          </template>
+
+          <template x-if="smarthomeTab==='picks'">
+            <div>
+              <button @click="showDevicePickForm()">+ Pick</button>
+              <template x-for="p in devicePicks" :key="p.id">
+                <div class="card affiliate-card">
+                  <div class="affiliate-card-head">
+                    <div>
+                      <strong x-text="p.title_ru"></strong>
+                      <p class="muted affiliate-meta" x-text="p.description_ru || ''"></p>
+                      <p class="muted affiliate-meta">sort: <span x-text="p.sort_order"></span> · priority: <span x-text="p.priority || 0"></span></p>
+                      <p class="muted affiliate-meta" x-show="(p.placements || []).length" x-text="'placements: ' + (p.placements || []).join(', ')"></p>
+                    </div>
+                    <div class="actions affiliate-card-actions">
+                      <button @click="editDevicePick(p)">Изменить</button>
+                      <button class="danger" @click="deleteDevicePick(p.id)">Удалить</button>
+                    </div>
+                  </div>
+                </div>
+              </template>
+              <p class="muted" x-show="!devicePicks.length">Нет picks</p>
+            </div>
+          </template>
+
+          <div class="modal" x-show="deviceGuideForm" @click.self="deviceGuideForm=null">
+            <form class="modal-card wide" @submit.prevent="saveDeviceGuide()">
+              <h3 x-text="deviceGuideEditing ? 'Редактировать guide' : 'Новый guide'"></h3>
+              <label>ID<input x-model="deviceGuideForm.id" :readonly="deviceGuideEditing" required pattern="[a-z][a-z0-9_]*"></label>
+              <label>Название<input x-model="deviceGuideForm.title_ru" required></label>
+              <label>Краткое описание (карточка)<textarea x-model="deviceGuideForm.summary_ru" required rows="2"></textarea></label>
+              <label>Что умеет<textarea x-model="deviceGuideForm.capabilities_ru" required rows="4"></textarea></label>
+              <label>Как подключить<textarea x-model="deviceGuideForm.setup_ru" required rows="4"></textarea></label>
+              <label>Шаги подключения (по одному на строку)<textarea x-model="deviceGuideForm.setup_steps_text" rows="4" placeholder="Шаг 1&#10;Шаг 2"></textarea></label>
+              <label>Смежные устройства (текст)<input x-model="deviceGuideForm.related_devices_ru"></label>
+              <label>related_device_ids (через запятую)<input x-model="deviceGuideForm.related_device_ids_text" placeholder="station,tv"></label>
+              <label>command_device_filter_id<select x-model="deviceGuideForm.command_device_filter_id"><option value="">—</option><option value="station">station</option><option value="tv">tv</option><option value="phone">phone</option></select></label>
+              <label>image_url<input x-model="deviceGuideForm.image_url" placeholder="https://..."></label>
+              <label>Картинка (upload)<input type="file" accept="image/webp,image/png,image/jpeg" @change="uploadDeviceImage($event, 'deviceGuideForm')"></label>
+              <label>action_url<input x-model="deviceGuideForm.action_url" required placeholder="https://..."></label>
+              <label>sort_order<input type="number" x-model.number="deviceGuideForm.sort_order" required></label>
+              <p class="error" x-show="formError" x-text="formError"></p>
+              <div class="modal-actions">
+                <button type="button" @click="deviceGuideForm=null">Отмена</button>
+                <button type="submit" class="primary" :disabled="saving || !serverStatus.online">Сохранить</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="modal" x-show="devicePickForm" @click.self="devicePickForm=null">
+            <form class="modal-card wide" @submit.prevent="saveDevicePick()">
+              <h3 x-text="devicePickEditing ? 'Редактировать pick' : 'Новый pick'"></h3>
+              <label>ID<input x-model="devicePickForm.id" :readonly="devicePickEditing" required pattern="[a-z][a-z0-9_]*"></label>
+              <label>Название<input x-model="devicePickForm.title_ru" required></label>
+              <label>Описание<textarea x-model="devicePickForm.description_ru" rows="2"></textarea></label>
+              <label>image_url<input x-model="devicePickForm.image_url" placeholder="https://..."></label>
+              <label>Картинка (upload)<input type="file" accept="image/webp,image/png,image/jpeg" @change="uploadDeviceImage($event, 'devicePickForm')"></label>
+              <label>action_url<input x-model="devicePickForm.action_url" required placeholder="https://... или market://..."></label>
+              <label>cta_ru<input x-model="devicePickForm.cta_ru" placeholder="Смотреть цену"></label>
+              <label>sort_order<input type="number" x-model.number="devicePickForm.sort_order" required></label>
+              <label>priority<input type="number" x-model.number="devicePickForm.priority" placeholder="0"></label>
+              <label>placements (через запятую)<input x-model="devicePickForm.placements_text" placeholder="smart_home_devices,device_guide_detail,..."></label>
+              <label>tags (через запятую)<input x-model="devicePickForm.tags_text" placeholder="starter_kit,speaker,station"></label>
+              <label>device_types<input x-model="devicePickForm.device_types_text" placeholder="station,tv,phone"></label>
+              <label>category_ids<input x-model="devicePickForm.category_ids_text" placeholder="smart_home"></label>
+              <label>guide_ids<input x-model="devicePickForm.guide_ids_text" placeholder="station"></label>
+              <label>scenario_template_ids<input x-model="devicePickForm.scenario_template_ids_text" placeholder="S1,S2"></label>
+              <label>command_ids<input x-model="devicePickForm.command_ids_text" placeholder="sh_light_on"></label>
+              <label>command_group_ids<input x-model="devicePickForm.command_group_ids_text" placeholder="sh_group_light"></label>
+              <label>erid<input x-model="devicePickForm.erid" placeholder="опционально"></label>
+              <label>advertiser_name<input x-model="devicePickForm.advertiser_name"></label>
+              <label>disclosure_ru<input x-model="devicePickForm.disclosure_ru"></label>
+              <label>max_impressions_per_session<input type="number" x-model.number="devicePickForm.max_impressions_per_session" placeholder="опционально"></label>
+              <p class="error" x-show="formError" x-text="formError"></p>
+              <div class="modal-actions">
+                <button type="button" @click="devicePickForm=null">Отмена</button>
+                <button type="submit" class="primary" :disabled="saving || !serverStatus.online">Сохранить</button>
+              </div>
+            </form>
+          </div>
         </section>
 
         <section x-show="view==='affiliate'">
@@ -607,8 +756,8 @@
               <label>ID<input x-model="affiliateForm.id" :readonly="affiliateEditing" required></label>
               <label>Название<input x-model="affiliateForm.title_ru" required></label>
               <label>context_category_id<input x-model="affiliateForm.context_category_id"></label>
-              <label>ERID<input x-model="affiliateForm.erid" required placeholder="Например: 2Vtzq..."></label>
-              <label>advertiser_name<input x-model="affiliateForm.advertiser_name" required placeholder="Юрлицо или ИП рекламодателя"></label>
+              <label>ERID<input x-model="affiliateForm.erid" placeholder="Опционально (v1.0)"></label>
+              <label>advertiser_name<input x-model="affiliateForm.advertiser_name" placeholder="Опционально (v1.0)"></label>
               <div class="affiliate-products-editor">
                 <div class="affiliate-products-head">
                   <strong>Товары и партнёрские ссылки</strong>
@@ -635,7 +784,7 @@
 
         <section x-show="view==='publish'">
           <h1>Публикация</h1>
-          <p class="muted section-note">Публикует текущий <strong>draft bundle</strong> как новую live-версию для app. Editorial/pipeline сами по себе в app не попадают — только через draft.</p>
+          <p class="muted section-note">Публикует текущий <strong>draft bundle</strong> как новую live-версию для app.</p>
           <p x-show="dashboard?.live">Текущая live-версия: v<span x-text="dashboard.live.contentVersion"></span></p>
           <p class="warning-inline" x-show="dashboard?.hasUnpublishedChanges">Draft отличается от опубликованного — можно публиковать.</p>
           <p class="muted" x-show="dashboard && !dashboard?.hasUnpublishedChanges">Draft совпадает с опубликованным — публикация не нужна.</p>
@@ -662,35 +811,22 @@
         <section x-show="view==='import'">
           <h1>Импорт bundle JSON</h1>
           <div class="info-banner">
-            <strong>Не editorial JSON.</strong> Сюда загружают content bundle (<code>categories</code>, <code>commands</code>, …).
-            Для правок title/effect используйте раздел <button type="button" class="link-btn" @click="view='content'; loadPipeline()">Контент → Редактор текстов</button>.
+            <strong>Content bundle JSON.</strong> Файл с <code>categories</code>, <code>commands</code>, … Канон: <code>seed/catalog-audit-fixed.json</code>.
+            Правки title/effect — вкладка «Команды» или правка seed в IDE.
           </div>
-          <p class="muted">Импорт пишет в draft PostgreSQL. App увидит изменения только после публикации draft → live.</p>
+          <p class="muted">Импорт пишет в draft PostgreSQL (режим <strong>replace</strong>). App увидит изменения только после публикации draft → live.</p>
           <div class="actions import-top-actions">
-            <button type="button" class="primary" @click="view='content'; loadPipeline()">Мастер обновления (Контент)</button>
+            <button type="button" class="primary" @click="view='content'; loadPipeline()">Обновление контента</button>
           </div>
 
           <div class="import-panel card">
-            <h2>1. Режим</h2>
-            <div class="import-modes">
-              <label class="import-mode-option">
-                <input type="radio" name="importMode" value="merge" x-model="importMode" @change="refreshImportPreview()">
-                <div class="import-mode-text">
-                  <strong>Объединить (merge)</strong>
-                  <span class="muted">Добавить новые id и обновить существующие. Остальной draft не удаляется.</span>
-                </div>
-              </label>
-              <label class="import-mode-option">
-                <input type="radio" name="importMode" value="replace" x-model="importMode" @change="refreshImportPreview()">
-                <div class="import-mode-text">
-                  <strong>Заменить всё (replace)</strong>
-                  <span class="muted">Заменить каталог bundle (категории, команды, шаблоны, чеклист). Партнёрские блоки не затрагиваются.</span>
-                </div>
-              </label>
-            </div>
-            <p class="muted">Режим <code>sync</code> (как <code>push-draft.ps1</code>) доступен только через скрипт на ПК, не в этой форме.</p>
+            <h2>1. Файл</h2>
+            <p class="muted import-mode-note">
+              Импорт в режиме <strong>replace</strong> заменяет весь draft.
+              Если в админке уже есть точечные правки — сначала <code>pull-draft.ps1</code>, иначе они пропадут.
+            </p>
 
-            <h2>2. Файл</h2>
+            <h2>2. Выбор файла</h2>
             <div class="import-file-row">
               <label class="import-file-picker">
                 <input type="file" accept=".json,application/json" @change="selectImportFile($event)">
@@ -770,22 +906,6 @@
                     </div>
                   </template>
                 </div>
-
-                <div class="import-diff import-diff-draft" x-show="importMode === 'merge' && importDraft?.preview?.mergeDiff && !importParseError">
-                  <h3>Изменения в draft (merge)</h3>
-                  <template x-for="block in importDiffBlocks()" :key="block.label">
-                    <div class="import-diff-block" x-show="block.total > 0">
-                      <p><strong x-text="block.label"></strong>: <span x-text="block.text"></span></p>
-                      <p class="muted import-id-list" x-show="block.addIds.length">
-                        Новые id: <span x-text="formatIdList(block.addIds)"></span>
-                      </p>
-                      <p class="muted import-id-list" x-show="block.updateIds.length">
-                        Обновятся: <span x-text="formatIdList(block.updateIds)"></span>
-                      </p>
-                    </div>
-                  </template>
-                  <p class="muted" x-show="!importDiffHasChanges()">Нет пересечений по id — всё будет добавлено как новое.</p>
-                </div>
               </div>
 
               <div class="import-actions">
@@ -801,7 +921,7 @@
 
         <section x-show="view==='content'" x-cloak>
           <h1>Обновление контента</h1>
-          <p class="muted">Publish автоматически не выполняется. Следуйте шагам сверху вниз: pipeline → editorial → diff draft vs опубликованное → публикация.</p>
+          <p class="muted">Канон: <code>seed/catalog-audit-fixed.json</code>. Publish автоматически не выполняется — push с ПК → diff → публикация.</p>
 
           <div class="card wizard-status" x-show="pipeline && !pipelineLoading">
             <div class="wizard-status-grid">
@@ -826,14 +946,6 @@
                 </p>
               </div>
               <div>
-                <span class="wizard-label">Pipeline (до draft)</span>
-                <p class="wizard-value">
-                  inventory <span x-text="pipeline?.pipeline?.inventory_count ?? '—'"></span>
-                  · approved editorial <span x-text="pipeline?.pipeline?.editorial_approved ?? '—'"></span>
-                  · очередь <span x-text="pipeline?.pipeline?.open_queue ?? contentQueue.length"></span>
-                </p>
-              </div>
-              <div>
                 <span class="wizard-label">Статус draft bundle</span>
                 <p class="wizard-value" :class="pipeline?.hasUnpublishedChanges ? 'text-warn' : 'text-ok'"
                   x-text="pipeline?.hasUnpublishedChanges ? 'Draft bundle отличается от опубликованного' : 'Draft bundle совпадает с опубликованным'"></p>
@@ -847,40 +959,26 @@
             <li class="wizard-step">
               <div class="step-head">
                 <span class="step-num">1</span>
-                <h2>На вашем ПК — обновить каталог</h2>
+                <h2>На вашем ПК — pull / validate / push</h2>
               </div>
-              <p>Ярлыки в папке <strong>Alice Commands</strong> на рабочем столе. Запуск: <strong>Alice 1 - Obnovit katalog</strong>.</p>
-              <p class="muted">Установка один раз: <code>scripts/desktop/Ustanovit-yarlyki.bat</code>. Pipeline ярлыки не создаёт.</p>
-              <details class="wizard-details">
-                <summary>Запуск из репозитория (если ярлыков ещё нет на столе)</summary>
-                <ul class="pipeline-list">
-                  <li>
-                    <code x-text="pipeline?.localScript || 'scripts/update-content.ps1'"></code>
-                    <button type="button" @click="copyText('.\\' + (pipeline?.localScript || 'scripts/update-content.ps1'))">Копировать</button>
-                    <span class="muted"> — полный pipeline + ярлыки на рабочий стол</span>
-                  </li>
-                  <li>
-                    <code x-text="pipeline?.shortcutsScript || 'scripts/desktop/1-Obnovit-katalog.bat'"></code>
-                    <button type="button" @click="copyText(pipeline?.shortcutsScript || 'scripts\\desktop\\1-Obnovit-katalog.bat')">Копировать</button>
-                    <span class="muted"> — то же через bat</span>
-                  </li>
-                </ul>
-              </details>
-              <details class="wizard-details">
-                <summary>Дополнительно: PowerShell вручную</summary>
-                <ul class="pipeline-list">
-                  <li>
-                    <code x-text="pipeline?.localScript || 'scripts/update-content.ps1'"></code>
-                    <button type="button" @click="copyText('.\\' + (pipeline?.localScript || 'scripts/update-content.ps1'))">Копировать</button>
-                    <span class="muted"> — полный pipeline</span>
-                  </li>
-                  <li>
-                    <code x-text="pipeline?.pushScript || 'scripts/push-draft.ps1 -Mode sync'"></code>
-                    <button type="button" @click="copyText('.\\' + (pipeline?.pushScript || 'scripts/push-draft.ps1 -Mode sync'))">Копировать</button>
-                    <span class="muted"> — только push</span>
-                  </li>
-                </ul>
-              </details>
+              <p>Ярлыки: <strong>Alice 3 - Pull catalog</strong> (draft→файл), <strong>Alice 1 - Push catalog</strong> (файл→draft), <strong>Alice 2 - Validate</strong>.</p>
+              <p class="muted">Установка ярлыков: <code>scripts/desktop/Ustanovit-yarlyki.bat</code></p>
+              <ul class="pipeline-list">
+                <li>
+                  <code>.\scripts\pull-draft.ps1</code>
+                  <button type="button" @click="copyText('.\\scripts\\pull-draft.ps1')">Копировать</button>
+                  <span class="muted"> — после правок в «Команды»: draft → файл каталога (чтобы push не затёр)</span>
+                </li>
+                <li>
+                  <code>.\gradlew.bat :server:validateContent "-PcontentFile=seed/catalog-audit-fixed.json"</code>
+                  <button type="button" @click="copyText('.\\gradlew.bat :server:validateContent \"-PcontentFile=seed/catalog-audit-fixed.json\"')">Копировать</button>
+                </li>
+                <li>
+                  <code x-text="pipeline?.pushScript || 'scripts/push-draft.ps1'"></code>
+                  <button type="button" @click="copyText('.\\' + (pipeline?.pushScript || 'scripts/push-draft.ps1'))">Копировать</button>
+                  <span class="muted"> — файл → draft (не затирает unpublished без <code>-Force</code>)</span>
+                </li>
+              </ul>
             </li>
 
             <li class="wizard-step" :class="{'step-active': pipeline?.hasUnpublishedChanges, 'step-done': pipeline && !pipeline?.hasUnpublishedChanges && pipeline?.live?.contentVersion}">
@@ -888,132 +986,19 @@
                 <span class="step-num">2</span>
                 <h2>Проверить, что draft обновился</h2>
               </div>
-              <p x-show="pipeline?.hasUnpublishedChanges">Draft bundle отличается от опубликованного — можно переходить к вычитке (шаг 3).</p>
+              <p x-show="pipeline?.hasUnpublishedChanges">Draft bundle отличается от опубликованного — можно смотреть diff (шаг 3).</p>
               <p class="muted" x-show="pipeline && !pipeline?.hasUnpublishedChanges">
-                После push с ПК здесь появится «Draft bundle отличается от опубликованного». Если push ещё не делали — выполните шаг 1.
+                После push с ПК здесь появится «Draft bundle отличается от опубликованного».
               </p>
               <button type="button" @click="loadPipeline()" :disabled="pipelineLoading">Обновить статус</button>
             </li>
 
-            <li class="wizard-step" :class="{'step-active': editorialReview?.total > 0}">
-              <div class="step-head">
-                <span class="step-num">3</span>
-                <h2>Редактор текстов (все изменения)</h2>
-              </div>
-              <p class="muted">Просмотр и правка title/effect. Экспорт JSON → правка в ChatGPT/Cursor → <strong>Загрузить JSON</strong> сюда (editorial, не bundle).</p>
-              <p class="muted section-note">Колонки: <strong>Опубликовано</strong> — live bundle; <strong>Черновик</strong> — draft PostgreSQL; <strong>Правка</strong> — pipeline editorial (источник для rebuild draft).</p>
-              <div class="editorial-toolbar actions">
-                <button type="button" class="primary" @click="loadEditorialReview()" :disabled="editorialReviewLoading"
-                  x-text="editorialReviewLoading ? 'Загрузка…' : 'Обновить список'"></button>
-                <button type="button" class="primary" @click="saveEditorialReview()" :disabled="editorialReviewSaving || !editorialReview?.records?.length">
-                  <span x-text="editorialReviewSaving ? 'Сохранение…' : 'Сохранить правки'"></span>
-                </button>
-                <button type="button" @click="exportEditorialReview()" :disabled="editorialReviewLoading">Скачать JSON</button>
-                <label class="import-file-picker editorial-import-btn">
-                  <span class="import-file-button" x-text="editorialImportLoading ? 'Импорт…' : 'Загрузить JSON'"></span>
-                  <input type="file" accept="application/json,.json" @change="importEditorialReviewFile($event)" :disabled="editorialImportLoading">
-                </label>
-              </div>
-              <div class="editorial-filters">
-                <label><input type="radio" value="review" x-model="editorialReviewFilter" @change="loadEditorialReview()"> К вычитке</label>
-                <label><input type="radio" value="changed" x-model="editorialReviewFilter" @change="loadEditorialReview()"> Изменено</label>
-                <label><input type="radio" value="pending" x-model="editorialReviewFilter" @change="loadEditorialReview()"> Ожидает</label>
-                <label><input type="radio" value="queue" x-model="editorialReviewFilter" @change="loadEditorialReview()"> Очередь</label>
-                <label><input type="radio" value="added" x-model="editorialReviewFilter" @change="loadEditorialReview()"> Новое</label>
-                <label><input type="radio" value="removed" x-model="editorialReviewFilter" @change="loadEditorialReview()"> Удалено</label>
-                <label><input type="radio" value="all" x-model="editorialReviewFilter" @change="loadEditorialReview()"> Все</label>
-                <input type="search" placeholder="Поиск id / title / фраза" x-model="editorialReviewSearch" @keydown.enter="loadEditorialReview()" class="editorial-search">
-                <button type="button" @click="loadEditorialReview()">Найти</button>
-              </div>
-              <p class="muted" x-show="editorialReview">Записей: <span x-text="editorialReview.total"></span></p>
-              <div class="editorial-table-wrap" x-show="editorialReview?.records?.length">
-                <table class="editorial-table">
-                  <thead>
-                    <tr>
-                      <th>ID / фраза</th>
-                      <th>Опубликовано</th>
-                      <th>Черновик</th>
-                      <th>Название (правка)</th>
-                      <th>Описание (правка)</th>
-                      <th>Статус</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <template x-for="row in editorialReview.records" :key="row.command_id">
-                      <tr>
-                        <td class="editorial-id">
-                          <code x-text="row.command_id"></code>
-                          <span class="muted editorial-phrase" x-text="row.phrase_example"></span>
-                          <div class="editorial-reasons">
-                            <template x-for="r in row.reasons" :key="r">
-                              <span class="diff-badge" :class="'reason-' + r" x-text="reasonLabel(r)"></span>
-                            </template>
-                          </div>
-                        </td>
-                        <td class="editorial-snap">
-                          <span x-text="row.published?.title_ru || '—'"></span>
-                          <span class="muted" x-text="row.published?.effect_description_ru"></span>
-                        </td>
-                        <td class="editorial-snap">
-                          <span x-text="row.draft?.title_ru || '—'"></span>
-                          <span class="muted" x-text="row.draft?.effect_description_ru"></span>
-                        </td>
-                        <td><input type="text" x-model="row.edit.title_ru" class="editorial-input"></td>
-                        <td><textarea rows="2" x-model="row.edit.effect_description_ru" class="editorial-textarea"></textarea></td>
-                        <td>
-                          <select x-model="row.edit.status" class="editorial-select">
-                            <option value="approved">approved — в draft</option>
-                            <option value="pending">pending — не в draft</option>
-                            <option value="ai_draft">ai_draft</option>
-                            <option value="rejected">rejected — не в draft</option>
-                          </select>
-                        </td>
-                      </tr>
-                    </template>
-                  </tbody>
-                </table>
-              </div>
-              <p class="muted" x-show="editorialReview && !editorialReviewLoading && editorialReview.total === 0">Нет записей по фильтру.</p>
-            </li>
-
-            <li class="wizard-step wizard-step-collapsed">
-              <details>
-                <summary class="step-head step-head-summary">
-                  <span class="step-num">·</span>
-                  <h2>Legacy: очередь по одной записи</h2>
-                </summary>
-              <p class="muted">Устаревший путь approve/dismiss через prompt. Используйте редактор текстов выше. Оставлено для аварийных случаев.</p>
-              <div class="actions">
-                <button type="button" @click="loadContentQueue()" :disabled="contentQueueLoading">Обновить очередь</button>
-              </div>
-              <p class="muted" x-show="contentQueueLoading">Загрузка…</p>
-              <p class="muted" x-show="!contentQueueLoading && contentQueue.length === 0">Очередь пуста.</p>
-              <div class="import-diff" x-show="contentQueue.length > 0">
-                <template x-for="item in contentQueue.slice(0, 30)" :key="item.id">
-                  <div class="import-diff-item queue-item">
-                    <p>
-                      <span class="diff-badge diff-added" x-text="queueEventLabel(item.event_type)"></span>
-                      <code x-text="item.command_id"></code>
-                      <span x-text="item.phrase || ''"></span>
-                    </p>
-                    <p class="muted" x-show="item.suggested_effect" x-text="item.suggested_effect"></p>
-                    <div class="actions">
-                      <button type="button" class="primary" @click="approveQueueItem(item)"
-                        x-show="item.event_type === 'new_command' || item.event_type === 'needs_review'">Одобрить</button>
-                      <button type="button" @click="dismissQueueItem(item)">Скрыть</button>
-                    </div>
-                  </div>
-                </template>
-              </div>
-              </details>
-            </li>
-
             <li class="wizard-step" :class="{'step-active': pipeline?.hasUnpublishedChanges}">
               <div class="step-head">
-                <span class="step-num">4</span>
+                <span class="step-num">3</span>
                 <h2>Diff: draft vs опубликованное</h2>
               </div>
-              <p class="muted">Сравнение draft bundle с текущим live bundle — то, что изменится у пользователей app после публикации.</p>
+              <p class="muted">Сравнение draft bundle с live — то, что изменится у пользователей app после публикации.</p>
               <div class="actions">
                 <button type="button" class="primary" @click="loadDraftDiff(true, { resetFilters: true })"
                   :disabled="pipelineDiffLoading || !serverStatus.online"
@@ -1066,7 +1051,7 @@
 
             <li class="wizard-step">
               <div class="step-head">
-                <span class="step-num">5</span>
+                <span class="step-num">4</span>
                 <h2>Публикация</h2>
               </div>
               <p x-show="pipeline?.draft?.needsReviewCount > 0" class="import-warning">
@@ -1084,7 +1069,7 @@
 
           <div class="card" x-show="pipeline && !pipelineLoading">
             <h2>Seed на сервере (опционально)</h2>
-            <p class="muted">Если на VPS лежит готовый JSON — можно импортировать без push с ПК.</p>
+            <p class="muted">Если на VPS лежит <code>catalog-audit-fixed.json</code> — можно импортировать без push с ПК (только replace).</p>
             <template x-if="pipeline?.seed?.exists">
               <p>
                 <code x-text="pipeline.seed.path"></code>
@@ -1092,16 +1077,15 @@
                 · изменён <span x-text="pipeline.seed.lastModified"></span>
               </p>
               <div class="actions">
-                <button class="primary" @click="importSeedFromServer('merge')" :disabled="seedImportLoading || !serverStatus.online"
-                  x-text="seedImportLoading ? 'Импорт…' : 'Импорт seed → draft (merge)'"></button>
-                <button @click="importSeedFromServer('replace')" :disabled="seedImportLoading || !serverStatus.online">Заменить всё</button>
+                <button class="primary" @click="importSeedFromServer('replace')" :disabled="seedImportLoading || !serverStatus.online"
+                  x-text="seedImportLoading ? 'Импорт…' : 'Импорт seed → draft (replace)'"></button>
               </div>
             </template>
             <template x-if="pipeline && !pipeline?.seed?.exists">
               <p class="muted">
                 Seed не найден
                 <span x-show="pipeline?.seed?.path"> (<code x-text="pipeline.seed.path"></code>)</span>.
-                Используйте ярлык «1. Обновить каталог» с ПК.
+                Используйте <code>push-draft.ps1</code> с ПК.
               </p>
             </template>
           </div>
@@ -1214,6 +1198,316 @@
           </div>
         </section>
 
+        <section x-show="view==='analytics'">
+          <h1>Аналитика</h1>
+          <p class="muted section-note">
+            Что реально делают люди в приложении. Период общий для вкладок, не длиннее
+            <span x-text="analyticsMaxRangeDays"></span> дней.
+          </p>
+
+          <div class="editorial-filters analytics-date-bar">
+            <label><input type="radio" :value="7" x-model.number="analyticsPreset" @change="applyAnalyticsPreset(7); applyAnalyticsRange()"> 7 дней</label>
+            <label><input type="radio" :value="30" x-model.number="analyticsPreset" @change="applyAnalyticsPreset(30); applyAnalyticsRange()"> 30 дней</label>
+            <label><input type="radio" :value="90" x-model.number="analyticsPreset" @change="applyAnalyticsPreset(90); applyAnalyticsRange()"> 90 дней</label>
+            <label>с <input type="date" x-model="analyticsFrom" @change="onAnalyticsCustomDateChange()"></label>
+            <label>по <input type="date" x-model="analyticsTo" @change="onAnalyticsCustomDateChange()"></label>
+            <button type="button" @click="applyAnalyticsRange()">Применить</button>
+            <span
+              class="muted"
+              x-show="analyticsFrom && analyticsTo"
+              x-text="(analyticsSummary && analyticsSummary.from && analyticsSummary.to)
+                ? (analyticsSummary.from + ' — ' + analyticsSummary.to + ' · ' + (analyticsSummary.days_in_range || analyticsInclusiveDays()) + ' дн.')
+                : (analyticsFrom + ' — ' + analyticsTo + ' · ' + analyticsInclusiveDays() + ' дн.')"
+            ></span>
+          </div>
+          <p class="error" x-show="analyticsRangeError" x-text="analyticsRangeError"></p>
+
+          <div class="editor-tabs analytics-tabs">
+            <button type="button" :class="{'active': analyticsTab==='overview'}" @click="setAnalyticsTab('overview')">Обзор</button>
+            <button type="button" :class="{'active': analyticsTab==='trend'}" @click="setAnalyticsTab('trend')">По дням</button>
+            <button type="button" :class="{'active': analyticsTab==='funnel'}" @click="setAnalyticsTab('funnel')">Воронка</button>
+            <button type="button" :class="{'active': analyticsTab==='breakdown'}" @click="setAnalyticsTab('breakdown')">Что нажимали</button>
+            <button type="button" :class="{'active': analyticsTab==='events'}" @click="setAnalyticsTab('events')">Журнал</button>
+            <button type="button" :class="{'active': analyticsTab==='help'}" @click="setAnalyticsTab('help')">Как читать</button>
+          </div>
+
+          <div x-show="analyticsTab==='overview'">
+            <p class="muted" x-show="analyticsSummaryLoading">Загрузка…</p>
+            <p class="error" x-show="analyticsSummaryError" x-text="analyticsSummaryError"></p>
+            <template x-if="analyticsSummary && !analyticsSummaryLoading">
+              <div>
+                <div class="cards">
+                  <div class="card">
+                    <h3>Открывали приложение</h3>
+                    <p class="kpi-value" x-text="analyticsSummary.daily_active_installs"></p>
+                    <p class="muted">разных install_id с событием daily_active</p>
+                  </div>
+                  <div class="card">
+                    <h3>В среднем за день</h3>
+                    <p class="kpi-value" x-text="analyticsSummary.avg_dau != null ? analyticsSummary.avg_dau : '—'"></p>
+                    <p class="muted">среднее daily[].dau по дням периода (включая дни с 0)</p>
+                  </div>
+                  <div class="card">
+                    <h3>События</h3>
+                    <p class="kpi-value" x-text="analyticsSummary.total_events"></p>
+                    <p class="muted">COUNT всех событий за период</p>
+                  </div>
+                  <div class="card">
+                    <h3>Новые установки</h3>
+                    <p class="kpi-value" x-text="analyticsSummary.new_installs != null ? analyticsSummary.new_installs : '—'"></p>
+                    <p class="muted">install_id, впервые появившиеся в аналитике в эти дни</p>
+                  </div>
+                </div>
+                <h2>Что чаще всего происходило</h2>
+                <div class="editorial-filters">
+                  <label><input type="radio" value="actions" x-model="analyticsTopEventsMode"> Действия пользователей</label>
+                  <label><input type="radio" value="all" x-model="analyticsTopEventsMode"> Все события</label>
+                </div>
+                <p class="muted section-note" x-show="analyticsTopEventsMode==='actions'">
+                  Скрыты служебные: проверка покупок, sync, lifecycle, impressions подборок.
+                </p>
+                <div class="editorial-table-wrap">
+                  <table class="editorial-table">
+                    <thead>
+                      <tr><th>Что случилось</th><th>Код</th><th>Раз</th><th></th></tr>
+                    </thead>
+                    <tbody>
+                      <template x-for="row in analyticsFilteredTopEvents()" :key="row.event_name">
+                        <tr>
+                          <td>
+                            <span x-text="analyticsEventLabel(row.event_name)" :title="analyticsEventTip(row.event_name)"></span>
+                          </td>
+                          <td><code x-text="row.event_name"></code></td>
+                          <td x-text="row.count"></td>
+                          <td>
+                            <button type="button" @click="drillToAnalyticsEvents(row.event_name)">В журнал</button>
+                          </td>
+                        </tr>
+                      </template>
+                    </tbody>
+                  </table>
+                  <p class="muted" x-show="!analyticsFilteredTopEvents().length">За период событий нет</p>
+                </div>
+              </div>
+            </template>
+          </div>
+
+          <div x-show="analyticsTab==='trend'">
+            <p class="muted" x-show="analyticsSummaryLoading">Загрузка…</p>
+            <p class="error" x-show="analyticsSummaryError" x-text="analyticsSummaryError"></p>
+            <div class="editorial-filters" x-show="analyticsSummary && !analyticsSummaryLoading">
+              <label><input type="radio" value="events" x-model="analyticsTrendSeries"> События</label>
+              <label><input type="radio" value="dau" x-model="analyticsTrendSeries"> Открывали приложение</label>
+              <label><input type="radio" value="new_installs" x-model="analyticsTrendSeries"> Новые установки</label>
+            </div>
+            <p class="muted section-note" x-show="analyticsSummary && !analyticsSummaryLoading && analyticsTrendSeries==='new_installs'">
+              Первый день, когда этот <code>install_id</code> впервые появился в аналитике (любое событие). Повторные заходы в другие дни сюда не входят.
+            </p>
+            <div class="analytics-bars" :class="{'analytics-bars-dense': (analyticsSummary?.daily || []).length > 31}" x-show="analyticsSummary && !analyticsSummaryLoading">
+              <div class="analytics-bars-plot">
+                <template x-for="(point, idx) in (analyticsSummary?.daily || [])" :key="point.date">
+                  <div class="analytics-bar-col" :title="point.date + ': ' + analyticsBarValue(point)">
+                    <div class="analytics-bar-value" x-text="(analyticsShowBarValues() && analyticsBarValue(point) > 0) ? analyticsBarValue(point) : ''"></div>
+                    <div class="analytics-bar-track">
+                      <div class="analytics-bar" :style="'height:' + analyticsBarHeight(point) + '%'"></div>
+                    </div>
+                    <div class="analytics-bar-label" x-text="analyticsShowBarLabel(idx) ? point.date.slice(5) : ''"></div>
+                  </div>
+                </template>
+              </div>
+              <p class="muted" x-show="!(analyticsSummary?.daily || []).length">Нет данных по дням</p>
+            </div>
+          </div>
+
+          <div x-show="analyticsTab==='funnel'">
+            <p class="muted section-note">
+              Сколько разных установок дошли до каждого шага. Шаги считаются отдельно
+              (человек мог купить, не открыв paywall в этом же периоде — поэтому процент может быть странным).
+            </p>
+            <div class="editorial-filters">
+              <input type="text" style="min-width:22rem" placeholder="шаги через запятую" x-model="analyticsFunnelSteps" @keydown.enter.prevent="loadAnalyticsFunnel()">
+              <button type="button" @click="loadAnalyticsFunnel()" :disabled="analyticsFunnelLoading">Обновить</button>
+            </div>
+            <div class="editorial-filters analytics-preset-row">
+              <span class="muted">Пресеты:</span>
+              <template x-for="preset in analyticsFunnelPresets" :key="preset.label">
+                <button type="button" class="btn-secondary" @click="applyAnalyticsFunnelPreset(preset)" x-text="preset.label"></button>
+              </template>
+            </div>
+            <p class="muted" x-show="analyticsFunnelLoading">Загрузка…</p>
+            <p class="error" x-show="analyticsFunnelError" x-text="analyticsFunnelError"></p>
+            <div class="editorial-table-wrap" x-show="analyticsFunnel && !analyticsFunnelLoading">
+              <table class="editorial-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Шаг</th>
+                    <th>Код</th>
+                    <th>Установок</th>
+                    <th>От прошлого</th>
+                    <th>От первого</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <template x-for="(step, idx) in (analyticsFunnel?.steps || [])" :key="step.event_name + '-' + idx">
+                    <tr>
+                      <td x-text="idx + 1"></td>
+                      <td x-text="analyticsEventLabel(step.event_name)" :title="analyticsEventTip(step.event_name)"></td>
+                      <td><code x-text="step.event_name"></code></td>
+                      <td x-text="step.installs"></td>
+                      <td x-text="step.conversion_from_previous == null ? '—' : (step.conversion_from_previous + '%')"></td>
+                      <td x-text="step.conversion_from_first == null ? '—' : (step.conversion_from_first + '%')"></td>
+                      <td>
+                        <button type="button" @click="drillToAnalyticsEvents(step.event_name)">В журнал</button>
+                      </td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+              <p class="muted" x-show="!(analyticsFunnel?.steps || []).length">Нет шагов</p>
+            </div>
+          </div>
+
+          <div x-show="analyticsTab==='breakdown'">
+            <p class="muted section-note">
+              Какие значения чаще всего встречаются у одного поля события.
+              По умолчанию: нажатия → какой элемент нажали.
+            </p>
+            <div class="editorial-filters">
+              <input type="text" placeholder="событие" x-model="analyticsBreakdownEventName" @keydown.enter.prevent="loadAnalyticsBreakdown()">
+              <input type="text" placeholder="поле" x-model="analyticsBreakdownParam" @keydown.enter.prevent="loadAnalyticsBreakdown()">
+              <label>
+                <select x-model="analyticsBreakdownFieldSource">
+                  <option value="params">params</option>
+                  <option value="user_properties">user_properties</option>
+                </select>
+              </label>
+              <button type="button" @click="loadAnalyticsBreakdown()" :disabled="analyticsBreakdownLoading">Обновить</button>
+            </div>
+            <div class="editorial-filters analytics-preset-row">
+              <span class="muted">Пресеты:</span>
+              <template x-for="preset in analyticsBreakdownPresets" :key="preset.label">
+                <button type="button" class="btn-secondary" @click="applyAnalyticsBreakdownPreset(preset)" x-text="preset.label"></button>
+              </template>
+            </div>
+            <p class="muted" x-show="analyticsBreakdownLoading">Загрузка…</p>
+            <p class="error" x-show="analyticsBreakdownError" x-text="analyticsBreakdownError"></p>
+            <div class="editorial-table-wrap" x-show="analyticsBreakdown && !analyticsBreakdownLoading">
+              <table class="editorial-table">
+                <thead>
+                  <tr><th>Значение</th><th>Раз</th></tr>
+                </thead>
+                <tbody>
+                  <template x-for="item in (analyticsBreakdown?.items || [])" :key="item.value">
+                    <tr>
+                      <td><code x-text="item.value"></code></td>
+                      <td x-text="item.count"></td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+              <p class="muted" x-show="!(analyticsBreakdown?.items || []).length">Ничего не нашлось</p>
+            </div>
+          </div>
+
+          <div x-show="analyticsTab==='events'">
+            <div class="editorial-filters">
+              <input type="search" placeholder="код события" x-model="analyticsEventName" @keydown.enter.prevent="analyticsOffset=0; loadAnalyticsEvents()">
+              <input type="search" placeholder="id установки" x-model="analyticsInstallId" @keydown.enter.prevent="analyticsOffset=0; loadAnalyticsEvents()">
+              <button type="button" @click="analyticsOffset=0; loadAnalyticsEvents()" :disabled="analyticsEventsLoading">Применить</button>
+              <button type="button" @click="analyticsEventName=''; analyticsInstallId=''; analyticsOffset=0; loadAnalyticsEvents()" :disabled="analyticsEventsLoading">Сброс</button>
+            </div>
+            <p class="muted" x-show="analyticsEventsLoading">Загрузка…</p>
+            <p class="error" x-show="analyticsEventsError" x-text="analyticsEventsError"></p>
+            <div class="analytics-pagination" x-show="analyticsEventsTotal > 0 && !analyticsEventsLoading">
+              <span class="muted">
+                Показано <span x-text="analyticsEvents.length"></span> из <span x-text="analyticsEventsTotal"></span>
+              </span>
+              <button type="button" @click="analyticsPrevPage()" :disabled="analyticsOffset <= 0 || analyticsEventsLoading">← Назад</button>
+              <button type="button" @click="analyticsNextPage()" :disabled="analyticsOffset + analyticsLimit >= analyticsEventsTotal || analyticsEventsLoading">Вперёд →</button>
+            </div>
+            <div class="editorial-table-wrap" x-show="!analyticsEventsLoading">
+              <table class="editorial-table analytics-events-table">
+                <thead>
+                  <tr>
+                    <th>Когда</th>
+                    <th>Что</th>
+                    <th>Код</th>
+                    <th>Установка</th>
+                    <th>Сессия</th>
+                    <th>Детали</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <template x-for="item in analyticsEvents" :key="item.event_id">
+                    <tr>
+                      <td x-text="formatLastCheck(item.occurred_at)"></td>
+                      <td x-text="analyticsEventLabel(item.event_name)" :title="analyticsEventTip(item.event_name)"></td>
+                      <td><code x-text="item.event_name"></code></td>
+                      <td>
+                        <code :title="item.install_id" x-text="shortUuid(item.install_id)"></code>
+                      </td>
+                      <td>
+                        <code :title="item.session_id" x-text="shortUuid(item.session_id)"></code>
+                      </td>
+                      <td>
+                        <details x-show="Object.keys(item.params || {}).length">
+                          <summary x-text="Object.keys(item.params || {}).length + ' полей'"></summary>
+                          <pre class="json-preview" x-text="formatJson(item.params)"></pre>
+                        </details>
+                        <span class="muted" x-show="!Object.keys(item.params || {}).length">—</span>
+                      </td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+              <p class="muted" x-show="!analyticsEvents.length">Ничего не нашлось</p>
+            </div>
+          </div>
+
+          <div x-show="analyticsTab==='help'" class="analytics-help">
+            <h2>Карточки на обзоре</h2>
+            <ul class="analytics-help-list">
+              <li><strong>Открывали приложение</strong> — сколько разных <code>install_id</code> прислали <code>daily_active</code> за выбранные дни.</li>
+              <li><strong>В среднем за день</strong> — среднее дневных DAU (<code>daily[].dau</code>) по дням периода (включая дни с 0).</li>
+              <li><strong>События</strong> — сколько строк событий попало в период.</li>
+              <li><strong>Новые установки</strong> — сколько <code>install_id</code> впервые появились в аналитике в эти дни (сумма <code>daily[].new_installs</code> = <code>summary.new_installs</code>). Повторные заходы старых установок сюда не входят.</li>
+            </ul>
+
+            <h2>Почему в топе странные события</h2>
+            <ul class="analytics-help-list">
+              <li><strong>Проверка покупок</strong> (<code>pro_restore</code>) — приложение само проверяет покупки при каждом запуске. Большое число не значит, что люди жмут «Восстановить».</li>
+              <li><strong>Скачал каталог</strong> / <strong>Вернулся в приложение</strong> — служебные действия при открытии. В топе это нормально.</li>
+            </ul>
+
+            <h2>Остальное коротко</h2>
+            <ul class="analytics-help-list">
+              <li><strong>Воронка</strong> — сколько установок сделали каждый шаг по отдельности (не «прошли цепочку подряд»).</li>
+              <li><strong>Что нажимали</strong> — разбор одного типа действия по значениям поля (например, какие кнопки).</li>
+              <li>Дни считаются по московскому времени. Старые события старше 30 дней приложение уже не присылает.</li>
+            </ul>
+
+            <h2>События, которые легко перепутать</h2>
+            <div class="editorial-table-wrap">
+              <table class="editorial-table">
+                <thead>
+                  <tr><th>Как видно</th><th>Код</th><th>Важно знать</th></tr>
+                </thead>
+                <tbody>
+                  <template x-for="name in analyticsExplainedEventNames()" :key="name">
+                    <tr>
+                      <td x-text="analyticsEventLabel(name)"></td>
+                      <td><code x-text="name"></code></td>
+                      <td x-text="analyticsEventTip(name)"></td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
         <section x-show="view==='api'" x-init="loadApiDocs()">
           <h1>Справка API</h1>
           <p class="muted" x-show="apiDocs?.baseUrl">Base URL: <code x-text="apiDocs.baseUrl"></code></p>
@@ -1247,6 +1541,6 @@
     </div>
   </template>
 
-  <script src="/admin/js/admin.js?v=13"></script>
+  <script src="/admin/js/admin.js?v=15"></script>
 </body>
 </html>

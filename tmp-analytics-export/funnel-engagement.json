@@ -1,0 +1,28 @@
+﻿{
+    "from":  "2026-05-29",
+    "to":  "2026-08-26",
+    "steps":  [
+                  {
+                      "event_name":  "daily_active",
+                      "installs":  937
+                  },
+                  {
+                      "event_name":  "command_view",
+                      "installs":  289,
+                      "conversion_from_previous":  30.8,
+                      "conversion_from_first":  30.8
+                  },
+                  {
+                      "event_name":  "command_copy",
+                      "installs":  90,
+                      "conversion_from_previous":  31.1,
+                      "conversion_from_first":  9.6
+                  },
+                  {
+                      "event_name":  "favorite_add",
+                      "installs":  12,
+                      "conversion_from_previous":  13.3,
+                      "conversion_from_first":  1.2
+                  }
+              ]
+}

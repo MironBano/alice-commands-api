@@ -109,18 +109,8 @@ class ExposedContentPipelineRepository(
             InventoryItemsTable.deleteAll()
             payload.inventory.forEach { insertInventory(it) }
 
-            val existingEditorial = EditorialRecordsTable.selectAll()
-                .map { it.toEditorialRecord() }
-                .associateBy { it.command_id }
-
-            payload.editorial.forEach { incoming ->
-                val existing = existingEditorial[incoming.command_id]
-                when {
-                    existing == null -> insertEditorial(incoming)
-                    existing.status == "approved" -> updateEditorial(existing)
-                    else -> updateEditorial(incoming)
-                }
-            }
+            EditorialRecordsTable.deleteAll()
+            payload.editorial.forEach { insertEditorial(it) }
 
             val existingQueue = ContentQueueTable.selectAll().map { it.toQueueItem() }
             val closedKeys = existingQueue

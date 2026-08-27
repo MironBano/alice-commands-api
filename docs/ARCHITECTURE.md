@@ -13,7 +13,7 @@
 | HTTP | Ktor 3.1 (CIO) | Compression, call logging |
 | DB | PostgreSQL 16 | Docker Compose для local |
 | ORM | Exposed 0.57 | Только `infrastructure.persistence` |
-| Migrations | Flyway 11 | V1 init … **V5 category_visuals** |
+| Migrations | Flyway 11 | V1 init … **V10 contextual_device_picks** |
 | Serialization | kotlinx.serialization | Bundle + API DTO |
 | Validation | networknt JSON Schema | `:server:validateContent` |
 | Admin UI | Static HTML + Alpine.js | `admin-web/` → classpath `/admin` |
@@ -31,12 +31,15 @@ routes (Ktor)  →  application  →  ports (interfaces)  ←  infrastructure
 | Зона | Пакет | Clean-строгость |
 | ---- | ----- | --------------- |
 | Publish, rollback, import, preview | `application/publish/` | Full use cases |
-| Public read (manifest, bundle, affiliate) | `application/read/` | Thin services |
+| Public read (manifest, bundle, affiliate, smarthome) | `application/read/` | Thin services |
 | Diff import vs published | `application/read/ContentDiffService` | Service (+ `command_groups`) |
 | **Delta published vN→current** | `application/read/ContentDeltaService` | Service |
 | **Group validation (publish gate)** | `application/publish/CommandGroupValidationUseCase` | Use case |
 | **Category visuals (publish gate)** | `application/publish/CategoryVisualValidationUseCase`, `SvgIconValidator` | Use case |
 | **Icon upload / catalog** | `application/publish/UploadIconUseCase`, `IconCatalogService` | Use cases |
+| **Command of day (publish gate)** | `application/publish/CommandOfDayValidationUseCase` | Use case |
+| **Smart home devices (auto-publish snapshot)** | `application/publish/SmartHomeDevicesValidationUseCase`, `UploadDeviceImageUseCase` | Use cases |
+| **Analytics ingest** | `application/analytics/AnalyticsUseCases.kt` | Use cases |
 | **App feedback inbox** | `application/feedback/` | Use cases (submit, list, resolve) |
 | Admin CRUD | `routes` → `DraftRepository` | Прямой repo OK |
 | HTTP / auth / DTO | `routes/`, `plugins/` | Adapters only |
@@ -47,23 +50,26 @@ routes (Ktor)  →  application  →  ports (interfaces)  ←  infrastructure
 ├── Application.kt, AppDependencies.kt
 ├── config/AppConfig.kt
 ├── routes/
-│   ├── PublicRoutes.kt      # /v1/*, /health, /ready
-│   ├── FeedbackRoutes.kt    # POST /v1/feedback, /v1/commands/report
+│   ├── PublicRoutes.kt      # /v1/content/*, /v1/smarthome/*, /health, /ready
+│   ├── FeedbackRoutes.kt    # POST /v1/feedback, /v1/commands/{id}/report
+│   ├── AnalyticsRoutes.kt   # POST /v1/analytics/events/batch
 │   ├── AdminRoutes.kt       # /admin/api/*
 │   └── AdminAuth.kt         # session cookie guard
 ├── application/
 │   ├── BundleCodec.kt
-│   ├── publish/PublishUseCases.kt, CommandGroupValidationUseCase.kt, CategoryVisualValidationUseCase.kt, IconCatalogUseCases.kt
+│   ├── publish/PublishUseCases.kt, CommandGroupValidationUseCase.kt, CategoryVisualValidationUseCase.kt,
+│   │   CommandOfDayValidationUseCase.kt, SmartHomeDevicesValidationUseCase.kt, UploadDeviceImageUseCase.kt, IconCatalogUseCases.kt
 │   ├── read/ReadServices.kt, ContentDiffService.kt, ContentDeltaService.kt
+│   ├── analytics/AnalyticsUseCases.kt
 │   └── feedback/FeedbackUseCases.kt
 ├── domain/
 │   ├── Models.kt
-│   └── ports/Ports.kt, IconStoragePorts.kt, HealthProbe.kt
+│   └── ports/Ports.kt, IconStoragePorts.kt, AnalyticsPorts.kt, HealthProbe.kt
 ├── infrastructure/
 │   ├── persistence/         # Exposed tables + repositories
-│   ├── storage/FilesystemBundleStorage.kt, FilesystemIconStorage.kt
-│   ├── security/            # SessionSigner, LoginRateLimiter, ClientIpResolver
-│   └── validation/JsonSchemaValidator.kt
+│   ├── storage/FilesystemBundleStorage.kt, FilesystemIconStorage.kt, FilesystemDeviceImageStorage.kt
+│   ├── security/            # SessionSigner, LoginRateLimiter, AnalyticsRateLimiterImpl, ClientIpResolver
+│   └── validation/JsonSchemaValidator.kt, JsonSmartHomeDevicesSchemaValidator.kt
 ├── plugins/Serialization.kt, StatusPages.kt
 └── tools/ValidateContentMain.kt
 ```
@@ -100,18 +106,25 @@ flowchart TB
     Scripts[update-content.ps1]
   end
   subgraph vps [VPS / local]
-    Nginx[nginx TLS optional]
-    Ktor[Ktor :8080]
-    PG[(PostgreSQL)]
-    FS[storage/bundles + manifest + icons/v1]
+    Nginx[nginx TLS]
+    KtorStaging[Ktor staging :8080]
+    KtorProd[Ktor prod :8081]
+    PG[(PostgreSQL shared)]
+    FSStaging[storage/ bundles + manifest]
+    FSProd[storage-prod/ bundles + manifest]
+    FSStatic[storage/icons + devices shared]
   end
-  Android -->|GET manifest bundle icons| Nginx
+  Android -->|GET manifest bundle smarthome| Nginx
   Browser -->|HTTPS admin| Nginx
-  Scripts -->|POST import merge| Ktor
-  Nginx --> Ktor
-  Ktor --> PG
-  Ktor --> FS
-  Ktor -->|Publish| FS
+  Scripts -->|POST import merge| KtorStaging
+  Nginx --> KtorStaging
+  Nginx --> KtorProd
+  KtorStaging --> PG
+  KtorProd --> PG
+  KtorStaging --> FSStaging
+  KtorProd --> FSProd
+  KtorStaging --> FSStatic
+  KtorProd --> FSStatic
 ```
 
 ---
@@ -122,8 +135,11 @@ flowchart TB
 | ------ | ---- | ---------- |
 | `/v1/content/*` | Public | manifest, bundle, bundle-backup, **delta** |
 | `/icons/v1/*.svg` | Public | Category/group SVG (nginx static + Ktor fallback) |
-| `/v1/affiliate/*` | Public | blocks (из published storage) |
-| `/v1/feedback`, `/v1/commands/report` | Public (rate limited) | App feedback + command reports |
+| `/devices/v1/*.webp` | Public | Smarthome device images (Ktor staticFiles) |
+| `/v1/smarthome/*` | Public | guides + picks snapshot |
+| `/v1/analytics/*` | Public (rate limited) | events batch ingest |
+| `/v1/affiliate/*` | Public | blocks (deprecated; из published storage) |
+| `/v1/feedback`, `/v1/commands/{id}/report` | Public (rate limited) | App feedback + command reports |
 | `/admin/api/*` | Session cookie | CRUD, publish, import, content/pipeline, docs |
 | `/admin/*` | Static (login в SPA) | Admin UI |
 | `/health`, `/ready` | Public | ops |
@@ -137,10 +153,12 @@ flowchart TB
 suspend fun execute(adminUser, minAppVersion, notes): PublishResult {
     val draft = draftRepository.loadFull()  // schema_version = 2
     commandGroupValidation.validate(draft)  // publish gate
+    categoryVisualValidation.validate(draft)  // optional visual gate
+    commandOfDayValidation.validate(draft)    // optional COD gate
     schemaValidator.validate(draft)
     val gzip = bundleCodec.toGzipJson(draft)
-    // … write bundle, manifest, affiliate, prune retention 5
-}
+    // … write bundle, manifest, affiliate (legacy), prune retention 5
+    // smarthome: отдельный snapshot при admin save guides/picks
 ```
 
 Rollback переключает `current_manifest` на существующий файл из history (retention 5).

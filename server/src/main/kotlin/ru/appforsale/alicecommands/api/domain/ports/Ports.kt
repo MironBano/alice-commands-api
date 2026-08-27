@@ -2,6 +2,9 @@ package ru.appforsale.alicecommands.api.domain.ports
 
 import ru.appforsale.alicecommands.api.domain.AffiliateBlock
 import ru.appforsale.alicecommands.api.domain.AffiliateBlocksResponse
+import ru.appforsale.alicecommands.api.domain.DeviceGuide
+import ru.appforsale.alicecommands.api.domain.DevicePick
+import ru.appforsale.alicecommands.api.domain.SmartHomeDevicesResponse
 import ru.appforsale.alicecommands.api.domain.Category
 import ru.appforsale.alicecommands.api.domain.ChecklistItem
 import ru.appforsale.alicecommands.api.domain.Command
@@ -46,6 +49,16 @@ interface DraftRepository {
     fun createAffiliateBlock(block: AffiliateBlock)
     fun updateAffiliateBlock(block: AffiliateBlock)
     fun deleteAffiliateBlock(id: String)
+    fun listDeviceGuides(): List<DeviceGuide> = emptyList()
+    fun getDeviceGuide(id: String): DeviceGuide? = null
+    fun createDeviceGuide(guide: DeviceGuide) = Unit
+    fun updateDeviceGuide(guide: DeviceGuide) = Unit
+    fun deleteDeviceGuide(id: String) = Unit
+    fun listDevicePicks(): List<DevicePick> = emptyList()
+    fun getDevicePick(id: String): DevicePick? = null
+    fun createDevicePick(pick: DevicePick) = Unit
+    fun updateDevicePick(pick: DevicePick) = Unit
+    fun deleteDevicePick(id: String) = Unit
     fun replaceAll(bundle: ContentBundle)
     fun merge(bundle: ContentBundle)
     fun getCommandOfDaySettings(): CommandOfDaySettings?
@@ -69,6 +82,13 @@ interface BundleStorage {
     fun pruneOldBundles(retention: Int)
     fun writeAffiliate(jsonBytes: ByteArray)
     fun readAffiliate(): AffiliateBlocksResponse?
+    fun writeSmartHomeDevices(jsonBytes: ByteArray) = Unit
+    fun readSmartHomeDevices(): SmartHomeDevicesResponse? = null
+}
+
+interface SmartHomeDevicesSchemaValidator {
+    fun validate(response: SmartHomeDevicesResponse)
+    fun validateJson(json: String)
 }
 
 interface SchemaValidator {

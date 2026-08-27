@@ -96,6 +96,51 @@ object AffiliateBlocksTable : Table("affiliate_blocks") {
     override val primaryKey = PrimaryKey(id)
 }
 
+object DeviceGuidesTable : Table("device_guides") {
+    val id = text("id")
+    val titleRu = text("title_ru")
+    val summaryRu = text("summary_ru")
+    val capabilitiesRu = text("capabilities_ru")
+    val setupRu = text("setup_ru")
+    val setupStepsRu = array<String>("setup_steps_ru")
+    val relatedDevicesRu = text("related_devices_ru").nullable()
+    val relatedDeviceIds = array<String>("related_device_ids")
+    val commandDeviceFilterId = text("command_device_filter_id").nullable()
+    val imageUrl = text("image_url").nullable()
+    val actionUrl = text("action_url")
+    val sortOrder = integer("sort_order")
+    val updatedAt = timestampWithTimeZone("updated_at")
+    override val primaryKey = PrimaryKey(id)
+}
+
+object DevicePicksTable : Table("device_picks") {
+    val id = text("id")
+    val titleRu = text("title_ru")
+    val descriptionRu = text("description_ru").nullable()
+    val priceHintRu = text("price_hint_ru").nullable()
+    val imageUrl = text("image_url").nullable()
+    val actionUrl = text("action_url")
+    val sortOrder = integer("sort_order")
+    val erid = text("erid").nullable()
+    val advertiserName = text("advertiser_name").nullable()
+    val disclosureRu = text("disclosure_ru").nullable()
+    val ctaRu = text("cta_ru").nullable()
+    val tags = array<String>("tags")
+    val deviceTypes = array<String>("device_types")
+    val categoryIds = array<String>("category_ids")
+    val commandGroupIds = array<String>("command_group_ids")
+    val commandIds = array<String>("command_ids")
+    val scenarioTemplateIds = array<String>("scenario_template_ids")
+    val guideIds = array<String>("guide_ids")
+    val placements = array<String>("placements")
+    val priority = integer("priority")
+    val startsAt = timestampWithTimeZone("starts_at").nullable()
+    val endsAt = timestampWithTimeZone("ends_at").nullable()
+    val maxImpressionsPerSession = integer("max_impressions_per_session").nullable()
+    val updatedAt = timestampWithTimeZone("updated_at")
+    override val primaryKey = PrimaryKey(id)
+}
+
 object CurrentManifestTable : Table("current_manifest") {
     val contentVersion = integer("content_version")
     val bundlePath = text("bundle_path")
@@ -209,6 +254,35 @@ object CommandReportsTable : Table("command_reports") {
 }
 
 object PublicSubmissionAttemptsTable : Table("public_submission_attempts") {
+    val ipAddress = text("ip_address")
+    val attemptedAt = timestampWithTimeZone("attempted_at")
+}
+
+object AnalyticsEventsTable : Table("analytics_events") {
+    val eventId = text("event_id")
+    val installId = text("install_id")
+    val sessionId = text("session_id")
+    val eventName = text("event_name")
+    val occurredAt = timestampWithTimeZone("occurred_at")
+    val receivedAt = timestampWithTimeZone("received_at")
+    val appVersion = text("app_version").nullable()
+    val androidVersion = text("android_version").nullable()
+    val locale = text("locale").nullable()
+    val userProperties = jsonb(
+        "user_properties",
+        persistenceJson,
+        kotlinx.serialization.builtins.MapSerializer(String.serializer(), String.serializer()),
+    )
+    val params = jsonb(
+        "params",
+        persistenceJson,
+        kotlinx.serialization.builtins.MapSerializer(String.serializer(), String.serializer()),
+    )
+    val clientIp = text("client_ip").nullable()
+    override val primaryKey = PrimaryKey(eventId)
+}
+
+object AnalyticsRequestAttemptsTable : Table("analytics_request_attempts") {
     val ipAddress = text("ip_address")
     val attemptedAt = timestampWithTimeZone("attempted_at")
 }

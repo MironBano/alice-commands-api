@@ -1,0 +1,32 @@
+﻿[
+    {
+        "window_days":  1,
+        "eligible":  930,
+        "returned":  63,
+        "rate":  6.8
+    },
+    {
+        "window_days":  3,
+        "eligible":  881,
+        "returned":  94,
+        "rate":  10.7
+    },
+    {
+        "window_days":  7,
+        "eligible":  765,
+        "returned":  108,
+        "rate":  14.1
+    },
+    {
+        "window_days":  14,
+        "eligible":  516,
+        "returned":  88,
+        "rate":  17.1
+    },
+    {
+        "window_days":  30,
+        "eligible":  193,
+        "returned":  43,
+        "rate":  22.3
+    }
+]

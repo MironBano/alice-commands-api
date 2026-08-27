@@ -4,14 +4,12 @@ on:
   pull_request:
     paths:
       - 'seed/**'
-      - 'tools/content/**'
       - 'schema/**'
       - 'server/**'
   push:
     branches: [main]
     paths:
       - 'seed/**'
-      - 'tools/content/**'
       - 'schema/**'
 
 jobs:
@@ -20,20 +18,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Install Python deps
-        run: pip install -r tools/content/requirements.txt
-
-      - name: Build bundle (cached sources)
-        run: python tools/content/build_bundle.py --skip-fetch
-
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
 
       - name: Validate against JSON Schema
-        run: ./gradlew :server:validateContent -PcontentFile=seed/full-catalog.json --no-daemon
+        run: |
+          ./gradlew :server:validateContent -PcontentFile=seed/catalog-audit-fixed.json --no-daemon
+          ./gradlew :server:validateSmartHomeDevices --no-daemon
+          ./gradlew :server:test --no-daemon

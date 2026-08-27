@@ -1,0 +1,24 @@
+﻿{
+    "id":  "pick_valve",
+    "title_ru":  "Шаровой кран",
+    "description_ru":  "Перекрывает воду при протечке — связка с датчиком протечки.",
+    "image_url":  "https://staging-api.alicecommands.ru/devices/v1/valve.png",
+    "action_url":  "https://market.yandex.ru/cc/A9xviR",
+    "sort_order":  240,
+    "guide_ids":  [
+                      "valve"
+                  ],
+    "category_ids":  [
+                         "smart_home"
+                     ],
+    "device_types":  [
+                         "station"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "search_empty"
+                   ],
+    "priority":  60,
+    "cta_ru":  "Смотреть цену"
+}

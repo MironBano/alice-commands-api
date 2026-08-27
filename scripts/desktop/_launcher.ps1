@@ -1,7 +1,7 @@
 #Requires -Version 5.1
 param(
     [Parameter(Mandatory)]
-    [ValidateSet('update', 'build-local', 'force-fetch', 'verify', 'open-admin', 'install-shortcuts', 'deploy')]
+    [ValidateSet('push-catalog', 'pull-catalog', 'validate-catalog', 'verify', 'open-admin', 'install-shortcuts', 'deploy')]
     [string]$Action
 )
 
@@ -20,17 +20,22 @@ function Wait-ForKey {
 
 try {
     switch ($Action) {
-        'update' {
-            Write-Host '== Update catalog (build + validate + push + verify) ==' -ForegroundColor Cyan
-            & (Join-Path $ScriptsDir 'update-content.ps1')
+        'push-catalog' {
+            Write-Host '== Validate + push catalog-audit-fixed.json to staging ==' -ForegroundColor Cyan
+            & (Join-Path $Root 'gradlew.bat') ':server:validateContent' '-PcontentFile=seed/catalog-audit-fixed.json'
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+            & (Join-Path $ScriptsDir 'push-draft.ps1')
         }
-        'build-local' {
-            Write-Host '== Build locally (no push) ==' -ForegroundColor Cyan
-            & (Join-Path $ScriptsDir 'update-content.ps1') -SkipPush
+        'pull-catalog' {
+            Write-Host '== Pull staging draft -> seed/catalog-audit-fixed.json ==' -ForegroundColor Cyan
+            Write-Host 'Внимание: локальный seed/catalog-audit-fixed.json будет перезаписан draft с сервера.' -ForegroundColor Yellow
+            & (Join-Path $ScriptsDir 'pull-draft.ps1') -Force
+            if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+            & (Join-Path $Root 'gradlew.bat') ':server:validateContent' '-PcontentFile=seed/catalog-audit-fixed.json'
         }
-        'force-fetch' {
-            Write-Host '== Force fetch from Yandex docs ==' -ForegroundColor Cyan
-            & (Join-Path $ScriptsDir 'update-content.ps1') -ForceFetch
+        'validate-catalog' {
+            Write-Host '== Validate catalog-audit-fixed.json ==' -ForegroundColor Cyan
+            & (Join-Path $Root 'gradlew.bat') ':server:validateContent' '-PcontentFile=seed/catalog-audit-fixed.json'
         }
         'verify' {
             Write-Host '== Verify staging manifest ==' -ForegroundColor Cyan

@@ -3,6 +3,7 @@ package ru.appforsale.alicecommands.api.infrastructure.storage
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import ru.appforsale.alicecommands.api.domain.AffiliateBlocksResponse
+import ru.appforsale.alicecommands.api.domain.SmartHomeDevicesResponse
 import ru.appforsale.alicecommands.api.domain.ports.BundleStorage
 import java.nio.file.Files
 import java.nio.file.Path
@@ -66,6 +67,16 @@ class FilesystemBundleStorage(
 
     override fun readAffiliate(): AffiliateBlocksResponse? {
         val file = manifestPath.resolve("affiliate_blocks.json")
+        if (!file.exists()) return null
+        return json.decodeFromString(file.readBytes().decodeToString())
+    }
+
+    override fun writeSmartHomeDevices(jsonBytes: ByteArray) {
+        manifestPath.resolve("smarthome_devices.json").writeBytes(jsonBytes)
+    }
+
+    override fun readSmartHomeDevices(): SmartHomeDevicesResponse? {
+        val file = manifestPath.resolve("smarthome_devices.json")
         if (!file.exists()) return null
         return json.decodeFromString(file.readBytes().decodeToString())
     }

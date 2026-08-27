@@ -1,6 +1,7 @@
 # Deployment — alice-commands-api
 
-**Бюджет:** ~625 ₽/мес · **Staging live:** Selectel VPS + `staging-api.alicecommands.ru`
+**Prod:** **LIVE** (2026-07-13) — `api.alicecommands.ru` · ops: [PRODUCTION.md](PRODUCTION.md)  
+**Бюджет:** ~625 ₽/мес · **Staging + prod:** Selectel VPS
 
 ---
 
@@ -51,6 +52,9 @@ Local dev: Ktor на хосте + PostgreSQL в Docker (`docker compose up -d`).
 | `deploy/.env.staging.example` | Шаблон `/opt/alice-api/.env` |
 | `deploy/alice-api.service` | systemd unit |
 | `deploy/nginx-staging.conf` | HTTPS + proxy → `:8080`, static `/icons/`, 64m body |
+| `deploy/nginx-prod.conf` | HTTPS + proxy → `:8081` (`alice-api-prod`), prod API |
+| `deploy/alice-api-prod.service` | systemd unit prod (`EnvironmentFile=.env.prod`) |
+| `deploy/.env.prod.example` | Шаблон `/opt/alice-api/.env.prod` |
 | `deploy/nginx-cdn.conf` | HTTPS vhost `cdn.alicecommands.ru` → static icons |
 | `deploy/nginx-cdn-bootstrap.conf` | HTTP-only bootstrap до certbot |
 | `deploy/remote-setup.sh` | Bootstrap VPS (Java 21, PG, nginx, certbot, ufw) |
@@ -61,9 +65,19 @@ Local dev: Ktor на хосте + PostgreSQL в Docker (`docker compose up -d`).
 
 ```powershell
 Copy-Item scripts\.env.example scripts\.env
-# SSH_KEY_PATH, SSH_HOST=root@161.104.46.92
+# SSH_KEY_PATH, SSH_HOST=root@161.104.46.92, CF_API_TOKEN
 .\scripts\deploy-staging.ps1
 ```
+
+**Production (отдельный сервис :8081, staging не трогаем):**
+
+```powershell
+.\scripts\deploy-prod.ps1
+.\scripts\copy-staging-to-prod.ps1
+.\scripts\verify-prod.ps1
+```
+
+См. [PROD-CUTOVER.md](PROD-CUTOVER.md).
 
 Вручную: `gradlew :server:installDist` → scp → `systemctl restart alice-api`.
 
@@ -136,4 +150,4 @@ UptimeRobot: мониторить `/health` на **прямом URL** (не че
 
 ---
 
-*См. [INFRASTRUCTURE.md](INFRASTRUCTURE.md), [SECURITY.md](SECURITY.md), [RUNBOOK-PUBLISH.md](RUNBOOK-PUBLISH.md)*
+*См. [INFRASTRUCTURE.md](INFRASTRUCTURE.md), [SECURITY.md](SECURITY.md), [RUNBOOK-PUBLISH.md](RUNBOOK-PUBLISH.md), [PROD-CUTOVER.md](PROD-CUTOVER.md)*

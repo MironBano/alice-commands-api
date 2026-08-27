@@ -1,0 +1,25 @@
+﻿{
+    "id":  "pick_kettle",
+    "title_ru":  "Умный чайник",
+    "description_ru":  "Кипячение и поддержание температуры — «Алиса, включи чайник».",
+    "image_url":  "https://staging-api.alicecommands.ru/devices/v1/kettle.png",
+    "action_url":  "https://market.yandex.ru/cc/AA25Ah",
+    "sort_order":  280,
+    "guide_ids":  [
+                      "kettle"
+                  ],
+    "category_ids":  [
+                         "smart_home"
+                     ],
+    "device_types":  [
+                         "station",
+                         "phone"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "search_empty"
+                   ],
+    "priority":  62,
+    "cta_ru":  "Смотреть цену"
+}

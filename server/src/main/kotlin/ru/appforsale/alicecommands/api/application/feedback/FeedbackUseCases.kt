@@ -24,7 +24,7 @@ class PublishedBundleLookup(
     fun currentContentVersion(): Int? = manifestRepository.getCurrent()?.contentVersion
 
     fun commandExistsInCurrent(commandId: String): Boolean =
-        loadCurrentBundle()?.commands?.any { it.id == commandId } == true
+        loadCurrentBundleInternal()?.commands?.any { it.id == commandId } == true
 
     fun commandExistsInCurrent(commandId: String, clientContentVersion: Int?): CommandValidationResult {
         val current = manifestRepository.getCurrent()
@@ -36,7 +36,9 @@ class PublishedBundleLookup(
         return CommandValidationResult(existsInCurrent = existsNow, rejectNotFound = rejectNotFound)
     }
 
-    private fun loadCurrentBundle(): ContentBundle? {
+    fun loadCurrentBundle(): ContentBundle? = loadCurrentBundleInternal()
+
+    private fun loadCurrentBundleInternal(): ContentBundle? {
         val current = manifestRepository.getCurrent() ?: return null
         val bytes = bundleStorage.read(current.bundlePath) ?: return null
         return BundleCodec.json.decodeFromString<ContentBundle>(BundleCodec.gunzip(bytes))

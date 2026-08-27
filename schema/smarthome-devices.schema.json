@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://alicecommands.ru/schema/smarthome-devices.schema.json",
+  "title": "SmartHomeDevices",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "updated_at", "guides", "picks"],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "updated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "guides": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/device_guide" }
+    },
+    "picks": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/device_pick" }
+    }
+  },
+  "$defs": {
+    "action_url": {
+      "type": "string",
+      "pattern": "^(https://|market://).+"
+    },
+    "https_image_url": {
+      "type": "string",
+      "pattern": "^https://.+"
+    },
+    "device_filter_id": {
+      "type": "string",
+      "enum": ["station", "tv", "phone"]
+    },
+    "device_guide": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title_ru",
+        "summary_ru",
+        "capabilities_ru",
+        "setup_ru",
+        "action_url",
+        "sort_order"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "title_ru": { "type": "string", "minLength": 1 },
+        "summary_ru": { "type": "string", "minLength": 1 },
+        "capabilities_ru": { "type": "string", "minLength": 1 },
+        "setup_ru": { "type": "string", "minLength": 1 },
+        "setup_steps_ru": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "related_devices_ru": { "type": "string" },
+        "related_device_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "command_device_filter_id": { "$ref": "#/$defs/device_filter_id" },
+        "image_url": { "$ref": "#/$defs/https_image_url" },
+        "action_url": { "$ref": "#/$defs/action_url" },
+        "sort_order": { "type": "integer" },
+        "detail_referral_pick_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Ordered referral picks for device_guide_detail: pick_{id} first, then related_device_ids picks with device_guide_detail placement. Computed at publish."
+        }
+      }
+    },
+    "device_pick": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title_ru", "action_url", "sort_order"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "title_ru": { "type": "string", "minLength": 1 },
+        "description_ru": { "type": "string" },
+        "price_hint_ru": { "type": "string" },
+        "image_url": { "$ref": "#/$defs/https_image_url" },
+        "action_url": { "$ref": "#/$defs/action_url" },
+        "sort_order": { "type": "integer" },
+        "erid": { "type": "string" },
+        "advertiser_name": { "type": "string" },
+        "disclosure_ru": { "type": "string" },
+        "cta_ru": { "type": "string" },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "device_types": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/device_filter_id" }
+        },
+        "category_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "command_group_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "command_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "scenario_template_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "guide_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "placements": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "smart_home_devices",
+              "device_guide_detail",
+              "scenario_detail",
+              "command_detail",
+              "catalog_persona",
+              "search_empty",
+              "checklist_complete"
+            ]
+          }
+        },
+        "priority": { "type": "integer" },
+        "starts_at": { "type": "string" },
+        "ends_at": { "type": "string" },
+        "max_impressions_per_session": { "type": "integer" }
+      }
+    }
+  }
+}

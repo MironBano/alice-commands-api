@@ -132,7 +132,7 @@ class DraftCommandMergeTest {
     }
 
     @Test
-    fun `fromAdminPut preserves group metadata when omitted in body`() {
+    fun `fromAdminPut applies full body and preserves published_at`() {
         val existing = Command(
             id = "music_test",
             category_id = "music",
@@ -141,6 +141,7 @@ class DraftCommandMergeTest {
             effect_description_ru = "Старый.",
             requires_alice_word = true,
             source_url = "https://example.com",
+            published_at = "2026-01-01T00:00:00Z",
             updated_at = "2026-01-01T00:00:00Z",
             group_id = "music_playback",
             sort_order = 5,
@@ -154,14 +155,16 @@ class DraftCommandMergeTest {
             sort_order = null,
             variant_label_ru = null,
             search_aliases = emptyList(),
+            published_at = "should-not-win",
             updated_at = "now",
         )
         val merged = DraftCommandMerge.fromAdminPut(existing, incoming)
-        assertEquals("music_playback", merged.group_id)
-        assertEquals(5, merged.sort_order)
-        assertEquals("Музыка", merged.variant_label_ru)
-        assertEquals(listOf("музыка"), merged.search_aliases)
+        assertEquals(null, merged.group_id)
+        assertEquals(null, merged.sort_order)
+        assertEquals(null, merged.variant_label_ru)
+        assertEquals(emptyList<String>(), merged.search_aliases)
         assertEquals("Новый эффект.", merged.effect_description_ru)
+        assertEquals("2026-01-01T00:00:00Z", merged.published_at)
     }
 
     private fun command(id: String, effect: String) = Command(
@@ -188,7 +191,7 @@ class DraftCommandMergeTest {
         val existing: MutableMap<String, Command> = mutableMapOf()
 
         override fun loadFull(contentVersion: Int, minAppVersion: String): ContentBundle = error("not used")
-        override fun stats(): DraftStats = DraftStats(0, 0, 0, 0, 0, 0)
+        override fun stats(): DraftStats = DraftStats(0, 0, 0, 0, 0, 0, 0, 0)
         override fun listCategories(): List<Category> = emptyList()
         override fun getCategory(id: String): Category? = null
         override fun createCategory(category: Category) = Unit

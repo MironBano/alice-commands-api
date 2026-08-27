@@ -1,0 +1,29 @@
+﻿{
+    "id":  "pick_vacuum_cleaner",
+    "title_ru":  "Робот-пылесос",
+    "description_ru":  "Уборка голосом: старт, стоп, база и зоны — если модель в экосистеме Алисы.",
+    "image_url":  "https://staging-api.alicecommands.ru/devices/v1/vacuum_cleaner.png",
+    "action_url":  "https://market.yandex.ru/cc/A9ytat",
+    "sort_order":  270,
+    "guide_ids":  [
+                      "vacuum_cleaner"
+                  ],
+    "command_ids":  [
+                        "smart_home_vremia_uborki",
+                        "smart_home_zapusti_pylesos"
+                    ],
+    "category_ids":  [
+                         "smart_home"
+                     ],
+    "device_types":  [
+                         "station"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "search_empty",
+                       "command_detail"
+                   ],
+    "priority":  87,
+    "cta_ru":  "Смотреть цену"
+}

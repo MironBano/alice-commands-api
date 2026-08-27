@@ -9,6 +9,7 @@ import ru.appforsale.alicecommands.api.application.publish.PublishAffiliateUseCa
 import ru.appforsale.alicecommands.api.application.read.DraftPublishStatusService
 import ru.appforsale.alicecommands.api.domain.AffiliateBlock
 import ru.appforsale.alicecommands.api.domain.AffiliateBlocksResponse
+import ru.appforsale.alicecommands.api.domain.SmartHomeDevicesResponse
 import ru.appforsale.alicecommands.api.domain.AffiliateProduct
 import ru.appforsale.alicecommands.api.domain.Category
 import ru.appforsale.alicecommands.api.domain.ChecklistItem
@@ -58,14 +59,14 @@ class AffiliatePublishUseCaseTest {
 
     @Test
     fun `affiliate draft alone does not require catalog publish`() {
-        val draft = FakeDraftRepository(stats = DraftStats(0, 0, 0, 0, 0, 1))
+        val draft = FakeDraftRepository(stats = DraftStats(0, 0, 0, 0, 0, 1, 0, 0))
         val status = DraftPublishStatusService(draft, NoCurrentManifestRepository, FakeBundleStorage())
 
         assertFalse(status.hasUnpublishedChanges())
     }
 
-    private class FakeDraftRepository(
-        private val stats: DraftStats = DraftStats(0, 0, 0, 0, 0, 0),
+    open class FakeDraftRepository(
+        private val stats: DraftStats = DraftStats(0, 0, 0, 0, 0, 0, 0, 0),
         private val affiliateBlocks: List<AffiliateBlock> = emptyList(),
     ) : DraftRepository {
         override fun loadFull(contentVersion: Int, minAppVersion: String): ContentBundle =
@@ -117,9 +118,10 @@ class AffiliatePublishUseCaseTest {
         override fun getHistoryByVersion(version: Int): PublishHistoryEntry? = null
     }
 
-    private class FakeBundleStorage : BundleStorage {
+    class FakeBundleStorage : BundleStorage {
         val writtenBundles: MutableMap<String, ByteArray> = mutableMapOf()
         private var affiliateBytes: ByteArray? = null
+        private var smartHomeBytes: ByteArray? = null
 
         override fun write(filename: String, gzipBytes: ByteArray): String {
             writtenBundles[filename] = gzipBytes
@@ -136,5 +138,12 @@ class AffiliatePublishUseCaseTest {
 
         override fun readAffiliate(): AffiliateBlocksResponse? =
             affiliateBytes?.decodeToString()?.let { BundleCodec.json.decodeFromString<AffiliateBlocksResponse>(it) }
+
+        override fun writeSmartHomeDevices(jsonBytes: ByteArray) {
+            smartHomeBytes = jsonBytes
+        }
+
+        override fun readSmartHomeDevices(): SmartHomeDevicesResponse? =
+            smartHomeBytes?.decodeToString()?.let { BundleCodec.json.decodeFromString<SmartHomeDevicesResponse>(it) }
     }
 }

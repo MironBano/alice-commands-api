@@ -23,6 +23,11 @@ data class AppConfig(
     val iconPublicBaseUrl: String,
     val iconUrlAllowedHosts: Set<String>,
     val iconCatalogPath: Path,
+    val deviceImageStoragePath: Path,
+    val analyticsRateLimitPerIp: Int,
+    val analyticsEventsPerIpPerDay: Int,
+    val analyticsMaxBodyBytes: Int,
+    val analyticsRawRetentionDays: Int,
 ) {
     val isProduction: Boolean get() = env == "prod" || env == "staging"
 
@@ -65,11 +70,16 @@ data class AppConfig(
                 adminLoginRateLimit = env("ADMIN_LOGIN_RATE_LIMIT", "5").toInt(),
                 publicSubmissionRateLimit = env("PUBLIC_SUBMISSION_RATE_LIMIT", "20").toInt(),
                 contentSeedPath = env("CONTENT_SEED_PATH").takeIf { it.isNotBlank() }?.let { resolvePath(it) }
-                    ?: resolvePath("./seed/full-catalog.json").takeIf { appEnv == "local" && it.toFile().exists() },
+                    ?: resolvePath("./seed/catalog-audit-fixed.json").takeIf { appEnv == "local" && it.toFile().exists() },
                 iconStoragePath = resolvePath(env("ICON_STORAGE_PATH", "./storage/icons")),
                 iconPublicBaseUrl = iconPublicBaseUrl,
                 iconUrlAllowedHosts = iconUrlAllowedHosts,
                 iconCatalogPath = resolveCatalogPath(),
+                deviceImageStoragePath = resolvePath(env("DEVICE_IMAGE_STORAGE_PATH", "./storage/devices")),
+                analyticsRateLimitPerIp = env("ANALYTICS_RATE_LIMIT_PER_IP", "120").toInt(),
+                analyticsEventsPerIpPerDay = env("ANALYTICS_EVENTS_PER_IP_PER_DAY", "10000").toInt(),
+                analyticsMaxBodyBytes = env("ANALYTICS_MAX_BODY_BYTES", "262144").toInt(),
+                analyticsRawRetentionDays = env("ANALYTICS_RAW_RETENTION_DAYS", "90").toInt(),
             )
         }
 

@@ -1,0 +1,29 @@
+﻿{
+    "id":  "pick_purifier",
+    "title_ru":  "Очиститель воздуха",
+    "description_ru":  "Очистка и мойка воздуха — режимы и вкл/выкл через Алису.",
+    "image_url":  "https://staging-api.alicecommands.ru/devices/v1/purifier.png",
+    "action_url":  "https://market.yandex.ru/cc/A9wnpd",
+    "sort_order":  200,
+    "guide_ids":  [
+                      "purifier"
+                  ],
+    "command_ids":  [
+                        "smart_home_vkliuchi_ionizator_zavtra_v_8_utra",
+                        "smart_home_vkliuchi_plazmu"
+                    ],
+    "category_ids":  [
+                         "smart_home"
+                     ],
+    "device_types":  [
+                         "station"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "search_empty",
+                       "command_detail"
+                   ],
+    "priority":  67,
+    "cta_ru":  "Смотреть цену"
+}

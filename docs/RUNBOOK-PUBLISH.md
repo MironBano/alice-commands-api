@@ -3,6 +3,8 @@
 **Для:** владелец продукта (без знания backend)  
 **Цель:** выпустить новую версию каталога в app
 
+> **PRODUCTION LIVE:** пользователи читают **prod**. Новый контент — сначала **staging**, затем `copy-staging-to-prod.ps1`. См. [PRODUCTION.md](PRODUCTION.md).
+
 ---
 
 ## 1. Когда публиковать
@@ -61,18 +63,28 @@ PowerShell: `.\scripts\verify-staging.ps1` (manifest + sha256 + stats).
 
 ---
 
-## 4. Import seed (первый раз / dev)
+## 4. Import seed
 
 | Файл | Когда |
 | ---- | ----- |
-| `seed/smart-home-groups-v2.json` | Первый pilot (Умный дом + groups), пустая БД |
-| `seed/full-catalog.json` | После content pipeline, полный каталог |
+| `seed/catalog-audit-fixed.json` | **Канон** — 885 команд, все группы; default в `push-draft.ps1` |
+| `seed/smart-home-groups-v2.json` | Pilot groups (Умный дом), пустая БД |
+| `seed/full-catalog.json` | Legacy pipeline после парсера support |
 
-1. Admin → **Import**
-2. Upload JSON
-3. Просмотрите **Diff vs опубликованная версия**
-4. Для регулярного pipeline — **Sync** (default в `push-draft.ps1`); **Replace all** только на пустой staging
-5. Publish
+**Канон (рекомендуется):**
+
+```powershell
+.\gradlew.bat :server:validateContent "-PcontentFile=seed/catalog-audit-fixed.json"
+.\scripts\push-draft.ps1
+# Admin → Publish
+```
+
+1. Admin → **Import** (или скрипт выше)
+2. **Diff vs опубликованная версия**
+3. **Replace** для fixed catalog; **Sync** только для legacy `full-catalog.json` + `-RebuildDraft`
+4. Publish
+
+См. [CATALOG-FIXED-BUILD.md](CATALOG-FIXED-BUILD.md).
 
 ---
 
@@ -93,7 +105,7 @@ PowerShell: `.\scripts\verify-staging.ps1` (manifest + sha256 + stats).
 ## 6. Affiliate (CPA)
 
 1. Admin → **Affiliate**
-2. Обновите ссылки / ERID
+2. Обновите ссылки (ERID опционально — см. SECURITY.md §8)
 3. Сохранение блока сразу обновляет `GET /v1/affiliate/blocks`; общий **Publish** каталога не нужен
 4. Проверьте `GET /v1/affiliate/blocks` и в app: Умный дом → маркировка «Реклама»
 
@@ -105,25 +117,35 @@ PowerShell: `.\scripts\verify-staging.ps1` (manifest + sha256 + stats).
 
 ```powershell
 Copy-Item scripts\.env.example scripts\.env   # STAGING_API_URL, credentials
-.\scripts\update-content.ps1
-# → pipeline → validate → push draft sync + pipeline-sync → verify manifest
-# Далее: admin → очередь editorial → diff → Publish
-# После Publish: python tools/content/pipeline_run.py --skip-fetch --finalize-baseline
+.\scripts\update-content.ps1                  # legacy: full-catalog + sync + rebuild-draft
+# или для канона:
+.\scripts\push-draft.ps1                      # catalog-audit-fixed + replace
+# → verify manifest → admin → Publish при diff
 ```
 
 Подробнее: [CONTENT-UPDATE.md](CONTENT-UPDATE.md).
 
 ---
 
-## 8. Чеклист перед prod publish (store release)
+## 8. Prod после LIVE (обязательный путь)
 
-- [ ] ≥ 300 команд, 13+ категорий
+**Не публиковать напрямую на prod** без QA на staging.
+
+1. Publish на **staging** (admin или `push-draft.ps1` + Publish)
+2. `.\scripts\verify-staging.ps1`
+3. Проверка app на staging flavor (по возможности)
+4. `.\scripts\copy-staging-to-prod.ps1` — каталог + smarthome
+5. `.\scripts\verify-prod.ps1`
+6. Записать prod `content_version` из manifest
+
+Чеклист качества (до copy):
+
+- [ ] ≥ 300 команд, 13+ категорий (сейчас эталон: **885** / **13**)
 - [ ] Каждая command имеет `source_url` https
 - [ ] Preview / import diff прошёл вычитку
 - [ ] Staging curl / `verify-staging.ps1` OK
-- [ ] Android staging flavor sync OK
-- [ ] Publish на **prod** (не staging)
-- [ ] App release build указывает prod URL
+
+Откат prod: Admin prod → **Publish history** → Rollback. Подробно: [PRODUCTION.md](PRODUCTION.md) §4.
 
 ---
 
@@ -132,9 +154,10 @@ Copy-Item scripts\.env.example scripts\.env   # STAGING_API_URL, credentials
 | Симптом | Действие |
 | ------- | -------- |
 | App не обновляется | Проверить manifest version; сеть на телефоне |
-| Иконки не грузятся в app | Проверить `icon_url` в bundle (host должен резолвиться); staging: `staging-api.../icons/v1/` |
+| Иконки не грузятся в app | Проверить `icon_url` в bundle (host должен резолвиться); **канон:** `cdn.alicecommands.ru/icons/v1/` |
 | `cdn.alicecommands.ru` NXDOMAIN | Добавить A `cdn` → VPS в Cloudflare (DNS only) → `setup-cdn.ps1` |
 | Publish failed | Admin error message; не трогать live; fix draft |
+| «Команды без группы» в админке | Stale editorial вне seed → очистить `seed/data/editorial.json`; `push-draft.ps1`; см. CATALOG-FIXED-BUILD.md |
 | API down | SSH VPS → `systemctl status alice-api`; см. [DEPLOYMENT.md](DEPLOYMENT.md) |
 | Нужен откат | Rollback в admin |
 | Import diff пустой | Ещё не было publish — diff vs published недоступен |
@@ -168,7 +191,7 @@ Editorial «команда дня» — см. [BACKEND-COMMAND-OF-DAY.md](BACKEN
 3. Publish → в bundle появится `command_of_day` с `resolved_date` = today (Europe/Moscow)
 4. Staging QA: app sync → карточка «Команда дня»; offline rollover для auto — по app-плану
 
-**Staging (проверено 2026-07-02):**
+**Staging (historical snapshot as_of 2026-07-02):**
 
 | Параметр | Значение |
 | -------- | -------- |
@@ -177,9 +200,91 @@ Editorial «команда дня» — см. [BACKEND-COMMAND-OF-DAY.md](BACKEN
 | `auto_category_id` | `obscure` («Неочевидные команды», 34 команды) |
 | Snapshot сегодня | `obscure_disko_podsvetka` — «Диско подсветка» |
 
+> Актуальную версию проверяйте: `GET /v1/content/manifest` на staging.
+
 ```powershell
 .\scripts\verify-staging.ps1   # включает smoke command_of_day
 ```
+
+---
+
+## 12. CDN и icon_url (политика v44+)
+
+| Среда | `icon_url` host в bundle |
+| ----- | ------------------------ |
+| **Prod / staging app** | `https://cdn.alicecommands.ru/icons/v1/{slug}.svg` |
+| **До DNS CDN** | Временно `staging-api.../icons/v1/` (legacy) |
+
+**Однократно на VPS:**
+
+```powershell
+.\scripts\setup-cdn.ps1   # DNS + cert + ICON_PUBLIC_BASE_URL
+```
+
+**Проверка после publish:**
+
+```powershell
+curl -sS -o NUL -w "%{http_code}" https://cdn.alicecommands.ru/icons/v1/music_note.svg
+```
+
+Bundle `seed/catalog-audit-fixed.json` — **885** команд (prod live `content_version=10`, staging — свой счётчик). CDN host в bundle. См. [CONTENT-PRODUCT-ROADMAP.md](CONTENT-PRODUCT-ROADMAP.md), [CATALOG-FIXED-BUILD.md](CATALOG-FIXED-BUILD.md).
+
+---
+
+## 13. Продуктовый контент (не команды)
+
+Чеклист перед publish v44+:
+
+- [ ] 8 `scenario_templates` + `deep_link_hint`
+- [ ] 8 `checklist_items` (УД optional в конце)
+- [ ] `command_of_day` manual/auto в админке
+- [ ] Flyway `V8__product_content_seed` → admin **Устройства** → publish smarthome snapshot
+- [ ] `validateContent` + `validateSmartHomeDevices`
+
+Подробно: [CONTENT-PRODUCT-ROADMAP.md](CONTENT-PRODUCT-ROADMAP.md), [ADMIN-CONTENT-GUIDE.md](ADMIN-CONTENT-GUIDE.md) § продуктовый контент.
+
+---
+
+## 14. Smart home / Устройства
+
+Отдельный publish flow — **не** часть content bundle publish.
+
+1. Deploy backend (Flyway `V7`–`V10`)
+2. Admin → **Устройства** → guides + picks (или `import-smarthome-payload.ps1 -Target staging`)
+3. Каждый save auto-публикует `storage/manifest/smarthome_devices.json`
+4. Verify:
+
+```powershell
+curl -sS https://staging-api.alicecommands.ru/v1/smarthome/devices | jq '.guides | length, .picks | length'
+curl -sS -o NUL -w "%{http_code}" https://staging-api.alicecommands.ru/devices/v1/station.webp
+```
+
+5. Prod: `copy-staging-to-prod.ps1` или import на prod admin
+
+См. [BACKEND-SMARTHOME-DEVICES.md](BACKEND-SMARTHOME-DEVICES.md).
+
+**Affiliate blocks** — legacy; новые подборки через **picks** в разделе Устройства.
+
+---
+
+## 15. Analytics
+
+Deploy backend с Flyway `V9__analytics_events.sql` (входит в обычный deploy).
+
+1. Env в `.env` / `.env.prod`: `ANALYTICS_RATE_LIMIT_PER_IP`, `ANALYTICS_EVENTS_PER_IP_PER_DAY`, `ANALYTICS_MAX_BODY_BYTES`, `ANALYTICS_RAW_RETENTION_DAYS`
+2. Smoke ingest (local или staging):
+
+```powershell
+curl -X POST https://staging-api.alicecommands.ru/v1/analytics/events/batch `
+  -H "Content-Type: application/json" `
+  -d '{"events":[{"installId":"00000000-0000-4000-8000-000000000001","sessionId":"00000000-0000-4000-8000-000000000002","eventId":"00000000-0000-4000-8000-000000000003","eventName":"screen_view","occurredAt":1710000000123,"appVersion":"1.0.0","params":{"route":"test"}}]}'
+# → 202 {"accepted":1,...}
+```
+
+3. Admin → **Аналитика** / **События** — KPI и raw events
+4. Prod: тот же endpoint на `https://api.alicecommands.ru`
+
+P1 backlog: retention cleanup job, funnel/breakdown endpoints — см. [ANALYTICS-BACKEND.md](ANALYTICS-BACKEND.md).
 
 ---
 

@@ -71,6 +71,8 @@ Optional: `CONTENT_SEED_PATH` — path to seed JSON on VPS (admin import-seed, n
 
 **Icons:** `ICON_URL_ALLOWED_HOSTS` — allowlist для `icon_url` при publish. SVG upload: admin-only, `SvgIconValidator` (no script tags, size/viewBox). Public `GET /icons/v1/*.svg` — read-only static.
 
+**Device images:** `POST /admin/api/smarthome/upload-image` — admin-only; public `GET /devices/v1/*.webp` read-only.
+
 Шаблоны: `.env.example`, `deploy/.env.staging.example`, `scripts/.env.example`.
 
 ---
@@ -79,7 +81,24 @@ Optional: `CONTENT_SEED_PATH` — path to seed JSON on VPS (admin import-seed, n
 
 - No auth required (read-only catalog)
 - No user PII collected
-- AppMetrica — on client only
+- AppMetrica — on client only; backend analytics — anonymous `installId` only
+
+### Feedback + command reports
+
+- `POST /v1/feedback`, `POST /v1/commands/{command_id}/report`
+- Rate limit: `PUBLIC_SUBMISSION_RATE_LIMIT` (default 20) per IP / 15 min
+- No email/phone in payload
+
+### Analytics ingest
+
+- `POST /v1/analytics/events/batch` — no auth, 202 Accepted
+- Dedup by `eventId` (global unique)
+- Blocked param keys: `query`, `message`, `email`, `phone`, `text` (substring)
+- Rate limits: `ANALYTICS_RATE_LIMIT_PER_IP` (120/15 min), `ANALYTICS_EVENTS_PER_IP_PER_DAY` (10000)
+- Max body: `ANALYTICS_MAX_BODY_BYTES` (262144) → HTTP 413
+- Retention: `ANALYTICS_RAW_RETENTION_DAYS` (90) — cleanup job P1, not implemented yet
+
+См. [ANALYTICS-BACKEND.md](ANALYTICS-BACKEND.md).
 
 ---
 
@@ -93,8 +112,11 @@ Optional: `CONTENT_SEED_PATH` — path to seed JSON on VPS (admin import-seed, n
 
 ## 8. Affiliate compliance
 
-- ERID + «Реклама» — validated before publish (warn if missing)
-- CPA links only https
+**Политика v1.0 (2026-07-09):** `erid` и `advertiser_name` для affiliate blocks и device picks — **опциональны**, не блокируют publish и не скрывают карточки в app.
+
+- CPA-ссылки: только `https://` (или `market://` для picks)
+- Если `erid` + `advertiser_name` заданы — app показывает тихую строку маркировки
+- Добавление ERID — по мере подключения к Яндекс Дистрибуции / legal review, не gate RuStore v1.0
 
 ---
 

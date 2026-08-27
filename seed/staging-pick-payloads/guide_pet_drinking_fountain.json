@@ -1,0 +1,19 @@
+{
+  "id": "pet_drinking_fountain",
+  "title_ru": "Поилка",
+  "summary_ru": "Автонаполнение миски водой для питомца.",
+  "capabilities_ru": "Поддержание уровня воды, вкл/выкл помпы (зависит от модели). Примеры: «Алиса, включи поилку». Хорошо сочетается с кормушкой и камерой.",
+  "setup_ru": "Наполните резервуар, подключите к питанию и приложению «Дом с Алисой».",
+  "setup_steps_ru": [
+    "Промойте и наполните резервуар",
+    "Подключите питание",
+    "Добавьте в «Дом с Алисой»",
+    "Проверьте работу помпы",
+    "Добавьте напоминание о чистке фильтра"
+  ],
+  "related_devices_ru": "Кормушка, камера",
+  "related_device_ids": ["pet_feeder", "camera"],
+  "image_url": "https://staging-api.alicecommands.ru/icons/v1/water_bottle.svg",
+  "action_url": "https://yandex.ru/dev/dialogs/smart-home/doc/ru/concepts/device-type-pet-drinking-fountain",
+  "sort_order": 350
+}

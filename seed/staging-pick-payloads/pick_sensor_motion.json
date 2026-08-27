@@ -1,0 +1,25 @@
+﻿{
+    "id":  "pick_sensor_motion",
+    "title_ru":  "Датчик движения",
+    "description_ru":  "Замечает движение в комнате — свет, охрана и сценарии без выключателя.",
+    "image_url":  "https://staging-api.alicecommands.ru/devices/v1/sensor_motion.png",
+    "action_url":  "https://market.yandex.ru/cc/A9tWMc",
+    "sort_order":  80,
+    "guide_ids":  [
+                      "sensor_motion"
+                  ],
+    "category_ids":  [
+                         "smart_home"
+                     ],
+    "device_types":  [
+                         "station"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "scenario_detail",
+                       "search_empty"
+                   ],
+    "priority":  60,
+    "cta_ru":  "Смотреть цену"
+}

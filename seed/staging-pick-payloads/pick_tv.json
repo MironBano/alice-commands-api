@@ -1,0 +1,46 @@
+﻿{
+    "id":  "pick_tv",
+    "title_ru":  "Умный телевизор с Алисой",
+    "description_ru":  "Большой экран с голосом: контент, поиск и умный дом с пульта или колонки.",
+    "image_url":  "https://staging-api.alicecommands.ru/devices/v1/tv.png",
+    "action_url":  "https://market.yandex.ru/cc/AA54S2",
+    "sort_order":  20,
+    "guide_ids":  [
+                      "tv"
+                  ],
+    "command_ids":  [
+                        "smart_home_umnyi_pult",
+                        "smart_home_vkliuchi_11_kanal_na_tiunere",
+                        "smart_home_vkliuchi_17_kanal_na_tiunere_v_spalne",
+                        "smart_home_vkliuchi_piatyi_kanal_na_videostene",
+                        "smart_home_vkliuchi_predydushchii_kanal_na_plazme",
+                        "smart_home_vkliuchi_predydushchii_kanal_na_vitrine",
+                        "smart_home_vkliuchi_sleduiushchii_kanal_na_kabelnom",
+                        "smart_home_vkliuchi_sleduiushchii_predydushchii_kan",
+                        "smart_home_vkliuchi_televizor_na_kukhne",
+                        "smart_home_vykliuchi_televizor_cherez_30_minut",
+                        "smart_home_vykliuchi_videosistemu",
+                        "tv_video_vkliuchi_televizor",
+                        "tv_video_vykliuchi_televizor",
+                        "tv_video_gromche_na_televizore",
+                        "tv_video_pauza_na_televizore",
+                        "tv_video_gromkost_na_sem_tolko_pri_podkliuchenii",
+                        "tv_video_otkroi_vkladku_tv_tolko_pri_podkliucheni",
+                        "tv_video_predydushchii_kanal"
+                    ],
+    "category_ids":  [
+                         "smart_home",
+                         "tv_video"
+                     ],
+    "device_types":  [
+                         "tv"
+                     ],
+    "placements":  [
+                       "smart_home_devices",
+                       "device_guide_detail",
+                       "search_empty",
+                       "command_detail"
+                   ],
+    "priority":  78,
+    "cta_ru":  "Смотреть цену"
+}

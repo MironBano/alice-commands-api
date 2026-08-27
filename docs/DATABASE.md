@@ -1,6 +1,6 @@
 # Database — alice-commands-api
 
-**DBMS:** PostgreSQL 16 · **Migrations:** Flyway (`V1__init.sql` … `V6__command_of_day.sql`)
+**DBMS:** PostgreSQL 16 · **Migrations:** Flyway (`V1__init.sql` … `V10__contextual_device_picks.sql`)
 
 | Migration | Таблицы |
 | --------- | ------- |
@@ -10,13 +10,17 @@
 | V4 | `command_groups` + group fields on `commands` |
 | V5 | `icon_url`, `accent_color`, `accent_color_dark` on `categories` + `command_groups` |
 | V6 | `command_of_day_settings` — editorial singleton (manual/auto, FK → commands/categories) |
+| V7 | `device_guides`, `device_picks` — smarthome; migrate affiliate products → picks |
+| V8 | `product_content_seed` — 8 picks + guide `image_url` |
+| V9 | `analytics_events`, `analytics_request_attempts` — analytics ingest |
+| V10 | Contextual fields on `device_picks` (placements, tags, FK arrays, priority, scheduling) |
 
 ---
 
 ## 1. Принцип
 
 - **Draft** таблицы (`categories`, `commands`, …) — mutable, редактируются admin
-- **Published** state — files (`content_vN.json.gz`) + row `current_manifest` + affiliate snapshot на диске
+- **Published** state — files (`content_vN.json.gz`) + row `current_manifest` + smarthome snapshot + affiliate snapshot (legacy) на диске
 - Publish читает draft → валидирует schema → пишет bundle
 
 ---
@@ -174,6 +178,54 @@ erDiagram
     text issue_type
     text status
   }
+
+  command_of_day_settings {
+    text mode
+    text command_id FK
+    text auto_category_id FK
+    int auto_seed
+  }
+
+  device_guides {
+    text id PK
+    text title_ru
+    text summary_ru
+    text capabilities_ru
+    text setup_ru
+    text[] setup_steps_ru
+    text image_url
+    text action_url
+    int sort_order
+  }
+
+  device_picks {
+    text id PK
+    text title_ru
+    text action_url
+    text erid
+    text cta_ru
+    text[] placements
+    text[] tags
+    text[] device_types
+    text[] category_ids
+    text[] command_group_ids
+    text[] command_ids
+    text[] scenario_template_ids
+    text[] guide_ids
+    int priority
+    timestamptz starts_at
+    timestamptz ends_at
+    int max_impressions_per_session
+  }
+
+  analytics_events {
+    text event_id PK
+    text install_id
+    text session_id
+    text event_name
+    timestamptz occurred_at
+    jsonb params
+  }
 ```
 
 ---
@@ -192,6 +244,10 @@ CREATE INDEX idx_editorial_status ON editorial_records(status);
 CREATE INDEX idx_content_queue_status ON content_queue(status);
 CREATE INDEX idx_user_feedback_status ON user_feedback(status);
 CREATE INDEX idx_command_reports_status ON command_reports(status);
+CREATE INDEX idx_analytics_events_occurred_at ON analytics_events (occurred_at DESC);
+CREATE INDEX idx_analytics_events_event_name_occurred ON analytics_events (event_name, occurred_at DESC);
+CREATE INDEX idx_analytics_events_install_id ON analytics_events (install_id);
+CREATE INDEX idx_analytics_request_attempts_ip_time ON analytics_request_attempts (ip_address, attempted_at DESC);
 ```
 
 ---
@@ -203,7 +259,8 @@ CREATE INDEX idx_command_reports_status ON command_reports(status);
 | `current_manifest` | Pointer to live bundle (single active row) |
 | `publish_history` | Audit + rollback source (last 5 on disk) |
 | `storage/bundles/` | `content_v{N}.json.gz` files |
-| `storage/manifest/` | Affiliate snapshot для public endpoint |
+| `storage/manifest/smarthome_devices.json` | Smarthome guides + picks для `GET /v1/smarthome/devices` |
+| `storage/manifest/` | Affiliate snapshot (legacy) для deprecated `/v1/affiliate/blocks` |
 
 Rollback: update `current_manifest` to previous `content_version` where bundle file still exists.
 
