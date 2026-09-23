@@ -20,6 +20,7 @@ import ru.appforsale.alicecommands.api.application.publish.DraftCommandMerge
 import ru.appforsale.alicecommands.api.application.publish.ImportJsonUseCase
 import ru.appforsale.alicecommands.api.deps
 import ru.appforsale.alicecommands.api.domain.AffiliateBlock
+import ru.appforsale.alicecommands.api.domain.Announcement
 import ru.appforsale.alicecommands.api.domain.ApiError
 import ru.appforsale.alicecommands.api.domain.Category
 import ru.appforsale.alicecommands.api.domain.ChecklistItem
@@ -598,6 +599,111 @@ fun Route.adminRoutes() {
             }
         }
 
+        route("/popular-commands") {
+            get {
+                call.withAdminAuth {
+                    respond(application.deps.popularCommandsAdminUseCase.get())
+                }
+            }
+            put("/pins") {
+                call.withAdminAuth {
+                    val body = receive<ru.appforsale.alicecommands.api.domain.UpdatePopularPinsRequest>()
+                    respond(
+                        application.deps.popularCommandsAdminUseCase.updatePins(
+                            body,
+                            application.deps.config.adminUsername,
+                        ),
+                    )
+                }
+            }
+            post("/recompute") {
+                call.withAdminAuth {
+                    respond(
+                        application.deps.popularCommandsAdminUseCase.recompute(
+                            application.deps.config.adminUsername,
+                        ),
+                    )
+                }
+            }
+            get("/history") {
+                call.withAdminAuth {
+                    val limit = call.request.queryParameters["limit"]?.toIntOrNull() ?: 50
+                    val offset = call.request.queryParameters["offset"]?.toIntOrNull() ?: 0
+                    respond(application.deps.popularCommandsAdminUseCase.listHistory(limit, offset))
+                }
+            }
+            get("/history/{runId}") {
+                call.withAdminAuth {
+                    val runId = call.parameters["runId"]?.toLongOrNull()
+                        ?: return@withAdminAuth respond(
+                            HttpStatusCode.BadRequest,
+                            ApiError("validation_failed", "runId required"),
+                        )
+                    val detail = application.deps.popularCommandsAdminUseCase.getHistory(runId)
+                        ?: return@withAdminAuth respond(
+                            HttpStatusCode.NotFound,
+                            ApiError("not_found", "Rank run not found"),
+                        )
+                    respond(detail)
+                }
+            }
+        }
+
+        route("/announcements") {
+            get {
+                call.withAdminAuth {
+                    respond(application.deps.announcementsAdminUseCase.list())
+                }
+            }
+            post {
+                call.withAdminAuth {
+                    val announcement = normalizeAnnouncement(receive())
+                    val created = application.deps.announcementsAdminUseCase.create(announcement)
+                    respond(HttpStatusCode.Created, created)
+                }
+            }
+            post("/upload-image") {
+                call.withAdminAuth {
+                    val request = receive<UploadDeviceImageRequest>()
+                    respond(application.deps.uploadAnnouncementImageUseCase.execute(request))
+                }
+            }
+            get("/{id}") {
+                call.withAdminAuth {
+                    val id = call.parameters["id"] ?: return@withAdminAuth respond(
+                        HttpStatusCode.BadRequest,
+                        ApiError("validation_failed", "id required"),
+                    )
+                    val announcement = application.deps.announcementsAdminUseCase.get(id)
+                        ?: return@withAdminAuth respond(HttpStatusCode.NotFound, ApiError("not_found", "Announcement not found"))
+                    respond(announcement)
+                }
+            }
+            put("/{id}") {
+                call.withAdminAuth {
+                    val id = call.parameters["id"] ?: return@withAdminAuth respond(
+                        HttpStatusCode.BadRequest,
+                        ApiError("validation_failed", "id required"),
+                    )
+                    val announcement = normalizeAnnouncement(receive<Announcement>().copy(id = id))
+                    val updated = application.deps.announcementsAdminUseCase.update(announcement)
+                    respond(updated)
+                }
+            }
+            delete("/{id}") {
+                call.withAdminAuth {
+                    val id = call.parameters["id"] ?: return@withAdminAuth respond(
+                        HttpStatusCode.BadRequest,
+                        ApiError("validation_failed", "id required"),
+                    )
+                    if (!application.deps.announcementsAdminUseCase.delete(id)) {
+                        return@withAdminAuth respond(HttpStatusCode.NotFound, ApiError("not_found", "Announcement not found"))
+                    }
+                    respond(mapOf("ok" to true))
+                }
+            }
+        }
+
         post("/content/import-seed") {
             call.withAdminAuth {
                 val deps = application.deps
@@ -893,6 +999,23 @@ data class ApiDocsResponse(
     val sections: List<ApiDocSection>,
 )
 
+private fun normalizeAnnouncement(announcement: Announcement): Announcement = announcement.copy(
+    id = announcement.id.trim().lowercase(),
+    placement = announcement.placement.trim().ifBlank { "more" },
+    title = announcement.title.trim(),
+    body = announcement.body?.trim()?.ifBlank { null },
+    image_url = announcement.image_url?.trim()?.ifBlank { null },
+    background_color = announcement.background_color.trim().ifBlank { "#E3F2FD" },
+    foreground_color = announcement.foreground_color?.trim()?.ifBlank { null },
+    cta_label = announcement.cta_label?.trim()?.ifBlank { null },
+    cta_action = announcement.cta_action?.trim()?.lowercase()?.ifBlank { null },
+    cta_target = announcement.cta_target?.trim()?.ifBlank { null },
+    min_app_version = announcement.min_app_version?.trim()?.ifBlank { null },
+    max_app_version = announcement.max_app_version?.trim()?.ifBlank { null },
+    starts_at = announcement.starts_at?.trim()?.ifBlank { null },
+    ends_at = announcement.ends_at?.trim()?.ifBlank { null },
+)
+
 private fun normalizeAffiliateBlock(block: AffiliateBlock): AffiliateBlock = block.copy(
     id = block.id.trim(),
     context_category_id = block.context_category_id?.trim()?.ifBlank { null },
@@ -1005,6 +1128,8 @@ private fun adminApiDocs(baseUrl: String): ApiDocsResponse = ApiDocsResponse(
                 ApiDocEndpoint("GET", "/v1/content/delta?from={version}", "Delta sync между версиями", auth = false),
                 ApiDocEndpoint("GET", "/v1/affiliate/blocks", "Affiliate blocks (deprecated)", auth = false),
                 ApiDocEndpoint("GET", "/v1/smarthome/devices", "Smart home guides + picks", auth = false),
+                ApiDocEndpoint("GET", "/v1/popular-commands", "Popular command pool (ranked)", auth = false),
+                ApiDocEndpoint("GET", "/v1/announcements", "In-app announcement banners (active only)", auth = false),
                 ApiDocEndpoint("POST", "/v1/feedback", "In-app feedback", auth = false, body = """{ "message", "rating"?, "app_version"?, "platform"?, "locale"?, "content_version"?, "device_model"? }"""),
                 ApiDocEndpoint("POST", "/v1/commands/{command_id}/report", "Report command issue", auth = false, body = """{ "issue_type", "message"?, "content_version"?, ... }"""),
                 ApiDocEndpoint("POST", "/v1/analytics/events/batch", "Analytics batch ingest", auth = false, body = """{ "events": [{ "installId", "sessionId", "eventId", "eventName", "occurredAt", ... }] }""", response = """202 { "accepted", "duplicates", "rejected", "rejectedEventIds" }"""),
@@ -1052,6 +1177,17 @@ private fun adminApiDocs(baseUrl: String): ApiDocsResponse = ApiDocsResponse(
                 ApiDocEndpoint("GET", "/admin/api/command-of-day", "Команда дня: settings + preview"),
                 ApiDocEndpoint("PUT", "/admin/api/command-of-day", "Сохранить draft", body = """{ "mode", "command_id"?, "auto_category_id"?, "auto_seed"? }"""),
                 ApiDocEndpoint("POST", "/admin/api/command-of-day/publish", "Опубликовать только command_of_day в live bundle"),
+                ApiDocEndpoint("GET", "/admin/api/popular-commands", "Popular snapshot + pins"),
+                ApiDocEndpoint("PUT", "/admin/api/popular-commands/pins", "Replace pins + recompute", body = """{ "command_ids": ["…"] }"""),
+                ApiDocEndpoint("POST", "/admin/api/popular-commands/recompute", "Force popular rank"),
+                ApiDocEndpoint("GET", "/admin/api/popular-commands/history", "Rank run list"),
+                ApiDocEndpoint("GET", "/admin/api/popular-commands/history/{runId}", "Rank run detail"),
+                ApiDocEndpoint("GET", "/admin/api/announcements", "Announcement banners"),
+                ApiDocEndpoint("POST", "/admin/api/announcements", "Create announcement", body = """{ "id", "title", "placement": "more", "background_color", ... }"""),
+                ApiDocEndpoint("GET", "/admin/api/announcements/{id}", "Get announcement"),
+                ApiDocEndpoint("PUT", "/admin/api/announcements/{id}", "Update announcement (bumps revision)"),
+                ApiDocEndpoint("DELETE", "/admin/api/announcements/{id}", "Delete announcement"),
+                ApiDocEndpoint("POST", "/admin/api/announcements/upload-image", "Upload banner image", body = """{ "slug", "image_base64", "content_type"? }"""),
                 ApiDocEndpoint("GET", "/admin/api/affiliate-blocks", "Affiliate blocks"),
                 ApiDocEndpoint("POST", "/admin/api/affiliate-blocks", "Создать блок", body = """{ "id", "title_ru", "erid"?, "advertiser_name"?, "products": [{ "title_ru", "market_url": "https://...", "price_hint"? }] }"""),
                 ApiDocEndpoint("PUT", "/admin/api/affiliate-blocks/{id}", "Обновить блок", body = """{ "title_ru", "erid"?, "advertiser_name"?, "products": [{ "title_ru", "market_url": "https://...", "price_hint"? }] }"""),

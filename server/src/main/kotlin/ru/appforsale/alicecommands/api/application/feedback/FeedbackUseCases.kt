@@ -15,12 +15,13 @@ import ru.appforsale.alicecommands.api.domain.ValidationException
 import ru.appforsale.alicecommands.api.domain.ports.BundleStorage
 import ru.appforsale.alicecommands.api.domain.ports.ManifestRepository
 import ru.appforsale.alicecommands.api.domain.ports.PublicSubmissionRateLimiter
+import ru.appforsale.alicecommands.api.domain.ports.PublishedCatalogProvider
 import ru.appforsale.alicecommands.api.domain.ports.UserFeedbackRepository
 
 class PublishedBundleLookup(
     private val manifestRepository: ManifestRepository,
     private val bundleStorage: BundleStorage,
-) {
+) : PublishedCatalogProvider {
     fun currentContentVersion(): Int? = manifestRepository.getCurrent()?.contentVersion
 
     fun commandExistsInCurrent(commandId: String): Boolean =
@@ -36,7 +37,7 @@ class PublishedBundleLookup(
         return CommandValidationResult(existsInCurrent = existsNow, rejectNotFound = rejectNotFound)
     }
 
-    fun loadCurrentBundle(): ContentBundle? = loadCurrentBundleInternal()
+    override fun loadCurrentBundle(): ContentBundle? = loadCurrentBundleInternal()
 
     private fun loadCurrentBundleInternal(): ContentBundle? {
         val current = manifestRepository.getCurrent() ?: return null

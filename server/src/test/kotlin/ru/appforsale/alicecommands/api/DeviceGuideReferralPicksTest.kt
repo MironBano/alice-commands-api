@@ -68,7 +68,7 @@ class DeviceGuideReferralPicksTest {
     private fun pick(id: String, placements: List<String>) = DevicePick(
         id = id,
         title_ru = id,
-        action_url = "https://market.yandex.ru/search?text=test",
+        action_url = "https://market.yandex.ru/product/1?clid=1&erid=test",
         sort_order = 1,
         placements = placements,
     )

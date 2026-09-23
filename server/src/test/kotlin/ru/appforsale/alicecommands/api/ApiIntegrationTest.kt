@@ -3,7 +3,9 @@ package ru.appforsale.alicecommands.api
 import io.ktor.client.request.get
 import io.ktor.client.request.delete
 import io.ktor.client.request.header
+import io.ktor.client.request.patch
 import io.ktor.client.request.post
+import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.bodyAsBytes
 import io.ktor.client.statement.bodyAsText
@@ -18,6 +20,7 @@ import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Assumptions.assumeTrue
@@ -764,5 +767,275 @@ class ApiIntegrationTest {
         val deprecatedAffiliate = client.get("/v1/affiliate/blocks")
         assertEquals("true", deprecatedAffiliate.headers["Deprecation"])
         assertTrue(deprecatedAffiliate.headers["Link"]?.contains("/v1/smarthome/devices") == true)
+    }
+
+    @Test
+    fun `popular commands public admin and recompute flow`() = testEnv {
+        val unauthorized = client.get("/admin/api/popular-commands")
+        assertEquals(HttpStatusCode.Unauthorized, unauthorized.status)
+
+        val historyUnauthorized = client.get("/admin/api/popular-commands/history")
+        assertEquals(HttpStatusCode.Unauthorized, historyUnauthorized.status)
+
+        val publicEmpty = client.get("/v1/popular-commands")
+        assertEquals(HttpStatusCode.OK, publicEmpty.status)
+        assertTrue(publicEmpty.bodyAsText().contains("\"commands\""))
+
+        client.post("/admin/api/login") {
+            contentType(ContentType.Application.Json)
+            setBody(LoginRequest("admin", "test-password"))
+        }
+
+        val seed = TestResourcePaths.readText(TestResourcePaths.INTEGRATION_SEED)
+        client.post("/admin/api/import/json?mode=replace") {
+            contentType(ContentType.Application.Json)
+            setBody(seed)
+        }
+        client.post("/admin/api/publish") {
+            contentType(ContentType.Application.Json)
+            setBody("{}")
+        }
+
+        val recompute = client.post("/admin/api/popular-commands/recompute")
+        assertEquals(HttpStatusCode.OK, recompute.status)
+        assertTrue(recompute.bodyAsText().contains("\"snapshot\""))
+
+        val publicPool = client.get("/v1/popular-commands")
+        assertEquals(HttpStatusCode.OK, publicPool.status)
+        assertTrue(publicPool.bodyAsText().contains("\"window_days\":7"))
+        val etag = publicPool.headers[HttpHeaders.ETag]
+        assertTrue(etag?.startsWith("\"popular-") == true)
+
+        val history = client.get("/admin/api/popular-commands/history?limit=5")
+        assertEquals(HttpStatusCode.OK, history.status)
+        val historyJson = Json.parseToJsonElement(history.bodyAsText()).jsonObject
+        val historyItems = historyJson["items"]?.jsonArray
+        assertNotNull(historyItems)
+        assertTrue(historyItems!!.isNotEmpty())
+        val firstRun = historyItems.first().jsonObject
+        assertTrue((firstRun["item_count"]?.jsonPrimitive?.int ?: 0) > 0)
+        assertTrue((firstRun["served_count"]?.jsonPrimitive?.int ?: 0) > 0)
+
+        val runId = firstRun["id"]?.jsonPrimitive?.content?.toLongOrNull()
+        assertNotNull(runId)
+
+        val detail = client.get("/admin/api/popular-commands/history/$runId")
+        assertEquals(HttpStatusCode.OK, detail.status)
+        val detailJson = Json.parseToJsonElement(detail.bodyAsText()).jsonObject
+        val detailItems = detailJson["items"]?.jsonArray
+        assertNotNull(detailItems)
+        assertTrue((detailItems?.size ?: 0) >= firstRun["item_count"]?.jsonPrimitive?.int ?: 0)
+        assertTrue(detail.bodyAsText().contains("in_served_pool"))
+    }
+
+    @Test
+    fun `announcements public and admin crud flow`() = testEnv {
+        val unauthorized = client.get("/admin/api/announcements")
+        assertEquals(HttpStatusCode.Unauthorized, unauthorized.status)
+
+        val publicEmpty = client.get("/v1/announcements")
+        assertEquals(HttpStatusCode.OK, publicEmpty.status)
+        assertTrue(publicEmpty.bodyAsText().contains("\"items\""))
+
+        client.post("/admin/api/login") {
+            contentType(ContentType.Application.Json)
+            setBody(LoginRequest("admin", "test-password"))
+        }
+
+        val create = client.post("/admin/api/announcements") {
+            contentType(ContentType.Application.Json)
+            setBody(
+                """
+                {
+                  "id": "ann_test_more",
+                  "title": "Тестовый баннер",
+                  "body": "Описание баннера",
+                  "placement": "more",
+                  "background_color": "#E8F5E9",
+                  "foreground_color": "#1B5E20",
+                  "cta_label": "Открыть",
+                  "cta_action": "route",
+                  "cta_target": "home/smarthome",
+                  "dismissible": true,
+                  "priority": 10,
+                  "enabled": true
+                }
+                """.trimIndent(),
+            )
+        }
+        assertEquals(HttpStatusCode.Created, create.status)
+        assertTrue(create.bodyAsText().contains("\"revision\":1"))
+
+        val invalidSchedule = client.post("/admin/api/announcements") {
+            contentType(ContentType.Application.Json)
+            setBody(
+                """
+                {
+                  "id": "ann_bad_schedule",
+                  "title": "Bad schedule",
+                  "placement": "more",
+                  "background_color": "#E8F5E9",
+                  "starts_at": "2026-12-01T00:00:00Z",
+                  "ends_at": "2026-11-01T00:00:00Z",
+                  "enabled": true
+                }
+                """.trimIndent(),
+            )
+        }
+        assertEquals(HttpStatusCode.BadRequest, invalidSchedule.status)
+        assertTrue(invalidSchedule.bodyAsText().contains("starts_at"))
+
+        val invalidDeepLink = client.post("/admin/api/announcements") {
+            contentType(ContentType.Application.Json)
+            setBody(
+                """
+                {
+                  "id": "ann_bad_deeplink",
+                  "title": "Bad deeplink",
+                  "placement": "more",
+                  "background_color": "#E8F5E9",
+                  "cta_action": "deeplink",
+                  "cta_target": "alicecommands://settings",
+                  "enabled": true
+                }
+                """.trimIndent(),
+            )
+        }
+        assertEquals(HttpStatusCode.BadRequest, invalidDeepLink.status)
+        assertTrue(invalidDeepLink.bodyAsText().contains("cta_target"))
+
+        val publicActive = client.get("/v1/announcements")
+        assertEquals(HttpStatusCode.OK, publicActive.status)
+        assertTrue(publicActive.bodyAsText().contains("ann_test_more"))
+        val etag = publicActive.headers[HttpHeaders.ETag]
+        assertTrue(etag?.startsWith("\"announcements-") == true)
+
+        val update = client.put("/admin/api/announcements/ann_test_more") {
+            contentType(ContentType.Application.Json)
+            setBody(
+                """
+                {
+                  "id": "ann_test_more",
+                  "title": "Обновлённый баннер",
+                  "body": "Новое описание",
+                  "placement": "more",
+                  "background_color": "#E8F5E9",
+                  "cta_action": "route",
+                  "cta_target": "home/smarthome",
+                  "enabled": true
+                }
+                """.trimIndent(),
+            )
+        }
+        assertEquals(HttpStatusCode.OK, update.status)
+        assertTrue(update.bodyAsText().contains("\"revision\":2"))
+
+        val delete = client.delete("/admin/api/announcements/ann_test_more")
+        assertEquals(HttpStatusCode.OK, delete.status)
+
+        val publicAfterDelete = client.get("/v1/announcements")
+        assertEquals(HttpStatusCode.OK, publicAfterDelete.status)
+        assertFalse(publicAfterDelete.bodyAsText().contains("ann_test_more"))
+
+        val upload = client.post("/admin/api/announcements/upload-image") {
+            contentType(ContentType.Application.Json)
+            setBody(
+                """
+                {
+                  "slug": "ann_test_image",
+                  "image_base64": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="
+                }
+                """.trimIndent(),
+            )
+        }
+        assertEquals(HttpStatusCode.OK, upload.status)
+        assertTrue(upload.bodyAsText().contains("\"image_url\""))
+        assertTrue(upload.bodyAsText().contains("ann_test_image"))
+    }
+
+    @Test
+    fun `push register preferences and unregister flow`() = testEnv {
+        val installId = "push-integration-install"
+        val token = "rustore-test-token"
+
+        val register = client.post("/v1/push/register") {
+            contentType(ContentType.Application.Json)
+            setBody(
+                """
+                {
+                  "installId": "$installId",
+                  "rustoreToken": "$token",
+                  "timezone": "Europe/Moscow",
+                  "persona": "NEW_SPEAKER",
+                  "contentVersion": 1,
+                  "masterEnabled": true,
+                  "codEnabled": false,
+                  "codReminderTime": "09:00",
+                  "checklistCompletedCount": 0,
+                  "frequentCommands": [],
+                  "appVersion": "1.0.1",
+                  "appInstalledAt": "2026-07-13T10:00:00Z"
+                }
+                """.trimIndent(),
+            )
+        }
+        assertEquals(HttpStatusCode.NoContent, register.status)
+
+        val prefs = client.patch("/v1/push/preferences") {
+            contentType(ContentType.Application.Json)
+            setBody(
+                """
+                {
+                  "installId": "$installId",
+                  "masterEnabled": false,
+                  "codEnabled": false,
+                  "codReminderTime": "09:00"
+                }
+                """.trimIndent(),
+            )
+        }
+        assertEquals(HttpStatusCode.NoContent, prefs.status)
+
+        val unknown = client.patch("/v1/push/preferences") {
+            contentType(ContentType.Application.Json)
+            setBody(
+                """
+                {
+                  "installId": "unknown-install",
+                  "masterEnabled": false,
+                  "codEnabled": false,
+                  "codReminderTime": "09:00"
+                }
+                """.trimIndent(),
+            )
+        }
+        assertEquals(HttpStatusCode.NotFound, unknown.status)
+        assertTrue(unknown.bodyAsText().contains("not_registered"))
+
+        val wrongToken = client.delete("/v1/push/unregister") {
+            contentType(ContentType.Application.Json)
+            setBody(
+                """
+                {
+                  "installId": "$installId",
+                  "rustoreToken": "wrong-token"
+                }
+                """.trimIndent(),
+            )
+        }
+        assertEquals(HttpStatusCode.BadRequest, wrongToken.status)
+
+        val unregister = client.delete("/v1/push/unregister") {
+            contentType(ContentType.Application.Json)
+            setBody(
+                """
+                {
+                  "installId": "$installId",
+                  "rustoreToken": "$token"
+                }
+                """.trimIndent(),
+            )
+        }
+        assertEquals(HttpStatusCode.NoContent, unregister.status)
     }
 }

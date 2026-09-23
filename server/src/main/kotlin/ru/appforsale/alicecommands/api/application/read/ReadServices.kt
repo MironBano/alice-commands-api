@@ -67,6 +67,7 @@ class SmartHomeDevicesService(private val bundleStorage: BundleStorage) {
 class HealthService(
     private val healthProbe: HealthProbe,
     private val bundleStorage: BundleStorage,
+    private val announcementImageStorage: ru.appforsale.alicecommands.api.domain.ports.AnnouncementImageStorage,
 ) {
     data class ReadyStatus(
         val status: String,
@@ -77,7 +78,7 @@ class HealthService(
 
     fun ready(): ReadyStatus {
         val dbOk = healthProbe.isDatabaseOk()
-        val storageOk = bundleStorage.isWritable()
+        val storageOk = bundleStorage.isWritable() && announcementImageStorage.isWritable()
         val ok = dbOk && storageOk
         return ReadyStatus(
             status = if (ok) "ready" else "not_ready",

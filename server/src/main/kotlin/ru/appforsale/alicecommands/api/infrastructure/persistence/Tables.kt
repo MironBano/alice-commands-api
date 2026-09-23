@@ -3,7 +3,9 @@ package ru.appforsale.alicecommands.api.infrastructure.persistence
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.json.Json
+import org.jetbrains.exposed.sql.ReferenceOption
 import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.javatime.date
 import org.jetbrains.exposed.sql.javatime.timestampWithTimeZone
 import org.jetbrains.exposed.sql.json.jsonb
 import ru.appforsale.alicecommands.api.domain.AffiliateProduct
@@ -295,5 +297,77 @@ object CommandOfDaySettingsTable : Table("command_of_day_settings") {
     val autoSeed = integer("auto_seed")
     val updatedAt = timestampWithTimeZone("updated_at")
     val updatedBy = text("updated_by").nullable()
+    override val primaryKey = PrimaryKey(id)
+}
+
+object PopularCommandPinsTable : Table("popular_command_pins") {
+    val commandId = text("command_id")
+    val sortOrder = integer("sort_order")
+    val createdAt = timestampWithTimeZone("created_at")
+    val createdBy = text("created_by").nullable()
+    override val primaryKey = PrimaryKey(commandId)
+}
+
+object PopularCommandDenylistTable : Table("popular_command_denylist") {
+    val commandId = text("command_id")
+    val reason = text("reason")
+    override val primaryKey = PrimaryKey(commandId)
+}
+
+object PopularCommandsSnapshotTable : Table("popular_commands_snapshot") {
+    val sortOrder = integer("sort_order")
+    val commandId = text("command_id")
+    val sourceKind = text("source")
+    val uniqueTts = integer("unique_tts")
+    val uniqueView = integer("unique_view")
+    val score = integer("score")
+    val updatedAt = timestampWithTimeZone("updated_at")
+    override val primaryKey = PrimaryKey(sortOrder)
+}
+
+object PopularRankRunsTable : Table("popular_rank_runs") {
+    val id = long("id").autoIncrement()
+    val computedAt = timestampWithTimeZone("computed_at")
+    val windowFrom = date("window_from")
+    val windowTo = date("window_to")
+    val windowDays = integer("window_days")
+    val triggerKind = text("trigger")
+    val computedBy = text("computed_by").nullable()
+    override val primaryKey = PrimaryKey(id)
+}
+
+object PopularRankRunItemsTable : Table("popular_rank_run_items") {
+    val runId = long("run_id").references(PopularRankRunsTable.id, onDelete = ReferenceOption.CASCADE)
+    val sortOrder = integer("sort_order")
+    val commandId = text("command_id")
+    val sourceKind = text("source")
+    val uniqueTts = integer("unique_tts")
+    val uniqueView = integer("unique_view")
+    val score = integer("score")
+    val inServedPool = bool("in_served_pool")
+    override val primaryKey = PrimaryKey(runId, sortOrder)
+}
+
+object AnnouncementsTable : Table("announcements") {
+    val id = text("id")
+    val revision = integer("revision")
+    val placement = text("placement")
+    val title = text("title")
+    val body = text("body").nullable()
+    val imageUrl = text("image_url").nullable()
+    val backgroundColor = text("background_color")
+    val foregroundColor = text("foreground_color").nullable()
+    val ctaLabel = text("cta_label").nullable()
+    val ctaAction = text("cta_action").nullable()
+    val ctaTarget = text("cta_target").nullable()
+    val dismissible = bool("dismissible")
+    val priority = integer("priority")
+    val enabled = bool("enabled")
+    val minAppVersion = text("min_app_version").nullable()
+    val maxAppVersion = text("max_app_version").nullable()
+    val startsAt = timestampWithTimeZone("starts_at").nullable()
+    val endsAt = timestampWithTimeZone("ends_at").nullable()
+    val createdAt = timestampWithTimeZone("created_at")
+    val updatedAt = timestampWithTimeZone("updated_at")
     override val primaryKey = PrimaryKey(id)
 }

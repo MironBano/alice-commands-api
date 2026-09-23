@@ -8,6 +8,7 @@ import java.net.URI
 
 class SmartHomeDevicesValidationUseCase(
     private val iconUrlAllowedHosts: Set<String>,
+    private val requirePickAffiliateQuery: Boolean = false,
 ) {
     private val idRegex = Regex("^[a-z][a-z0-9_]*$")
     private val allowedDeviceFilters = setOf("station", "tv", "phone")
@@ -19,6 +20,7 @@ class SmartHomeDevicesValidationUseCase(
         "catalog_persona",
         "search_empty",
         "checklist_complete",
+        "category_groups_footer",
     )
 
     fun validateForPublish(response: SmartHomeDevicesResponse) {
@@ -92,7 +94,7 @@ class SmartHomeDevicesValidationUseCase(
         knownIds?.add(pick.id)
 
         if (pick.title_ru.isBlank()) errors += "$prefix.title_ru required"
-        errors += validateActionUrl("$prefix.action_url", pick.action_url)
+        errors += validatePickActionUrl("$prefix.action_url", pick.action_url)
         if (!pick.image_url.isNullOrBlank()) {
             errors += validateHttpsImageUrl("$prefix.image_url", pick.image_url)
         }
@@ -104,6 +106,14 @@ class SmartHomeDevicesValidationUseCase(
         pick.device_types.forEach { deviceType ->
             if (deviceType !in allowedDeviceFilters) {
                 errors += "$prefix.device_types: must be station, tv, or phone"
+            }
+        }
+        if (requirePickAffiliateQuery) {
+            if (pick.erid.isNullOrBlank()) {
+                errors += "$prefix.erid required when REQUIRE_PICK_AFFILIATE_QUERY=true"
+            }
+            if (pick.advertiser_name.isNullOrBlank()) {
+                errors += "$prefix.advertiser_name required when REQUIRE_PICK_AFFILIATE_QUERY=true"
             }
         }
         return errors
@@ -120,6 +130,41 @@ class SmartHomeDevicesValidationUseCase(
             else -> false
         }
         return if (valid) emptyList() else listOf("$field: must be https:// or market:// URL")
+    }
+
+    /** Pick landing: no search/wishlist/list; with gate — Market https must carry clid+erid. */
+    fun validatePickActionUrl(field: String, url: String): List<String> {
+        val base = validateActionUrl(field, url)
+        if (base.isNotEmpty()) return base
+        val uri = URI(url.trim())
+        val path = (uri.path ?: "").lowercase()
+        val query = (uri.rawQuery ?: "").lowercase()
+        val host = uri.host?.lowercase().orEmpty()
+
+        if (path.contains("--pending-sku")) {
+            return listOf("$field: placeholder --pending-sku-- URLs not allowed for picks")
+        }
+
+        // Match path segments (not substring "search" inside longer tokens).
+        val segments = path.trimEnd('/').split('/').filter { it.isNotEmpty() }
+        if (segments.any { it == "search" || it == "wishlist" || it == "list" || it == "lists" } ||
+            query.contains("wishlist")
+        ) {
+            return listOf("$field: search/wishlist/list URLs not allowed for picks")
+        }
+
+        if (!requirePickAffiliateQuery) return emptyList()
+
+        if (uri.scheme == "https" && host.contains("market.yandex")) {
+            val params = parseQueryParams(uri.rawQuery)
+            if (params["clid"].isNullOrBlank()) {
+                return listOf("$field: clid query param required for Market product URLs")
+            }
+            if (params["erid"].isNullOrBlank()) {
+                return listOf("$field: erid query param required for Market product URLs")
+            }
+        }
+        return emptyList()
     }
 
     fun validateImageUrl(field: String, imageUrl: String): List<String> =
@@ -139,6 +184,17 @@ class SmartHomeDevicesValidationUseCase(
             return listOf("$field: host not allowed")
         }
         return emptyList()
+    }
+
+    private fun parseQueryParams(rawQuery: String?): Map<String, String> {
+        if (rawQuery.isNullOrBlank()) return emptyMap()
+        return rawQuery.split('&')
+            .mapNotNull { part ->
+                val idx = part.indexOf('=')
+                if (idx <= 0) null
+                else part.substring(0, idx) to part.substring(idx + 1)
+            }
+            .toMap()
     }
 
     companion object {

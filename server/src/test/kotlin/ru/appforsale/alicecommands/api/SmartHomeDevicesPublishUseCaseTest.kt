@@ -8,7 +8,6 @@ import ru.appforsale.alicecommands.api.application.publish.PublishSmartHomeDevic
 import ru.appforsale.alicecommands.api.application.publish.SmartHomeDevicesValidationUseCase
 import ru.appforsale.alicecommands.api.domain.DeviceGuide
 import ru.appforsale.alicecommands.api.domain.DevicePick
-import ru.appforsale.alicecommands.api.domain.SmartHomeDevicesResponse
 import ru.appforsale.alicecommands.api.infrastructure.validation.JsonSmartHomeDevicesSchemaValidator
 import ru.appforsale.alicecommands.api.application.BundleCodec
 import java.nio.file.Path
@@ -35,7 +34,10 @@ class SmartHomeDevicesPublishUseCaseTest {
         assertEquals(1, result.picks.size)
         val public = storage.readSmartHomeDevices()
         assertNotNull(public)
-        assertEquals("https://market.yandex.ru/product/1", public!!.picks.single().action_url)
+        assertEquals(
+            "https://market.yandex.ru/product/1?clid=123&erid=LjN8Ktest",
+            public!!.picks.single().action_url,
+        )
     }
 
     @Test
@@ -52,6 +54,68 @@ class SmartHomeDevicesPublishUseCaseTest {
         val validation = SmartHomeDevicesValidationUseCase(setOf("example.com"))
         val errors = validation.validateActionUrl("action_url", "market://details?id=123")
         assertTrue(errors.isEmpty())
+    }
+
+    @Test
+    fun `validation rejects search and wishlist pick urls`() {
+        val validation = SmartHomeDevicesValidationUseCase(setOf("example.com"))
+        assertTrue(
+            validation.validatePick(
+                SAMPLE_PICK.copy(action_url = "https://market.yandex.ru/search?text=lamp"),
+            ).any { it.contains("search/wishlist/list") },
+        )
+        assertTrue(
+            validation.validatePick(
+                SAMPLE_PICK.copy(action_url = "https://market.yandex.ru/my/wishlist/123"),
+            ).any { it.contains("search/wishlist/list") },
+        )
+        assertTrue(
+            validation.validatePick(
+                SAMPLE_PICK.copy(action_url = "https://market.yandex.ru/lists/abc"),
+            ).any { it.contains("search/wishlist/list") },
+        )
+        assertTrue(
+            validation.validatePickActionUrl(
+                "action_url",
+                "https://market.yandex.ru/product/research-kit?clid=1&erid=x",
+            ).isEmpty(),
+        )
+    }
+
+    @Test
+    fun `validation rejects pending sku placeholders`() {
+        val validation = SmartHomeDevicesValidationUseCase(setOf("example.com"))
+        assertTrue(
+            validation.validatePick(
+                SAMPLE_PICK.copy(action_url = "https://market.yandex.ru/product/--pending-sku--"),
+            ).any { it.contains("pending-sku") },
+        )
+    }
+
+    @Test
+    fun `strict gate requires erid advertiser and query params`() {
+        val validation = SmartHomeDevicesValidationUseCase(
+            setOf("example.com"),
+            requirePickAffiliateQuery = true,
+        )
+        val missingFields = validation.validatePick(
+            SAMPLE_PICK.copy(
+                action_url = "https://market.yandex.ru/product/1",
+                erid = null,
+                advertiser_name = null,
+            ),
+        )
+        assertTrue(missingFields.any { it.contains("erid required") })
+        assertTrue(missingFields.any { it.contains("advertiser_name required") })
+        assertTrue(missingFields.any { it.contains("clid query") })
+
+        val ok = validation.validatePick(
+            SAMPLE_PICK.copy(
+                erid = "LjN8Ktest",
+                advertiser_name = "ООО «Яндекс Маркет»",
+            ),
+        )
+        assertTrue(ok.isEmpty(), ok.toString())
     }
 
     companion object {
@@ -72,8 +136,12 @@ class SmartHomeDevicesPublishUseCaseTest {
             title_ru = "Станция",
             description_ru = "Описание",
             price_hint_ru = "от 9 990 ₽",
-            action_url = "https://market.yandex.ru/product/1",
+            action_url = "https://market.yandex.ru/product/1?clid=123&erid=LjN8Ktest",
             sort_order = 1,
+            erid = "LjN8Ktest",
+            advertiser_name = "ООО «Яндекс Маркет»",
+            placements = listOf("device_guide_detail", "smart_home_devices"),
+            guide_ids = listOf("station"),
         )
 
         private fun resolveSchemaPath(): Path {

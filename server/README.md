@@ -100,7 +100,7 @@ Analytics ingest (см. [ANALYTICS-BACKEND.md](../docs/ANALYTICS-BACKEND.md)):
 | `ANALYTICS_RATE_LIMIT_PER_IP` | 120 | Запросов batch / IP / 15 мин |
 | `ANALYTICS_EVENTS_PER_IP_PER_DAY` | 10000 | Soft cap событий / IP / сутки |
 | `ANALYTICS_MAX_BODY_BYTES` | 262144 | Макс. размер тела batch |
-| `ANALYTICS_RAW_RETENTION_DAYS` | 90 | Retention raw events (P1 job) |
+| `ANALYTICS_RAW_RETENTION_DAYS` | 90 | Retention raw events; background purge (`AnalyticsRetentionTicker`) |
 
 Icons: `ICON_STORAGE_PATH`, `ICON_PUBLIC_BASE_URL`, `ICON_URL_ALLOWED_HOSTS` — [BACKEND-CATEGORY-VISUALS.md](../docs/BACKEND-CATEGORY-VISUALS.md).
 

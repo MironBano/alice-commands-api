@@ -277,6 +277,26 @@ class AnalyticsBreakdownUseCase(
     }
 }
 
+class PurgeAnalyticsEventsUseCase(
+    private val repository: AnalyticsEventRepository,
+    private val retentionDays: Int,
+) {
+    private val log = LoggerFactory.getLogger(PurgeAnalyticsEventsUseCase::class.java)
+
+    fun execute(): Int {
+        require(retentionDays > 0) { "retentionDays must be positive" }
+        val cutoff = OffsetDateTime.now(ZoneOffset.UTC).minusDays(retentionDays.toLong())
+        val deleted = repository.deleteEventsOlderThan(cutoff)
+        log.info(
+            "analytics retention purge deleted={} cutoff={} retentionDays={}",
+            deleted,
+            cutoff,
+            retentionDays,
+        )
+        return deleted
+    }
+}
+
 internal fun parseDateRange(
     from: String,
     to: String,

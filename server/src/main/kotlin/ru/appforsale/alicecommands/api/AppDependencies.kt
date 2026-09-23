@@ -5,6 +5,7 @@ import ru.appforsale.alicecommands.api.application.analytics.AnalyticsBreakdownU
 import ru.appforsale.alicecommands.api.application.analytics.AnalyticsDashboardUseCase
 import ru.appforsale.alicecommands.api.application.analytics.AnalyticsFunnelUseCase
 import ru.appforsale.alicecommands.api.application.analytics.ListAnalyticsEventsUseCase
+import ru.appforsale.alicecommands.api.application.analytics.PurgeAnalyticsEventsUseCase
 import ru.appforsale.alicecommands.api.application.analytics.SubmitAnalyticsBatchUseCase
 import ru.appforsale.alicecommands.api.application.feedback.DismissCommandReportUseCase
 import ru.appforsale.alicecommands.api.application.feedback.DismissFeedbackUseCase
@@ -56,6 +57,7 @@ import ru.appforsale.alicecommands.api.domain.ports.HealthProbe
 import ru.appforsale.alicecommands.api.domain.ports.LoginRateLimiter
 import ru.appforsale.alicecommands.api.domain.ports.ManifestRepository
 import ru.appforsale.alicecommands.api.domain.ports.PublicSubmissionRateLimiter
+import ru.appforsale.alicecommands.api.domain.ports.PushInstallRateLimiter
 import ru.appforsale.alicecommands.api.domain.ports.UserFeedbackRepository
 import ru.appforsale.alicecommands.api.domain.ports.SchemaValidator
 import ru.appforsale.alicecommands.api.domain.ports.SessionRepository
@@ -68,8 +70,10 @@ import ru.appforsale.alicecommands.api.infrastructure.persistence.ExposedUserFee
 import ru.appforsale.alicecommands.api.infrastructure.security.ExposedAnalyticsRateLimiter
 import ru.appforsale.alicecommands.api.infrastructure.security.ExposedLoginRateLimiter
 import ru.appforsale.alicecommands.api.infrastructure.security.ExposedPublicSubmissionRateLimiter
+import ru.appforsale.alicecommands.api.infrastructure.security.ExposedPushInstallRateLimiter
 import ru.appforsale.alicecommands.api.infrastructure.security.NoOpAnalyticsRateLimiter
 import ru.appforsale.alicecommands.api.infrastructure.security.NoOpPublicSubmissionRateLimiter
+import ru.appforsale.alicecommands.api.infrastructure.security.NoOpPushInstallRateLimiter
 import ru.appforsale.alicecommands.api.infrastructure.security.NoOpLoginRateLimiter
 import ru.appforsale.alicecommands.api.infrastructure.persistence.ExposedManifestRepository
 import ru.appforsale.alicecommands.api.infrastructure.persistence.ExposedSessionRepository
@@ -104,6 +108,7 @@ data class AppDependencies(
     val draftPublishStatusService: DraftPublishStatusService,
     val publishAffiliateUseCase: PublishAffiliateUseCase,
     val publishSmartHomeDevicesUseCase: PublishSmartHomeDevicesUseCase,
+    val refreshAffiliatePicksUseCase: ru.appforsale.alicecommands.api.application.affiliate.RefreshAffiliatePicksUseCase,
     val smartHomeDevicesValidationUseCase: SmartHomeDevicesValidationUseCase,
     val uploadDeviceImageUseCase: UploadDeviceImageUseCase,
     val publishContentUseCase: PublishContentUseCase,
@@ -129,6 +134,7 @@ data class AppDependencies(
     val saveEditorialBatchUseCase: SaveEditorialBatchUseCase,
     val userFeedbackRepository: UserFeedbackRepository,
     val publicSubmissionRateLimiter: PublicSubmissionRateLimiter,
+    val pushInstallRateLimiter: PushInstallRateLimiter,
     val publishedBundleLookup: PublishedBundleLookup,
     val submitFeedbackUseCase: SubmitFeedbackUseCase,
     val reportCommandIssueUseCase: ReportCommandIssueUseCase,
@@ -146,6 +152,20 @@ data class AppDependencies(
     val listAnalyticsEventsUseCase: ListAnalyticsEventsUseCase,
     val analyticsFunnelUseCase: AnalyticsFunnelUseCase,
     val analyticsBreakdownUseCase: AnalyticsBreakdownUseCase,
+    val purgeAnalyticsEventsUseCase: PurgeAnalyticsEventsUseCase,
+    val popularCommandsRepository: ru.appforsale.alicecommands.api.domain.ports.PopularCommandsRepository,
+    val rankPopularCommandsUseCase: ru.appforsale.alicecommands.api.application.popular.RankPopularCommandsUseCase,
+    val getPopularCommandsPublicUseCase: ru.appforsale.alicecommands.api.application.popular.GetPopularCommandsPublicUseCase,
+    val popularCommandsAdminUseCase: ru.appforsale.alicecommands.api.application.popular.PopularCommandsAdminUseCase,
+    val announcementsRepository: ru.appforsale.alicecommands.api.domain.ports.AnnouncementsRepository,
+    val getAnnouncementsPublicUseCase: ru.appforsale.alicecommands.api.application.announcements.GetAnnouncementsPublicUseCase,
+    val announcementsAdminUseCase: ru.appforsale.alicecommands.api.application.announcements.AnnouncementsAdminUseCase,
+    val uploadAnnouncementImageUseCase: ru.appforsale.alicecommands.api.application.announcements.UploadAnnouncementImageUseCase,
+    val pushTokenRepository: ru.appforsale.alicecommands.api.domain.ports.PushTokenRepository,
+    val registerPushTokenUseCase: ru.appforsale.alicecommands.api.application.push.RegisterPushTokenUseCase,
+    val updatePushPreferencesUseCase: ru.appforsale.alicecommands.api.application.push.UpdatePushPreferencesUseCase,
+    val unregisterPushTokenUseCase: ru.appforsale.alicecommands.api.application.push.UnregisterPushTokenUseCase,
+    val runPushCampaignsUseCase: ru.appforsale.alicecommands.api.application.push.RunPushCampaignsUseCase,
 )
 
 val Application.deps: AppDependencies
@@ -171,6 +191,10 @@ fun Application.initDependencies(config: AppConfig = AppConfig.load()): AppDepen
         rootPath = config.deviceImageStoragePath,
         publicBaseUrl = config.iconPublicBaseUrl,
     )
+    val announcementImageStorage = ru.appforsale.alicecommands.api.infrastructure.storage.FilesystemAnnouncementImageStorage(
+        rootPath = config.announcementImageStoragePath,
+        publicBaseUrl = config.iconPublicBaseUrl,
+    )
     seedDefaultIconsIfNeeded(config, iconStorage)
     val schemaPath = resolveSchemaPath()
     val schemaValidator = JsonSchemaValidator(schemaPath, BundleCodec.json)
@@ -189,6 +213,11 @@ fun Application.initDependencies(config: AppConfig = AppConfig.load()): AppDepen
     } else {
         ExposedPublicSubmissionRateLimiter(database, config.publicSubmissionRateLimit)
     }
+    val pushInstallRateLimiter = if (config.env == "local") {
+        NoOpPushInstallRateLimiter()
+    } else {
+        ExposedPushInstallRateLimiter(database, config.pushInstallRateLimit)
+    }
     val userFeedbackRepository = ExposedUserFeedbackRepository(database)
     val analyticsEventRepository = ExposedAnalyticsEventRepository(database)
     val analyticsRateLimiter = if (config.env == "local") {
@@ -202,7 +231,26 @@ fun Application.initDependencies(config: AppConfig = AppConfig.load()): AppDepen
         )
     }
     val publishedBundleLookup = PublishedBundleLookup(manifestRepository, bundleStorage)
+    val liveCatalogReader =
+        ru.appforsale.alicecommands.api.application.popular.PublishedBundleCatalogReader(publishedBundleLookup)
     val healthProbe = ExposedHealthProbe(database)
+    val popularCommandsRepository =
+        ru.appforsale.alicecommands.api.infrastructure.persistence.ExposedPopularCommandsRepository(database)
+    val rankPopularCommandsUseCase =
+        ru.appforsale.alicecommands.api.application.popular.RankPopularCommandsUseCase(
+            popularCommandsRepository,
+            liveCatalogReader,
+        )
+    val getPopularCommandsPublicUseCase =
+        ru.appforsale.alicecommands.api.application.popular.GetPopularCommandsPublicUseCase(
+            popularCommandsRepository,
+        )
+    val popularCommandsAdminUseCase =
+        ru.appforsale.alicecommands.api.application.popular.PopularCommandsAdminUseCase(
+            popularCommandsRepository,
+            rankPopularCommandsUseCase,
+            liveCatalogReader,
+        )
 
     val rebuildDraftFromPipelineUseCase = RebuildDraftFromPipelineUseCase(contentPipelineRepository, draftRepository)
     val importEditorialReviewUseCase = ImportEditorialReviewUseCase(contentPipelineRepository, rebuildDraftFromPipelineUseCase)
@@ -212,14 +260,74 @@ fun Application.initDependencies(config: AppConfig = AppConfig.load()): AppDepen
     val categoryVisualValidationUseCase = CategoryVisualValidationUseCase(config.iconUrlAllowedHosts)
     val commandOfDayValidationUseCase = CommandOfDayValidationUseCase()
     val commandOfDayAdminUseCase = CommandOfDayAdminUseCase(draftRepository)
-    val smartHomeDevicesValidationUseCase = SmartHomeDevicesValidationUseCase(config.iconUrlAllowedHosts)
+    val smartHomeDevicesValidationUseCase = SmartHomeDevicesValidationUseCase(
+        config.iconUrlAllowedHosts,
+        requirePickAffiliateQuery = config.requirePickAffiliateQuery,
+    )
     val uploadDeviceImageUseCase = UploadDeviceImageUseCase(deviceImageStorage, smartHomeDevicesValidationUseCase)
+    val announcementsRepository =
+        ru.appforsale.alicecommands.api.infrastructure.persistence.ExposedAnnouncementsRepository(database)
+    val announcementsValidationUseCase =
+        ru.appforsale.alicecommands.api.application.announcements.AnnouncementsValidationUseCase(
+            smartHomeDevicesValidationUseCase,
+        )
+    val getAnnouncementsPublicUseCase =
+        ru.appforsale.alicecommands.api.application.announcements.GetAnnouncementsPublicUseCase(
+            announcementsRepository,
+        )
+    val announcementsAdminUseCase =
+        ru.appforsale.alicecommands.api.application.announcements.AnnouncementsAdminUseCase(
+            announcementsRepository,
+            announcementsValidationUseCase,
+        )
+    val uploadAnnouncementImageUseCase =
+        ru.appforsale.alicecommands.api.application.announcements.UploadAnnouncementImageUseCase(
+            announcementImageStorage,
+            smartHomeDevicesValidationUseCase,
+        )
+    val pushTokenRepository =
+        ru.appforsale.alicecommands.api.infrastructure.persistence.ExposedPushTokenRepository(database)
+    val registerPushTokenUseCase =
+        ru.appforsale.alicecommands.api.application.push.RegisterPushTokenUseCase(pushTokenRepository)
+    val updatePushPreferencesUseCase =
+        ru.appforsale.alicecommands.api.application.push.UpdatePushPreferencesUseCase(pushTokenRepository)
+    val unregisterPushTokenUseCase =
+        ru.appforsale.alicecommands.api.application.push.UnregisterPushTokenUseCase(pushTokenRepository)
+    val bundleService = BundleService(manifestRepository, bundleStorage)
+    val pushSender: ru.appforsale.alicecommands.api.infrastructure.push.RuStorePushSender =
+        if (config.rustorePushProjectId.isNotBlank() && config.rustorePushServiceToken.isNotBlank()) {
+            ru.appforsale.alicecommands.api.infrastructure.push.HttpRuStorePushSender(
+                projectId = config.rustorePushProjectId,
+                serviceToken = config.rustorePushServiceToken,
+            )
+        } else {
+            ru.appforsale.alicecommands.api.infrastructure.push.NoOpRuStorePushSender()
+        }
+    val runPushCampaignsUseCase =
+        ru.appforsale.alicecommands.api.application.push.RunPushCampaignsUseCase(
+            pushTokenRepository = pushTokenRepository,
+            analyticsEventRepository = analyticsEventRepository,
+            popularCommandsRepository = popularCommandsRepository,
+            manifestRepository = manifestRepository,
+            bundleService = bundleService,
+            pushSender = pushSender,
+        )
     val publishSmartHomeDevicesUseCase = PublishSmartHomeDevicesUseCase(
         draftRepository,
         bundleStorage,
         smartHomeDevicesValidationUseCase,
         smartHomeDevicesSchemaValidator,
     )
+    val refreshAffiliatePicksUseCase =
+        ru.appforsale.alicecommands.api.application.affiliate.RefreshAffiliatePicksUseCase(
+            draftRepository = draftRepository,
+            publishSmartHomeDevicesUseCase = publishSmartHomeDevicesUseCase,
+            pickValidator = smartHomeDevicesValidationUseCase,
+            pickSkuMapPath = config.pickSkuMapPath,
+            oauthToken = config.marketAffiliateOauthToken,
+            clid = config.marketAffiliateClid,
+            enabled = config.marketAffiliateRefreshEnabled,
+        )
     val uploadIconUseCase = UploadIconUseCase(iconStorage, categoryVisualValidationUseCase)
     val iconCatalogService = IconCatalogService(
         catalogPath = config.iconCatalogPath,
@@ -242,13 +350,14 @@ fun Application.initDependencies(config: AppConfig = AppConfig.load()): AppDepen
         loginRateLimiter = loginRateLimiter,
         healthProbe = healthProbe,
         manifestService = ManifestService(manifestRepository, config),
-        bundleService = BundleService(manifestRepository, bundleStorage),
+        bundleService = bundleService,
         affiliateService = AffiliateService(bundleStorage),
         smartHomeDevicesService = SmartHomeDevicesService(bundleStorage),
-        healthService = HealthService(healthProbe, bundleStorage),
+        healthService = HealthService(healthProbe, bundleStorage, announcementImageStorage),
         draftPublishStatusService = draftPublishStatusService,
         publishAffiliateUseCase = PublishAffiliateUseCase(draftRepository, bundleStorage),
         publishSmartHomeDevicesUseCase = publishSmartHomeDevicesUseCase,
+        refreshAffiliatePicksUseCase = refreshAffiliatePicksUseCase,
         smartHomeDevicesValidationUseCase = smartHomeDevicesValidationUseCase,
         uploadDeviceImageUseCase = uploadDeviceImageUseCase,
         publishContentUseCase = PublishContentUseCase(
@@ -290,6 +399,7 @@ fun Application.initDependencies(config: AppConfig = AppConfig.load()): AppDepen
         saveEditorialBatchUseCase = saveEditorialBatchUseCase,
         userFeedbackRepository = userFeedbackRepository,
         publicSubmissionRateLimiter = publicSubmissionRateLimiter,
+        pushInstallRateLimiter = pushInstallRateLimiter,
         publishedBundleLookup = publishedBundleLookup,
         submitFeedbackUseCase = SubmitFeedbackUseCase(userFeedbackRepository, publicSubmissionRateLimiter),
         reportCommandIssueUseCase = ReportCommandIssueUseCase(
@@ -323,6 +433,23 @@ fun Application.initDependencies(config: AppConfig = AppConfig.load()): AppDepen
             analyticsEventRepository,
             config.analyticsRawRetentionDays,
         ),
+        purgeAnalyticsEventsUseCase = PurgeAnalyticsEventsUseCase(
+            analyticsEventRepository,
+            config.analyticsRawRetentionDays,
+        ),
+        popularCommandsRepository = popularCommandsRepository,
+        rankPopularCommandsUseCase = rankPopularCommandsUseCase,
+        getPopularCommandsPublicUseCase = getPopularCommandsPublicUseCase,
+        popularCommandsAdminUseCase = popularCommandsAdminUseCase,
+        announcementsRepository = announcementsRepository,
+        getAnnouncementsPublicUseCase = getAnnouncementsPublicUseCase,
+        announcementsAdminUseCase = announcementsAdminUseCase,
+        uploadAnnouncementImageUseCase = uploadAnnouncementImageUseCase,
+        pushTokenRepository = pushTokenRepository,
+        registerPushTokenUseCase = registerPushTokenUseCase,
+        updatePushPreferencesUseCase = updatePushPreferencesUseCase,
+        unregisterPushTokenUseCase = unregisterPushTokenUseCase,
+        runPushCampaignsUseCase = runPushCampaignsUseCase,
     )
     if (bundleStorage.readSmartHomeDevices() == null &&
         (draftRepository.listDeviceGuides().isNotEmpty() || draftRepository.listDevicePicks().isNotEmpty())

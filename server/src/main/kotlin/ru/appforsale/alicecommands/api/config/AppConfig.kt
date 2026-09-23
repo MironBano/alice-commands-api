@@ -18,16 +18,28 @@ data class AppConfig(
     val sessionSecret: String,
     val adminLoginRateLimit: Int,
     val publicSubmissionRateLimit: Int,
+    val pushInstallRateLimit: Int,
     val contentSeedPath: Path?,
     val iconStoragePath: Path,
     val iconPublicBaseUrl: String,
     val iconUrlAllowedHosts: Set<String>,
     val iconCatalogPath: Path,
     val deviceImageStoragePath: Path,
+    val announcementImageStoragePath: Path,
     val analyticsRateLimitPerIp: Int,
     val analyticsEventsPerIpPerDay: Int,
     val analyticsMaxBodyBytes: Int,
     val analyticsRawRetentionDays: Int,
+    val rustorePushProjectId: String,
+    val rustorePushServiceToken: String,
+    val pushCampaignEnabled: Boolean,
+    /** When true, device picks require erid/advertiser and affiliate query on Market URLs. Staging first; prod off until go. */
+    val requirePickAffiliateQuery: Boolean,
+    /** Staging-first: enable Market affiliate pick refresh ticker. */
+    val marketAffiliateRefreshEnabled: Boolean,
+    val marketAffiliateOauthToken: String,
+    val marketAffiliateClid: String,
+    val pickSkuMapPath: Path,
 ) {
     val isProduction: Boolean get() = env == "prod" || env == "staging"
 
@@ -69,6 +81,7 @@ data class AppConfig(
                 },
                 adminLoginRateLimit = env("ADMIN_LOGIN_RATE_LIMIT", "5").toInt(),
                 publicSubmissionRateLimit = env("PUBLIC_SUBMISSION_RATE_LIMIT", "20").toInt(),
+                pushInstallRateLimit = env("PUSH_INSTALL_RATE_LIMIT", "30").toInt(),
                 contentSeedPath = env("CONTENT_SEED_PATH").takeIf { it.isNotBlank() }?.let { resolvePath(it) }
                     ?: resolvePath("./seed/catalog-audit-fixed.json").takeIf { appEnv == "local" && it.toFile().exists() },
                 iconStoragePath = resolvePath(env("ICON_STORAGE_PATH", "./storage/icons")),
@@ -76,10 +89,21 @@ data class AppConfig(
                 iconUrlAllowedHosts = iconUrlAllowedHosts,
                 iconCatalogPath = resolveCatalogPath(),
                 deviceImageStoragePath = resolvePath(env("DEVICE_IMAGE_STORAGE_PATH", "./storage/devices")),
+                announcementImageStoragePath = resolvePath(env("ANNOUNCEMENT_IMAGE_STORAGE_PATH", "./storage/announcements")),
                 analyticsRateLimitPerIp = env("ANALYTICS_RATE_LIMIT_PER_IP", "120").toInt(),
                 analyticsEventsPerIpPerDay = env("ANALYTICS_EVENTS_PER_IP_PER_DAY", "10000").toInt(),
                 analyticsMaxBodyBytes = env("ANALYTICS_MAX_BODY_BYTES", "262144").toInt(),
                 analyticsRawRetentionDays = env("ANALYTICS_RAW_RETENTION_DAYS", "90").toInt(),
+                rustorePushProjectId = env("RUSTORE_PUSH_PROJECT_ID"),
+                rustorePushServiceToken = env("RUSTORE_PUSH_SERVICE_TOKEN"),
+                pushCampaignEnabled = env("PUSH_CAMPAIGN_ENABLED", "true").equals("true", ignoreCase = true),
+                requirePickAffiliateQuery = env("REQUIRE_PICK_AFFILIATE_QUERY", "false")
+                    .equals("true", ignoreCase = true),
+                marketAffiliateRefreshEnabled = env("MARKET_AFFILIATE_REFRESH_ENABLED", "false")
+                    .equals("true", ignoreCase = true),
+                marketAffiliateOauthToken = env("MARKET_AFFILIATE_OAUTH_TOKEN"),
+                marketAffiliateClid = env("MARKET_AFFILIATE_CLID"),
+                pickSkuMapPath = resolvePath(env("PICK_SKU_MAP_PATH", "./storage/affiliate/pick_sku_map.json")),
             )
         }
 

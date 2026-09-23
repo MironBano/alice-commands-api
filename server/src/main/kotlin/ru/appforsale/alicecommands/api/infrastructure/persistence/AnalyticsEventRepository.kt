@@ -6,7 +6,9 @@ import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.greaterEq
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.less
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.lessEq
+import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.count
 import org.jetbrains.exposed.sql.selectAll
@@ -353,6 +355,12 @@ class ExposedAnalyticsEventRepository(
 
     // Funnel/breakdown from/to labels use Moscow calendar dates (parseDateRange bounds).
 
+    override fun deleteEventsOlderThan(cutoff: OffsetDateTime): Int = transaction(database) {
+        AnalyticsEventsTable.deleteWhere {
+            AnalyticsEventsTable.occurredAt less cutoff
+        }
+    }
+
     override fun queryBreakdown(
         from: OffsetDateTime,
         to: OffsetDateTime,
@@ -426,6 +434,82 @@ class ExposedAnalyticsEventRepository(
 
     private fun occurredAtToOffset(ms: Long): OffsetDateTime =
         OffsetDateTime.ofInstant(Instant.ofEpochMilli(ms), ZoneOffset.UTC)
+
+    override fun loadPushUserSignals(
+        installId: String,
+        dayStartUtc: OffsetDateTime,
+        appInstalledAt: OffsetDateTime?,
+    ): ru.appforsale.alicecommands.api.domain.push.PushUserSignals = transaction(database) {
+        val conn = connection.connection as java.sql.Connection
+        fun countNamed(eventName: String, since: OffsetDateTime?): Int {
+            val sql = if (since != null) {
+                """
+                SELECT COUNT(*)::int FROM analytics_events
+                WHERE install_id = ? AND event_name = ? AND occurred_at >= ?
+                """.trimIndent()
+            } else {
+                """
+                SELECT COUNT(*)::int FROM analytics_events
+                WHERE install_id = ? AND event_name = ?
+                """.trimIndent()
+            }
+            conn.prepareStatement(sql).use { ps ->
+                ps.setString(1, installId)
+                ps.setString(2, eventName)
+                if (since != null) ps.setObject(3, since)
+                ps.executeQuery().use { rs ->
+                    return if (rs.next()) rs.getInt(1) else 0
+                }
+            }
+        }
+
+        val dailyActiveToday = countNamed(DAILY_ACTIVE_EVENT, dayStartUtc) > 0
+        val sessionStartCount = countNamed("session_start", since = appInstalledAt)
+        val hasFirstValueTts = countNamed("first_value_tts", since = appInstalledAt) > 0
+        val hasSmarthomeTabSelect = countNamed("smarthome_tab_select", since = appInstalledAt) > 0
+
+        val hasSmartHomeTts = conn.prepareStatement(
+            """
+            SELECT COUNT(*)::int FROM analytics_events
+            WHERE install_id = ?
+              AND event_name = 'command_tts'
+              AND occurred_at >= ?
+              AND (
+                COALESCE(params->>'category_id', '') ILIKE '%smart%'
+                OR COALESCE(params->>'category', '') ILIKE '%smart%'
+                OR COALESCE(params->>'command_id', '') LIKE 'sh_%'
+                OR COALESCE(params->>'command_id', '') LIKE 'smart_home%'
+              )
+            """.trimIndent(),
+        ).use { ps ->
+            ps.setString(1, installId)
+            ps.setObject(2, appInstalledAt ?: dayStartUtc.minusYears(10))
+            ps.executeQuery().use { rs -> if (rs.next()) rs.getInt(1) > 0 else false }
+        }
+
+        val lastAnyEventAt = conn.prepareStatement(
+            """
+            SELECT occurred_at FROM analytics_events
+            WHERE install_id = ?
+            ORDER BY occurred_at DESC
+            LIMIT 1
+            """.trimIndent(),
+        ).use { ps ->
+            ps.setString(1, installId)
+            ps.executeQuery().use { rs ->
+                if (rs.next()) rs.getObject(1, OffsetDateTime::class.java) else null
+            }
+        }
+
+        ru.appforsale.alicecommands.api.domain.push.PushUserSignals(
+            dailyActiveToday = dailyActiveToday,
+            sessionStartCount = sessionStartCount,
+            hasFirstValueTts = hasFirstValueTts,
+            hasSmarthomeTabSelect = hasSmarthomeTabSelect,
+            hasSmartHomeTts = hasSmartHomeTts,
+            lastAnyEventAt = lastAnyEventAt,
+        )
+    }
 
     companion object {
         const val DAILY_ACTIVE_EVENT = "daily_active"

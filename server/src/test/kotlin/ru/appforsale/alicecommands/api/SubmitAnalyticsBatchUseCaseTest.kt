@@ -249,5 +249,20 @@ class SubmitAnalyticsBatchUseCaseTest {
             field_source = fieldSource,
             items = emptyList(),
         )
+
+        override fun deleteEventsOlderThan(cutoff: OffsetDateTime) = 0
+
+        override fun loadPushUserSignals(
+            installId: String,
+            dayStartUtc: OffsetDateTime,
+            appInstalledAt: OffsetDateTime?,
+        ) = ru.appforsale.alicecommands.api.domain.push.PushUserSignals(
+            dailyActiveToday = false,
+            sessionStartCount = 0,
+            hasFirstValueTts = false,
+            hasSmarthomeTabSelect = false,
+            hasSmartHomeTts = false,
+            lastAnyEventAt = null,
+        )
     }
 }

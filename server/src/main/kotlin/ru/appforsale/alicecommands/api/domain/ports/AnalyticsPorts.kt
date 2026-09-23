@@ -42,6 +42,16 @@ interface AnalyticsEventRepository {
         limit: Int,
         fieldSource: String = "params",
     ): AnalyticsBreakdownResponse
+
+    /** Deletes rows with occurred_at strictly before [cutoff]. Returns deleted row count. */
+    fun deleteEventsOlderThan(cutoff: OffsetDateTime): Int
+
+    /** Push campaign signals for a single install. */
+    fun loadPushUserSignals(
+        installId: String,
+        dayStartUtc: OffsetDateTime,
+        appInstalledAt: OffsetDateTime?,
+    ): ru.appforsale.alicecommands.api.domain.push.PushUserSignals
 }
 
 interface AnalyticsRateLimiter {

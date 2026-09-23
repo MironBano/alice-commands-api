@@ -707,3 +707,144 @@ data class AnalyticsEventsListResponse(
     val limit: Int,
     val offset: Int,
 )
+
+@Serializable
+data class PopularCommandPublicItem(
+    val id: String,
+    val source: String,
+    val score: Int = 0,
+)
+
+@Serializable
+data class PopularCommandsPublicResponse(
+    val updated_at: String,
+    val window_days: Int,
+    val commands: List<PopularCommandPublicItem>,
+)
+
+@Serializable
+data class PopularCommandSnapshotItemDto(
+    val sort_order: Int,
+    val command_id: String,
+    val title_ru: String? = null,
+    val source: String,
+    val unique_tts: Int,
+    val unique_view: Int,
+    val score: Int,
+)
+
+@Serializable
+data class PopularCommandPinDto(
+    val command_id: String,
+    val sort_order: Int,
+    val title_ru: String? = null,
+)
+
+@Serializable
+data class PopularCommandsAdminResponse(
+    val snapshot: List<PopularCommandSnapshotItemDto>,
+    val pins: List<PopularCommandPinDto>,
+    val updated_at: String? = null,
+    val window_days: Int = 7,
+)
+
+@Serializable
+data class UpdatePopularPinsRequest(
+    val command_ids: List<String>,
+)
+
+@Serializable
+data class PopularRankRunSummaryDto(
+    val id: Long,
+    val computed_at: String,
+    val window_from: String,
+    val window_to: String,
+    val window_days: Int,
+    val trigger: String,
+    val computed_by: String? = null,
+    val item_count: Int,
+    val served_count: Int,
+)
+
+@Serializable
+data class PopularRankHistoryListResponse(
+    val items: List<PopularRankRunSummaryDto>,
+    val total: Int,
+    val limit: Int,
+    val offset: Int,
+)
+
+@Serializable
+data class PopularRankRunItemDto(
+    val sort_order: Int,
+    val command_id: String,
+    val title_ru: String? = null,
+    val source: String,
+    val unique_tts: Int,
+    val unique_view: Int,
+    val score: Int,
+    val in_served_pool: Boolean,
+)
+
+@Serializable
+data class PopularRankRunDetailDto(
+    val run: PopularRankRunSummaryDto,
+    val items: List<PopularRankRunItemDto>,
+)
+
+@Serializable
+data class Announcement(
+    val id: String,
+    val revision: Int = 1,
+    val placement: String = "more",
+    val title: String,
+    val body: String? = null,
+    val image_url: String? = null,
+    val background_color: String = "#E3F2FD",
+    val foreground_color: String? = null,
+    val cta_label: String? = null,
+    val cta_action: String? = null,
+    val cta_target: String? = null,
+    val dismissible: Boolean = true,
+    val priority: Int = 0,
+    val enabled: Boolean = true,
+    val min_app_version: String? = null,
+    val max_app_version: String? = null,
+    val starts_at: String? = null,
+    val ends_at: String? = null,
+    val created_at: String? = null,
+    val updated_at: String? = null,
+)
+
+@Serializable
+data class AnnouncementPublicItem(
+    val id: String,
+    val revision: Int,
+    val placement: String,
+    val title: String,
+    val body: String? = null,
+    val image_url: String? = null,
+    val background_color: String,
+    val foreground_color: String? = null,
+    val cta_label: String? = null,
+    val cta_action: String? = null,
+    val cta_target: String? = null,
+    val dismissible: Boolean = true,
+    val priority: Int = 0,
+    val min_app_version: String? = null,
+    val max_app_version: String? = null,
+    val starts_at: String? = null,
+    val ends_at: String? = null,
+)
+
+@Serializable
+data class AnnouncementsPublicResponse(
+    val updated_at: String,
+    val items: List<AnnouncementPublicItem>,
+)
+
+@Serializable
+data class UploadAnnouncementImageResponse(
+    val slug: String,
+    val image_url: String,
+)

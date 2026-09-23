@@ -112,6 +112,38 @@ fun Route.publicRoutes() {
             }
         }
     }
+
+    get("/v1/popular-commands") {
+        val useCase = call.application.deps.getPopularCommandsPublicUseCase
+        val etag = useCase.etag()
+        val ifNoneMatch = call.request.headers[HttpHeaders.IfNoneMatch]
+        if (etag != null && ifNoneMatch == etag) {
+            call.respond(HttpStatusCode.NotModified)
+            return@get
+        }
+        val body = useCase.execute()
+        call.response.header(HttpHeaders.CacheControl, "public, max-age=300")
+        if (etag != null) {
+            call.response.header(HttpHeaders.ETag, etag)
+        }
+        call.respond(body)
+    }
+
+    get("/v1/announcements") {
+        val useCase = call.application.deps.getAnnouncementsPublicUseCase
+        val etag = useCase.etag()
+        val ifNoneMatch = call.request.headers[HttpHeaders.IfNoneMatch]
+        if (etag != null && ifNoneMatch == etag) {
+            call.respond(HttpStatusCode.NotModified)
+            return@get
+        }
+        val body = useCase.execute()
+        call.response.header(HttpHeaders.CacheControl, "public, max-age=300")
+        if (etag != null) {
+            call.response.header(HttpHeaders.ETag, etag)
+        }
+        call.respond(body)
+    }
 }
 
 fun Route.healthRoutes() {
