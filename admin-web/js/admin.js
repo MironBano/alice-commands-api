@@ -38,7 +38,7 @@ function adminApp() {
     pro_gate_shown: { label: 'Увидел ограничение Pro' },
     pro_gate_to_paywall: { label: 'Перешёл с ограничения к покупке' },
     pro_purchase_start: { label: 'Начал покупку Pro' },
-    pro_purchase: { label: 'Оплата Pro прошла' },
+    pro_purchase: { label: 'Результат покупки Pro', tip: 'params.success=true|false; cancelled — отмена пользователем; billing — технический сбой.' },
     pro_activated: { label: 'Pro включился', tip: 'Может быть после покупки или после восстановления покупок.' },
     pro_restore: { label: 'Проверка покупок', tip: 'Приложение само проверяет покупки при каждом запуске. Это не «пользователь нажал Восстановить».' },
     rating_prompt_shown: { label: 'Попросили оценить приложение' },
@@ -60,18 +60,44 @@ function adminApp() {
     font_scale_change: { label: 'Сменил масштаб шрифта' },
     contextual_pick_impression: { label: 'Увидел товар в подборке', tip: 'Impression одного pick за сессию.' },
     contextual_pick_section_shown: { label: 'Увидел блок подборки' },
-    contextual_pick_click: { label: 'Кликнул товарную подборку', tip: 'Основной клик по pick (не legacy affiliate_click).' },
-    device_pick_click: { label: 'Кликнул pick устройства' },
-    affiliate_click: { label: 'Клик legacy affiliate', tip: 'Старые блоки affiliate; picks → contextual_pick_click.' },
+    contextual_pick_click: { label: 'Кликнул товарную подборку', tip: 'Канон воронки picks; не ui_click и не legacy affiliate_click / device_pick_click.' },
+    device_pick_click: { label: 'Кликнул pick устройства (устар.)', tip: 'Deprecated — используйте contextual_pick_click.' },
+    affiliate_click: { label: 'Клик legacy affiliate (устар.)', tip: 'Deprecated — picks → contextual_pick_click; магазин поддержки → support_shop_open.' },
     affiliate_no_match: { label: 'Подборка не нашлась' },
+    announcement_impression: { label: 'Увидел баннер (Ещё)', tip: 'params.announcement_id, placement=more. CTA — ui_click element_id=more_announcement_cta.' },
+    popular_section_shown: { label: 'Увидел блок «Популярное»', tip: 'params.screen = search|quick|catalog_try_now.' },
+    support_shop_open: { label: 'Открыл магазин поддержки', tip: 'Экран «Поддержать автора»; не affiliate_click.' },
+    ads_rewarded_request: { label: 'Запрос rewarded-рекламы' },
+    ads_rewarded_shown: { label: 'Показ rewarded-рекламы' },
+    ads_rewarded_earned: { label: 'Награда rewarded (просмотр до конца)' },
+    ads_rewarded_dismissed: { label: 'Закрыл rewarded до награды' },
+    ads_rewarded_failed: { label: 'Ошибка rewarded-рекламы' },
+    ads_feed_request: { label: 'Запрос feed-рекламы', tip: 'Support Author, Free only; placement=support_author.' },
+    ads_feed_shown: { label: 'Показ feed-рекламы', tip: 'FeedAdEvent.Impression → ads_feed_shown.' },
+    ads_feed_clicked: { label: 'Клик feed-рекламы' },
+    ads_feed_failed: { label: 'Ошибка feed-рекламы' },
+    ads_banner_request: { label: 'Запрос баннера РСЯ', tip: 'Bottom chrome; placement=main_bottom. Каждый loadAd/refresh. Не announcement_impression.' },
+    ads_banner_shown: { label: 'Показ баннера РСЯ', tip: 'Канон — onImpression SDK (не onAdLoaded). Refresh ≈35 с тоже считается.' },
+    ads_banner_clicked: { label: 'Клик баннера РСЯ' },
+    ads_banner_failed: { label: 'Ошибка баннера РСЯ', tip: 'Product funnel; рядом может быть generic ads_error.' },
     device_guide_detail_open: { label: 'Открыл гайд устройства' },
     device_guide_external_click: { label: 'Клик ссылку из гайда' },
     deeplink_open: { label: 'Открыл deeplink' },
-    app_error_non_fatal: { label: 'Ошибка (некритичная)' },
-    billing_error: { label: 'Ошибка оплаты' },
-    bootstrap_error: { label: 'Ошибка при запуске' },
-    review_error: { label: 'Ошибка RuStore Review' },
-    ads_error: { label: 'Ошибка рекламы' },
+    app_error_non_fatal: { label: 'Ошибка (некритичная)', tip: 'params.error_domain, error_type; при cap — error_type=cap_reached.' },
+    billing_error: {
+      label: 'Ошибка RuStore Pay',
+      tip: 'Сеть/SDK при покупке или кнопке «Восстановить» на paywall. Автопроверка при старте не шлёт. params.error_type — класс исключения.',
+    },
+    bootstrap_error: { label: 'Ошибка при запуске', tip: 'Сбой инициализации приложения (не billing).' },
+    review_error: { label: 'Ошибка RuStore Review', tip: 'In-app review SDK.' },
+    update_error: { label: 'Ошибка RuStore Update', tip: 'In-app update SDK.' },
+    ads_error: { label: 'Ошибка рекламы (общая)', tip: 'Generic ads; детали — ads_*_failed.' },
+    push_permission_result: { label: 'Результат запроса push-разрешения', tip: 'params.result после системного диалога.' },
+    push_preference_change: { label: 'Сменил настройку push', tip: 'Opt-in/out в приложении.' },
+    push_received: { label: 'Получил push', tip: 'FCM/RuStore доставил уведомление.' },
+    push_open: { label: 'Открыл из push', tip: 'Тап по уведомлению.' },
+    push_dismiss: { label: 'Смахнул push' },
+    push_error: { label: 'Ошибка push', tip: 'Регистрация токена, отправка prefs и т.п.' },
   };
 
   /** Служебные события — скрываются в топе «Действия пользователей». */
@@ -85,10 +111,14 @@ function adminApp() {
     'time_in_app_tick',
     'contextual_pick_impression',
     'contextual_pick_section_shown',
+    'announcement_impression',
+    'popular_section_shown',
     'cod_impression',
     'widget_shown',
     'affiliate_no_match',
     'rating_evaluate_skipped',
+    'ads_banner_request',
+    'ads_banner_shown',
   ]);
 
   const ANALYTICS_FUNNEL_PRESETS = [
@@ -100,6 +130,9 @@ function adminApp() {
     { label: 'Команда дня', steps: 'cod_impression,cod_open,command_tts' },
     { label: 'Сценарии', steps: 'scenario_open,command_tts' },
     { label: 'Виджет', steps: 'widget_shown,widget_open,command_view' },
+    { label: 'Rewarded', steps: 'ads_rewarded_request,ads_rewarded_shown,ads_rewarded_earned' },
+    { label: 'Баннер РСЯ', steps: 'ads_banner_request,ads_banner_shown,ads_banner_clicked', tip: 'Bottom РСЯ; KPI = COUNT(shown)/DAU. Не путать с Баннер (Ещё).' },
+    { label: 'Баннер (Ещё)', steps: 'announcement_impression,ui_click', tip: 'CTA: breakdown ui_click → element_id=more_announcement_cta' },
     { label: 'Engagement', steps: 'daily_active,command_view,command_copy,favorite_add' },
   ];
 
@@ -134,6 +167,9 @@ function adminApp() {
     scenarios: [],
     checklist: [],
     affiliate: [],
+    announcements: [],
+    announcementForm: null,
+    announcementEditing: false,
     deviceGuides: [],
     devicePicks: [],
     smarthomeTab: 'guides',
@@ -201,6 +237,12 @@ function adminApp() {
     commandOfDay: null,
     commandOfDayForm: null,
     commandOfDayLoading: false,
+    popularCommands: null,
+    popularPinIds: [],
+    popularPinDraft: '',
+    popularHistory: [],
+    popularHistoryDetail: null,
+    popularLoading: false,
     analyticsMaxRangeDays: 90,
     analyticsPreset: 7,
     analyticsFrom: '',
@@ -223,7 +265,6 @@ function adminApp() {
     analyticsBreakdownError: '',
     analyticsBreakdownEventName: 'ui_click',
     analyticsBreakdownParam: 'element_id',
-    analyticsTrendSeries: 'events',
     analyticsEvents: [],
     analyticsEventsLoading: false,
     analyticsEventsError: '',
@@ -233,6 +274,28 @@ function adminApp() {
     analyticsOffset: 0,
     analyticsLimit: 100,
     analyticsRangeError: '',
+
+    // Monetization calculator (client-only; no API on slider drag)
+    mcConfig: (typeof AliceMonetization !== 'undefined' && AliceMonetization.CONFIG) || {},
+    mcInputs: (typeof AliceMonetization !== 'undefined'
+      ? { ...AliceMonetization.CONFIG.DEFAULT_INPUTS }
+      : {}),
+    mcSettings: (typeof AliceMonetization !== 'undefined'
+      ? { ...AliceMonetization.CONFIG.DEFAULT_SETTINGS }
+      : {}),
+    mcSim: null,
+    mcScenarios: [],
+    mcScenariosNeeded: false,
+    mcThresholds: { minRetention: null, minInstalls: null },
+    mcFinanceMode: 'daily',
+    mcFacts: null,
+    mcFactsLoading: false,
+    mcFactsError: '',
+    mcDragging: false,
+    _mcRaf: null,
+    _mcAudienceChart: null,
+    _mcFinanceChart: null,
+    _mcResizeBound: null,
 
     async init() {
       this.startHealthPolling();
@@ -478,6 +541,118 @@ function adminApp() {
     async loadAffiliate() {
       this.affiliate = await this.api('/admin/api/affiliate-blocks') || [];
     },
+    async loadAnnouncements() {
+      this.announcements = await this.api('/admin/api/announcements') || [];
+    },
+    showAnnouncementForm() {
+      this.formError = '';
+      this.announcementEditing = false;
+      this.announcementForm = {
+        id: '',
+        title: '',
+        body: '',
+        placement: 'more',
+        background_color: '#E8F5E9',
+        foreground_color: '#1B5E20',
+        image_url: '',
+        cta_label: '',
+        cta_action: '',
+        cta_target: '',
+        dismissible: true,
+        priority: 0,
+        enabled: true,
+        min_app_version: '',
+        max_app_version: '',
+        starts_at: '',
+        ends_at: '',
+      };
+    },
+    editAnnouncement(a) {
+      this.formError = '';
+      this.announcementEditing = true;
+      this.announcementForm = {
+        ...a,
+        foreground_color: a.foreground_color || '#1B5E20',
+        cta_action: a.cta_action || '',
+        cta_target: a.cta_target || '',
+        cta_label: a.cta_label || '',
+        min_app_version: a.min_app_version || '',
+        max_app_version: a.max_app_version || '',
+        starts_at: a.starts_at || '',
+        ends_at: a.ends_at || '',
+      };
+    },
+    async uploadAnnouncementImage(event) {
+      const file = event.target.files?.[0];
+      if (!file || !this.announcementForm) return;
+      const slugField = this.announcementForm.id?.trim();
+      if (!slugField) {
+        this.formError = 'Сначала укажите ID (slug для файла)';
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = async () => {
+        try {
+          const dataUrl = reader.result;
+          const res = await this.api('/admin/api/announcements/upload-image', {
+            method: 'POST',
+            body: {
+              slug: slugField,
+              image_base64: dataUrl,
+            },
+          });
+          if (res?.image_url) {
+            this.announcementForm.image_url = res.image_url;
+            this.showToast('Картинка загружена');
+          }
+        } catch (e) {
+          this.formError = this.networkErrorMessage(e);
+        }
+      };
+      reader.readAsDataURL(file);
+    },
+    async saveAnnouncement() {
+      await this.runSaving(async () => {
+        const f = this.announcementForm;
+        const body = {
+          id: (f.id || '').trim(),
+          title: (f.title || '').trim(),
+          body: this.trimOrNull(f.body),
+          placement: 'more',
+          background_color: (f.background_color || '#E3F2FD').trim(),
+          foreground_color: this.trimOrNull(f.foreground_color),
+          image_url: this.trimOrNull(f.image_url),
+          cta_label: this.trimOrNull(f.cta_label),
+          cta_action: this.trimOrNull(f.cta_action),
+          cta_target: this.trimOrNull(f.cta_target),
+          dismissible: !!f.dismissible,
+          priority: Number(f.priority) || 0,
+          enabled: !!f.enabled,
+          min_app_version: this.trimOrNull(f.min_app_version),
+          max_app_version: this.trimOrNull(f.max_app_version),
+          starts_at: this.trimOrNull(f.starts_at),
+          ends_at: this.trimOrNull(f.ends_at),
+        };
+        if (this.announcementEditing) {
+          await this.api(`/admin/api/announcements/${body.id}`, { method: 'PUT', body });
+        } else {
+          await this.api('/admin/api/announcements', { method: 'POST', body });
+        }
+        this.announcementForm = null;
+        await this.loadAnnouncements();
+        this.showToast('Баннер сохранён');
+      });
+    },
+    async deleteAnnouncement(id) {
+      if (!confirm(`Удалить баннер ${id}?`)) return;
+      try {
+        await this.api(`/admin/api/announcements/${id}`, { method: 'DELETE' });
+        await this.loadAnnouncements();
+        this.showToast('Баннер удалён');
+      } catch (e) {
+        this.error = this.networkErrorMessage(e);
+      }
+    },
     async loadSmartHomeDevices() {
       this.deviceGuides = await this.api('/admin/api/smarthome/device-guides') || [];
       this.devicePicks = await this.api('/admin/api/smarthome/device-picks') || [];
@@ -653,6 +828,309 @@ function adminApp() {
       this.loadAnalyticsForActiveTab();
     },
 
+    mcReady() {
+      return typeof AliceMonetization !== 'undefined' && AliceMonetization.simulate;
+    },
+
+    loadMcSettingsFromStorage() {
+      if (!this.mcReady()) return;
+      try {
+        const raw = localStorage.getItem(AliceMonetization.CONFIG.STORAGE_KEY);
+        if (!raw) return;
+        const parsed = JSON.parse(raw);
+        this.mcSettings = {
+          ...AliceMonetization.CONFIG.DEFAULT_SETTINGS,
+          ...parsed,
+        };
+      } catch {
+        /* ignore corrupt storage */
+      }
+    },
+
+    saveMcSettingsToStorage() {
+      if (!this.mcReady()) return;
+      try {
+        localStorage.setItem(
+          AliceMonetization.CONFIG.STORAGE_KEY,
+          JSON.stringify(this.mcSettings),
+        );
+      } catch {
+        /* ignore quota */
+      }
+    },
+
+    openMonetizationCalculator() {
+      this.view = 'monetization-calculator';
+      this.loadMcSettingsFromStorage();
+      // Migrate away from legacy day-over-day / D30 fields
+      if (!this.mcInputs || this.mcInputs.rrDay1 == null) {
+        this.mcInputs = { ...AliceMonetization.CONFIG.DEFAULT_INPUTS };
+      } else {
+        delete this.mcInputs.rollingRetentionPercent;
+        delete this.mcInputs.retentionD30Percent;
+      }
+      if (!this.mcInputs || this.mcInputs.monthlyTarget == null) {
+        this.mcInputs = { ...AliceMonetization.CONFIG.DEFAULT_INPUTS };
+      }
+      // x-show: chart DOM may still be 0×0 on first tick — init + resize after paint
+      this.$nextTick(() => {
+        const boot = () => {
+          this.ensureMcCharts(true);
+          this.recalcMonetization(false);
+          // First paint: force dynamics zoom window
+          if (this.mcSim) {
+            AliceMonetization.updateAudienceChart(this._mcAudienceChart, this.mcSim, {
+              resetZoom: true,
+            });
+            AliceMonetization.updateFinanceChart(
+              this._mcFinanceChart,
+              this.mcSim,
+              this.mcFinanceMode,
+              { resetZoom: true },
+            );
+          }
+          AliceMonetization.resizeCharts(this._mcAudienceChart, this._mcFinanceChart);
+        };
+        requestAnimationFrame(() => {
+          boot();
+          if (!this._mcAudienceChart || !this._mcFinanceChart) {
+            requestAnimationFrame(boot);
+          }
+          this.loadMcAnalyticsFacts();
+        });
+      });
+    },
+
+    ensureMcCharts(forceRecreate = false) {
+      if (!this.mcReady() || typeof echarts === 'undefined') return;
+      const aEl = document.getElementById('mc-chart-audience');
+      const fEl = document.getElementById('mc-chart-finance');
+
+      const bind = (el, existing, initFn) => {
+        if (!el) return null;
+        const zero = el.clientWidth < 8 || el.clientHeight < 8;
+        if (existing) {
+          if (forceRecreate || zero) {
+            try {
+              existing.dispose();
+            } catch (_) {}
+          } else {
+            try {
+              existing.resize();
+            } catch (_) {}
+            return existing;
+          }
+        }
+        // Do not init ECharts on display:none / 0×0 — wait for next paint
+        if (zero) return null;
+        return initFn(el);
+      };
+
+      this._mcAudienceChart = bind(
+        aEl,
+        this._mcAudienceChart,
+        AliceMonetization.initAudienceChart,
+      );
+      this._mcFinanceChart = bind(
+        fEl,
+        this._mcFinanceChart,
+        AliceMonetization.initFinanceChart,
+      );
+      if (this._mcAudienceChart && this._mcFinanceChart && AliceMonetization.linkChartsZoom) {
+        AliceMonetization.linkChartsZoom(this._mcAudienceChart, this._mcFinanceChart);
+      }
+      if (!this._mcResizeBound) {
+        this._mcResizeBound = () => {
+          AliceMonetization.resizeCharts(this._mcAudienceChart, this._mcFinanceChart);
+        };
+        window.addEventListener('resize', this._mcResizeBound);
+      }
+    },
+
+    onMcInput(dragging) {
+      this.mcDragging = !!dragging;
+      if (this._mcRaf) cancelAnimationFrame(this._mcRaf);
+      this._mcRaf = requestAnimationFrame(() => {
+        this._mcRaf = null;
+        this.recalcMonetization(!dragging);
+      });
+    },
+
+    onMcSettingsChange(dragging) {
+      this.onMcInput(dragging);
+      if (!dragging) this.saveMcSettingsToStorage();
+    },
+
+    resetMcSettings() {
+      if (!this.mcReady()) return;
+      this.mcSettings = { ...AliceMonetization.CONFIG.DEFAULT_SETTINGS };
+      this.saveMcSettingsToStorage();
+      this.recalcMonetization(false);
+    },
+
+    snapMcMonthlyTarget() {
+      if (!this.mcReady()) return;
+      const c = AliceMonetization.CONFIG;
+      this.mcInputs.monthlyTarget = AliceMonetization.roundToStep(
+        this.mcInputs.monthlyTarget,
+        c.MONTHLY_TARGET_STEP,
+        c.MONTHLY_TARGET_MIN,
+        c.MONTHLY_TARGET_MAX,
+      );
+    },
+
+    recalcMonetization(animate) {
+      if (!this.mcReady()) return;
+      const inputs = AliceMonetization.normalizeInputs(this.mcInputs);
+      // Mutate in place to avoid re-creating range bindings every frame
+      Object.assign(this.mcInputs, inputs);
+      const sim = AliceMonetization.simulate(inputs, this.mcSettings);
+      this.mcSim = sim;
+
+      // Heavy scenario search only when not dragging
+      if (!this.mcDragging) {
+        const solved = AliceMonetization.solveAllScenarios(inputs, this.mcSettings);
+        this.mcScenariosNeeded = !!solved.needed;
+        this.mcScenarios = solved.scenarios || [];
+
+        let minRetention = null;
+        let minInstalls = null;
+        for (const sc of this.mcScenarios) {
+          if (sc.kind === 'min_product' && sc.feasible && sc.rrDay1 != null) {
+            minRetention = sc.rrDay1;
+          }
+          if (sc.kind === 'min_traffic' && sc.feasible && sc.installsPerDay != null) {
+            minInstalls = sc.installsPerDay;
+          }
+        }
+        this.mcThresholds = { minRetention, minInstalls };
+      } else {
+        this.mcScenariosNeeded = !sim.reachableWithinHorizon;
+      }
+
+      this.ensureMcCharts();
+      // Preserve user zoom while dragging inputs; reset only on first paint (handled in charts)
+      AliceMonetization.updateAudienceChart(this._mcAudienceChart, sim, {
+        animate: !!animate && !this.mcDragging,
+      });
+      AliceMonetization.updateFinanceChart(this._mcFinanceChart, sim, this.mcFinanceMode, {
+        animate: !!animate && !this.mcDragging,
+      });
+    },
+
+    setMcFinanceMode(mode) {
+      this.mcFinanceMode = mode;
+      if (this.mcSim) {
+        this.ensureMcCharts();
+        AliceMonetization.updateFinanceChart(this._mcFinanceChart, this.mcSim, mode, {
+          animate: true,
+        });
+      }
+    },
+
+    setMcChartZoom(preset) {
+      if (!this.mcSim || !this.mcReady()) return;
+      this.ensureMcCharts();
+      AliceMonetization.updateAudienceChart(this._mcAudienceChart, this.mcSim, {
+        zoomPreset: preset,
+        animate: true,
+      });
+      AliceMonetization.updateFinanceChart(this._mcFinanceChart, this.mcSim, this.mcFinanceMode, {
+        zoomPreset: preset,
+        animate: true,
+      });
+    },
+
+    mcRetentionSliderStyle() {
+      const thr = this.mcThresholds?.minRetention;
+      if (thr == null || !this.mcScenariosNeeded) return {};
+      const max = this.mcConfig.RR_MAX || 100;
+      const pct = Math.min(100, Math.max(0, (thr / max) * 100));
+      return {
+        background: `linear-gradient(to right, #fecaca 0%, #fecaca ${pct}%, #e2e8f0 ${pct}%, #e2e8f0 100%)`,
+      };
+    },
+
+    mcInstallsSliderStyle() {
+      const thr = this.mcThresholds?.minInstalls;
+      if (thr == null || !this.mcScenariosNeeded) return {};
+      const max = this.mcConfig.INSTALLS_PER_DAY_MAX || 10000;
+      const pct = Math.min(100, Math.max(0, (thr / max) * 100));
+      return {
+        background: `linear-gradient(to right, #fecaca 0%, #fecaca ${pct}%, #e2e8f0 ${pct}%, #e2e8f0 100%)`,
+      };
+    },
+
+    mcScenarioTitle(kind) {
+      if (kind === 'min_product') return 'Минимальный продукт';
+      if (kind === 'min_traffic') return 'Минимальный трафик';
+      if (kind === 'balance') return 'Баланс';
+      return kind;
+    },
+
+    applyMcScenario(sc) {
+      if (!sc || !sc.feasible) return;
+      if (sc.rrDay1 != null) this.mcInputs.rrDay1 = sc.rrDay1;
+      if (sc.rrDay7 != null) this.mcInputs.rrDay7 = sc.rrDay7;
+      if (sc.rrDay14 != null) this.mcInputs.rrDay14 = sc.rrDay14;
+      if (sc.installsPerDay != null) {
+        this.mcInputs.installsPerDay = sc.installsPerDay;
+      }
+      this.recalcMonetization(false);
+      this.showToast('Сценарий применён');
+    },
+
+    formatMcInt(n) {
+      if (n == null || Number.isNaN(n)) return '—';
+      return Math.round(Number(n)).toLocaleString('ru-RU');
+    },
+
+    async loadMcAnalyticsFacts() {
+      this.mcFactsLoading = true;
+      this.mcFactsError = '';
+      try {
+        const to = new Date();
+        const from = new Date(to);
+        from.setDate(from.getDate() - 29);
+        const fromStr = this.formatAnalyticsLocalDate(from);
+        const toStr = this.formatAnalyticsLocalDate(to);
+        const params = new URLSearchParams({ from: fromStr, to: toStr });
+        const summary = await this.api(`/admin/api/analytics/summary?${params}`);
+        const days = summary?.days_in_range || 30;
+        const newInstalls = summary?.new_installs ?? 0;
+        this.mcFacts = {
+          avgDau: summary?.avg_dau ?? null,
+          installsPerDay: days > 0 ? newInstalls / days : null,
+          from: summary?.from || fromStr,
+          to: summary?.to || toStr,
+          raw: summary,
+        };
+      } catch (e) {
+        this.mcFacts = null;
+        this.mcFactsError = this.networkErrorMessage(e);
+      } finally {
+        this.mcFactsLoading = false;
+      }
+    },
+
+    applyMcFactsToInputs() {
+      if (!this.mcFacts) return;
+      if (this.mcFacts.avgDau != null) {
+        this.mcInputs.currentDau = Math.max(0, Math.round(this.mcFacts.avgDau));
+      }
+      if (this.mcFacts.installsPerDay != null) {
+        this.mcInputs.installsPerDay = Math.max(
+          0,
+          Math.min(
+            this.mcConfig.INSTALLS_PER_DAY_MAX || 10000,
+            Math.round(this.mcFacts.installsPerDay),
+          ),
+        );
+      }
+      this.recalcMonetization(false);
+      this.showToast('DAU и установки подставлены из аналитики');
+    },
+
     setAnalyticsTab(tab) {
       this.analyticsTab = tab;
       this.loadAnalyticsForActiveTab();
@@ -775,43 +1253,6 @@ function adminApp() {
       }
     },
 
-    analyticsTrendMax() {
-      const daily = this.analyticsSummary?.daily || [];
-      const key = this.analyticsTrendSeriesKey();
-      return Math.max(1, ...daily.map((d) => Number(d[key]) || 0));
-    },
-
-    analyticsTrendSeriesKey() {
-      if (this.analyticsTrendSeries === 'dau') return 'dau';
-      if (this.analyticsTrendSeries === 'new_installs' || this.analyticsTrendSeries === 'unique_installs') {
-        return 'new_installs';
-      }
-      return 'events';
-    },
-
-    analyticsBarHeight(point) {
-      const value = this.analyticsBarValue(point);
-      if (value <= 0) return 0;
-      return Math.max(2, Math.round((value / this.analyticsTrendMax()) * 100));
-    },
-
-    analyticsBarValue(point) {
-      const key = this.analyticsTrendSeriesKey();
-      return Number(point?.[key]) || 0;
-    },
-
-    analyticsShowBarValues() {
-      return (this.analyticsSummary?.daily || []).length <= 31;
-    },
-
-    analyticsShowBarLabel(index) {
-      const daily = this.analyticsSummary?.daily || [];
-      const n = daily.length;
-      if (n <= 31) return true;
-      if (index === 0 || index === n - 1) return true;
-      return index % 7 === 0;
-    },
-
     analyticsEventLabel(eventName) {
       const entry = this.analyticsEventLabels[eventName];
       return entry?.label || eventName;
@@ -825,6 +1266,61 @@ function adminApp() {
       const rows = this.analyticsSummary?.top_events || [];
       if (this.analyticsTopEventsMode === 'all') return rows;
       return rows.filter((row) => !ANALYTICS_SYSTEM_EVENT_NAMES.has(row.event_name));
+    },
+
+    /** Same truncation as backend avg_dau (1 decimal, floor). */
+    analyticsAvgDauFromDaily(daily) {
+      const rows = daily || this.analyticsSummary?.daily || [];
+      if (!rows.length) return 0;
+      const sum = rows.reduce((acc, d) => acc + (Number(d.dau) || 0), 0);
+      return Math.floor((sum / rows.length) * 10) / 10;
+    },
+
+    analyticsDailyTotals() {
+      const daily = this.analyticsSummary?.daily || [];
+      return {
+        days: daily.length,
+        sumEvents: daily.reduce((acc, d) => acc + (Number(d.events) || 0), 0),
+        sumDau: daily.reduce((acc, d) => acc + (Number(d.dau) || 0), 0),
+        sumNew: daily.reduce((acc, d) => acc + (Number(d.new_installs) || 0), 0),
+        avgDau: this.analyticsAvgDauFromDaily(daily),
+      };
+    },
+
+    analyticsConsistencyRows() {
+      const s = this.analyticsSummary;
+      if (!s) return [];
+      const t = this.analyticsDailyTotals();
+      const rows = [
+        {
+          label: 'События',
+          card: Number(s.total_events),
+          fromDaily: t.sumEvents,
+          ok: Number(s.total_events) === t.sumEvents,
+        },
+        {
+          label: 'Новые установки',
+          card: Number(s.new_installs),
+          fromDaily: t.sumNew,
+          ok: Number(s.new_installs) === t.sumNew,
+        },
+        {
+          label: 'В среднем за день',
+          card: Number(s.avg_dau),
+          fromDaily: t.avgDau,
+          ok: Math.abs(Number(s.avg_dau) - t.avgDau) < 0.05,
+        },
+      ];
+      if (t.days >= 1) {
+        rows.push({
+          label: 'Открывали (уникальные за период)',
+          card: Number(s.daily_active_installs),
+          fromDaily: t.sumDau,
+          ok: t.days === 1 ? Number(s.daily_active_installs) === t.sumDau : null,
+          note: t.days > 1 ? 'сумма DAU по дням может быть больше — одна установка в несколько дней' : null,
+        });
+      }
+      return rows;
     },
 
     applyAnalyticsFunnelPreset(preset) {
@@ -843,12 +1339,17 @@ function adminApp() {
       return Object.keys(this.analyticsEventLabels || {});
     },
 
-    /** Only events that need a tip — for the help glossary. */
+    /** Full event_name glossary for the help tab (sorted by Russian label). */
     analyticsExplainedEventNames() {
-      return Object.keys(this.analyticsEventLabels || {}).filter((name) => {
-        const tip = this.analyticsEventLabels[name]?.tip;
-        return tip && tip.length > 0;
-      });
+      const labels = this.analyticsEventLabels || {};
+      return Object.keys(labels).sort((a, b) =>
+        this.analyticsEventLabel(a).localeCompare(this.analyticsEventLabel(b), 'ru'),
+      );
+    },
+
+    analyticsEventTipOrDash(name) {
+      const tip = this.analyticsEventTip(name);
+      return tip || '—';
     },
 
     analyticsPrevPage() {
@@ -1680,6 +2181,81 @@ function adminApp() {
         this.loading = false;
       }
     },
+    async loadPopularCommands() {
+      this.popularLoading = true;
+      try {
+        const data = await this.api('/admin/api/popular-commands');
+        if (!data) return;
+        this.popularCommands = data;
+        this.popularPinIds = (data.pins || []).map((p) => p.command_id);
+        await this.loadPopularHistory();
+      } catch (e) {
+        this.error = this.networkErrorMessage(e);
+      } finally {
+        this.popularLoading = false;
+      }
+    },
+    addPopularPin() {
+      const id = (this.popularPinDraft || '').trim();
+      if (!id) return;
+      if (this.popularPinIds.includes(id)) {
+        this.toast = 'Уже в пинах';
+        return;
+      }
+      this.popularPinIds = [...this.popularPinIds, id];
+      this.popularPinDraft = '';
+    },
+    removePopularPin(idx) {
+      this.popularPinIds = this.popularPinIds.filter((_, i) => i !== idx);
+    },
+    movePopularPin(idx, delta) {
+      const next = idx + delta;
+      if (next < 0 || next >= this.popularPinIds.length) return;
+      const copy = [...this.popularPinIds];
+      const tmp = copy[idx];
+      copy[idx] = copy[next];
+      copy[next] = tmp;
+      this.popularPinIds = copy;
+    },
+    async savePopularPins() {
+      await this.runSaving(async () => {
+        const data = await this.api('/admin/api/popular-commands/pins', {
+          method: 'PUT',
+          body: { command_ids: this.popularPinIds },
+        });
+        this.popularCommands = data;
+        this.popularPinIds = (data.pins || []).map((p) => p.command_id);
+        this.toast = 'Пины сохранены, пул пересчитан';
+        await this.loadPopularHistory();
+      });
+    },
+    async recomputePopularCommands() {
+      await this.runSaving(async () => {
+        const data = await this.api('/admin/api/popular-commands/recompute', { method: 'POST', body: {} });
+        this.popularCommands = data;
+        this.popularPinIds = (data.pins || []).map((p) => p.command_id);
+        this.toast = 'Пул пересчитан';
+        await this.loadPopularHistory();
+      });
+    },
+    async loadPopularHistory() {
+      try {
+        const data = await this.api('/admin/api/popular-commands/history?limit=50&offset=0');
+        if (!data) return;
+        this.popularHistory = data.items || [];
+      } catch (e) {
+        this.error = this.networkErrorMessage(e);
+      }
+    },
+    async loadPopularHistoryDetail(runId) {
+      try {
+        const data = await this.api(`/admin/api/popular-commands/history/${runId}`);
+        if (!data) return;
+        this.popularHistoryDetail = data;
+      } catch (e) {
+        this.error = this.networkErrorMessage(e);
+      }
+    },
     async saveAffiliate() {
       await this.runSaving(async () => {
         const f = this.affiliateForm;
@@ -1771,10 +2347,21 @@ function adminApp() {
     parseCsvIds(text) {
       return String(text || '').split(/[,\n]/).map((s) => s.trim()).filter(Boolean);
     },
+    /** Slug for /devices/v1/{slug}.ext — prefer filename from image_url; strip pick_ so picks map to guide-like names. */
+    deviceImageSlug(form) {
+      const fromUrl = String(form?.image_url || '')
+        .match(/\/devices\/v1\/([a-z][a-z0-9_]*)\.(?:webp|png|jpe?g)(?:\?|#|$)/i);
+      let slug = fromUrl
+        ? fromUrl[1].toLowerCase()
+        : String(form?.id || '').trim().toLowerCase();
+      if (slug.startsWith('pick_') && slug.length > 5) slug = slug.slice(5);
+      return slug;
+    },
     async uploadDeviceImage(event, formKey) {
       const file = event.target.files?.[0];
       if (!file || !this[formKey]) return;
-      const slugField = this[formKey].id?.trim();
+      this.formError = '';
+      const slugField = this.deviceImageSlug(this[formKey]);
       if (!slugField) {
         this.formError = 'Сначала укажите ID (slug для файла)';
         return;
@@ -1795,7 +2382,7 @@ function adminApp() {
             this.showToast('Картинка загружена');
           }
         } catch (e) {
-          this.formError = this.networkErrorMessage(e);
+          this.formError = e.status && e.message ? e.message : this.networkErrorMessage(e);
         }
       };
       reader.readAsDataURL(file);

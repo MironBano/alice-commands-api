@@ -22,6 +22,8 @@ Single-page admin для alice-commands-api.
 | `content` | **Контент** | validate → push-draft → diff → публикация |
 | `import` | Импорт bundle | replace-only import JSON |
 | `publish` | Публикация | Publish draft → live, rollback |
+| `analytics` | Аналитика | Dashboard: Обзор / Тренд / Воронка / Breakdown / События |
+| `monetization-calculator` | Калькулятор | Прогноз DAU/дохода (client-only) |
 | `api` | Справка API | In-app reference |
 
 Полный список — см. sidebar в `index.html`.
@@ -38,8 +40,9 @@ Single-page admin для alice-commands-api.
 | File | Purpose |
 | ---- | ------- |
 | `index.html` | Layout, wizard, diff UI |
-| `js/admin.js` | API client, health, refresh |
-| `css/admin.css` | Status bar, wizard |
+| `js/admin.js` | API client, health, refresh, calculator glue |
+| `js/monetization-calculator/` | Pure model / solver / charts (client-only) |
+| `css/admin.css` | Status bar, wizard, calculator |
 
 ## Docs
 

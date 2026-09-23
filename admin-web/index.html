@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Alice Commands Admin</title>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js"></script>
-  <link rel="stylesheet" href="/admin/css/admin.css?v=14">
+  <link rel="stylesheet" href="/admin/css/admin.css?v=16">
 </head>
 <body x-data="adminApp()" x-init="init()">
   <div class="status-bar" :class="serverStatusClass()">
@@ -44,11 +44,14 @@
         <a href="#" @click.prevent="view='scenarios'" :class="{'active': view==='scenarios'}">Шаблоны</a>
         <a href="#" @click.prevent="view='checklist'" :class="{'active': view==='checklist'}">Чеклист</a>
         <a href="#" @click.prevent="view='command-of-day'; loadCommandOfDay()" :class="{'active': view==='command-of-day'}">Команда дня</a>
+        <a href="#" @click.prevent="view='popular-commands'; loadPopularCommands()" :class="{'active': view==='popular-commands'}">Популярные</a>
+        <a href="#" @click.prevent="view='announcements'; loadAnnouncements()" :class="{'active': view==='announcements'}">Баннеры</a>
         <a href="#" @click.prevent="view='smarthome-devices'; loadSmartHomeDevices()" :class="{'active': view==='smarthome-devices'}">Устройства</a>
         <a href="#" @click.prevent="view='affiliate'" :class="{'active': view==='affiliate'}">Партнёрские блоки (legacy)</a>
         <a href="#" @click.prevent="view='feedback'; loadFeedback()" :class="{'active': view==='feedback'}">Отзывы</a>
         <a href="#" @click.prevent="view='command-reports'; loadCommandReports()" :class="{'active': view==='command-reports'}">Ошибки команд</a>
         <a href="#" @click.prevent="openAnalytics()" :class="{'active': view==='analytics'}">Аналитика</a>
+        <a href="#" @click.prevent="openMonetizationCalculator()" :class="{'active': view==='monetization-calculator'}">Калькулятор</a>
         <a href="#" @click.prevent="view='content'; loadPipeline()" :class="{'active': view==='content'}">Контент</a>
         <a href="#" @click.prevent="view='import'" :class="{'active': view==='import'}">Импорт bundle</a>
         <a href="#" @click.prevent="view='publish'; loadHistory()" :class="{'active': view==='publish'}">Публикация</a>
@@ -608,6 +611,194 @@
             </div>
           </template>
           <p class="muted" x-show="!commandOfDayForm && !commandOfDayLoading">Загрузите каталог — нужны категории и команды.</p>
+        </section>
+
+        <section x-show="view==='popular-commands'">
+          <h1>Популярные команды</h1>
+          <p class="muted section-note">
+            Пул для Try Now / вкладки «Популярные» / поиска. Ранг из analytics (TTS×3 + view×1, unique installs, 7 дней Moscow).
+            TTS с source try_now/quick/search не считаются. Пины — ручное закрепление сверху. Publish каталога не нужен — app читает <code>GET /v1/popular-commands</code>.
+          </p>
+          <div class="actions">
+            <button class="primary" @click="recomputePopularCommands()" :disabled="saving || !serverStatus.online">Пересчитать</button>
+            <button @click="loadPopularHistory()" :disabled="!serverStatus.online">Обновить историю</button>
+          </div>
+
+          <div class="card" style="margin-top:1rem">
+            <h3>Пины (порядок = приоритет)</h3>
+            <div class="form-row">
+              <label>Добавить команду</label>
+              <input x-model="popularPinDraft" list="popular-pin-ids" placeholder="command_id" @keydown.enter.prevent="addPopularPin()">
+              <datalist id="popular-pin-ids">
+                <template x-for="c in allCommands" :key="'pin-'+c.id">
+                  <option :value="c.id" x-text="c.title_ru"></option>
+                </template>
+              </datalist>
+              <button type="button" @click="addPopularPin()">+</button>
+            </div>
+            <ul>
+              <template x-for="(pid, idx) in popularPinIds" :key="pid">
+                <li>
+                  <span x-text="(idx+1) + '. ' + pid"></span>
+                  <button type="button" class="link-btn" @click="movePopularPin(idx, -1)" :disabled="idx===0">↑</button>
+                  <button type="button" class="link-btn" @click="movePopularPin(idx, 1)" :disabled="idx===popularPinIds.length-1">↓</button>
+                  <button type="button" class="link-btn" @click="removePopularPin(idx)">×</button>
+                </li>
+              </template>
+            </ul>
+            <button @click="savePopularPins()" :disabled="saving || !serverStatus.online">Сохранить пины</button>
+          </div>
+
+          <div class="card" style="margin-top:1rem">
+            <h3>Текущий пул
+              <span class="muted" x-show="popularCommands?.updated_at"> · <span x-text="popularCommands.updated_at"></span></span>
+            </h3>
+            <table>
+              <thead>
+                <tr><th>#</th><th>ID</th><th>Название</th><th>Source</th><th>TTS</th><th>View</th><th>Score</th></tr>
+              </thead>
+              <tbody>
+                <template x-for="row in (popularCommands?.snapshot || [])" :key="'snap-'+row.command_id">
+                  <tr>
+                    <td x-text="row.sort_order + 1"></td>
+                    <td x-text="row.command_id"></td>
+                    <td x-text="row.title_ru || '—'"></td>
+                    <td x-text="row.source"></td>
+                    <td x-text="row.unique_tts"></td>
+                    <td x-text="row.unique_view"></td>
+                    <td x-text="row.score"></td>
+                  </tr>
+                </template>
+              </tbody>
+            </table>
+            <p class="muted" x-show="!(popularCommands?.snapshot?.length)">Пусто — нажмите «Пересчитать» (нужен live catalog + analytics).</p>
+          </div>
+
+          <div class="card" style="margin-top:1rem">
+            <h3>История прогонов</h3>
+            <table>
+              <thead>
+                <tr><th>Когда</th><th>Trigger</th><th>Окно</th><th>Served</th><th>Items</th><th></th></tr>
+              </thead>
+              <tbody>
+                <template x-for="run in popularHistory" :key="run.id">
+                  <tr :class="{'warning-inline': popularHistoryDetail?.run?.id === run.id}">
+                    <td x-text="run.computed_at"></td>
+                    <td x-text="run.trigger"></td>
+                    <td x-text="run.window_from + ' → ' + run.window_to"></td>
+                    <td x-text="run.served_count"></td>
+                    <td x-text="run.item_count"></td>
+                    <td><button type="button" class="link-btn" @click="loadPopularHistoryDetail(run.id)">Открыть</button></td>
+                  </tr>
+                </template>
+              </tbody>
+            </table>
+            <template x-if="popularHistoryDetail">
+              <div style="margin-top:1rem">
+                <h4>Прогон #<span x-text="popularHistoryDetail.run.id"></span>
+                  <span class="muted" x-text="popularHistoryDetail.run.computed_at"></span>
+                </h4>
+                <table>
+                  <thead>
+                    <tr><th>#</th><th>ID</th><th>Название</th><th>Source</th><th>TTS</th><th>View</th><th>Score</th><th>В app</th></tr>
+                  </thead>
+                  <tbody>
+                    <template x-for="item in popularHistoryDetail.items" :key="'hist-'+item.command_id+'-'+item.sort_order">
+                      <tr :style="item.in_served_pool ? '' : 'opacity:0.55'">
+                        <td x-text="item.sort_order + 1"></td>
+                        <td x-text="item.command_id"></td>
+                        <td x-text="item.title_ru || '—'"></td>
+                        <td x-text="item.source"></td>
+                        <td x-text="item.unique_tts"></td>
+                        <td x-text="item.unique_view"></td>
+                        <td x-text="item.score"></td>
+                        <td x-text="item.in_served_pool ? 'да' : 'нет'"></td>
+                      </tr>
+                    </template>
+                  </tbody>
+                </table>
+              </div>
+            </template>
+          </div>
+        </section>
+
+        <section x-show="view==='announcements'">
+          <h1>Баннеры в приложении</h1>
+          <p class="muted section-note">
+            Редакторский баннер на экране «Ещё». Publish каталога не нужен — app читает <code>GET /v1/announcements</code>.
+            При обновлении revision++ — пользователь снова увидит баннер после dismiss.
+          </p>
+          <button @click="showAnnouncementForm()">+ Баннер</button>
+          <template x-for="a in announcements" :key="a.id">
+            <div class="card affiliate-card" :style="'border-left: 6px solid ' + (a.background_color || '#E3F2FD')">
+              <div class="affiliate-card-head">
+                <div>
+                  <strong x-text="a.title"></strong>
+                  <p class="muted affiliate-meta">
+                    <span x-text="a.id"></span>
+                    · rev <span x-text="a.revision"></span>
+                    · priority <span x-text="a.priority"></span>
+                    · <span x-text="a.enabled ? 'включён' : 'выключен'"></span>
+                  </p>
+                  <p class="muted" x-show="a.body" x-text="a.body"></p>
+                </div>
+                <div class="actions affiliate-card-actions">
+                  <button @click="editAnnouncement(a)">Изменить</button>
+                  <button class="danger" @click="deleteAnnouncement(a.id)">Удалить</button>
+                </div>
+              </div>
+            </div>
+          </template>
+          <p class="muted" x-show="!announcements.length">Нет баннеров</p>
+          <div class="modal" x-show="announcementForm" @click.self="announcementForm=null">
+            <form class="modal-card wide" @submit.prevent="saveAnnouncement()">
+              <h3 x-text="announcementEditing ? 'Редактировать баннер' : 'Новый баннер'"></h3>
+              <label>ID (slug)<input x-model="announcementForm.id" :readonly="announcementEditing" required pattern="[a-z][a-z0-9_]*"></label>
+              <label>Заголовок<input x-model="announcementForm.title" required></label>
+              <label>Текст<textarea x-model="announcementForm.body" rows="3"></textarea></label>
+              <div class="form-row">
+                <label>Фон<input type="color" x-model="announcementForm.background_color"></label>
+                <label>Текст (цвет)<input type="color" x-model="announcementForm.foreground_color"></label>
+              </div>
+              <label>Картинка URL<input x-model="announcementForm.image_url" placeholder="https://cdn.../announcements/v1/slug.webp"></label>
+              <label>Загрузить картинку<input type="file" accept="image/png,image/jpeg,image/webp" @change="uploadAnnouncementImage($event)"></label>
+              <div class="form-row">
+                <label>CTA label<input x-model="announcementForm.cta_label" placeholder="Смотреть"></label>
+                <label>CTA action
+                  <select x-model="announcementForm.cta_action">
+                    <option value="">—</option>
+                    <option value="url">url</option>
+                    <option value="route">route</option>
+                    <option value="deeplink">deeplink</option>
+                  </select>
+                </label>
+                <label>CTA target<input x-model="announcementForm.cta_target" placeholder="home/smarthome или https://..."></label>
+              </div>
+              <div class="form-row">
+                <label>Priority<input type="number" x-model.number="announcementForm.priority"></label>
+                <label><input type="checkbox" x-model="announcementForm.enabled"> Включён</label>
+                <label><input type="checkbox" x-model="announcementForm.dismissible"> Можно закрыть</label>
+              </div>
+              <div class="form-row">
+                <label>Min app version<input x-model="announcementForm.min_app_version" placeholder="1.0.0"></label>
+                <label>Max app version<input x-model="announcementForm.max_app_version" placeholder="1.9.9"></label>
+              </div>
+              <div class="form-row">
+                <label>Начало (ISO UTC)<input x-model="announcementForm.starts_at" placeholder="2026-08-28T00:00:00Z"></label>
+                <label>Конец (ISO UTC)<input x-model="announcementForm.ends_at" placeholder="2026-09-15T23:59:59Z"></label>
+              </div>
+              <div class="announcement-preview" :style="'background:' + (announcementForm.background_color || '#E3F2FD') + '; color:' + (announcementForm.foreground_color || '#1B5E20') + '; padding:1rem; border-radius:8px; margin-top:0.5rem;'">
+                <strong x-text="announcementForm.title || 'Заголовок'"></strong>
+                <p x-text="announcementForm.body || 'Текст баннера'"></p>
+                <span x-show="announcementForm.cta_label" x-text="announcementForm.cta_label"></span>
+              </div>
+              <p class="error" x-show="formError" x-text="formError"></p>
+              <div class="modal-actions">
+                <button type="button" @click="announcementForm=null">Отмена</button>
+                <button type="submit" class="primary" :disabled="saving || !serverStatus.online" x-text="saving ? 'Сохранение…' : 'Сохранить'"></button>
+              </div>
+            </form>
+          </div>
         </section>
 
         <section x-show="view==='smarthome-devices'">
@@ -1240,23 +1431,49 @@
                   <div class="card">
                     <h3>Открывали приложение</h3>
                     <p class="kpi-value" x-text="analyticsSummary.daily_active_installs"></p>
-                    <p class="muted">разных install_id с событием daily_active</p>
+                    <p class="muted">уникальных установок за весь период (событие daily_active)</p>
                   </div>
                   <div class="card">
                     <h3>В среднем за день</h3>
                     <p class="kpi-value" x-text="analyticsSummary.avg_dau != null ? analyticsSummary.avg_dau : '—'"></p>
-                    <p class="muted">среднее daily[].dau по дням периода (включая дни с 0)</p>
+                    <p class="muted">среднее открытий в день по таблице «По дням»</p>
                   </div>
                   <div class="card">
                     <h3>События</h3>
                     <p class="kpi-value" x-text="analyticsSummary.total_events"></p>
-                    <p class="muted">COUNT всех событий за период</p>
+                    <p class="muted">всего записей за период</p>
                   </div>
                   <div class="card">
                     <h3>Новые установки</h3>
                     <p class="kpi-value" x-text="analyticsSummary.new_installs != null ? analyticsSummary.new_installs : '—'"></p>
-                    <p class="muted">install_id, впервые появившиеся в аналитике в эти дни</p>
+                    <p class="muted">впервые появились в аналитике в эти дни</p>
                   </div>
+                </div>
+                <div class="editorial-table-wrap" x-show="(analyticsSummary.daily || []).length">
+                  <h2>Сверка карточек с таблицей по дням</h2>
+                  <p class="muted section-note">Карточки берутся из того же ответа API, что и вкладка «По дням». Зелёная галочка — совпадает с суммой/средним по строкам.</p>
+                  <table class="editorial-table analytics-consistency-table">
+                    <thead>
+                      <tr><th>Карточка</th><th>На обзоре</th><th>Из daily[]</th><th></th></tr>
+                    </thead>
+                    <tbody>
+                      <template x-for="row in analyticsConsistencyRows()" :key="row.label">
+                        <tr>
+                          <td x-text="row.label"></td>
+                          <td x-text="row.card"></td>
+                          <td>
+                            <span x-text="row.fromDaily"></span>
+                            <span class="muted" x-show="row.note" x-text="' · ' + row.note"></span>
+                          </td>
+                          <td>
+                            <span x-show="row.ok === true">✓</span>
+                            <span x-show="row.ok === false" class="error-inline">≠</span>
+                            <span x-show="row.ok === null" class="muted">—</span>
+                          </td>
+                        </tr>
+                      </template>
+                    </tbody>
+                  </table>
                 </div>
                 <h2>Что чаще всего происходило</h2>
                 <div class="editorial-filters">
@@ -1295,26 +1512,41 @@
           <div x-show="analyticsTab==='trend'">
             <p class="muted" x-show="analyticsSummaryLoading">Загрузка…</p>
             <p class="error" x-show="analyticsSummaryError" x-text="analyticsSummaryError"></p>
-            <div class="editorial-filters" x-show="analyticsSummary && !analyticsSummaryLoading">
-              <label><input type="radio" value="events" x-model="analyticsTrendSeries"> События</label>
-              <label><input type="radio" value="dau" x-model="analyticsTrendSeries"> Открывали приложение</label>
-              <label><input type="radio" value="new_installs" x-model="analyticsTrendSeries"> Новые установки</label>
-            </div>
-            <p class="muted section-note" x-show="analyticsSummary && !analyticsSummaryLoading && analyticsTrendSeries==='new_installs'">
-              Первый день, когда этот <code>install_id</code> впервые появился в аналитике (любое событие). Повторные заходы в другие дни сюда не входят.
+            <p class="muted section-note" x-show="analyticsSummary && !analyticsSummaryLoading">
+              Таблица по календарным дням (Europe/Moscow). Графики временно убраны — только числа.
             </p>
-            <div class="analytics-bars" :class="{'analytics-bars-dense': (analyticsSummary?.daily || []).length > 31}" x-show="analyticsSummary && !analyticsSummaryLoading">
-              <div class="analytics-bars-plot">
-                <template x-for="(point, idx) in (analyticsSummary?.daily || [])" :key="point.date">
-                  <div class="analytics-bar-col" :title="point.date + ': ' + analyticsBarValue(point)">
-                    <div class="analytics-bar-value" x-text="(analyticsShowBarValues() && analyticsBarValue(point) > 0) ? analyticsBarValue(point) : ''"></div>
-                    <div class="analytics-bar-track">
-                      <div class="analytics-bar" :style="'height:' + analyticsBarHeight(point) + '%'"></div>
-                    </div>
-                    <div class="analytics-bar-label" x-text="analyticsShowBarLabel(idx) ? point.date.slice(5) : ''"></div>
-                  </div>
-                </template>
-              </div>
+            <div class="editorial-table-wrap" x-show="analyticsSummary && !analyticsSummaryLoading">
+              <table class="editorial-table">
+                <thead>
+                  <tr>
+                    <th>День</th>
+                    <th>События</th>
+                    <th>Открывали</th>
+                    <th>Новые установки</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <template x-for="point in (analyticsSummary?.daily || [])" :key="point.date">
+                    <tr>
+                      <td x-text="point.date"></td>
+                      <td x-text="point.events"></td>
+                      <td x-text="point.dau"></td>
+                      <td x-text="point.new_installs"></td>
+                    </tr>
+                  </template>
+                  <tr class="analytics-daily-total" x-show="(analyticsSummary?.daily || []).length">
+                    <td><strong>Итого</strong></td>
+                    <td x-text="analyticsDailyTotals().sumEvents"></td>
+                    <td>
+                      <span x-text="analyticsDailyTotals().sumDau"></span>
+                      <span class="muted"> (сумма по дням; среднее </span>
+                      <span x-text="analyticsDailyTotals().avgDau"></span>
+                      <span class="muted">)</span>
+                    </td>
+                    <td x-text="analyticsDailyTotals().sumNew"></td>
+                  </tr>
+                </tbody>
+              </table>
               <p class="muted" x-show="!(analyticsSummary?.daily || []).length">Нет данных по дням</p>
             </div>
           </div>
@@ -1469,15 +1701,17 @@
           <div x-show="analyticsTab==='help'" class="analytics-help">
             <h2>Карточки на обзоре</h2>
             <ul class="analytics-help-list">
-              <li><strong>Открывали приложение</strong> — сколько разных <code>install_id</code> прислали <code>daily_active</code> за выбранные дни.</li>
-              <li><strong>В среднем за день</strong> — среднее дневных DAU (<code>daily[].dau</code>) по дням периода (включая дни с 0).</li>
-              <li><strong>События</strong> — сколько строк событий попало в период.</li>
-              <li><strong>Новые установки</strong> — сколько <code>install_id</code> впервые появились в аналитике в эти дни (сумма <code>daily[].new_installs</code> = <code>summary.new_installs</code>). Повторные заходы старых установок сюда не входят.</li>
+              <li><strong>Открывали приложение</strong> — сколько разных установок прислали <code>daily_active</code> хотя бы раз за выбранные дни (уникальные за период, не сумма по дням).</li>
+              <li><strong>В среднем за день</strong> — среднее дневных «Открывали» из таблицы по дням.</li>
+              <li><strong>События</strong> — сколько строк событий попало в период (= сумма колонки «События»).</li>
+              <li><strong>Новые установки</strong> — сколько установок впервые появились в аналитике в эти дни (= сумма колонки «Новые установки»).</li>
             </ul>
+            <p class="muted section-note">На обзоре блок «Сверка» показывает, что карточки совпадают с суммой/средним по таблице «По дням».</p>
 
             <h2>Почему в топе странные события</h2>
             <ul class="analytics-help-list">
               <li><strong>Проверка покупок</strong> (<code>pro_restore</code>) — приложение само проверяет покупки при каждом запуске. Большое число не значит, что люди жмут «Восстановить».</li>
+              <li><strong>Ошибка RuStore Pay</strong> (<code>billing_error</code>) — сбой сети/SDK при покупке или «Восстановить» на paywall. Не означает «оплата сломана для всех»; автопроверка при старте в новых версиях app не шлёт это событие.</li>
               <li><strong>Скачал каталог</strong> / <strong>Вернулся в приложение</strong> — служебные действия при открытии. В топе это нормально.</li>
             </ul>
 
@@ -1488,7 +1722,8 @@
               <li>Дни считаются по московскому времени. Старые события старше 30 дней приложение уже не присылает.</li>
             </ul>
 
-            <h2>События, которые легко перепутать</h2>
+            <h2>Словарь событий (<code>event_name</code>)</h2>
+            <p class="muted section-note">Полный список подписей из приложения. В топе и воронках код показывается с тем же русским названием.</p>
             <div class="editorial-table-wrap">
               <table class="editorial-table">
                 <thead>
@@ -1499,7 +1734,7 @@
                     <tr>
                       <td x-text="analyticsEventLabel(name)"></td>
                       <td><code x-text="name"></code></td>
-                      <td x-text="analyticsEventTip(name)"></td>
+                      <td x-text="analyticsEventTipOrDash(name)"></td>
                     </tr>
                   </template>
                 </tbody>
@@ -1535,12 +1770,231 @@
           </template>
         </section>
 
+        <section x-show="view==='monetization-calculator'" x-cloak class="mc-section">
+          <h1>Калькулятор монетизации</h1>
+          <p class="muted section-note">
+            Прогноз DAU и дохода на 365 дней (только в браузере). Удержание — как в
+            <strong>AppMetrica → Rolling Retention</strong>: вводите RR дня 1 / 7 / 14 с левого графика
+            и Classic дня 1 с правого (нужен для DAU: Rolling сам по себе завышает «сегодняшнюю» активность).
+            Формула: интерполируем RR(d), затем
+            <code>активность(d) = RR(d) × (Classic&nbsp;D1 / RR&nbsp;D1)</code>.
+          </p>
+
+          <div class="mc-layout">
+            <div class="mc-inputs">
+              <div class="card mc-block">
+                <h3>Реклама и монетизация</h3>
+                <label class="mc-field">
+                  <span class="mc-field-label">Цель, ₽/мес <strong x-text="formatMcInt(mcInputs.monthlyTarget)"></strong></span>
+                  <input type="range" :min="mcConfig.MONTHLY_TARGET_MIN" :max="mcConfig.MONTHLY_TARGET_MAX" :step="mcConfig.MONTHLY_TARGET_STEP"
+                    x-model.number="mcInputs.monthlyTarget" @input="onMcInput(true)" @change="onMcInput(false)">
+                  <input type="number" :min="mcConfig.MONTHLY_TARGET_MIN" :max="mcConfig.MONTHLY_TARGET_MAX" :step="mcConfig.MONTHLY_TARGET_STEP"
+                    x-model.number="mcInputs.monthlyTarget" @change="snapMcMonthlyTarget(); onMcInput(false)">
+                </label>
+                <label class="mc-field">
+                  <span class="mc-field-label">CPM, ₽ <strong x-text="formatMcInt(mcInputs.cpm)"></strong></span>
+                  <input type="range" :min="mcConfig.CPM_MIN" :max="mcConfig.CPM_MAX" :step="mcConfig.CPM_STEP"
+                    x-model.number="mcInputs.cpm" @input="onMcInput(true)" @change="onMcInput(false)">
+                  <input type="number" :min="mcConfig.CPM_MIN" :max="mcConfig.CPM_MAX" :step="mcConfig.CPM_STEP"
+                    x-model.number="mcInputs.cpm" @change="onMcInput(false)">
+                </label>
+                <label class="mc-field" :class="{'mc-field-warn': mcSim?.toxicity?.extraAds > 0}">
+                  <span class="mc-field-label">Показов / user / день <strong x-text="Number(mcInputs.adsPerUserPerDay).toFixed(1)"></strong></span>
+                  <input type="range" :min="mcConfig.ADS_PER_USER_MIN" :max="mcConfig.ADS_PER_USER_MAX" :step="mcConfig.ADS_PER_USER_STEP"
+                    x-model.number="mcInputs.adsPerUserPerDay" @input="onMcInput(true)" @change="onMcInput(false)">
+                  <input type="number" :min="mcConfig.ADS_PER_USER_MIN" :max="mcConfig.ADS_PER_USER_MAX" :step="mcConfig.ADS_PER_USER_STEP"
+                    x-model.number="mcInputs.adsPerUserPerDay" @change="onMcInput(false)">
+                </label>
+              </div>
+
+              <div class="card mc-block">
+                <h3>Текущая база</h3>
+                <label class="mc-field">
+                  <span class="mc-field-label">База установок <span class="muted">(справочно)</span></span>
+                  <input type="number" min="0" step="1" x-model.number="mcInputs.currentInstalls" @input="onMcInput(true)" @change="onMcInput(false)">
+                </label>
+                <p class="muted" style="font-size:.82rem;margin:-.4rem 0 .6rem">На кривую DAU влияет только «Текущий DAU»; база установок — для вашей фиксации масштаба.</p>
+                <label class="mc-field">
+                  <span class="mc-field-label">Текущий DAU</span>
+                  <input type="number" min="0" step="1" x-model.number="mcInputs.currentDau" @input="onMcInput(true)" @change="onMcInput(false)">
+                </label>
+              </div>
+
+              <div class="card mc-block">
+                <h3>Рост и удержание (AppMetrica)</h3>
+                <label class="mc-field">
+                  <span class="mc-field-label">Новые установки / день <strong x-text="formatMcInt(mcInputs.installsPerDay)"></strong></span>
+                  <input type="range" class="mc-slider-installs" :min="mcConfig.INSTALLS_PER_DAY_MIN" :max="mcConfig.INSTALLS_PER_DAY_MAX" :step="mcConfig.INSTALLS_PER_DAY_STEP"
+                    :style="mcInstallsSliderStyle()"
+                    x-model.number="mcInputs.installsPerDay" @input="onMcInput(true)" @change="onMcInput(false)">
+                  <input type="number" :min="mcConfig.INSTALLS_PER_DAY_MIN" :max="mcConfig.INSTALLS_PER_DAY_MAX" :step="mcConfig.INSTALLS_PER_DAY_STEP"
+                    x-model.number="mcInputs.installsPerDay" @change="onMcInput(false)">
+                </label>
+                <p class="muted" style="font-size:.85rem;margin:0 0 .5rem;line-height:1.4">
+                  <strong>Rolling Retention</strong> — левый график AppMetrica (% вернувшихся в день N <em>или позже</em>).
+                  <strong>Classic D1</strong> — правый график, день 1 (% именно в день 1). Без Classic DAU был бы завышен.
+                </p>
+                <label class="mc-field">
+                  <span class="mc-field-label">RR день 1, % <strong x-text="Number(mcInputs.rrDay1).toFixed(2)"></strong></span>
+                  <input type="range" class="mc-slider-retention" :min="mcConfig.RR_MIN" :max="mcConfig.RR_MAX" :step="mcConfig.RR_STEP"
+                    :style="mcRetentionSliderStyle()"
+                    x-model.number="mcInputs.rrDay1" @input="onMcInput(true)" @change="onMcInput(false)">
+                  <input type="number" :min="mcConfig.RR_MIN" :max="mcConfig.RR_MAX" :step="mcConfig.RR_STEP"
+                    x-model.number="mcInputs.rrDay1" @change="onMcInput(false)">
+                </label>
+                <label class="mc-field">
+                  <span class="mc-field-label">RR день 7, % <strong x-text="Number(mcInputs.rrDay7).toFixed(2)"></strong></span>
+                  <input type="range" :min="mcConfig.RR_MIN" :max="mcConfig.RR_MAX" :step="mcConfig.RR_STEP"
+                    x-model.number="mcInputs.rrDay7" @input="onMcInput(true)" @change="onMcInput(false)">
+                  <input type="number" :min="mcConfig.RR_MIN" :max="mcConfig.RR_MAX" :step="mcConfig.RR_STEP"
+                    x-model.number="mcInputs.rrDay7" @change="onMcInput(false)">
+                </label>
+                <label class="mc-field">
+                  <span class="mc-field-label">RR день 14, % <strong x-text="Number(mcInputs.rrDay14).toFixed(2)"></strong></span>
+                  <input type="range" :min="mcConfig.RR_MIN" :max="mcConfig.RR_MAX" :step="mcConfig.RR_STEP"
+                    x-model.number="mcInputs.rrDay14" @input="onMcInput(true)" @change="onMcInput(false)">
+                  <input type="number" :min="mcConfig.RR_MIN" :max="mcConfig.RR_MAX" :step="mcConfig.RR_STEP"
+                    x-model.number="mcInputs.rrDay14" @change="onMcInput(false)">
+                </label>
+                <label class="mc-field">
+                  <span class="mc-field-label">Classic день 1, % <strong x-text="Number(mcInputs.classicDay1).toFixed(2)"></strong></span>
+                  <input type="range" :min="mcConfig.CLASSIC_MIN" :max="mcConfig.CLASSIC_MAX" :step="mcConfig.CLASSIC_STEP"
+                    x-model.number="mcInputs.classicDay1" @input="onMcInput(true)" @change="onMcInput(false)">
+                  <input type="number" :min="mcConfig.CLASSIC_MIN" :max="mcConfig.CLASSIC_MAX" :step="mcConfig.CLASSIC_STEP"
+                    x-model.number="mcInputs.classicDay1" @change="onMcInput(false)">
+                </label>
+                <p class="muted" style="font-size:.82rem;margin:0" x-show="mcSim">
+                  Коэффициент активности:
+                  <strong x-text="(mcSim.activityFactor * 100).toFixed(1) + '%'"></strong>
+                  = Classic D1 / RR D1.
+                  Lifetime ≈ <strong x-text="mcSim.lifetimeDays != null ? mcSim.lifetimeDays.toFixed(2) : '—'"></strong> дн. на установку.
+                </p>
+              </div>
+            </div>
+
+            <div class="card mc-facts">
+              <div class="mc-facts-head">
+                <h3>Факт из аналитики</h3>
+                <button type="button" class="btn-secondary" @click="loadMcAnalyticsFacts()" :disabled="mcFactsLoading">↻</button>
+              </div>
+              <p class="muted" x-show="mcFactsLoading">Загрузка…</p>
+              <p class="error" x-show="mcFactsError" x-text="mcFactsError"></p>
+              <template x-if="mcFacts && !mcFactsLoading">
+                <div>
+                  <p>Средний DAU (30 дн.): <strong x-text="mcFacts.avgDau != null ? formatMcInt(Math.round(mcFacts.avgDau)) : '—'"></strong></p>
+                  <p>Новые установки / день: <strong x-text="mcFacts.installsPerDay != null ? formatMcInt(Math.round(mcFacts.installsPerDay)) : '—'"></strong></p>
+                  <p class="muted" x-show="mcFacts.from && mcFacts.to" x-text="mcFacts.from + ' — ' + mcFacts.to"></p>
+                  <p class="muted">Показы баннера / DAU — появятся после emit <code>ads_banner_shown</code>.</p>
+                  <button type="button" class="primary" @click="applyMcFactsToInputs()" :disabled="!mcFacts">Подставить в ввод</button>
+                </div>
+              </template>
+              <p class="muted" x-show="!mcFacts && !mcFactsLoading && !mcFactsError">Нет данных — нажмите ↻ или откройте раздел заново.</p>
+            </div>
+          </div>
+
+          <div class="cards mc-kpi" x-show="mcSim">
+            <div class="card">
+              <h3>Требуемый DAU</h3>
+              <p class="kpi-value" x-text="formatMcInt(Math.ceil(mcSim.requiredDau))"></p>
+              <p class="muted">для цели / 30 дней</p>
+            </div>
+            <div class="card">
+              <h3>Потолок DAU</h3>
+              <p class="kpi-value" x-text="formatMcInt(Math.round(mcSim.plateauDau))"></p>
+              <p class="muted">плато ≈ установки × lifetime</p>
+            </div>
+            <div class="card">
+              <h3>До плато</h3>
+              <p class="kpi-value" x-text="mcSim.nearPlateauDay != null ? (mcSim.nearPlateauDay === 0 ? 'сейчас' : ('~' + mcSim.nearPlateauDay + ' дн.')) : '—'"></p>
+              <p class="muted">когда кривая стабилизируется</p>
+            </div>
+            <div class="card" :class="{'mc-kpi-ok': mcSim.goalDay != null, 'mc-kpi-bad': mcSim.goalDay == null}">
+              <h3>День цели</h3>
+              <p class="kpi-value" x-text="mcSim.goalDay != null ? (mcSim.goalDay === 0 ? 'сегодня' : mcSim.goalDay) : '—'"></p>
+              <p class="muted" x-text="mcSim.goalDay != null ? (mcSim.goalDay === 0 ? 'цель уже достигнута' : 'цель по DAU достигнута') : 'не за 365 дней'"></p>
+            </div>
+            <div class="card">
+              <h3>Сейчас ₽/день</h3>
+              <p class="kpi-value" x-text="formatMcInt(Math.round(mcSim.currentDailyRevenue))"></p>
+              <p class="muted">при текущем DAU (день «сегодня»)</p>
+            </div>
+          </div>
+
+          <div class="mc-warning" x-show="mcSim?.toxicity?.warning" x-text="mcSim.toxicity.warning"></div>
+
+          <div class="mc-scenarios" x-show="mcScenariosNeeded">
+            <h2>Варианты выхода из тупика</h2>
+            <p class="muted">Цель недостижима за 365 дней при текущих параметрах. Три сценария:</p>
+            <div class="cards">
+              <template x-for="sc in mcScenarios" :key="sc.kind">
+                <div class="card" :class="{'mc-scenario-ok': sc.feasible, 'mc-scenario-bad': !sc.feasible}">
+                  <h3 x-text="mcScenarioTitle(sc.kind)"></h3>
+                  <p x-text="sc.label"></p>
+                  <button type="button" class="btn-secondary" x-show="sc.feasible && !sc.alreadyOk" @click="applyMcScenario(sc)">Применить</button>
+                </div>
+              </template>
+            </div>
+          </div>
+
+          <div class="mc-charts">
+            <div class="mc-chart-toolbar">
+              <span class="muted">Масштаб графиков:</span>
+              <button type="button" class="btn-secondary" @click="setMcChartZoom('plateau')">До плато</button>
+              <button type="button" class="btn-secondary" @click="setMcChartZoom('90')">90 дней</button>
+              <button type="button" class="btn-secondary" @click="setMcChartZoom('year')">Весь год</button>
+              <span class="muted mc-chart-hint">колесо мыши · ползунок · иконка «лупа» на графике · наведение = точные значения</span>
+            </div>
+            <div class="card">
+              <h2>А. Динамика аудитории</h2>
+              <div id="mc-chart-audience" class="mc-chart"></div>
+            </div>
+            <div class="card">
+              <div class="mc-finance-head">
+                <h2>Б. Финансы и заработок</h2>
+                <div class="editor-tabs">
+                  <button type="button" :class="{'active': mcFinanceMode==='daily'}" @click="setMcFinanceMode('daily')">За день</button>
+                  <button type="button" :class="{'active': mcFinanceMode==='rolling30'}" @click="setMcFinanceMode('rolling30')">За месяц</button>
+                  <button type="button" :class="{'active': mcFinanceMode==='cumulative'}" @click="setMcFinanceMode('cumulative')">Накоплено</button>
+                </div>
+              </div>
+              <div id="mc-chart-finance" class="mc-chart"></div>
+            </div>
+          </div>
+
+          <details class="mc-settings card">
+            <summary>Настройки модели</summary>
+            <p class="muted">Хранятся в localStorage браузера. Не влияют на бэкенд.</p>
+            <label class="mc-field">
+              <span class="mc-field-label">Max_Safe_Ads_Per_User <strong x-text="mcSettings.maxSafeAdsPerUser"></strong></span>
+              <input type="range" min="1" max="20" step="1" x-model.number="mcSettings.maxSafeAdsPerUser" @input="onMcSettingsChange(true)" @change="onMcSettingsChange(false)">
+            </label>
+            <label class="mc-field">
+              <span class="mc-field-label">Штраф Retention за лишний показ (доля) <strong x-text="Number(mcSettings.retentionPenaltyPerExtraAd).toFixed(3)"></strong></span>
+              <input type="range" min="0" max="0.1" step="0.005" x-model.number="mcSettings.retentionPenaltyPerExtraAd" @input="onMcSettingsChange(true)" @change="onMcSettingsChange(false)">
+            </label>
+            <label class="mc-field">
+              <span class="mc-field-label">Вес баланса: установки <strong x-text="mcSettings.balanceWeightInstalls"></strong></span>
+              <input type="range" min="0.1" max="5" step="0.1" x-model.number="mcSettings.balanceWeightInstalls" @input="onMcSettingsChange(true)" @change="onMcSettingsChange(false)">
+            </label>
+            <label class="mc-field">
+              <span class="mc-field-label">Вес баланса: Retention <strong x-text="mcSettings.balanceWeightRetention"></strong></span>
+              <input type="range" min="0.1" max="5" step="0.1" x-model.number="mcSettings.balanceWeightRetention" @input="onMcSettingsChange(true)" @change="onMcSettingsChange(false)">
+            </label>
+            <button type="button" class="btn-secondary" @click="resetMcSettings()">Сбросить настройки</button>
+          </details>
+        </section>
+
         <p class="toast" x-show="toast" x-text="toast"></p>
         <p class="error" x-show="error" x-text="error"></p>
       </main>
     </div>
   </template>
 
-  <script src="/admin/js/admin.js?v=15"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"></script>
+  <script src="/admin/js/monetization-calculator/config.js?v=8"></script>
+  <script src="/admin/js/monetization-calculator/model.js?v=8"></script>
+  <script src="/admin/js/monetization-calculator/solver.js?v=8"></script>
+  <script src="/admin/js/monetization-calculator/charts.js?v=11"></script>
+  <script src="/admin/js/admin.js?v=25"></script>
 </body>
 </html>
