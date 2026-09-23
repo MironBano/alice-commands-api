@@ -34,11 +34,11 @@ Backend — **источник истины** для структуры конт
 | **Command of day** | ✅ |
 | **Smart home devices** `GET /v1/smarthome/devices` | ✅ |
 | **Analytics batch ingest** | ✅ |
+| **RuStore Push** `/v1/push/*` + campaign ticker S1–S6 | ✅ v1.0.1 |
 
 ### 1.3 Out of scope / отложено
 
 - User accounts для app
-- FCM push при publish (v1.0.1)
 - Парсер Яндекса в runtime (только offline assist tool)
 - Object storage S3 (v1.0.1; v1.0 — filesystem на VPS)
 - Казахская локаль контента (v1.1)
@@ -273,7 +273,7 @@ Workflow: правки в admin (или import) → ревью владельц�
 | ------ | ---- |
 | v1.0 | B01–B10, admin UI, filesystem storage |
 | **v1.0 + schema v2** | Command groups, delta sync, validation warnings |
-| v1.0.1 | S3 storage, FCM hook on publish |
+| v1.0.1 | RuStore Push register/campaign API; affiliate |
 | v1.1 | `title_kk`, parser assist UI, bulk CSV import |
 
 ---

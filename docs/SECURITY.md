@@ -10,6 +10,8 @@
 | Session hijack | HttpOnly cookie; Secure on staging/prod; SameSite=Lax; HMAC-signed value |
 | Session forgery | `SESSION_SECRET` (≥32 chars) signs cookie payload |
 | Public API abuse | nginx rate limits optional; CDN cache **не** через CF proxy в РФ |
+| Push token spoofing | `DELETE /unregister` требует совпадения `rustoreToken`; PATCH prefs → **404** если install не зарегистрирован |
+| Push API abuse | `PUBLIC_SUBMISSION_RATE_LIMIT` per IP + `PUSH_INSTALL_RATE_LIMIT` per `installId` on `/v1/push/*` (15 min window) |
 | SQL injection | Exposed parameterized queries |
 | Secret leak | `.env` not in git; GitHub secrets for CI |
 | MITM | HTTPS only prod/staging |
@@ -96,7 +98,7 @@ Optional: `CONTENT_SEED_PATH` — path to seed JSON on VPS (admin import-seed, n
 - Blocked param keys: `query`, `message`, `email`, `phone`, `text` (substring)
 - Rate limits: `ANALYTICS_RATE_LIMIT_PER_IP` (120/15 min), `ANALYTICS_EVENTS_PER_IP_PER_DAY` (10000)
 - Max body: `ANALYTICS_MAX_BODY_BYTES` (262144) → HTTP 413
-- Retention: `ANALYTICS_RAW_RETENTION_DAYS` (90) — cleanup job P1, not implemented yet
+- Retention: `ANALYTICS_RAW_RETENTION_DAYS` (90) — background purge on boot + every 24 h (`AnalyticsRetentionTicker`)
 
 См. [ANALYTICS-BACKEND.md](ANALYTICS-BACKEND.md).
 
@@ -112,11 +114,19 @@ Optional: `CONTENT_SEED_PATH` — path to seed JSON on VPS (admin import-seed, n
 
 ## 8. Affiliate compliance
 
-**Политика v1.0 (2026-07-09):** `erid` и `advertiser_name` для affiliate blocks и device picks — **опциональны**, не блокируют publish и не скрывают карточки в app.
+**v1.0 (2026-07-09):** `erid` / `advertiser_name` были опциональны.
 
-- CPA-ссылки: только `https://` (или `market://` для picks)
-- Если `erid` + `advertiser_name` заданы — app показывает тихую строку маркировки
-- Добавление ERID — по мере подключения к Яндекс Дистрибуции / legal review, не gate RuStore v1.0
+**Referral product cards (2026-09-16):** env `REQUIRE_PICK_AFFILIATE_QUERY`:
+
+| Значение | Поведение publish |
+| -------- | ----------------- |
+| `false` (staging + prod default until SKU map / go) | Как v1.0: erid optional; но **search/wishlist/list** и `--pending-sku--` `action_url` для picks **запрещены всегда** |
+| `true` (только после `pick_sku_map` с real product URLs + erid/clid) | erid + advertiser_name обязательны; Market https URL must include `clid` + `erid` query |
+
+App (фаза B): без erid карточка **не показывается**; строка **Реклама · рекламодатель · ERID**.
+
+- CPA-ссылки picks: `https://` карточка товара или `market://` (не search/wishlist)
+- OAuth Market Affiliate — только server env, не APK
 
 ---
 

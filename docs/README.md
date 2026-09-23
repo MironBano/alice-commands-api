@@ -15,6 +15,7 @@ Backend v1.0 + **schema v2** + **category visuals** + **command of day** + **sma
 | [BACKEND-SMARTHOME-DEVICES.md](BACKEND-SMARTHOME-DEVICES.md) | **Устройства** — guides, picks, contextual targeting, images |
 | [ANALYTICS-BACKEND.md](ANALYTICS-BACKEND.md) | **Analytics ingest** — batch API, admin dashboard, rate limits |
 | [ANALYTICS-GLOSSARY.md](ANALYTICS-GLOSSARY.md) | **Analytics glossary** — метрики, FAQ (`pro_restore`), event_name RU |
+| [ANALYTICS-BANNER-ADS-PLAN.md](ANALYTICS-BANNER-ADS-PLAN.md) | **План** — метрика показов РСЯ bottom-баннера (`ads_banner_*`) |
 | [INFRASTRUCTURE.md](INFRASTRUCTURE.md) | **VPS, SSH, DNS (РФ), CDN, staging + prod deploy** |
 | [BACKEND-REQUIREMENTS.md](BACKEND-REQUIREMENTS.md) | **Главное ТЗ** v1.0 (+ schema v2 extensions) |
 | [API.md](API.md) | HTTP-контракт: manifest, bundle, smarthome, analytics, admin |
@@ -70,6 +71,6 @@ Backend v1.0 + **schema v2** + **category visuals** + **command of day** + **sma
 | `scripts/update-content.ps1` | Legacy content pipeline → `full-catalog.json` |
 | `scripts/sync-icons-staging.ps1` | Sync pilot SVG на VPS |
 
-**Связанный app:** [AliceCommands](https://github.com/MironBano/AliceCommands) · **ИИ:** [AGENTS.md](../AGENTS.md)
+**Связанный app:** [AliceCommands](https://github.com/MironBano/AliceCommands) · **Публичный сайт:** [AliceCommandsWeb](https://github.com/MironBano/AliceCommandsWeb) · **ИИ:** [AGENTS.md](../AGENTS.md)
 
 **Код:** [server/README.md](../server/README.md) · [admin-web/README.md](../admin-web/README.md)

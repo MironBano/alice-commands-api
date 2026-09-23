@@ -13,7 +13,7 @@
 | HTTP | Ktor 3.1 (CIO) | Compression, call logging |
 | DB | PostgreSQL 16 | Docker Compose для local |
 | ORM | Exposed 0.57 | Только `infrastructure.persistence` |
-| Migrations | Flyway 11 | V1 init … **V10 contextual_device_picks** |
+| Migrations | Flyway 11 | V1 init … **V11 popular_commands** |
 | Serialization | kotlinx.serialization | Bundle + API DTO |
 | Validation | networknt JSON Schema | `:server:validateContent` |
 | Admin UI | Static HTML + Alpine.js | `admin-web/` → classpath `/admin` |
@@ -40,6 +40,7 @@ routes (Ktor)  →  application  →  ports (interfaces)  ←  infrastructure
 | **Command of day (publish gate)** | `application/publish/CommandOfDayValidationUseCase` | Use case |
 | **Smart home devices (auto-publish snapshot)** | `application/publish/SmartHomeDevicesValidationUseCase`, `UploadDeviceImageUseCase` | Use cases |
 | **Analytics ingest** | `application/analytics/AnalyticsUseCases.kt` | Use cases |
+| **Popular commands** | `application/popular/` | Rank + admin + public GET; ticker 6h |
 | **App feedback inbox** | `application/feedback/` | Use cases (submit, list, resolve) |
 | Admin CRUD | `routes` → `DraftRepository` | Прямой repo OK |
 | HTTP / auth / DTO | `routes/`, `plugins/` | Adapters only |

@@ -112,7 +112,7 @@ GET /v1/smarthome/devices (public, Cache-Control max-age=300)
 
 **Сборка `guide_ids` в seed:** для `command_detail` и вкладки «Устройства»; для guide detail app читает **`detail_referral_pick_ids`**, не reverse-index по `guide_ids`.
 
-**Compliance (optional):** `erid`, `advertiser_name`, `disclosure_ru` — не блокируют publish. См. [SECURITY.md](SECURITY.md) §8.
+**Compliance:** search/wishlist/list и `--pending-sku--` `action_url` для picks **запрещены всегда**. `erid` / `advertiser_name` + `clid`/`erid` в query обязательны только при `REQUIRE_PICK_AFFILIATE_QUERY=true` (включать после `pick_sku_map`; staging/prod example default `false`). См. [SECURITY.md](SECURITY.md) §8, [REFERRAL-CRON.md](REFERRAL-CRON.md).
 
 **URL policy:** `action_url` — только `https://` или `market://`; `image_url` — только `https://`.
 
@@ -203,4 +203,4 @@ Prod example: `deploy/.env.prod.example`.
 
 ---
 
-*См. [API.md](API.md), [CONTENT-PRODUCT-ROADMAP.md](CONTENT-PRODUCT-ROADMAP.md) § devices*
+*См. [API.md](API.md), [CONTENT-PRODUCT-ROADMAP.md](CONTENT-PRODUCT-ROADMAP.md) § devices, [REFERRAL-CDN-PHOTOS.md](REFERRAL-CDN-PHOTOS.md), [REFERRAL-CRON.md](REFERRAL-CRON.md)*

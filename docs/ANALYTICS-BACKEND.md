@@ -134,14 +134,14 @@ CREATE INDEX idx_analytics_events_install_id ON analytics_events (install_id);
 CREATE INDEX idx_analytics_events_session_id ON analytics_events (session_id);
 ```
 
-### `analytics_daily_rollup` (P1, опционально materialized)
+### `analytics_daily_rollup` — **wontfix**
 
-Предагрегация для дашборда: `date`, `event_name`, `count`, `unique_installs`.
+Предагрегация (`date`, `event_name`, `count`, `unique_installs`) **не планируется**: summary/funnel/breakdown читают raw `analytics_events` с индексами; при retention 90 дней объём приемлем. Не добавлять в P1.
 
-### Retention (P1)
+### Retention
 
 - Env `ANALYTICS_RAW_RETENTION_DAYS` = 90
-- Cron/job: удаление `occurred_at < now() - interval`
+- Background job (`AnalyticsRetentionTicker`): `DELETE FROM analytics_events WHERE occurred_at < now() - retention days`; лог `analytics retention purge deleted=N`; старт при boot + каждые 24 ч
 
 ---
 
@@ -177,8 +177,8 @@ routes/AdminRoutes.kt           → /admin/api/analytics/*
 
 ## 6. Admin API (session auth, как feedback)
 
-> **Реализовано:** summary (+ daily series) · events explorer · funnel · breakdown.  
-> **Остаётся P1 ops:** retention purge job, daily rollup table.
+> **Реализовано:** summary (+ daily series) · events explorer · funnel · breakdown · retention purge job.  
+> **Popular pool:** ranked snapshot + history uses `command_tts`/`command_view` — see [BACKEND-POPULAR-COMMANDS.md](BACKEND-POPULAR-COMMANDS.md).
 
 | Method | Path | Статус | Назначение |
 |--------|------|--------|------------|
@@ -283,7 +283,6 @@ Alpine.js, один пункт сайдбара **«Аналитика»**.
 
 - Экспорт CSV за период
 - Alerts (опционально)
-- Таблица `analytics_daily_rollup` + purge job
 
 ---
 
@@ -302,15 +301,16 @@ Alpine.js, один пункт сайдбара **«Аналитика»**.
 | Search | `search` (`query_length`, `results_count`, optional `category_id`), `search_result_click` |
 | CoD / scenarios | `cod_impression`, `cod_open`, `scenario_open` |
 | Widget / deeplink | `widget_shown`, `widget_open`, `deeplink_open` (`source=external\|widget`) |
-| Monetization | `paywall_view`, `pro_gate_shown`, `pro_purchase_start`, `pro_activated`, `pro_restore` |
+| Monetization | `paywall_view`, `pro_gate_shown`, `pro_purchase_start`, `pro_activated`, `pro_restore`, `ads_rewarded_*`, `ads_feed_*`, `ads_banner_*` |
 | Rating | `rating_prompt_shown`, `rating_star_selected` |
-| Content | `content_sync` (+ `trigger`, `phase`, `success`) |
-| Affiliate / picks | `contextual_pick_section_shown`, `contextual_pick_impression`, `contextual_pick_click` (не `affiliate_click`) |
+| Content | `content_sync` (+ `trigger`, `phase`, `success`; phases: catalog, `popular_commands`, `announcements`) |
+| Announcements / popular | `announcement_impression`, `popular_section_shown`, `support_shop_open` |
+| Affiliate / picks | `contextual_pick_section_shown`, `contextual_pick_impression`, `contextual_pick_click` (deprecated: `affiliate_click`, `device_pick_click`) |
 | Errors | `app_error_non_fatal`, `billing_error`, `bootstrap_error`, `ads_error` |
 
 **Итерация 2 (покрытие):** канон имён и params — [ANALYTICS-GLOSSARY.md](ANALYTICS-GLOSSARY.md); emit в app `AnalyticsEvents.kt`. Zero-results через `search.results_count=0`. Воронки в admin — независимые counts, не sequential cohort.
 
-**User properties:** `persona`, `is_pro`, `app_language`, `theme_mode`, `content_version`, `install_id` — см. `AnalyticsUserProperties.kt`.
+**User properties:** `persona`, `is_pro`, `app_language`, `theme_mode`, `content_version`, `install_id`, `build_type` (`debug`/`release`) — см. `AnalyticsUserProperties.kt`.
 
 Admin UI не хардкодит полный enum в API — словарь подписей в `admin-web/js/admin.js` + glossary doc.
 
@@ -369,7 +369,7 @@ ANALYTICS_RAW_RETENTION_DAYS=90
 - [x] Rate limit и dedup работают
 - [x] `docs/API.md` + `server/README.md` обновлены
 - [x] Integration tests green
-- [ ] Retention purge job
+- [x] Retention purge job (`AnalyticsRetentionTicker`, env `ANALYTICS_RAW_RETENTION_DAYS`)
 
 ---
 
@@ -379,8 +379,8 @@ ANALYTICS_RAW_RETENTION_DAYS=90
 |------|-------|--------|
 | P0 | API + DB + ingest + admin list/summary | ✅ |
 | P1 UI/API | Funnel, breakdown, daily series, date range ≤90 | ✅ |
-| P1 ops | Retention purge job, daily rollup | остаётся |
-| P2 | CSV export, ingest token | 1 день |
+| P1 ops | Retention purge job | ✅ |
+| P2 | CSV export, ingest token; `analytics_daily_rollup` **wontfix** | 1 день |
 
 ---
 

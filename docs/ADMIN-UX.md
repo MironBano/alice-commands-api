@@ -36,8 +36,10 @@
 | Чеклист | `checklist` | Checklist items reorder |
 | Партнёрские блоки | `affiliate` | Affiliate blocks CRUD (**legacy** — prefer Устройства) |
 | **Команда дня** | `command-of-day` | Manual/auto pin, preview, publish COD only |
+| **Популярные** | `popular-commands` | Pins, recompute, current pool, history runs |
 | **Устройства** | `smarthome-devices` | Guides + picks CRUD, upload image, contextual fields |
 | **Аналитика** | `analytics` | Dashboard: Обзор / Тренд / Воронка / Breakdown / События |
+| **Калькулятор** | `monetization-calculator` | Прогноз DAU/дохода (client-only SPA, см. §5g) |
 | **Отзывы** | `feedback` | Inbox отзывов из app |
 | **Ошибки команд** | `command-reports` | Inbox reports по command_id |
 | **Контент** | `content` | Мастер pipeline → editorial → diff → публикация |
@@ -186,14 +188,29 @@ View **Устройства** (`smarthome-devices`) — две вкладки:
 - **Date bar (общий):** пресеты 7 / 30 / 90 = последние N inclusive дней + custom `from`/`to` (≤ retention, default 90)
 - **Сутки:** Europe/Moscow
 - **Вкладки:**
-  - **Обзор** — Открывали приложение, В среднем за день, События, Новые установки; топ действий с RU-подписями
-  - **По дням** — график по дням
+  - **Обзор** — карточки KPI, сверка с таблицей по дням, топ событий
+  - **По дням** — таблица (события / открывали / новые); графики отключены
   - **Воронка** — сколько установок на каждом шаге (по отдельности)
   - **Что нажимали** — разбор значений поля события (default `ui_click` / `element_id`)
   - **Журнал** — сырые события
   - **Как читать** — простые пояснения + FAQ (`pro_restore`)
 
 См. [ANALYTICS-BACKEND.md](ANALYTICS-BACKEND.md), [ANALYTICS-GLOSSARY.md](ANALYTICS-GLOSSARY.md).
+
+---
+
+## 5g. Калькулятор монетизации
+
+Пункт сайдбара **Калькулятор** (`view=monetization-calculator`).
+
+- **Пересчёт только в браузере** — движение слайдеров / ввод **не** вызывают API (rAF + чистая JS-модель).
+- **API (опционально):** один `GET /admin/api/analytics/summary` за 30 дней при открытии или по ↻ — блок «Факт»; кнопка «Подставить в ввод» копирует avg DAU и новые установки/день.
+- **Входы:** цель ₽/мес (шаг **200**), CPM, показов/user/день (шаг **0.1**), база установок, DAU, установки/день, **AppMetrica Rolling Retention D1/D7/D14** + **Classic D1**.
+- **Модель:** интерполяция RR(d) как в AppMetrica (вернулся в день N или позже); DAU-активность = `RR(d)×(ClassicD1/RRD1)`; потолок ≈ `installs × Σ активность(d)`; графики с «сегодня», zoom до плато.
+- **Токсичность рекламы:** `Max_Safe_Ads_Per_User` и штраф в localStorage («Настройки модели»); предупреждение, расчёт не блокируется.
+- **Сценарии** при недостижимости за 365 дней: мин. Retention / мин. трафик / баланс.
+- **Графики (ECharts):** аудитория (DAU, потолок, required DAU, флажок цели) и финансы (день / скользящие 30 / накоплено).
+- Код: `admin-web/js/monetization-calculator/` (`config`, `model`, `solver`, `charts`); тесты: `node --test admin-web/js/monetization-calculator/model.test.mjs`.
 
 ---
 

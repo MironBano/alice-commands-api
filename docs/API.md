@@ -44,6 +44,33 @@ Returns **gzip** body of full content bundle. Structure: [schema/content-bundle.
 
 **Command of day (optional root field, no schema_version bump):** `command_of_day` — editorial policy + snapshot on publish date (`Europe/Moscow`). Modes: `manual` | `auto`. See [BACKEND-COMMAND-OF-DAY.md](BACKEND-COMMAND-OF-DAY.md).
 
+### GET /v1/popular-commands
+
+Ordered popular command ids for Try Now / Popular / Search. **Not** in content bundle. Ranked from analytics + admin pins. See [BACKEND-POPULAR-COMMANDS.md](BACKEND-POPULAR-COMMANDS.md).
+
+**Response 200:**
+
+```json
+{
+  "updated_at": "2026-08-27T09:00:00Z",
+  "window_days": 7,
+  "commands": [
+    { "id": "music_muzyka", "source": "analytics", "score": 42 }
+  ]
+}
+```
+
+| Header | Значение |
+| ------ | -------- |
+| `Cache-Control` | `public, max-age=300` |
+| `ETag` | based on snapshot `updated_at` |
+
+**304:** if `If-None-Match` matches.
+
+Auth: none. Empty list if snapshot not yet computed.
+
+---
+
 Example category fragment (prod CDN; staging uses `staging-api.alicecommands.ru` host):
 
 ```json
@@ -183,7 +210,7 @@ Direct download archived bundle by filename. Only `content_v{N}.json.gz` allowed
 | Поле picks (обяз.) | `id`, `title_ru`, `action_url`, `sort_order` |
 | Picks (contextual, V10) | `placements`, `tags`, `device_types`, `category_ids`, `command_group_ids`, `command_ids`, `scenario_template_ids`, `guide_ids`, `priority`, `cta_ru`, `starts_at`, `ends_at`, `max_impressions_per_session` |
 | URL policy | `action_url`: только `https://` и `market://` |
-| Compliance | `erid`, `advertiser_name` — **опционально** (v1.0); если есть — app показывает строку маркировки |
+| Compliance | App (2026-09-16): без `erid` pick скрыт; строка «Реклама · advertiser · ERID». Publish: search/wishlist/list и `--pending-sku--` **запрещены**. `REQUIRE_PICK_AFFILIATE_QUERY` default **false** (staging+prod) until SKU map; then `true` → erid+advertiser + `clid`/`erid` в query. См. [SECURITY.md](SECURITY.md) §8 |
 
 | Header | Значение |
 | ------ | -------- |
@@ -427,6 +454,11 @@ All require authenticated session unless noted.
 | GET | `/admin/api/command-of-day` | Settings + preview «сегодня» |
 | PUT | `/admin/api/command-of-day` | `{ "mode", "command_id"?, "auto_category_id"?, "auto_seed"? }` → draft only |
 | POST | `/admin/api/command-of-day/publish` | Publish только `command_of_day` в live bundle (без полного publish) |
+| GET | `/admin/api/popular-commands` | Current popular snapshot + pins |
+| PUT | `/admin/api/popular-commands/pins` | `{ "command_ids": ["…"] }` → replace pins + recompute |
+| POST | `/admin/api/popular-commands/recompute` | Force rank from analytics |
+| GET | `/admin/api/popular-commands/history?limit=&offset=` | Rank run list |
+| GET | `/admin/api/popular-commands/history/{runId}` | Rank run detail (scores / tts / view) |
 | GET | `/admin/api/smarthome/device-guides` | List device guides |
 | POST | `/admin/api/smarthome/device-guides` | Create guide → auto-publish smarthome snapshot |
 | PUT | `/admin/api/smarthome/device-guides/{id}` | Update guide |
@@ -485,6 +517,20 @@ URL в `icons[]` всегда строятся сервером из `ICON_PUBLI
 **Public submission rate limit:** `PUBLIC_SUBMISSION_RATE_LIMIT` submissions per IP per 15 min → **429** на `/v1/feedback` и `/v1/commands/*/report`.
 
 **Analytics rate limits:** `ANALYTICS_RATE_LIMIT_PER_IP` (default 120/15 min), `ANALYTICS_EVENTS_PER_IP_PER_DAY` (default 10000), `ANALYTICS_MAX_BODY_BYTES` (default 262144).
+
+### Push token registry (`/v1/push/*`)
+
+| Method | Path | Body | Response |
+| ------ | ---- | ---- | -------- |
+| POST | `/v1/push/register` | `installId`, `rustoreToken`, prefs, `appInstalledAt`, … | `204` |
+| PATCH | `/v1/push/preferences` | `installId`, `masterEnabled`, `codEnabled`, `codReminderTime` | `204` or **`404 not_registered`** |
+| DELETE | `/v1/push/unregister` | `installId`, **`rustoreToken`** (required) | `204` or `400 validation_failed` (`token_mismatch_or_missing`) |
+
+**Rate limit:** per IP (`PUBLIC_SUBMISSION_RATE_LIMIT`) and per `installId` (`PUSH_INSTALL_RATE_LIMIT`, default 30/15 min) → **429**.
+
+**Campaign worker:** env `RUSTORE_PUSH_PROJECT_ID`, `RUSTORE_PUSH_SERVICE_TOKEN`, `PUSH_CAMPAIGN_ENABLED`. Подробнее — [PUSH-NOTIFICATIONS.md](https://github.com/MironBano/AliceCommands/blob/main/docs/PUSH-NOTIFICATIONS.md) §7.
+
+**Analytics retention:** `ANALYTICS_RAW_RETENTION_DAYS` (default 90) — server deletes `analytics_events` older than cutoff on boot and every 24 h. Materialized `analytics_daily_rollup` — **wontfix** (queries use indexed raw table).
 
 **Staging base URL:** `https://staging-api.alicecommands.ru`
 

@@ -284,7 +284,7 @@ curl -X POST https://staging-api.alicecommands.ru/v1/analytics/events/batch `
 3. Admin → **Аналитика** / **События** — KPI и raw events
 4. Prod: тот же endpoint на `https://api.alicecommands.ru`
 
-P1 backlog: retention cleanup job, funnel/breakdown endpoints — см. [ANALYTICS-BACKEND.md](ANALYTICS-BACKEND.md).
+Retention: фоновый purge при старте сервера и раз в 24 ч (`ANALYTICS_RAW_RETENTION_DAYS`, default 90). Лог: `analytics retention purge deleted=…`. См. [ANALYTICS-BACKEND.md](ANALYTICS-BACKEND.md) §4.
 
 ---
 

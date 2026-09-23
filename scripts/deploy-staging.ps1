@@ -49,6 +49,10 @@ try {
 }
 
 Write-Host "== 3/5 Upload content assets + nginx + admin-web =="
+$stagingEnvLocal = Join-Path $Root "deploy\.env.staging"
+if (-not (Test-Path $stagingEnvLocal)) {
+    Write-Error "Missing $stagingEnvLocal — copy deploy\.env.staging.example and fill push vars."
+}
 ssh -i $sshKey $sshHost "mkdir -p /opt/alice-api/content/icons/v1 /opt/alice-api/seed /opt/alice-api/storage/icons /opt/alice-api/schema"
 scp -i $sshKey -r (Join-Path $Root "content\icons\v1\*") "${sshHost}:/opt/alice-api/content/icons/v1/"
 scp -i $sshKey (Join-Path $Root "content\icon_catalog.json") "${sshHost}:/opt/alice-api/content/icon_catalog.json"
@@ -58,6 +62,7 @@ scp -i $sshKey (Join-Path $Root "deploy\nginx-staging.conf") "${sshHost}:${remot
 scp -i $sshKey (Join-Path $Root "deploy\nginx-cdn.conf") "${sshHost}:${remoteDeploy}/nginx-cdn.conf"
 scp -i $sshKey (Join-Path $Root "deploy\nginx-cdn-bootstrap.conf") "${sshHost}:${remoteDeploy}/nginx-cdn-bootstrap.conf"
 scp -i $sshKey (Join-Path $Root "deploy\smoke-after-deploy.sh") "${sshHost}:${remoteDeploy}/smoke-after-deploy.sh"
+scp -i $sshKey (Join-Path $Root "deploy\.env.staging") "${sshHost}:${remoteDeploy}/.env.staging"
 scp -i $sshKey -r (Join-Path $Root "admin-web\*") "${sshHost}:/opt/alice-api/admin-web/"
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
@@ -77,6 +82,27 @@ grep -q '^ANALYTICS_RATE_LIMIT_PER_IP=' "$ENV_FILE" || printf 'ANALYTICS_RATE_LI
 grep -q '^ANALYTICS_EVENTS_PER_IP_PER_DAY=' "$ENV_FILE" || printf 'ANALYTICS_EVENTS_PER_IP_PER_DAY=10000\n' >> "$ENV_FILE"
 grep -q '^ANALYTICS_MAX_BODY_BYTES=' "$ENV_FILE" || printf 'ANALYTICS_MAX_BODY_BYTES=262144\n' >> "$ENV_FILE"
 grep -q '^ANALYTICS_RAW_RETENTION_DAYS=' "$ENV_FILE" || printf 'ANALYTICS_RAW_RETENTION_DAYS=90\n' >> "$ENV_FILE"
+grep -q '^RUSTORE_PUSH_PROJECT_ID=' "$ENV_FILE" || printf 'RUSTORE_PUSH_PROJECT_ID=\n' >> "$ENV_FILE"
+grep -q '^RUSTORE_PUSH_SERVICE_TOKEN=' "$ENV_FILE" || printf 'RUSTORE_PUSH_SERVICE_TOKEN=\n' >> "$ENV_FILE"
+grep -q '^PUSH_CAMPAIGN_ENABLED=' "$ENV_FILE" || printf 'PUSH_CAMPAIGN_ENABLED=true\n' >> "$ENV_FILE"
+grep -q '^PUSH_INSTALL_RATE_LIMIT=' "$ENV_FILE" || printf 'PUSH_INSTALL_RATE_LIMIT=30\n' >> "$ENV_FILE"
+grep -q '^PUBLIC_SUBMISSION_RATE_LIMIT=' "$ENV_FILE" || printf 'PUBLIC_SUBMISSION_RATE_LIMIT=20\n' >> "$ENV_FILE"
+set_kv() { key="$1"; val="$2"; [ -z "$val" ] && return 0; if grep -q "^${key}=" "$ENV_FILE"; then sed -i "s|^${key}=.*|${key}=${val}|" "$ENV_FILE"; else printf '%s=%s\n' "$key" "$val" >> "$ENV_FILE"; fi; }
+if [ -f /opt/alice-api/deploy/.env.staging ]; then
+  set_kv RUSTORE_PUSH_PROJECT_ID "$(grep -E '^RUSTORE_PUSH_PROJECT_ID=' /opt/alice-api/deploy/.env.staging | head -n1 | cut -d= -f2-)"
+  set_kv RUSTORE_PUSH_SERVICE_TOKEN "$(grep -E '^RUSTORE_PUSH_SERVICE_TOKEN=' /opt/alice-api/deploy/.env.staging | head -n1 | cut -d= -f2-)"
+  set_kv PUSH_CAMPAIGN_ENABLED "$(grep -E '^PUSH_CAMPAIGN_ENABLED=' /opt/alice-api/deploy/.env.staging | head -n1 | cut -d= -f2-)"
+  set_kv PUSH_INSTALL_RATE_LIMIT "$(grep -E '^PUSH_INSTALL_RATE_LIMIT=' /opt/alice-api/deploy/.env.staging | head -n1 | cut -d= -f2-)"
+fi
+# Manual QA: staging deploy also syncs push vars into prod .env.prod (shared jar on VPS).
+PROD_ENV=/opt/alice-api/.env.prod
+if [ -f "$PROD_ENV" ] && [ -f /opt/alice-api/deploy/.env.staging ]; then
+  set_kv_prod() { key="$1"; val="$2"; [ -z "$val" ] && return 0; if grep -q "^${key}=" "$PROD_ENV"; then sed -i "s|^${key}=.*|${key}=${val}|" "$PROD_ENV"; else printf '%s=%s\n' "$key" "$val" >> "$PROD_ENV"; fi; }
+  set_kv_prod RUSTORE_PUSH_PROJECT_ID "$(grep -E '^RUSTORE_PUSH_PROJECT_ID=' /opt/alice-api/deploy/.env.staging | head -n1 | cut -d= -f2-)"
+  set_kv_prod RUSTORE_PUSH_SERVICE_TOKEN "$(grep -E '^RUSTORE_PUSH_SERVICE_TOKEN=' /opt/alice-api/deploy/.env.staging | head -n1 | cut -d= -f2-)"
+  set_kv_prod PUSH_CAMPAIGN_ENABLED "$(grep -E '^PUSH_CAMPAIGN_ENABLED=' /opt/alice-api/deploy/.env.staging | head -n1 | cut -d= -f2-)"
+  set_kv_prod PUSH_INSTALL_RATE_LIMIT "$(grep -E '^PUSH_INSTALL_RATE_LIMIT=' /opt/alice-api/deploy/.env.staging | head -n1 | cut -d= -f2-)"
+fi
 mkdir -p /opt/alice-api/storage/icons/v1 /opt/alice-api/storage/devices/v1
 cp -f /opt/alice-api/content/icons/v1/*.svg /opt/alice-api/storage/icons/v1/ 2>/dev/null || true
 cp /opt/alice-api/deploy/nginx-staging.conf /etc/nginx/sites-available/alice-api

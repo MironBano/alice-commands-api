@@ -53,3 +53,7 @@ tools/content/cache/
 tools/content/reports/
 __pycache__/
 *.pyc
+
+# CDN / local device photo cache
+storage/devices/
+

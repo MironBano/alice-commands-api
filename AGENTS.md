@@ -5,6 +5,7 @@
 - **Название:** alice-commands-api
 - **Тип:** Kotlin, Ktor 3, PostgreSQL, Gradle
 - **Связанный app:** [AliceCommands](https://github.com/MironBano/AliceCommands) — **Full Clean** Android
+- **Публичный сайт:** [AliceCommandsWeb](https://github.com/MironBano/AliceCommandsWeb) — `alicecommands.ru` (не путать с `admin-web`)
 - **idea_ref:** MOB-20260626-001
 - **Prod:** **LIVE** с 2026-07-13 — `https://api.alicecommands.ru` (RuStore release)
 
