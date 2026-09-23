@@ -1,0 +1,18 @@
+{
+  "picks": [
+    {
+      "pick_id": "pick_light",
+      "market_url_primary": "https://market.yandex.ru/product/REPLACE_PRIMARY",
+      "market_url_backup": "https://market.yandex.ru/product/REPLACE_BACKUP",
+      "erid": "REPLACE_ERID",
+      "advertiser_name": "ООО «Яндекс Маркет»"
+    },
+    {
+      "pick_id": "pick_station",
+      "market_url_primary": "https://market.yandex.ru/product/REPLACE_PRIMARY",
+      "market_url_backup": "https://market.yandex.ru/product/REPLACE_BACKUP",
+      "erid": "REPLACE_ERID",
+      "advertiser_name": "ООО «Яндекс Маркет»"
+    }
+  ]
+}
