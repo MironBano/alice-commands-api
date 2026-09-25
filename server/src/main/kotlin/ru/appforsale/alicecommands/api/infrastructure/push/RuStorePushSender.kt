@@ -42,7 +42,7 @@ class NoOpRuStorePushSender : RuStorePushSender {
 
 /**
  * RuStore Push HTTP API:
- * POST https://vkpns.rustore.ru/v1/projects/{projectId}/messages:send
+ * POST https://vkpns-dg.rustore.ru/v1/projects/{projectId}/messages:send
  *
  * Deep link open requires android.notification.click_action + click_action_type=1
  * (RuStore app ≥ 1.39.0).
@@ -64,7 +64,7 @@ class HttpRuStorePushSender(
         deeplink: String,
     ): Result<Unit> = runCatching {
         val url = URI(
-            "https://vkpns.rustore.ru/v1/projects/$projectId/messages:send",
+            "https://vkpns-dg.rustore.ru/v1/projects/$projectId/messages:send",
         ).toURL()
         val bodyBytes = buildRuStoreSendPayloadJson(
             json = json,

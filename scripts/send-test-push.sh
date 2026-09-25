@@ -42,7 +42,7 @@ EOF
 )
 
 http_code=$(curl -sS -o /tmp/rustore-push-response.txt -w "%{http_code}" \
-  -X POST "https://vkpns.rustore.ru/v1/projects/${PROJECT_ID}/messages:send" \
+  -X POST "https://vkpns-dg.rustore.ru/v1/projects/${PROJECT_ID}/messages:send" \
   -H "Authorization: Bearer ${SERVICE_TOKEN}" \
   -H "Content-Type: application/json" \
   --data-binary "$payload")
