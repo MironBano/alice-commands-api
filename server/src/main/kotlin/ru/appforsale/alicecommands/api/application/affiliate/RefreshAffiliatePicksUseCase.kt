@@ -101,7 +101,8 @@ class RefreshAffiliatePicksUseCase(
 
             val updated = pick.copy(
                 title_ru = offer.title?.takeIf { it.isNotBlank() } ?: pick.title_ru,
-                price_hint_ru = offer.priceHint ?: pick.price_hint_ru,
+                // Keep admin-managed price_hint (often null — no in-app price line).
+                price_hint_ru = pick.price_hint_ru,
                 action_url = offer.wrappedUrl,
                 erid = slot.erid.ifBlank { pick.erid },
                 advertiser_name = slot.advertiserName.ifBlank {
