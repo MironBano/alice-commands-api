@@ -66,4 +66,11 @@ data class PushTokenRecord(
     val weekBucket: String?,
     val createdAt: OffsetDateTime,
     val appInstalledAt: OffsetDateTime?,
+    /** Non-null when RuStore rejected the token (e.g. rustore_push_http_404); skipped by campaign. */
+    val deliveryBlockedReason: String? = null,
+)
+
+data class PushRegisterResult(
+    /** True when client re-registered the same token that is already delivery-blocked. */
+    val tokenStale: Boolean = false,
 )

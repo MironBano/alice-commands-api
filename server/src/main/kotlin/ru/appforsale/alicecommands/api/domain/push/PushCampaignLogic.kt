@@ -150,7 +150,7 @@ object PushCampaignEvaluator {
                 scenario = "s1",
                 title = PushNotificationTemplates.S1.title,
                 body = PushNotificationTemplates.S1.body,
-                deeplink = "alicecommands://route/home/catalog?source=push",
+                deeplink = pushDeeplink("route/home/catalog", "s1"),
                 channelId = "push_content",
             )
             "s2" -> {
@@ -159,7 +159,7 @@ object PushCampaignEvaluator {
                     scenario = "s2",
                     title = PushNotificationTemplates.S2.title,
                     body = PushNotificationTemplates.S2.body,
-                    deeplink = "alicecommands://command/$id?source=push",
+                    deeplink = pushDeeplink("command/$id", "s2"),
                     commandId = id,
                     channelId = "push_reminder",
                 ).also {
@@ -172,7 +172,7 @@ object PushCampaignEvaluator {
                     scenario = "s3",
                     title = PushNotificationTemplates.S3.title,
                     body = PushNotificationTemplates.S3.body,
-                    deeplink = "alicecommands://command/$id?source=push",
+                    deeplink = pushDeeplink("command/$id", "s3"),
                     commandId = id,
                     channelId = "push_content",
                 ).also {
@@ -183,14 +183,14 @@ object PushCampaignEvaluator {
                 scenario = "s4",
                 title = PushNotificationTemplates.S4.title,
                 body = PushNotificationTemplates.S4.body,
-                deeplink = "alicecommands://route/home/catalog?scroll=try_now&source=push",
+                deeplink = pushDeeplink("route/home/catalog", "s4", "scroll=try_now"),
                 channelId = "push_reminder",
             )
             "s5" -> PushCandidate(
                 scenario = "s5",
                 title = PushNotificationTemplates.S5.title,
                 body = PushNotificationTemplates.S5.body,
-                deeplink = "alicecommands://route/home/smarthome?source=push",
+                deeplink = pushDeeplink("route/home/smarthome", "s5"),
                 channelId = "push_reminder",
             )
             "s6" -> {
@@ -200,13 +200,23 @@ object PushCampaignEvaluator {
                     scenario = "s6",
                     title = template.title,
                     body = template.body,
-                    deeplink = "alicecommands://command/${top.id}?source=push",
+                    deeplink = pushDeeplink("command/${top.id}", "s6"),
                     commandId = top.id,
                     channelId = "push_reminder",
                 )
             }
             else -> null
         }
+    }
+
+    /** App MainActivity reads `scenario` from query for push_open analytics. */
+    fun pushDeeplink(path: String, scenario: String, extraQuery: String? = null): String {
+        val parts = buildList {
+            if (!extraQuery.isNullOrBlank()) add(extraQuery)
+            add("source=push")
+            add("scenario=$scenario")
+        }
+        return "alicecommands://$path?${parts.joinToString("&")}"
     }
 
     private fun withinGlobalCaps(

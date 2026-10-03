@@ -91,7 +91,7 @@ class HttpRuStorePushSender(
         }.getOrDefault("")
         if (code !in 200..299) {
             log.warn("RuStore push failed status={} body={}", code, responseText.take(500))
-            error("rustore_push_http_$code")
+            error(RuStorePushErrors.errorMessage(code, responseText))
         }
     }
 }

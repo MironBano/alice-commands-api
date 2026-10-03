@@ -22,12 +22,13 @@ import ru.appforsale.alicecommands.api.plugins.configureStatusPages
 import ru.appforsale.alicecommands.api.routes.adminRoutes
 import ru.appforsale.alicecommands.api.routes.analyticsRoutes
 import ru.appforsale.alicecommands.api.routes.feedbackRoutes
+import ru.appforsale.alicecommands.api.application.push.PushCampaignTickerSchedule
 import ru.appforsale.alicecommands.api.routes.pushRoutes
 import ru.appforsale.alicecommands.api.routes.healthRoutes
 import ru.appforsale.alicecommands.api.routes.publicRoutes
 import kotlin.io.path.Path
 import kotlin.time.Duration.Companion.hours
-import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
 fun main() {
@@ -89,8 +90,11 @@ fun Application.module(config: AppConfig = AppConfig.load()) {
 
     if (config.pushCampaignEnabled) {
         launch {
-            // Align to ~15 min cadence for COD window (±15m) and quiet-hours defer.
-            delay(30.seconds)
+            // Align to clock quarters (:00/:15/:30/:45) so S2 COD ±15m windows are hit.
+            delay(
+                PushCampaignTickerSchedule.delayMsUntilAlignedTick(System.currentTimeMillis())
+                    .milliseconds,
+            )
             while (isActive) {
                 runCatching {
                     deps.runPushCampaignsUseCase.execute()
@@ -98,7 +102,10 @@ fun Application.module(config: AppConfig = AppConfig.load()) {
                     org.slf4j.LoggerFactory.getLogger("PushCampaignTicker")
                         .warn("Push campaign tick failed: {}", error.message)
                 }
-                delay(15.minutes)
+                delay(
+                    PushCampaignTickerSchedule.delayMsUntilNextQuarterStrict(System.currentTimeMillis())
+                        .milliseconds,
+                )
             }
         }
     }

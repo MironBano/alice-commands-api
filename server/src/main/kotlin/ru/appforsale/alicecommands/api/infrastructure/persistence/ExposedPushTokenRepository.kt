@@ -4,6 +4,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
@@ -12,6 +13,7 @@ import org.jetbrains.exposed.sql.update
 import ru.appforsale.alicecommands.api.domain.push.PushFrequentCommandDto
 import ru.appforsale.alicecommands.api.domain.push.PushPreferencesRequest
 import ru.appforsale.alicecommands.api.domain.push.PushRegisterRequest
+import ru.appforsale.alicecommands.api.domain.push.PushRegisterResult
 import ru.appforsale.alicecommands.api.domain.push.PushTokenRecord
 import ru.appforsale.alicecommands.api.domain.ports.PushTokenRepository
 import java.time.Instant
@@ -22,18 +24,19 @@ class ExposedPushTokenRepository(
     private val json: Json = Json { ignoreUnknownKeys = true },
 ) : PushTokenRepository {
 
-    override fun upsertRegister(request: PushRegisterRequest) {
+    override fun upsertRegister(request: PushRegisterRequest): PushRegisterResult =
         transaction(database) {
-            val exists = PushTokensTable.selectAll()
+            val existing = PushTokensTable.selectAll()
                 .where { PushTokensTable.installId eq request.installId }
-                .count() > 0
+                .firstOrNull()
             val now = OffsetDateTime.now()
             val parsedInstallAt = parseAppInstalledAt(request.appInstalledAt)
-            if (exists) {
-                val existingInstallAt = PushTokensTable.selectAll()
-                    .where { PushTokensTable.installId eq request.installId }
-                    .firstOrNull()
-                    ?.get(PushTokensTable.appInstalledAt)
+            if (existing != null) {
+                val previousToken = existing[PushTokensTable.rustoreToken]
+                val previousBlock = existing[PushTokensTable.deliveryBlockedReason]
+                val sameBlockedToken =
+                    !previousBlock.isNullOrBlank() && previousToken == request.rustoreToken
+                val existingInstallAt = existing[PushTokensTable.appInstalledAt]
                 PushTokensTable.update({ PushTokensTable.installId eq request.installId }) {
                     it[rustoreToken] = request.rustoreToken
                     it[timezone] = request.timezone.ifBlank { "Europe/Moscow" }
@@ -48,8 +51,14 @@ class ExposedPushTokenRepository(
                     if (existingInstallAt == null && parsedInstallAt != null) {
                         it[appInstalledAt] = parsedInstallAt
                     }
+                    if (sameBlockedToken) {
+                        it[deliveryBlockedReason] = previousBlock
+                    } else if (previousToken != request.rustoreToken) {
+                        it[deliveryBlockedReason] = null
+                    }
                     it[updatedAt] = now
                 }
+                PushRegisterResult(tokenStale = sameBlockedToken)
             } else {
                 PushTokensTable.insert {
                     it[installId] = request.installId
@@ -68,12 +77,13 @@ class ExposedPushTokenRepository(
                     it[s5Sent] = false
                     it[lastNotifiedContentVersion] = 0
                     it[pushesThisWeek] = 0
+                    it[deliveryBlockedReason] = null
                     it[createdAt] = now
                     it[updatedAt] = now
                 }
+                PushRegisterResult(tokenStale = false)
             }
         }
-    }
 
     override fun updatePreferences(request: PushPreferencesRequest): Boolean =
         transaction(database) {
@@ -104,39 +114,11 @@ class ExposedPushTokenRepository(
 
     override fun listActive(): List<PushTokenRecord> = transaction(database) {
         PushTokensTable.selectAll()
-            .where { PushTokensTable.masterEnabled eq true }
-            .map { row ->
-                val freqJson = row[PushTokensTable.frequentCommandsJson]
-                val frequent = runCatching {
-                    json.decodeFromString<List<PushFrequentCommandDto>>(freqJson)
-                }.getOrDefault(emptyList())
-                PushTokenRecord(
-                    installId = row[PushTokensTable.installId],
-                    rustoreToken = row[PushTokensTable.rustoreToken],
-                    timezone = row[PushTokensTable.timezone],
-                    persona = row[PushTokensTable.persona],
-                    contentVersion = row[PushTokensTable.contentVersion],
-                    masterEnabled = row[PushTokensTable.masterEnabled],
-                    codEnabled = row[PushTokensTable.codEnabled],
-                    codReminderTime = row[PushTokensTable.codReminderTime],
-                    checklistCompletedCount = row[PushTokensTable.checklistCompletedCount],
-                    frequentCommands = frequent,
-                    frequentCommandsJson = freqJson,
-                    appVersion = row[PushTokensTable.appVersion],
-                    lastS1At = row[PushTokensTable.lastS1At],
-                    lastS3At = row[PushTokensTable.lastS3At],
-                    lastS6At = row[PushTokensTable.lastS6At],
-                    s4Sent = row[PushTokensTable.s4Sent],
-                    s5Sent = row[PushTokensTable.s5Sent],
-                    lastPopularHash = row[PushTokensTable.lastPopularHash],
-                    lastNotifiedContentVersion = row[PushTokensTable.lastNotifiedContentVersion],
-                    lastPushAt = row[PushTokensTable.lastPushAt],
-                    pushesThisWeek = row[PushTokensTable.pushesThisWeek],
-                    weekBucket = row[PushTokensTable.weekBucket],
-                    createdAt = row[PushTokensTable.createdAt],
-                    appInstalledAt = row[PushTokensTable.appInstalledAt],
-                )
+            .where {
+                (PushTokensTable.masterEnabled eq true) and
+                    PushTokensTable.deliveryBlockedReason.isNull()
             }
+            .map { row -> row.toRecord() }
     }
 
     override fun markSent(
@@ -176,6 +158,49 @@ class ExposedPushTokenRepository(
                 }
             }
         }
+    }
+
+    override fun markDeliveryBlocked(installId: String, reason: String) {
+        transaction(database) {
+            PushTokensTable.update({ PushTokensTable.installId eq installId }) {
+                it[deliveryBlockedReason] = reason
+                it[updatedAt] = OffsetDateTime.now()
+            }
+        }
+    }
+
+    private fun org.jetbrains.exposed.sql.ResultRow.toRecord(): PushTokenRecord {
+        val freqJson = this[PushTokensTable.frequentCommandsJson]
+        val frequent = runCatching {
+            json.decodeFromString<List<PushFrequentCommandDto>>(freqJson)
+        }.getOrDefault(emptyList())
+        return PushTokenRecord(
+            installId = this[PushTokensTable.installId],
+            rustoreToken = this[PushTokensTable.rustoreToken],
+            timezone = this[PushTokensTable.timezone],
+            persona = this[PushTokensTable.persona],
+            contentVersion = this[PushTokensTable.contentVersion],
+            masterEnabled = this[PushTokensTable.masterEnabled],
+            codEnabled = this[PushTokensTable.codEnabled],
+            codReminderTime = this[PushTokensTable.codReminderTime],
+            checklistCompletedCount = this[PushTokensTable.checklistCompletedCount],
+            frequentCommands = frequent,
+            frequentCommandsJson = freqJson,
+            appVersion = this[PushTokensTable.appVersion],
+            lastS1At = this[PushTokensTable.lastS1At],
+            lastS3At = this[PushTokensTable.lastS3At],
+            lastS6At = this[PushTokensTable.lastS6At],
+            s4Sent = this[PushTokensTable.s4Sent],
+            s5Sent = this[PushTokensTable.s5Sent],
+            lastPopularHash = this[PushTokensTable.lastPopularHash],
+            lastNotifiedContentVersion = this[PushTokensTable.lastNotifiedContentVersion],
+            lastPushAt = this[PushTokensTable.lastPushAt],
+            pushesThisWeek = this[PushTokensTable.pushesThisWeek],
+            weekBucket = this[PushTokensTable.weekBucket],
+            createdAt = this[PushTokensTable.createdAt],
+            appInstalledAt = this[PushTokensTable.appInstalledAt],
+            deliveryBlockedReason = this[PushTokensTable.deliveryBlockedReason],
+        )
     }
 
     private fun parseAppInstalledAt(raw: String?): OffsetDateTime? {

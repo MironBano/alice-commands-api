@@ -1038,4 +1038,81 @@ class ApiIntegrationTest {
         }
         assertEquals(HttpStatusCode.NoContent, unregister.status)
     }
+
+    @Test
+    fun `push register returns stale header when delivery blocked then clears on new token`() = testEnv {
+        val installId = "push-stale-install"
+        val oldToken = "rustore-old-token"
+        val newToken = "rustore-new-token"
+
+        fun registerBody(token: String) = """
+            {
+              "installId": "$installId",
+              "rustoreToken": "$token",
+              "timezone": "Europe/Moscow",
+              "persona": "NEW_SPEAKER",
+              "contentVersion": 1,
+              "masterEnabled": true,
+              "codEnabled": false,
+              "codReminderTime": "09:00",
+              "checklistCompletedCount": 0,
+              "frequentCommands": [],
+              "appVersion": "1.0.7",
+              "appInstalledAt": "2026-07-13T10:00:00Z"
+            }
+        """.trimIndent()
+
+        val first = client.post("/v1/push/register") {
+            contentType(ContentType.Application.Json)
+            setBody(registerBody(oldToken))
+        }
+        assertEquals(HttpStatusCode.NoContent, first.status)
+        assertTrue(first.headers["X-Push-Token-Stale"].isNullOrBlank())
+
+        java.sql.DriverManager.getConnection(postgres.jdbcUrl, postgres.username, postgres.password).use { conn ->
+            conn.prepareStatement(
+                "UPDATE push_tokens SET delivery_blocked_reason = ? WHERE install_id = ?",
+            ).use { ps ->
+                ps.setString(1, "rustore_token_not_found")
+                ps.setString(2, installId)
+                assertEquals(1, ps.executeUpdate())
+            }
+            conn.prepareStatement(
+                "SELECT count(*) FROM push_tokens WHERE install_id = ? AND delivery_blocked_reason IS NULL",
+            ).use { ps ->
+                ps.setString(1, installId)
+                ps.executeQuery().use { rs ->
+                    assertTrue(rs.next())
+                    assertEquals(0, rs.getInt(1))
+                }
+            }
+        }
+
+        val stale = client.post("/v1/push/register") {
+            contentType(ContentType.Application.Json)
+            setBody(registerBody(oldToken))
+        }
+        assertEquals(HttpStatusCode.NoContent, stale.status)
+        assertEquals("1", stale.headers["X-Push-Token-Stale"])
+
+        val rotated = client.post("/v1/push/register") {
+            contentType(ContentType.Application.Json)
+            setBody(registerBody(newToken))
+        }
+        assertEquals(HttpStatusCode.NoContent, rotated.status)
+        assertTrue(rotated.headers["X-Push-Token-Stale"].isNullOrBlank())
+
+        java.sql.DriverManager.getConnection(postgres.jdbcUrl, postgres.username, postgres.password).use { conn ->
+            conn.prepareStatement(
+                "SELECT delivery_blocked_reason, rustore_token FROM push_tokens WHERE install_id = ?",
+            ).use { ps ->
+                ps.setString(1, installId)
+                ps.executeQuery().use { rs ->
+                    assertTrue(rs.next())
+                    assertTrue(rs.getString(1).isNullOrBlank())
+                    assertEquals(newToken, rs.getString(2))
+                }
+            }
+        }
+    }
 }

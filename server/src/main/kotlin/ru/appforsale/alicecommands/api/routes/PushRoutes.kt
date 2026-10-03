@@ -24,8 +24,11 @@ fun Route.pushRoutes() {
             val body = call.receive<PushRegisterRequest>()
             if (isPushRateLimited(deps, ip, body.installId, call)) return@post
             try {
-                deps.registerPushTokenUseCase.execute(body)
+                val result = deps.registerPushTokenUseCase.execute(body)
                 recordPushSubmission(deps, ip, body.installId)
+                if (result.tokenStale) {
+                    call.response.headers.append(HEADER_PUSH_TOKEN_STALE, "1")
+                }
                 call.respond(HttpStatusCode.NoContent)
             } catch (e: IllegalArgumentException) {
                 call.respond(
@@ -78,6 +81,8 @@ fun Route.pushRoutes() {
         }
     }
 }
+
+internal const val HEADER_PUSH_TOKEN_STALE = "X-Push-Token-Stale"
 
 private suspend fun isPushRateLimited(
     deps: ru.appforsale.alicecommands.api.AppDependencies,

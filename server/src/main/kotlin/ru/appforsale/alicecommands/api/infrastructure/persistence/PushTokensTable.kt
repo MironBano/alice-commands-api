@@ -27,6 +27,7 @@ object PushTokensTable : Table("push_tokens") {
     val weekBucket = text("week_bucket").nullable()
     val createdAt = timestampWithTimeZone("created_at")
     val appInstalledAt = timestampWithTimeZone("app_installed_at").nullable()
+    val deliveryBlockedReason = text("delivery_blocked_reason").nullable()
     val updatedAt = timestampWithTimeZone("updated_at")
     override val primaryKey = PrimaryKey(installId)
 }

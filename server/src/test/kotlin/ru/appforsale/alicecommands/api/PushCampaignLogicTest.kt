@@ -93,6 +93,8 @@ class PushCampaignLogicTest {
         )!!
         assertFalse(built.body.contains("Скажи Алисе", ignoreCase = true))
         assertTrue(built.deeplink.contains("music_muzyka"))
+        assertTrue(built.deeplink.contains("source=push"))
+        assertTrue(built.deeplink.contains("scenario=s2"))
     }
 
     @Test
