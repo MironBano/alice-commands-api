@@ -73,6 +73,7 @@ scp -i $sshKey (Join-Path $Root "deploy\.env.prod.example") "${sshHost}:${remote
 scp -i $sshKey (Join-Path $Root "deploy\bootstrap-prod.sh") "${sshHost}:${remoteDeploy}/bootstrap-prod.sh"
 scp -i $sshKey (Join-Path $Root "deploy\nginx-cdn.conf") "${sshHost}:${remoteDeploy}/nginx-cdn.conf"
 scp -i $sshKey (Join-Path $Root "deploy\nginx-cdn-bootstrap.conf") "${sshHost}:${remoteDeploy}/nginx-cdn-bootstrap.conf"
+scp -i $sshKey (Join-Path $Root "deploy\certbot-reload-nginx.sh") "${sshHost}:${remoteDeploy}/certbot-reload-nginx.sh"
 scp -i $sshKey (Join-Path $Root "seed\catalog-audit-fixed.json") "${sshHost}:/opt/alice-api/seed/catalog-audit-fixed.json"
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
@@ -104,6 +105,9 @@ else
   cp REMOTE_DEPLOY/nginx-cdn-bootstrap.conf /etc/nginx/sites-available/alice-cdn
 fi
 ln -sf /etc/nginx/sites-available/alice-cdn /etc/nginx/sites-enabled/alice-cdn
+mkdir -p /etc/letsencrypt/renewal-hooks/deploy /var/www/html/.well-known/acme-challenge
+sed -i 's/\r$//' REMOTE_DEPLOY/certbot-reload-nginx.sh
+install -m 755 REMOTE_DEPLOY/certbot-reload-nginx.sh /etc/letsencrypt/renewal-hooks/deploy/reload-nginx.sh
 nginx -t && systemctl reload nginx
 if [ ! -f /etc/letsencrypt/live/api.alicecommands.ru/fullchain.pem ]; then
   certbot certonly --webroot -w /var/www/html -d api.alicecommands.ru --non-interactive --agree-tos --register-unsafely-without-email && \

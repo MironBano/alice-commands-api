@@ -32,6 +32,9 @@ data class AppConfig(
     val analyticsRawRetentionDays: Int,
     val rustorePushProjectId: String,
     val rustorePushServiceToken: String,
+    val fcmProjectId: String,
+    /** File path or inline service-account JSON for FCM HTTP v1. Empty → NoOp FCM sender. */
+    val fcmServiceAccountJson: String,
     val pushCampaignEnabled: Boolean,
     /** When true, device picks require erid/advertiser and affiliate query on Market URLs. Staging first; prod off until go. */
     val requirePickAffiliateQuery: Boolean,
@@ -96,6 +99,8 @@ data class AppConfig(
                 analyticsRawRetentionDays = env("ANALYTICS_RAW_RETENTION_DAYS", "90").toInt(),
                 rustorePushProjectId = env("RUSTORE_PUSH_PROJECT_ID"),
                 rustorePushServiceToken = env("RUSTORE_PUSH_SERVICE_TOKEN"),
+                fcmProjectId = env("FCM_PROJECT_ID"),
+                fcmServiceAccountJson = env("FCM_SERVICE_ACCOUNT_JSON"),
                 pushCampaignEnabled = env("PUSH_CAMPAIGN_ENABLED", "true").equals("true", ignoreCase = true),
                 requirePickAffiliateQuery = env("REQUIRE_PICK_AFFILIATE_QUERY", "false")
                     .equals("true", ignoreCase = true),

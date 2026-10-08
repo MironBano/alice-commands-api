@@ -6,6 +6,7 @@ import org.jetbrains.exposed.sql.javatime.timestampWithTimeZone
 object PushTokensTable : Table("push_tokens") {
     val installId = text("install_id")
     val rustoreToken = text("rustore_token")
+    val provider = text("provider").default("rustore")
     val timezone = text("timezone")
     val persona = text("persona").nullable()
     val contentVersion = integer("content_version")

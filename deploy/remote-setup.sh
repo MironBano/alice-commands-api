@@ -48,6 +48,11 @@ echo "==> nginx"
 cp "${APP_DIR}/deploy/nginx-staging.conf" /etc/nginx/sites-available/alice-api
 ln -sf /etc/nginx/sites-available/alice-api /etc/nginx/sites-enabled/alice-api
 rm -f /etc/nginx/sites-enabled/default
+mkdir -p /etc/letsencrypt/renewal-hooks/deploy /var/www/html/.well-known/acme-challenge
+if [[ -f "${APP_DIR}/deploy/certbot-reload-nginx.sh" ]]; then
+  sed -i 's/\r$//' "${APP_DIR}/deploy/certbot-reload-nginx.sh"
+  install -m 755 "${APP_DIR}/deploy/certbot-reload-nginx.sh" /etc/letsencrypt/renewal-hooks/deploy/reload-nginx.sh
+fi
 nginx -t
 systemctl reload nginx
 

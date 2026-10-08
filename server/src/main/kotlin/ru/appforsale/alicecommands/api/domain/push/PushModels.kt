@@ -18,6 +18,8 @@ data class PushRegisterRequest(
     @SerialName("frequentCommands") val frequentCommands: List<PushFrequentCommandDto> = emptyList(),
     @SerialName("appVersion") val appVersion: String? = null,
     @SerialName("appInstalledAt") val appInstalledAt: String? = null,
+    /** Delivery channel: `rustore` (default) or `fcm` (Google Play). Token still travels as rustoreToken. */
+    @SerialName("provider") val provider: String = PushProvider.RUSTORE,
 )
 
 @Serializable
@@ -39,11 +41,28 @@ data class PushPreferencesRequest(
 data class PushUnregisterRequest(
     @SerialName("installId") val installId: String,
     @SerialName("rustoreToken") val rustoreToken: String,
+    @SerialName("provider") val provider: String = PushProvider.RUSTORE,
 )
+
+object PushProvider {
+    const val RUSTORE = "rustore"
+    const val FCM = "fcm"
+
+    fun normalize(raw: String?): String {
+        val value = raw?.trim()?.lowercase().orEmpty()
+        return when (value) {
+            "", RUSTORE -> RUSTORE
+            FCM -> FCM
+            else -> error("unsupported_push_provider")
+        }
+    }
+}
 
 data class PushTokenRecord(
     val installId: String,
     val rustoreToken: String,
+    /** `rustore` or `fcm` — selects campaign sender. */
+    val provider: String = PushProvider.RUSTORE,
     val timezone: String,
     val persona: String?,
     val contentVersion: Int,

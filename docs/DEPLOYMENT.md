@@ -58,6 +58,7 @@ Local dev: Ktor на хосте + PostgreSQL в Docker (`docker compose up -d`).
 | `deploy/nginx-cdn.conf` | HTTPS vhost `cdn.alicecommands.ru` → static icons |
 | `deploy/nginx-cdn-bootstrap.conf` | HTTP-only bootstrap до certbot |
 | `deploy/remote-setup.sh` | Bootstrap VPS (Java 21, PG, nginx, certbot, ufw) |
+| `deploy/certbot-reload-nginx.sh` | Deploy-hook: `systemctl reload nginx` после успешного продления |
 
 ---
 

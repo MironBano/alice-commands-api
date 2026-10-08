@@ -39,6 +39,7 @@ class ExposedPushTokenRepository(
                 val existingInstallAt = existing[PushTokensTable.appInstalledAt]
                 PushTokensTable.update({ PushTokensTable.installId eq request.installId }) {
                     it[rustoreToken] = request.rustoreToken
+                    it[provider] = request.provider
                     it[timezone] = request.timezone.ifBlank { "Europe/Moscow" }
                     it[persona] = request.persona
                     it[contentVersion] = request.contentVersion
@@ -63,6 +64,7 @@ class ExposedPushTokenRepository(
                 PushTokensTable.insert {
                     it[installId] = request.installId
                     it[rustoreToken] = request.rustoreToken
+                    it[provider] = request.provider
                     it[timezone] = request.timezone.ifBlank { "Europe/Moscow" }
                     it[persona] = request.persona
                     it[contentVersion] = request.contentVersion
@@ -177,6 +179,7 @@ class ExposedPushTokenRepository(
         return PushTokenRecord(
             installId = this[PushTokensTable.installId],
             rustoreToken = this[PushTokensTable.rustoreToken],
+            provider = this[PushTokensTable.provider],
             timezone = this[PushTokensTable.timezone],
             persona = this[PushTokensTable.persona],
             contentVersion = this[PushTokensTable.contentVersion],

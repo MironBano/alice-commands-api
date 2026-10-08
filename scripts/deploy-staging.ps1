@@ -61,6 +61,7 @@ scp -i $sshKey (Join-Path $Root "schema\*.json") "${sshHost}:/opt/alice-api/sche
 scp -i $sshKey (Join-Path $Root "deploy\nginx-staging.conf") "${sshHost}:${remoteDeploy}/nginx-staging.conf"
 scp -i $sshKey (Join-Path $Root "deploy\nginx-cdn.conf") "${sshHost}:${remoteDeploy}/nginx-cdn.conf"
 scp -i $sshKey (Join-Path $Root "deploy\nginx-cdn-bootstrap.conf") "${sshHost}:${remoteDeploy}/nginx-cdn-bootstrap.conf"
+scp -i $sshKey (Join-Path $Root "deploy\certbot-reload-nginx.sh") "${sshHost}:${remoteDeploy}/certbot-reload-nginx.sh"
 scp -i $sshKey (Join-Path $Root "deploy\smoke-after-deploy.sh") "${sshHost}:${remoteDeploy}/smoke-after-deploy.sh"
 scp -i $sshKey (Join-Path $Root "deploy\.env.staging") "${sshHost}:${remoteDeploy}/.env.staging"
 scp -i $sshKey -r (Join-Path $Root "admin-web\*") "${sshHost}:/opt/alice-api/admin-web/"
@@ -84,6 +85,8 @@ grep -q '^ANALYTICS_MAX_BODY_BYTES=' "$ENV_FILE" || printf 'ANALYTICS_MAX_BODY_B
 grep -q '^ANALYTICS_RAW_RETENTION_DAYS=' "$ENV_FILE" || printf 'ANALYTICS_RAW_RETENTION_DAYS=90\n' >> "$ENV_FILE"
 grep -q '^RUSTORE_PUSH_PROJECT_ID=' "$ENV_FILE" || printf 'RUSTORE_PUSH_PROJECT_ID=\n' >> "$ENV_FILE"
 grep -q '^RUSTORE_PUSH_SERVICE_TOKEN=' "$ENV_FILE" || printf 'RUSTORE_PUSH_SERVICE_TOKEN=\n' >> "$ENV_FILE"
+grep -q '^FCM_PROJECT_ID=' "$ENV_FILE" || printf 'FCM_PROJECT_ID=\n' >> "$ENV_FILE"
+grep -q '^FCM_SERVICE_ACCOUNT_JSON=' "$ENV_FILE" || printf 'FCM_SERVICE_ACCOUNT_JSON=\n' >> "$ENV_FILE"
 grep -q '^PUSH_CAMPAIGN_ENABLED=' "$ENV_FILE" || printf 'PUSH_CAMPAIGN_ENABLED=true\n' >> "$ENV_FILE"
 grep -q '^PUSH_INSTALL_RATE_LIMIT=' "$ENV_FILE" || printf 'PUSH_INSTALL_RATE_LIMIT=30\n' >> "$ENV_FILE"
 grep -q '^PUBLIC_SUBMISSION_RATE_LIMIT=' "$ENV_FILE" || printf 'PUBLIC_SUBMISSION_RATE_LIMIT=20\n' >> "$ENV_FILE"
@@ -112,6 +115,9 @@ else
   cp /opt/alice-api/deploy/nginx-cdn-bootstrap.conf /etc/nginx/sites-available/alice-cdn
 fi
 ln -sf /etc/nginx/sites-available/alice-cdn /etc/nginx/sites-enabled/alice-cdn
+mkdir -p /etc/letsencrypt/renewal-hooks/deploy /var/www/html/.well-known/acme-challenge
+sed -i 's/\r$//' /opt/alice-api/deploy/certbot-reload-nginx.sh
+install -m 755 /opt/alice-api/deploy/certbot-reload-nginx.sh /etc/letsencrypt/renewal-hooks/deploy/reload-nginx.sh
 if [ ! -f /etc/letsencrypt/live/cdn.alicecommands.ru/fullchain.pem ]; then
   nginx -t && systemctl reload nginx
   certbot certonly --webroot -w /var/www/html -d cdn.alicecommands.ru --non-interactive --agree-tos --register-unsafely-without-email && \

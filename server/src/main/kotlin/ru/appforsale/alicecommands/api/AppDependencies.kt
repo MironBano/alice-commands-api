@@ -294,7 +294,7 @@ fun Application.initDependencies(config: AppConfig = AppConfig.load()): AppDepen
     val unregisterPushTokenUseCase =
         ru.appforsale.alicecommands.api.application.push.UnregisterPushTokenUseCase(pushTokenRepository)
     val bundleService = BundleService(manifestRepository, bundleStorage)
-    val pushSender: ru.appforsale.alicecommands.api.infrastructure.push.RuStorePushSender =
+    val rustorePushSender: ru.appforsale.alicecommands.api.infrastructure.push.RuStorePushSender =
         if (config.rustorePushProjectId.isNotBlank() && config.rustorePushServiceToken.isNotBlank()) {
             ru.appforsale.alicecommands.api.infrastructure.push.HttpRuStorePushSender(
                 projectId = config.rustorePushProjectId,
@@ -303,6 +303,25 @@ fun Application.initDependencies(config: AppConfig = AppConfig.load()): AppDepen
         } else {
             ru.appforsale.alicecommands.api.infrastructure.push.NoOpRuStorePushSender()
         }
+    val fcmPushSender: ru.appforsale.alicecommands.api.infrastructure.push.FcmPushSender =
+        if (config.fcmProjectId.isNotBlank() && config.fcmServiceAccountJson.isNotBlank()) {
+            runCatching {
+                ru.appforsale.alicecommands.api.infrastructure.push.HttpFcmPushSender(
+                    projectId = config.fcmProjectId,
+                    serviceAccountJson = config.fcmServiceAccountJson,
+                )
+            }.getOrElse {
+                org.slf4j.LoggerFactory.getLogger("AppDependencies")
+                    .warn("FCM sender init failed, using NoOp: {}", it.message)
+                ru.appforsale.alicecommands.api.infrastructure.push.NoOpFcmPushSender()
+            }
+        } else {
+            ru.appforsale.alicecommands.api.infrastructure.push.NoOpFcmPushSender()
+        }
+    val pushSender = ru.appforsale.alicecommands.api.infrastructure.push.ProviderAwarePushSender(
+        rustore = rustorePushSender,
+        fcm = fcmPushSender,
+    )
     val runPushCampaignsUseCase =
         ru.appforsale.alicecommands.api.application.push.RunPushCampaignsUseCase(
             pushTokenRepository = pushTokenRepository,

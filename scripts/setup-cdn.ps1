@@ -19,6 +19,7 @@ $remoteDeploy = if ($env:DEPLOY_REMOTE_DEPLOY) { $env:DEPLOY_REMOTE_DEPLOY } els
 
 scp -i $sshKey (Join-Path $Root "deploy\nginx-cdn.conf") "${sshHost}:${remoteDeploy}/nginx-cdn.conf"
 scp -i $sshKey (Join-Path $Root "deploy\nginx-cdn-bootstrap.conf") "${sshHost}:${remoteDeploy}/nginx-cdn-bootstrap.conf"
+scp -i $sshKey (Join-Path $Root "deploy\certbot-reload-nginx.sh") "${sshHost}:${remoteDeploy}/certbot-reload-nginx.sh"
 
 ssh -i $sshKey $sshHost @"
 set -e
@@ -30,6 +31,9 @@ else
   cp ${remoteDeploy}/nginx-cdn-bootstrap.conf /etc/nginx/sites-available/alice-cdn
 fi
 ln -sf /etc/nginx/sites-available/alice-cdn /etc/nginx/sites-enabled/alice-cdn
+mkdir -p /etc/letsencrypt/renewal-hooks/deploy /var/www/html/.well-known/acme-challenge
+sed -i 's/\r$//' ${remoteDeploy}/certbot-reload-nginx.sh
+install -m 755 ${remoteDeploy}/certbot-reload-nginx.sh /etc/letsencrypt/renewal-hooks/deploy/reload-nginx.sh
 nginx -t && systemctl reload nginx
 if [ ! -f /etc/letsencrypt/live/cdn.alicecommands.ru/fullchain.pem ]; then
   certbot certonly --webroot -w /var/www/html -d cdn.alicecommands.ru --non-interactive --agree-tos --register-unsafely-without-email

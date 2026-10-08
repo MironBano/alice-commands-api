@@ -9,9 +9,9 @@ import ru.appforsale.alicecommands.api.domain.ports.PushTokenRepository
 import ru.appforsale.alicecommands.api.domain.push.PushCampaignContext
 import ru.appforsale.alicecommands.api.domain.push.PushCampaignEvaluator
 import ru.appforsale.alicecommands.api.domain.push.PushCampaignPriority
+import ru.appforsale.alicecommands.api.infrastructure.push.ProviderAwarePushSender
 import ru.appforsale.alicecommands.api.infrastructure.push.PushDeliveryQuarantine
 import ru.appforsale.alicecommands.api.infrastructure.push.RuStorePushErrors
-import ru.appforsale.alicecommands.api.infrastructure.push.RuStorePushSender
 import java.security.MessageDigest
 import java.time.OffsetDateTime
 import java.time.ZoneOffset
@@ -23,7 +23,7 @@ class RunPushCampaignsUseCase(
     private val popularCommandsRepository: PopularCommandsRepository,
     private val manifestRepository: ManifestRepository,
     private val bundleService: BundleService,
-    private val pushSender: RuStorePushSender,
+    private val pushSender: ProviderAwarePushSender,
 ) {
     private val log = LoggerFactory.getLogger(RunPushCampaignsUseCase::class.java)
 
@@ -72,6 +72,7 @@ class RunPushCampaignsUseCase(
                 }
                 sendAttempts++
                 val sendResult = pushSender.send(
+                    provider = token.provider,
                     token = token.rustoreToken,
                     title = candidate.title,
                     body = candidate.body,

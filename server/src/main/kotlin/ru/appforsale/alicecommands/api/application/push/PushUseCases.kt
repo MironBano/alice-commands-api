@@ -2,6 +2,7 @@ package ru.appforsale.alicecommands.api.application.push
 
 import ru.appforsale.alicecommands.api.domain.ports.PushTokenRepository
 import ru.appforsale.alicecommands.api.domain.push.PushPreferencesRequest
+import ru.appforsale.alicecommands.api.domain.push.PushProvider
 import ru.appforsale.alicecommands.api.domain.push.PushRegisterRequest
 import ru.appforsale.alicecommands.api.domain.push.PushRegisterResult
 import ru.appforsale.alicecommands.api.domain.push.PushUnregisterRequest
@@ -12,7 +13,8 @@ class RegisterPushTokenUseCase(
     fun execute(request: PushRegisterRequest): PushRegisterResult {
         require(request.installId.isNotBlank()) { "installId required" }
         require(request.rustoreToken.isNotBlank()) { "rustoreToken required" }
-        return repository.upsertRegister(request)
+        val provider = PushProvider.normalize(request.provider)
+        return repository.upsertRegister(request.copy(provider = provider))
     }
 }
 
