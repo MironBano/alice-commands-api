@@ -9,6 +9,7 @@ import ru.appforsale.alicecommands.api.domain.ports.PushTokenRepository
 import ru.appforsale.alicecommands.api.domain.push.PushCampaignContext
 import ru.appforsale.alicecommands.api.domain.push.PushCampaignEvaluator
 import ru.appforsale.alicecommands.api.domain.push.PushCampaignPriority
+import ru.appforsale.alicecommands.api.infrastructure.push.FcmPushErrors
 import ru.appforsale.alicecommands.api.infrastructure.push.ProviderAwarePushSender
 import ru.appforsale.alicecommands.api.infrastructure.push.PushDeliveryQuarantine
 import ru.appforsale.alicecommands.api.infrastructure.push.RuStorePushErrors
@@ -89,7 +90,9 @@ class RunPushCampaignsUseCase(
                         scenario,
                         err,
                     )
-                    if (err == RuStorePushErrors.TOKEN_NOT_FOUND) {
+                    if (err == RuStorePushErrors.TOKEN_NOT_FOUND ||
+                        err == FcmPushErrors.TOKEN_NOT_FOUND
+                    ) {
                         quarantineCandidates += token.installId
                     }
                     // Do not promote lower-priority candidates (would burn S4/S5 once flags).

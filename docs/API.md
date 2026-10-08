@@ -522,13 +522,15 @@ URL в `icons[]` всегда строятся сервером из `ICON_PUBLI
 
 | Method | Path | Body | Response |
 | ------ | ---- | ---- | -------- |
-| POST | `/v1/push/register` | `installId`, `rustoreToken`, prefs, `appInstalledAt`, … | `204` |
+| POST | `/v1/push/register` | `installId`, `rustoreToken` (token value), optional **`provider`** (`rustore` default \| `fcm`), prefs, `appInstalledAt`, … | `204` (+ optional `X-Push-Token-Stale: 1`) |
 | PATCH | `/v1/push/preferences` | `installId`, `masterEnabled`, `codEnabled`, `codReminderTime` | `204` or **`404 not_registered`** |
-| DELETE | `/v1/push/unregister` | `installId`, **`rustoreToken`** (required) | `204` or `400 validation_failed` (`token_mismatch_or_missing`) |
+| DELETE | `/v1/push/unregister` | `installId`, **`rustoreToken`** (required), optional `provider` | `204` or `400 validation_failed` (`token_mismatch_or_missing`) |
+
+Wire-поле токена по-прежнему называется `rustoreToken` (совместимость); канал доставки задаёт `provider`. Неизвестный `provider` → **400** `unsupported_push_provider`.
 
 **Rate limit:** per IP (`PUBLIC_SUBMISSION_RATE_LIMIT`) and per `installId` (`PUSH_INSTALL_RATE_LIMIT`, default 30/15 min) → **429**.
 
-**Campaign worker:** env `RUSTORE_PUSH_PROJECT_ID`, `RUSTORE_PUSH_SERVICE_TOKEN`, `PUSH_CAMPAIGN_ENABLED`. Подробнее — [PUSH-NOTIFICATIONS.md](https://github.com/MironBano/AliceCommands/blob/main/docs/PUSH-NOTIFICATIONS.md) §7.
+**Campaign worker:** RuStore — `RUSTORE_PUSH_PROJECT_ID`, `RUSTORE_PUSH_SERVICE_TOKEN`; FCM — `FCM_PROJECT_ID`, `FCM_SERVICE_ACCOUNT_JSON` (path или inline JSON); `PUSH_CAMPAIGN_ENABLED`. Подробнее — [PUSH-NOTIFICATIONS.md](https://github.com/MironBano/AliceCommands/blob/main/docs/PUSH-NOTIFICATIONS.md) §7.
 
 **Analytics retention:** `ANALYTICS_RAW_RETENTION_DAYS` (default 90) — server deletes `analytics_events` older than cutoff on boot and every 24 h. Materialized `analytics_daily_rollup` — **wontfix** (queries use indexed raw table).
 

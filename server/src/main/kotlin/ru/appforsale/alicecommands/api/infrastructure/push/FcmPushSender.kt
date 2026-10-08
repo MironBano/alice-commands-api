@@ -100,7 +100,7 @@ class HttpFcmPushSender(
         }.getOrDefault("")
         if (code !in 200..299) {
             log.warn("FCM push failed status={} body={}", code, responseText.take(500))
-            error("fcm_push_http_$code")
+            error(FcmPushErrors.errorMessage(code, responseText))
         }
     }
 

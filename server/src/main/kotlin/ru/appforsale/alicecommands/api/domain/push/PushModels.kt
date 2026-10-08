@@ -53,7 +53,7 @@ object PushProvider {
         return when (value) {
             "", RUSTORE -> RUSTORE
             FCM -> FCM
-            else -> error("unsupported_push_provider")
+            else -> throw IllegalArgumentException("unsupported_push_provider")
         }
     }
 }
